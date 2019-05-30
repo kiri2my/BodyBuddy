@@ -1,4 +1,4 @@
-$(function() {
+$(function() {//dd
   /* ChartJS
    * -------
    * Data and config for chartjs
