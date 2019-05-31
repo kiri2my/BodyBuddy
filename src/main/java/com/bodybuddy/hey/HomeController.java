@@ -32,7 +32,7 @@ public class HomeController {
 		
 		return "main";
 	}
-	//junggun add
+	//soonchul add
 	
 	
 }
