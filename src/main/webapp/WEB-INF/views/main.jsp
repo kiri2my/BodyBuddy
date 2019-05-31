@@ -9,13 +9,11 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BODY BUDDY(지도있음,로그인안함)</title>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
-<link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
 <link rel="stylesheet" href="css/style.css">
