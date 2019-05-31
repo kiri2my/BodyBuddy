@@ -36,7 +36,7 @@ public class HomeController {
 		return "main";
 	}
 	
-
+	//정근 test
 
 	/*
 	 * @RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면
