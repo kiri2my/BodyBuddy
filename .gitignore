@@ -1,8 +1,8 @@
-.class
+*.class
 */.git/*
 */target/*
-.claspath
-.deployables
-.git
-.project
-.settings
+*.claspath
+*.deployables
+*.git
+*.project
+*.settings
