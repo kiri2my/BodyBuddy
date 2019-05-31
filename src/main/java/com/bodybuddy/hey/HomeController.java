@@ -11,10 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-//test12344
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class HomeController {
 	
@@ -35,7 +32,14 @@ public class HomeController {
 		
 		return "main";
 	}
+	//soonchul add
+	//soonchul add2
+	//junggun add
+	//junggun add2
+	//soonchul add3
+	//gilim add
 	
+<<<<<<< HEAD
 	
 
 	/*
@@ -45,5 +49,11 @@ public class HomeController {
 	 * 
 	 * return mav; }
 	 */
+=======
+<<<<<<< HEAD
+	//sanggi add
+=======
+>>>>>>> 277d1d63fce567148667e56fb0f9327a5a12f47c
+>>>>>>> 32ab8de8163ab961f674186f034b9a3d2002b56f
 	
 }
