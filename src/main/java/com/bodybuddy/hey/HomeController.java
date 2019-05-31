@@ -32,12 +32,14 @@ public class HomeController {
 		
 		return "main";
 	}
+<<<<<<< HEAD
 	//soonchul add
 	//soonchul add2
 	//junggun add
 	//junggun add2
 	//soonchul add3
 	//gilim add
+<<<<<<< HEAD
 	
 	
 
@@ -49,5 +51,11 @@ public class HomeController {
 	 * return mav; }
 	 */
 
+=======
+	//sssasa
+
+=======
+>>>>>>> 13b4578177391ed3f13300792d6b82454d4ea365
+>>>>>>> 9425452a89f4ac9e9d3a511a41a9c2eba26a1a60
 	
 }
