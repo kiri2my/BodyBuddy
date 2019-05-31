@@ -1,0 +1,13 @@
+diff a/src/main/java/com/bodybuddy/hey/HomeController.java b/src/main/java/com/bodybuddy/hey/HomeController.java	(rejected hunks)
+@@ -36,11 +36,6 @@
+ 		return "main";
+ 	}
+ 	
+-<<<<<<< HEAD
+-	//TEST1212
+-=======
+-	//TEST
+->>>>>>> parent of 8fb1755... TEST12
+ 	//?洹?test
+ 
+ 	/*
