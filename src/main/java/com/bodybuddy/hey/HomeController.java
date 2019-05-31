@@ -36,11 +36,7 @@ public class HomeController {
 		return "main";
 	}
 	
-<<<<<<< HEAD
-	//TEST1212
-=======
-	//TEST
->>>>>>> parent of 8fb1755... TEST12
+
 
 	/*
 	 * @RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면
