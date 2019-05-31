@@ -39,9 +39,23 @@ public class HomeController {
 	//junggun add2
 	//soonchul add3
 	//gilim add
+<<<<<<< HEAD
+	
+	
+
+	/*
+	 * @RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면
+	 * get,post 둘다 받음 public ModelAndView login() { mav = new ModelAndView();
+	 * mav.setViewName("loginFrm"); // 로그인 페이지로 이동
+	 * 
+	 * return mav; }
+	 */
+
+=======
 	//sssasa
 
 =======
 >>>>>>> 13b4578177391ed3f13300792d6b82454d4ea365
+>>>>>>> 9425452a89f4ac9e9d3a511a41a9c2eba26a1a60
 	
 }
