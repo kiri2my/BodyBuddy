@@ -36,14 +36,6 @@ public class HomeController {
 		return "main";
 	}
 	
-	
-
-	@RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면 get,post 둘다 받음
-	public ModelAndView login() {
-		mav = new ModelAndView();
-		mav.setViewName("loginFrm"); // 로그인 페이지로 이동
-
-		return mav;
-	}
+	//sanggi add
 	
 }
