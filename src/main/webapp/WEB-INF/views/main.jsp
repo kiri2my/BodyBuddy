@@ -61,9 +61,11 @@
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+				<a href="login">
 					<li>
 						<button type="button" class="btn btn-outline-secondary btn-sm">LOGIN</button>
 					</li>
+					</a>
 				</ul>
 			</div>
 		</nav>
