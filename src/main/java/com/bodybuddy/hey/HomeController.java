@@ -33,6 +33,7 @@ public class HomeController {
 		return "main";
 	}
 	//soonchul add
+	//soonchul add2
 	
 	
 }
