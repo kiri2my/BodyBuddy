@@ -36,7 +36,7 @@ public class HomeController {
 		return "main";
 	}
 	
-	//TEST1
+	//TEST1212
 
 	/*
 	 * @RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면
