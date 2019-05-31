@@ -33,6 +33,6 @@ public class HomeController {
 		return "main";
 	}
 	
-	//modify
+	//modift
 	
 }
