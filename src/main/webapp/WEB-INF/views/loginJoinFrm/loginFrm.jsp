@@ -49,7 +49,7 @@
                   </button>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  아직 회원이 아니신가요? <a href="register.html" class="text-primary">회원가입</a>
+                  아직 회원이 아니신가요? <a href="join" class="text-primary">회원가입</a>
                 </div>
               </form>
             </div>

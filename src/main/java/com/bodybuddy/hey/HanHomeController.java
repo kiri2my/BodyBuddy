@@ -23,11 +23,15 @@ public class HanHomeController {
 	ModelAndView mav;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String login(Model model) {
 	
 		return "loginJoinFrm/loginFrm";
 	}
-	
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String join(Model model) {
+		
+		return "loginJoinFrm/join";
+	}
 	
 
 }
