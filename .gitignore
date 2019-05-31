@@ -6,4 +6,9 @@
 *.git
 *.project
 *.settings
+<<<<<<< HEAD
 target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+=======
+*.MF
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF~ed0d864780bc3ba22fb39260ed1ecc91b3e31013
+>>>>>>> e5f7259eed3834422d724f1d9422c827f14fa8a7
