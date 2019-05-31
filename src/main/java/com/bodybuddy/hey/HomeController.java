@@ -11,10 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-//test12344
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class HomeController {
 	
@@ -35,15 +32,11 @@ public class HomeController {
 		
 		return "main";
 	}
+	//soonchul add
+	//soonchul add2
+	//junggun add
+	//junggun add2
+	//soonchul add3
 	
-	
-
-	@RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면 get,post 둘다 받음
-	public ModelAndView login() {
-		mav = new ModelAndView();
-		mav.setViewName("loginFrm"); // 로그인 페이지로 이동
-
-		return mav;
-	}
 	
 }
