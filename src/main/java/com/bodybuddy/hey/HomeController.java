@@ -38,10 +38,7 @@ public class HomeController {
 	//junggun add2
 	//soonchul add3
 	//gilim add
-	
-<<<<<<< HEAD
-	//sanggi add
-=======
->>>>>>> 277d1d63fce567148667e56fb0f9327a5a12f47c
+	//sssasa
+
 	
 }
