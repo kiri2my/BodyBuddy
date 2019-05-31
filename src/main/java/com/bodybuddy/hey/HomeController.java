@@ -32,6 +32,16 @@ public class HomeController {
 		
 		return "main";
 	}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+}
+=======
+	
+	//modift
+>>>>>>> 92c299fbe12537ddf38ed76a77e84fc67aeb8f5c
 	
 }
+>>>>>>> e5f7259eed3834422d724f1d9422c827f14fa8a7
