@@ -32,5 +32,16 @@ public class HomeController {
 		
 		return "main";
 	}
+<<<<<<< HEAD
+	//soonchul add
+	//soonchul add2
+	//junggun add
+	//junggun add2
+	//soonchul add3
+	//gilim add
+	//sssasa
+
+=======
+>>>>>>> 13b4578177391ed3f13300792d6b82454d4ea365
 	
 }
