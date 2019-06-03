@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -31,7 +30,6 @@
 }
 </style>
 </head>
-
 <body>
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
