@@ -32,6 +32,21 @@ public class HanHomeController {
 		
 		return "loginJoinFrm/join";
 	}
+	@RequestMapping(value = "/nomaljoin", method = RequestMethod.GET)
+	public String nomaljoin(Model model) {
+		
+		return "loginJoinFrm/normalJoinFrm";
+	}
+	@RequestMapping(value = "/companyjoin", method = RequestMethod.GET)
+	public String companyjoin(Model model) {
+		
+		return "loginJoinFrm/companyJoinFrm";
+	}
+	@RequestMapping(value = "/trainerjoin", method = RequestMethod.GET)
+	public String trainerjoin(Model model) {
+		
+		return "loginJoinFrm/trainerJoinFrm";
+	}
 	
 
 }

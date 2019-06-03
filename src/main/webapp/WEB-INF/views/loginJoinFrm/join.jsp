@@ -38,17 +38,20 @@
              
               <div>
                  <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white">일반 회원가입</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
+                  href="nomaljoin">일반 회원가입</a>
                 </div>
               </div>
               <div>
                  <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white">트레이너 회원가입</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
+                  href="trainerjoin">트레이너 회원가입</a>
                 </div>
               </div>
               <div>
                  <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white">업체 회원가입</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
+                  href="companyjoin">업체 회원가입</a>
                 </div>
               </div>
               </div>
