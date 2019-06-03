@@ -102,7 +102,7 @@
 												<i class="mdi mdi-cellphone text-primary"></i>
 											</span>
 										</div>
-										<input type="tel" name="m_phone" id="m_phone"
+										<input type="text" name="m_phone" id="m_phone"
 											class="form-control form-control-lg border-left-0"
 											placeholder="전화번호를 입력해주세요 (-)제외">
 									</div>
@@ -199,10 +199,9 @@ $(function() {
 					required : true,
 					maxlength : 10
 				},
-				phone : {
+				m_phone : {
 					required : true,
 					digits : true,
-					number: true,
 					maxlength : 11
 				},
 				m_birth : {
@@ -232,7 +231,6 @@ $(function() {
 				},
 				m_phone : {
 					required : "번호를 입력해 주세요.",
-					number : "숫자만 입력가능합니다",
 					digits : "숫자입력만 가능합니다.",
 					maxlength : "번호를 확인해주세요"
 				},
