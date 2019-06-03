@@ -19,12 +19,14 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <!--header-->
+        <!--<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex justify-content-center">
                 <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
                     <a class="navbar-brand brand-logo" href="main.html" style="color: #71c016;">BODY BUDDY</a>
@@ -56,7 +58,7 @@
                     <li class="nav-item dropdown mr-4">
                         <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="mdi mdi-bell mx-0"></i>
-                            <span class="count"></span>s
+                            <span class="count"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">알림</p>
@@ -96,10 +98,12 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+        </nav>-->
         <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_sidebar.html -->
+
+        <!--sidebar-->
+        <!--<div class="container-fluid page-body-wrapper">
+             partial:partials/_sidebar.html 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
             
         <ul class="nav">
@@ -149,9 +153,10 @@
           
           
         </ul>
-      </nav>
-            <!-- partial -->
-            <div class="main-panel" style="width: 100%">
+      </nav>-->
+        <!-- partial -->
+        <!--주소검색-->
+        <!--<div class="main-panel" style="width: 100%">
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -200,9 +205,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="height: 700px">
-                        
-                        <!--<div class="col-md-4 stretch-card" >
+                    <div class="row" style="height: 700px">-->
+
+        <!--<div class="col-md-4 stretch-card" >
                             <div class="card">
                                 <div class="card-body">
                                     <p class="card-title">지도</p>
@@ -212,131 +217,122 @@
                                 </div>
                             </div>
                         </div>-->
-                           
-                           
-                        <div class="col-md-12 stretch-card"> <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="card-title">총 _ 건의 결과가 있습니다.</p>
-                                    <div class="table-responsive">
-                                        <table id="recent-purchases-listing" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Status report</th>
-                                                    <th>Office</th>
-                                                    <th>Price</th>
-                                                    <th>Date</th>
-                                                    <th>Gross amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Jeremy Ortega</td>
-                                                    <td>Levelled up</td>
-                                                    <td>Catalinaborough</td>
-                                                    <td>$790</td>
-                                                    <td>06 Jan 2018</td>
-                                                    <td>$2274253</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alvin Fisher</td>
-                                                    <td>Ui design completed</td>
-                                                    <td>East Mayra</td>
-                                                    <td>$23230</td>
-                                                    <td>18 Jul 2018</td>
-                                                    <td>$83127</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emily Cunningham</td>
-                                                    <td>support</td>
-                                                    <td>Makennaton</td>
-                                                    <td>$939</td>
-                                                    <td>16 Jul 2018</td>
-                                                    <td>$29177</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Minnie Farmer</td>
-                                                    <td>support</td>
-                                                    <td>Agustinaborough</td>
-                                                    <td>$30</td>
-                                                    <td>30 Apr 2018</td>
-                                                    <td>$44617</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Betty Hunt</td>
-                                                    <td>Ui design not completed</td>
-                                                    <td>Lake Sandrafort</td>
-                                                    <td>$571</td>
-                                                    <td>25 Jun 2018</td>
-                                                    <td>$78952</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Myrtie Lambert</td>
-                                                    <td>Ui design completed</td>
-                                                    <td>Cassinbury</td>
-                                                    <td>$36</td>
-                                                    <td>05 Nov 2018</td>
-                                                    <td>$36422</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jacob Kennedy</td>
-                                                    <td>New project</td>
-                                                    <td>Cletaborough</td>
-                                                    <td>$314</td>
-                                                    <td>12 Jul 2018</td>
-                                                    <td>$34167</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                        
+
+
+        <div class="col-md-12 stretch-card">
+            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group">
+                        <form class="navbar-serch pull-left">
+                            <input type="text" class="search-query" placeholder="검색 키워드를 입력하세요!" style="width:300px;">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="button">찾기</button>
+                            </span>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="recent-purchases-listing" class="table">
+                            <thead>
+                                <tr>
+                                    <th>분류</th>
+                                    <th>제목</th>
+                                    <th>요일</th>
+                                    <th>시간/횟수</th>
+                                    <th>가격(월)</th>
+                                    <th>작성날짜</th>
+                                    <th>모집기간</th>
+                                    <th>담당자</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>필라테스</td>
+                                    <td>필라테스 기초반입니다</td>
+                                    <td>월,수,금</td>
+                                    <td>9:00 ~ 10:00</td>
+                                    <td>30,000</td>
+                                    <td>2019/01/31</td>
+                                    <td>모집마감</td>
+                                    <td><a href="#">박한솔</a></td>
+                                    <td>
+                                        <button class="btn btn-secondary" type="button">수정</button>
+                                        <button class="btn btn-secondary" type="button">삭제</button>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>요가</td>
+                                    <td>요가 상급반입니다</td>
+                                    <td>화,목</td>
+                                    <td>19:00 ~ 20:00</td>
+                                    <td>20,000</td>
+                                    <td>2019/05/25</td>
+                                    <td>2019/06/05</td>
+                                    <td><a href="#">이수원</a></td>
+                                    <td>
+                                        <button class="btn btn-secondary" type="button">수정</button>
+                                        <button class="btn btn-secondary" type="button">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PT</td>
+                                    <td>올여름엔 바다로!!</td>
+                                    <td>협의</td>
+                                    <td>협의</td>
+                                    <td>상세보기</td>
+                                    <td>협의</td>
+                                    <td>상시모집</td>
+                                    <td><a href="#">이근상</a></td>
+                                    <td>
+                                        <button class="btn btn-secondary" type="button">수정</button>
+                                        <button class="btn btn-secondary" type="button">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>요가</td>
+                                    <td>초급요가</td>
+                                    <td>토,일</td>
+                                    <td>13:00~15:00</td>
+                                    <td>40,000</td>
+                                    <td>2019/03/28</td>
+                                    <td>모집마감</td>
+                                    <td><a href="#">이수원</a></td>
+                                    <td>
+                                        <button class="btn btn-secondary" type="button">수정</button>
+                                        <button class="btn btn-secondary" type="button">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>필라테스</td>
+                                    <td>필라테스 고수만!!</td>
+                                    <td>화,목</td>
+                                    <td>21:00 ~ 22:00</td>
+                                    <td>30,000</td>
+                                    <td>2019/06/03</td>
+                                    <td>2019/06/10</td>
+                                    <td><a href="#">고정근</a></td>
+                                    <td>
+                                        <button class="btn btn-secondary" type="button">수정</button>
+                                        <button class="btn btn-secondary" type="button">삭제</button>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <td>
+                             <button class="btn btn-secondary" type="button">신규 등록</button>  
+                        </td>
                     </div>
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved. Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i> </span>
-                        
-                    </div>
-                </footer>
-                <!-- partial -->
             </div>
-            <!-- main-panel ends -->
         </div>
-        <!-- page-body-wrapper ends -->
+
+
+
     </div>
-    <!-- container-scroller -->
+    
 
     <!-- plugins:js -->
     <script src="vendors/base/vendor.bundle.base.js"></script>
@@ -356,6 +352,7 @@
     <script src="js/data-table.js"></script>
     <script src="js/jquery.dataTables.js"></script>
     <script src="js/dataTables.bootstrap4.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
     <!-- End custom js for this page-->
 </body>
 
