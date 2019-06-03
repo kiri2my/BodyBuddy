@@ -22,16 +22,18 @@
 <link rel="stylesheet" href="css/style.css">
 <!-- endinject -->
 <link rel="shortcut icon" href="images/favicon.png" />
+<link rel="stylesheet" href="css/bootstrap.css">
 </head>
+
 <body>
 	<div class="row" style="height: 700px">
 		<div class="col-md-12 stretch-card">
 			<!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title">회원 목록</p>
+					<p class="card-title">트레이너 목록</p>
 					<form class="navbar-search pull-left">
-						<input type="text" class="search-query" placeholder="회원 검색"
+						<input type="text" class="search-query" placeholder="트레이너 검색"
 							style="margin: 0px 0px 20px 20px">
 					</form>
 					<div class="table-responsive">
@@ -40,33 +42,29 @@
 								<tr>
 									<th>회원번호</th>
 									<th>이름</th>
-									<th>이용기간</th>
-									<th>남은기간</th>
-									<th>트레이너</th>
+									<th>입사일자</th>
 									<th>연락처</th>
-									<th>이용상태</th>
+									<th>근태현황</th>
+									<th>실적보기</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>2</td>
 									<td>고소영</td>
-									<td>2019.4.1~2019.6.3</td>
-									<td>2</td>
-									<td>없음</td>
-									<td>010-1234-5678</td>
-									<td>이용중</td>
+									<td>2019.4.1</td>
+									<td>010-3510-5882</td>
+									<td><a href="" class="btn btn-inverse">보기</a></td>
+									<td><a href="" class="btn btn-inverse">보기</a></td>
 								</tr>
 								<tr>
 									<td>1</td>
 									<td>송혜교</td>
-									<td>2019.5.1~2019.7.1</td>
-									<td>28</td>
-									<td>김현석</td>
-									<td>010-2234-5678</td>
-									<td>이용중</td>
+									<td>2019.5.1</td>
+									<td>010-3510-5882</td>
+									<td><a href="" class="btn btn-inverse">보기</a></td>
+									<td><a href="" class="btn btn-inverse">보기</a></td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
@@ -114,7 +112,7 @@
 	<script src="js/data-table.js"></script>
 	<script src="js/jquery.dataTables.js"></script>
 	<script src="js/dataTables.bootstrap4.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<!-- End custom js for this page-->
-
 </body>
 </html>
