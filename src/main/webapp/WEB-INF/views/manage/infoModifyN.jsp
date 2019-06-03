@@ -2,8 +2,8 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
+<<<<<<< HEAD
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -30,9 +30,13 @@
 	max-width: 100%;
 }
 </style>
+=======
+<meta charset="UTF-8">
+<title>Insert title here</title>
+>>>>>>> parent of 4c1f499... 19.06.03
 </head>
-
 <body>
+<<<<<<< HEAD
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="content-wrapper d-flex align-items-center auth px-0">
@@ -298,3 +302,8 @@
 	
 </script>
 </html>
+=======
+
+</body>
+</html>
+>>>>>>> parent of 4c1f499... 19.06.03
