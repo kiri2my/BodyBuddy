@@ -14,34 +14,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	ModelAndView mav;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+
+		model.addAttribute("serverTime", formattedDate);
+
 		return "main";
 	}
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-
 }
-=======
-	
-	//modift
->>>>>>> 92c299fbe12537ddf38ed76a77e84fc67aeb8f5c
-	
-}
->>>>>>> e5f7259eed3834422d724f1d9422c827f14fa8a7
