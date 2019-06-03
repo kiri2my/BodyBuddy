@@ -113,19 +113,19 @@
           
           <li class="nav-item">
             <a class="nav-link" href="pages/tables/basic-table.html" >
-              <i class="mdi mdi-account-multiple menu-icon"></i>
+              <i class="mdi mdi-human-handsup menu-icon"></i>
               <span class="menu-title">소속 트레이너 관리</span>
             </a>
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="#ui-basic" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" href="#aaaa" data-toggle="collapse"  aria-expanded="false" aria-controls="aaaa">
               <i class="mdi mdi-calendar-check menu-icon"></i>
               <span class="menu-title">출결/근태 관리</span>
               <i class="menu-arrow"></i>
             </a>
             
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="aaaa">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">일반회원 출결보기</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">프로그램 출결보기</a></li>
@@ -136,13 +136,13 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="#ui-basic" data-toggle="collapse"  aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" href="#bbbb" data-toggle="collapse"  aria-expanded="false" aria-controls="bbbb">
               <i class="mdi mdi-bulletin-board menu-icon"></i>
               <span class="menu-title">업체 광고 관리</span>
               <i class="menu-arrow"></i>
             </a>
             
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="bbbb">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">새 프로그램 만들기</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">프로그램 수정하기</a></li>
@@ -168,14 +168,14 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="pages/forms/basic_elements.html">
-              <i class="mdi mdi-square-inc-cash menu-icon"></i>
+              <i class="mdi mdi-chart-areaspline menu-icon"></i>
               <span class="menu-title">매출/실적 관리</span>
             </a>
           </li>
           
           <li class="nav-item">
             <a class="nav-link" href="index.html">
-              <i class="mdi mdi-account-card-details menu-icon"></i>
+              <i class="mdi mdi-home-modern menu-icon"></i>
               <span class="menu-title">업체 정보 수정</span>
             </a>
           </li>

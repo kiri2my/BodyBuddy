@@ -209,9 +209,9 @@
                     required : true,
                     maxlength : 10
 				},
-				phone : {
+				m_phone : {
 					required : true,
-                    digits : true,
+					digits : true,
                     maxlength : 11
                 },
                 m_birth : {
@@ -244,7 +244,7 @@
 				},
                 m_phone : {
 					required : "번호를 입력해 주세요.",
-                    digits : "숫자입력만 가능합니다.",
+					digits : "숫자입력만 가능합니다.",
                     maxlength : "번호를 확인해주세요"
 				},
 				m_name : {

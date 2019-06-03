@@ -191,7 +191,7 @@
                     required : true,
                     maxlength : 10
 				},
-				phone : {
+				m_phone : {
 					required : true,
                     digits : true,
                     maxlength : 11
