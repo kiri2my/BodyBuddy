@@ -30,7 +30,7 @@ public class KwonController {
 	ModelAndView mav;
 
 	@RequestMapping(value = "/email", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String email(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -41,6 +41,62 @@ public class KwonController {
 		model.addAttribute("serverTime", formattedDate);
 
 		return "email/emailCheckFrm";
+	}
+	
+	@RequestMapping(value = "/company", method = RequestMethod.GET)
+	public String company(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "manage/company/companyMain";
+	}
+	
+	@RequestMapping(value = "/memberlist", method = RequestMethod.GET)
+	public String memberList(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "manage/memberListC";
+	}
+	
+	@RequestMapping(value = "/trainerlist", method = RequestMethod.GET)
+	public String trainerList(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "manage/trainerListC";
+	}
+	
+	@RequestMapping(value = "/dailycheck", method = RequestMethod.GET)
+	public String dailyCheck(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "manage/dailyCheck";
 	}
 
 	// mailSending 코드
