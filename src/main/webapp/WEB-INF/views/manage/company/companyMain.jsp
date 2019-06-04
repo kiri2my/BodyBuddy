@@ -145,6 +145,21 @@
 			}
 		});
 	}
+	
+	function dailyCheck() {
+		$.ajax({
+			type : "GET",
+			url : "dailycheck",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
 </script>
 
 </html>
