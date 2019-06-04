@@ -183,7 +183,7 @@
                         </div>-->
                            
                            
-                        <div class="col-md-12 stretch-card"> <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->
+                        <div class="col-md-12 stretch-card"> 
                             <div class="card">
                                 <div class="card-body">
                                     <p class="card-title">총 _ 건의 결과가 있습니다.</p>
