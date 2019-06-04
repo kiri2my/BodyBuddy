@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,15 +22,23 @@
 </head>
 
 <body>
-	<div class="container-scroller">
-		<jsp:include page="headerNCT.jsp" flush="false"/>
-		<%-- <jsp:include page="headerNonLogin.jsp" flush="false"/> --%>
-		<jsp:include page="body.jsp" flush="false"/>
-		<jsp:include page="footer.jsp" flush="false"/>
+	<!-- partial:partials/_navbar.html -->
+		<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+			<!-- partial:partials/_footer.html -->
+				<footer class="footer">
+					<div
+						class="d-sm-flex justify-content-center justify-content-sm-between">
+						<span
+							class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
+							FiveMan assembled in Incheon ICIA Academy 2019. All rights
+							reserved. Thanks to ji-hun Cha.<i
+							class="mdi mdi-heart text-danger"></i>
+						</span>
 
-	</div>
-	
-
+					</div>
+				</footer>
+    </nav>
+    
 	<!-- plugins:js -->
 	<script src="vendors/base/vendor.bundle.base.js"></script>
 	<!-- endinject -->
