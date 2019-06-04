@@ -35,7 +35,7 @@
 									style="color: #71c016;">BODY BUDDY</a>
 							</div>
 							<h5>아이콘이 있으면 필수내용입니다</h5>
-							<form action="normaljoin" class="pt-3" name="memberjoin"
+							<form action="normalmemberjoin" class="pt-3" name="memberjoin"
 								id="memberjoin" method="post">
 
 								<div class="form-group">
