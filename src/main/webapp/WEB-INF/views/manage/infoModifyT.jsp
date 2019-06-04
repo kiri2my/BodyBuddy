@@ -39,20 +39,23 @@
 						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
 							<div class="brand-logo">
 								<a class="navbar-brand brand-logo" href="main.jsp"
-									style="color: #71c016;">일반회원 내 정보수정</a>
+									style="color: #71c016;">트레이너 내 정보 수정</a>
 							</div>
-							<form action="infomodifyn" class="pt-3" name="infomodifyn"
-								id="infomodifyn" method="post">
+							<br>
+							<form action="infomodifyt" class="pt-3" name="infomodifyt"
+								id="infomodifyt" method="post">
 								<div>
-									<p class="title">프로필사진</p>
+
+									<p class="title">트레이너프로필사진</p>
 									<input type="file" id="input_img" name="pf_image" />
 								</div>
+								<br>
 								<div>
 									<div class="img_wrap">
 										<img id="img" />
 									</div>
 								</div>
-								<br>
+
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend bg-transparent">
@@ -216,10 +219,9 @@
 			reader.readAsDataURL(f);
 		});
 	}// img미리보기 End
-
 	$(function() {
 
-		$("#infomodifyn").validate({
+		$("#infomodifyt").validate({
 			rules : {
 				m_id : {
 					required : true,

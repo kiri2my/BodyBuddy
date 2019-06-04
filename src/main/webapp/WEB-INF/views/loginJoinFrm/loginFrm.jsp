@@ -30,15 +30,15 @@
               <div class="brand-logo">
                   <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
               </div>
-              <form class="pt-3">
+              <form action="access" name="loginFrm" class="pt-3">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="이메일을 입력해주세요">
+                  <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="패스워드를 입력해주세요">
+                  <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="" style="background-color: #71c016">로그인</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="access" style="background-color: #71c016">로그인</a>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center" >
                     <a href="#" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>

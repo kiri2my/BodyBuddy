@@ -39,20 +39,39 @@
 						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
 							<div class="brand-logo">
 								<a class="navbar-brand brand-logo" href="main.jsp"
-									style="color: #71c016;">일반회원 내 정보수정</a>
+									style="color: #71c016;">업체 내 정보 수정</a>
 							</div>
-							<form action="infomodifyn" class="pt-3" name="infomodifyn"
-								id="infomodifyn" method="post">
+							<br>
+
+							<form action="infomodifyc" class="pt-3" name="infomodifyc"
+								id="infomodifyc" method="post">
 								<div>
-									<p class="title">프로필사진</p>
+
+									<p class="title">업체프로필사진</p>
 									<input type="file" id="input_img" name="pf_image" />
 								</div>
+
 								<div>
 									<div class="img_wrap">
 										<img id="img" />
 									</div>
 								</div>
 								<br>
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" name="c_bname"
+											class="form-control form-control-lg border-left-0"
+											value="ICIA피트니스" disabled>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" name="c_num"
+											class="form-control form-control-lg border-left-0"
+											value="124-84-8555" disabled>
+									</div>
+								</div>
+
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend bg-transparent">
@@ -116,7 +135,23 @@
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
 											placeholder="전화번호를 입력해주세요">
+
 									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend bg-transparent">
+											<span class="input-group-text bg-transparent border-right-0">
+												<i class="mdi mdi-cellphone text-primary"></i>
+											</span>
+										</div>
+
+										<input type="tel" name="c_bphone" id="c_bphone"
+											class="form-control form-control-lg border-left-0"
+											placeholder="업체 전화 번호를 입력해주세요">
+									</div>
+
 								</div>
 
 								<div class="form-group">
@@ -219,7 +254,7 @@
 
 	$(function() {
 
-		$("#infomodifyn").validate({
+		$("#infomodifyc").validate({
 			rules : {
 				m_id : {
 					required : true,
@@ -240,6 +275,12 @@
 					maxlength : 10
 				},
 				m_phone : {
+					required : true,
+					digits : true,
+					number : true,
+					maxlength : 11
+				},
+				c_bphone : {
 					required : true,
 					digits : true,
 					number : true,
@@ -271,6 +312,12 @@
 					equalTo : "암호가 일치하지 않습니다."
 				},
 				m_phone : {
+					required : "번호를 입력해 주세요.",
+					number : "숫자만 입력가능합니다",
+					digits : "숫자입력만 가능합니다.",
+					maxlength : "번호를 확인해주세요"
+				},
+				c_bphone : {
 					required : "번호를 입력해 주세요.",
 					number : "숫자만 입력가능합니다",
 					digits : "숫자입력만 가능합니다.",
