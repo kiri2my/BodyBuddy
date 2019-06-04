@@ -23,9 +23,8 @@ import com.bodybuddy.hey.service.MemberManagemant;
 public class HanHomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	
 	MemberManagemant mm ;
-
-	@Autowired
 	HttpSession session;
 
 	ModelAndView mav;
@@ -60,13 +59,5 @@ public class HanHomeController {
 		return "loginJoinFrm/trainerJoinFrm";
 	}
 
-	@RequestMapping(value = "/nomalmemberjoin", method = RequestMethod.POST)
-	public ModelAndView nomalmemberjoin(Member mb) {
-
-		mav = mm.nomalmemberjoin(mb);
-		System.out.println(" 노말 조인 ");
-
-		return mav;
-	}
 
 }
