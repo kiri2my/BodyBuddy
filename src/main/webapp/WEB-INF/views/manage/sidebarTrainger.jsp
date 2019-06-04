@@ -56,7 +56,7 @@
                     <li class="nav-item dropdown mr-4">
                         <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="mdi mdi-bell mx-0"></i>
-                            <span class="count"></span>s
+                            <span class="count"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">알림</p>
