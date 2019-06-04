@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 1.parameterType은 생략이 가능하다(권장하지 않음) 2.parameterType에 1개의 Type만 올 수 있다. 
+	3.parameterType에 bean인 경유 #{필드명} 4.parameterType에 변수인 경유 #{변수명} (변수가 1개인 
+	경우) 5.parameterType에 Map<key, value>타입인 경유 #{key}로 쓴다. 6.#{} : 문자열인 경우 '' 
+	추가됨 7.${} : ''(따옴표)없이 그대로 입력됨 8.resultType도 1개만 올 수 있는데 1개 이상의 레코드를 검색하는 
+	경우도 bean타입만 명시하면 된다. -->
+<mapper namespace="com.board.kwon.dao.IMemberDao">
+	<!-- 빈 필드명과 컬럼명이 다르거나 타입이 호환되지 않을 때 -->
+	<!-- <resultMap type="memeber(Alias 타입)" id="member(resultMap의 이름)">
+		<result property="mid(빈 변수명)" column="M_ID(테이블 컬럼명)"
+			javaType="String" jdbcType="NVARCHAR2" /> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환
+	</resultMap> -->
+
+	<insert id="memberInsert" parameterType="member">
+		INSERT INTO M
+		VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT)
+	</insert>
+
+	<select id="getSecurityPwd" parameterType="String"
+		resultType="String">
+		SELECT M_PWD FROM M WHERE M_ID = #{m_id}
+	</select>
+
+	<select id="getMemberInfo" parameterType="String"
+		resultType="member">
+		SELECT * FROM MINFO WHERE M_ID = #{m_id}
+	</select>
+
+	<select id="mybatisTest" resultType="member">
+		SELECT * FROM MINFO
+		<if test="point != null"> WHERE ${cName} = #{point} </if>
+	</select>
+
+</mapper>
