@@ -12,28 +12,40 @@ import com.bodybuddy.hey.dao.MemberDao;
 
 @Service
 public class MemberManagemant {
-
-
-	private MemberDao mDao;
-
 	@Autowired
-	private HttpSession session; // request는 권장하지 않음
-
+	private MemberDao mDao;
+	
+	private HttpSession session; //request는 권장하지 않음
 	ModelAndView mav;
-
-	public ModelAndView nomalmemberjoin(Member mb) {
+	
+	public ModelAndView normalMemberJoin(Member mb) {
+		System.out.println("맴버 매니지맨트 시작");
 		mav = new ModelAndView();
-		String view = null; // 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
+		String view = null;
+		// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
-
-		if (mDao.nomalmemberjoin(mb)) {
-			view = "loginJoinFrm/loginFrm";
+		System.out.println("암호화");
+		System.out.println("id = " + mb.getM_id());
+		System.out.println("pw = " + mb.getM_pw());
+		System.out.println("name = " + mb.getM_name());
+		System.out.println("phone = " + mb.getM_phone());
+		System.out.println("birth = " + mb.getM_birth());
+		System.out.println("addr = " + mb.getM_addr());
+		System.out.println("addr2 = " + mb.getM_addr2());
+		System.out.println("kind = " + mb.getM_kind());
+		
+		mb.setM_addr(mb.getM_addr() +" "+ mb.getM_addr2()); 
+		System.out.println("addr = " + mb.getM_addr());
 			
-			// 회원가입 성공 }else { view = "join"; } mav.setViewName(view);
-
+		if (mDao.normalMemberJoin(mb)) {
+			view = "loginJoinFrm/loginFrm";
+		} else {
+			view = "loginJoinFrm/join";
 		}
-		return mav;
+		mav.setViewName(view);
+		System.out.println("매니지맨트 종료");
 
+		return mav;
 	}
 }
