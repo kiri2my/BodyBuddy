@@ -28,7 +28,7 @@ public class MemberManagemant {
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
 
 		if (mDao.nomalmemberjoin(mb)) {
-			view = "loginFrm";
+			view = "loginJoinFrm/loginFrm";
 			
 			// 회원가입 성공 }else { view = "join"; } mav.setViewName(view);
 

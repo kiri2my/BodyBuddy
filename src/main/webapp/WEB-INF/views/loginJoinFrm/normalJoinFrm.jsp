@@ -126,6 +126,7 @@
 										<input type="text" name="m_addr2" id="m_addr2"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력">
+											<input type="hidden" name="m_kind" id="m_kind" value="n"/>
 
 									</div>
 								</div>
