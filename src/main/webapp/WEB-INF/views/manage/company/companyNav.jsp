@@ -25,6 +25,7 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+	
 </head>
 
 <body>
@@ -37,13 +38,13 @@
 				<ul class="nav" >
 
 					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='/memberlist'"> <i
+						onclick="memberList()"><!-- onclick="location.href='/memberlist'" --> <i
 							class="mdi mdi-account-multiple menu-icon"></i> <span
 							class="menu-title">회원 관리</span>
 					</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='/trainerlist'"> <i
+						onclick="trainerList()"> <i
 							class="mdi mdi-human-handsup menu-icon"></i> <span
 							class="menu-title">소속 트레이너 관리</span>
 					</a></li>

@@ -4,6 +4,7 @@
 <html>
 
 <head>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -74,6 +75,13 @@
 	width: 110%;
 }
 
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
 #footer {
 	position: relative;
 	left: 240px;
@@ -96,6 +104,7 @@
 		<div id="main">
 			<jsp:include page="companyBody.jsp" />
 		</div>
+		<div id="memberList"></div>
 		<div id="footer">
 			<jsp:include page="companyFooter.jsp" />
 		</div>
@@ -105,5 +114,37 @@
 	</div>
 
 </body>
+
+<script type="text/javascript">
+	function memberList() {
+		$.ajax({
+			type : "GET",
+			url : "memberlist",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	function trainerList() {
+		$.ajax({
+			type : "GET",
+			url : "trainerlist",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+</script>
 
 </html>
