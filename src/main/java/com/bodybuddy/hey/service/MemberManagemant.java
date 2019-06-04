@@ -12,28 +12,25 @@ import com.bodybuddy.hey.dao.MemberDao;
 
 @Service
 public class MemberManagemant {
-
-
 	private MemberDao mDao;
-
-	@Autowired
-	private HttpSession session; // request는 권장하지 않음
-
+	private HttpSession session; //request는 권장하지 않음
 	ModelAndView mav;
-
-	public ModelAndView nomalmemberjoin(Member mb) {
+	
+	public ModelAndView normalmemberjoin(Member mb) {
 		mav = new ModelAndView();
-		String view = null; // 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
+		String view = null;
+		// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
 
-		if (mDao.nomalmemberjoin(mb)) {
+		if (mDao.normalmemberjoin(mb)) {
 			view = "loginJoinFrm/loginFrm";
-			
-			// 회원가입 성공 }else { view = "join"; } mav.setViewName(view);
-
+			mav.addObject("check", 1); // 회원가입 성공
+		} else {
+			view = "loginJoinFrm/join";
 		}
-		return mav;
+		mav.setViewName(view);
 
+		return mav;
 	}
 }
