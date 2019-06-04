@@ -4,6 +4,6 @@ import com.bodybuddy.hey.bean.Member;
 
 public interface MemberDao {
 
-	public boolean normalmemberjoin(Member mb);
+	public boolean normalMemberJoin(Member mb);
 
 }

@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.service.MemberManagemant;
 
 @Controller
-
 public class HomeController {
 //test111
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -28,7 +28,7 @@ public class HomeController {
 	private MemberManagemant mm;
 	@Autowired
 	HttpSession session;
-
+	
 	ModelAndView mav;
 
 
@@ -42,16 +42,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/normalmemberjoin", method = RequestMethod.POST)
-	public ModelAndView nomalmemberjoin(Member mb) {
+	public ModelAndView normalMemberJoin(Member mb) {
 		System.out.println(" 노말 조인 시작 ");
-		System.out.println("id = " + mb.getM_id());
-		System.out.println("id = " + mb.getM_pw());
-		System.out.println("id = " + mb.getM_name());
-		System.out.println("id = " + mb.getM_phone());
-		System.out.println("id = " + mb.getM_birth());
-		System.out.println("id = " + mb.getM_addr());
-		System.out.println("id = " + mb.getM_kind());
-		mav = mm.normalmemberjoin(mb);
+		
+		mav = mm.normalMemberJoin(mb);
 		System.out.println(" 노말 조인 ");
 		
 		return mav;
