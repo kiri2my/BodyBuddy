@@ -1,0 +1,27 @@
+*.class
+*/.git/*
+*/target/*
+<<<<<<< HEAD
+.claspath
+.deployables
+.git
+.project
+.settings
+*.MF
+=======
+*.claspath
+*.deployables
+*.git
+*.project
+*.settings
+<<<<<<< HEAD
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+=======
+*.MF
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF~ed0d864780bc3ba22fb39260ed1ecc91b3e31013
+>>>>>>> e5f7259eed3834422d724f1d9422c827f14fa8a7
+>>>>>>> 92c299fbe12537ddf38ed76a77e84fc67aeb8f5c
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF~390a6511614832cb5cf53e42c194487378134a05
+*.properties
+target/
+*.classpath

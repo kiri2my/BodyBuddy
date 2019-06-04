@@ -35,17 +35,17 @@
 						<li>Consectetur adipiscing elit</li>
 						<li>Integer molestie lorem at massa</li>
 						<li>Facilisis in pretium nisl aliquet</li>
-						<li>Nulla volutpat aliquam velit&gt;</li>
+						<li>Nulla volutpat aliquam velit</li>
 						<br> 2.Lorem ipsum dolor sit amet
 						<li>Consectetur adipiscing elit</li>
 						<li>Integer molestie lorem at massa</li>
 						<li>Facilisis in pretium nisl aliquet</li>
-						<li>Nulla volutpat aliquam velit&gt;</li>
+						<li>Nulla volutpat aliquam velit</li>
 						<br> 3.Lorem ipsum dolor sit amet
 						<li>Consectetur adipiscing elit</li>
 						<li>Integer molestie lorem at massa</li>
 						<li>Facilisis in pretium nisl aliquet</li>
-						<li>Nulla volutpat aliquam velit&gt;</li>
+						<li>Nulla volutpat aliquam velit</li>
 					</ul>
 				</div>
 				<button type="button" class="btn btn-dark btn-lg btn-block">회원탈퇴</button>
