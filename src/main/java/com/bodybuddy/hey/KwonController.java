@@ -4,27 +4,32 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @Controller
 public class KwonController {
 
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
-
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
 	ModelAndView mav;
 
-	/*
-	 * @Autowired private GoogleConnectionFactory googleConnectionFactory;
-	 * 
-	 * @Autowired private OAuth2Parameters googleOAuth2Parameters;
-	 */
-	@RequestMapping(value = "/aaaaaa", method = RequestMethod.GET)
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
@@ -35,48 +40,38 @@ public class KwonController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-		return "main";
+		return "email/emailCheckFrm";
 	}
 
-	/*
-	 * @RequestMapping(value = "/googleLogin", method = RequestMethod.POST) public
-	 * String doGoogleSignInActionPage(HttpServletResponse response, Model model)
-	 * throws Exception { OAuth2Operations oauthOperations =
-	 * googleConnectionFactory.getOAuthOperations(); String url =
-	 * oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE,
-	 * googleOAuth2Parameters); System.out.println("/member/googleSignIn, url : " +
-	 * url); model.addAttribute("url", url); return "login/googleLogin";
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping(value = "/googleSignInCallback", method = RequestMethod.GET)
-	 * public String doSessionAssignActionPage(HttpServletRequest request) throws
-	 * Exception { System.out.println("/member/googleSignInCallback"); String code =
-	 * request.getParameter("code");
-	 * 
-	 * OAuth2Operations oauthOperations =
-	 * googleConnectionFactory.getOAuthOperations(); AccessGrant accessGrant =
-	 * oauthOperations.exchangeForAccess(code,
-	 * googleOAuth2Parameters.getRedirectUri(), null);
-	 * 
-	 * String accessToken = accessGrant.getAccessToken(); Long expireTime =
-	 * accessGrant.getExpireTime(); if (expireTime != null && expireTime <
-	 * System.currentTimeMillis()) { accessToken = accessGrant.getRefreshToken();
-	 * System.out.printf("accessToken is expired. refresh token = {}", accessToken);
-	 * } Connection<Google> connection =
-	 * googleConnectionFactory.createConnection(accessGrant); Google google =
-	 * connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
-	 * 
-	 * PlusOperations plusOperations = google.plusOperations(); Person profile =
-	 * plusOperations.getGoogleProfile(); UserVO vo = new UserVO();
-	 * System.out.println(profile.getDisplayName()); vo.setUser_email("구글 로그인 계정");
-	 * vo.setUser_name(profile.getDisplayName()); vo.setUser_snsId("g" +
-	 * profile.getId()); HttpSession session = request.getSession(); // vo =
-	 * service.googleLogin(vo);
-	 * 
-	 * session.setAttribute("login", vo);
-	 * 
-	 * return "redirect:/"; }
-	 */
+	// mailSending 코드
+	@RequestMapping(value = "/sendEmail")
+	public String mailSending(HttpServletRequest request) {
 
+		String setfrom = "soonchul88@gmail.com";
+		String tomail = request.getParameter("tomail"); // 받는 사람 이메일
+		String title = request.getParameter("title"); // 제목
+		String content = request.getParameter("content"); // 내용
+		
+		System.out.println(setfrom);
+		System.out.println(tomail);
+		System.out.println(title);
+		System.out.println(content);
+		
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
+			messageHelper.setTo(tomail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			messageHelper.setText(content); // 메일 내용
+
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return "redirect:/";
+	}
 }
