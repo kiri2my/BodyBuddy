@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 @Service
 public class KirimService {
-	 @Autowired
+
 	 KirimDao kDao;
 
 	@Autowired
