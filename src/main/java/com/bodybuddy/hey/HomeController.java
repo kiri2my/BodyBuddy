@@ -32,14 +32,7 @@ public class HomeController {
 	ModelAndView mav;
 
 
-	@RequestMapping(value = "/", method = RequestMethod.GET) // method명시 안하면 get,post 둘다 받음
-	public ModelAndView home() {
-		System.out.println("시작한다!!!!!!!!!!");
-		mav = new ModelAndView();
-		mav.setViewName("main"); // 로그인 페이지로 이동
-		System.out.println("시작했다!!!!!!!!!!");
-		return mav;
-	}
+	
 	
 	@RequestMapping(value = "/normalmemberjoin", method = RequestMethod.POST)
 	public ModelAndView normalMemberJoin(Member mb) {

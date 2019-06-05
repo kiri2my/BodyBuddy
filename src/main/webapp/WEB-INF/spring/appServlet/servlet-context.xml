@@ -62,6 +62,22 @@
 			value="com.bodybuddy.hey.dao.MemberDao" />
 	</beans:bean>
 	
+	<beans:bean id="yDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.YoonDao" />
+	</beans:bean>
+	
+	
+	<beans:bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 필요한 정보 -->
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	<!-- @Transactional 어노테이션 사용을 위한 설정 : 반드시 servlet-context에 설정할것 -->
+	
 
 
 
