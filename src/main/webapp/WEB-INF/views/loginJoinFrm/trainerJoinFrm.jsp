@@ -5,20 +5,58 @@
 <html>
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Majestic Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+<!-- plugins:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+<!-- End custom js for this page-->
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>BODY BUDDY(지도없음,로그인함)</title>
+<!-- plugins:css -->
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- plugin css for this page -->
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<!-- endinject -->
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
@@ -33,7 +71,7 @@
                 <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <h5>아이콘이 있으면 필수내용입니다</h5>
-              <form action="trainerjoin" class="pt-3" name="trainerjoin" id="trainerjoin"
+              <form action="trainermemberjoin" class="pt-3" name="trainerjoin" id="trainerjoin"
 			method="post">
    
                     
@@ -112,8 +150,8 @@
                   <div class="input-group">
                     <input type="text"  name="m_addr" id="addr" class="form-control form-control-lg border-left-0" placeholder="시/도-군/구">
                     <button type="button" class="btn btn-outline-secondary btn-md">주소 검색</button>
-                    <input type="text"  name="m_addr2" id="m_addr2" class="form-control form-control-lg border-left-0" placeholder="상세주소 입력">
-                 
+                    <input type="text" name="m_exaddr" id="m_exaddr" class="form-control form-control-lg border-left-0" placeholder="상세주소 입력">
+                 	<input type="hidden" name="m_kind" id="m_kind" value="t"/>
                   </div>
                 </div> 
             

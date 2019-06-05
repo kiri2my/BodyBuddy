@@ -14,6 +14,18 @@ public class Member {
 	private String m_phone;
 	private String m_birth;
 	private String m_addr;
-	private String m_addr2;
+	private String m_exaddr;
 	private String m_kind;
+	 
+	private String t_cid;
+	private String t_career;
+	 
+	 
+	private String c_num;
+	private String c_bname;
+	private String c_bphone;
+	 
+	private String pf_image;
+	 
+	
 }

@@ -32,21 +32,32 @@ public class HomeController {
 	ModelAndView mav;
 
 
-	@RequestMapping(value = "/", method = RequestMethod.GET) // method紐낆떆 �븞�븯硫� get,post �몮�떎 諛쏆쓬
-	public ModelAndView home() {
-		System.out.println("�떆�옉�븳�떎!!!!!!!!!!");
-		mav = new ModelAndView();
-		mav.setViewName("main"); // 濡쒓렇�씤 �럹�씠吏�濡� �씠�룞
-		System.out.println("�떆�옉�뻽�떎!!!!!!!!!!");
-		return mav;
-	}
+	
 	
 	@RequestMapping(value = "/normalmemberjoin", method = RequestMethod.POST)
 	public ModelAndView normalMemberJoin(Member mb) {
-		System.out.println(" �끂留� 議곗씤 �떆�옉 ");
+		System.out.println(" 노말 조인 시작 ");
 		
 		mav = mm.normalMemberJoin(mb);
-		System.out.println(" �끂留� 議곗씤 ");
+		System.out.println(" 노말 조인 ");
+		
+		return mav;
+	}
+	@RequestMapping(value = "/trainermemberjoin", method = RequestMethod.POST)
+	public ModelAndView trainerMemberJoin(Member mb) {
+		System.out.println(" 트레이너 조인 ");
+		
+		mav = mm.trainerMemberJoin(mb);
+		System.out.println(" 트레이너 조인 끝 ");
+		
+		return mav;
+	}
+	@RequestMapping(value = "/companymemberjoin", method = RequestMethod.POST)
+	public ModelAndView companyMemberJoin(Member mb) {
+		System.out.println(" 트레이너 조인 ");
+		
+		mav = mm.companyMemberJoin(mb);
+		System.out.println(" 트레이너 조인 끝 ");
 		
 		return mav;
 	}
@@ -55,34 +66,34 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		System.out.println("濡쒓렇�씤 �뤌�씠�씪援�!");
+		System.out.println("로그인 폼이라구!");
 
 		return "loginJoinFrm/loginFrm";
 	}
 
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join(Model model) {
-		System.out.println("議곗씤�뤌 �씠�씪援�!!");
+		System.out.println("조인폼 이라구!!");
 		return "loginJoinFrm/join";
 	}
 
 	@RequestMapping(value = "/nomaljoin", method = RequestMethod.GET)
 	public String nomaljoin(Model model) {
-		System.out.println("�끂留먯“�씤�뤌 �씠�씪援� !!!");
+		System.out.println("노말조인폼 이라구 !!!");
 
 		return "loginJoinFrm/normalJoinFrm";
 	}
 
 	@RequestMapping(value = "/companyjoin", method = RequestMethod.GET)
 	public String companyjoin(Model model) {
-		System.out.println("而댄뙣�땲議곗씤�씠�씪援�");
+		System.out.println("컴패니조인이라구");
 
 		return "loginJoinFrm/companyJoinFrm";
 	}
 
 	@RequestMapping(value = "/trainerjoin", method = RequestMethod.GET)
 	public String trainerjoin(Model model) {
-		System.out.println("�듃�젅�씠�꼫議곗씤�씠�씪援�");
+		System.out.println("트레이너조인이라구");
 
 		return "loginJoinFrm/trainerJoinFrm";
 	}

@@ -26,8 +26,8 @@
 		<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex justify-content-center">
                 <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-                    <a class="navbar-brand brand-logo" href="main.html" style="color: #71c016;">BODY BUDDY</a>
-                    <a class="navbar-brand brand-logo-mini" href="main.html" style="color: #71c016;">BODY BUDDY</a>
+                    <a class="navbar-brand brand-logo" href="manage/company/companyMain.jsp" style="color: #71c016;">BODY BUDDY</a>
+                    <a class="navbar-brand brand-logo-mini" href="manage/company/companyMain.jsp" style="color: #71c016;">BODY BUDDY</a>
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-sort-variant"></span>
                     </button>
@@ -81,7 +81,7 @@
                     </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="images/faces/mydefault.jpg" alt="profile" />
+                            <img src="resources/images/faces/mydefault.jpg" alt="profile" />
                             <span class="nav-profile-name">사용자 이름(M_NAME)</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
