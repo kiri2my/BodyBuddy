@@ -57,6 +57,7 @@
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 
+
 <style>
 #header {
 	position: relative;
@@ -72,7 +73,7 @@
 	position: absolute;
 	left: 240px;
 	top: 25px;
-	width: 110%;
+	width: 105%;
 }
 
 #memberList {
@@ -104,7 +105,6 @@
 		<div id="main">
 			<jsp:include page="companyBody.jsp" />
 		</div>
-		<div id="memberList"></div>
 		<div id="footer">
 			<jsp:include page="companyFooter.jsp" />
 		</div>
@@ -126,7 +126,7 @@
 			},
 			success : function(data) {
 				/* $('#main').hide(); */
-				$('#main').html(data);
+				$('#main').html(data).trigger('create');
 			}
 		});
 	}
