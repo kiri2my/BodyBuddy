@@ -123,7 +123,7 @@
 											placeholder="시/도-군/구">
 										<button type="button" class="btn btn-outline-secondary btn-md">주소
 											검색</button>
-										<input type="text" name="m_addr2" id="m_addr2"
+										<input type="text" name="m_exaddr" id="m_exaddr"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력">
 											<input type="hidden" name="m_kind" id="m_kind" value="n"/>

@@ -6,4 +6,6 @@ public interface MemberDao {
 
 	public boolean normalMemberJoin(Member mb);
 
+
+
 }

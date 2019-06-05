@@ -13,8 +13,8 @@ import com.bodybuddy.hey.dao.MemberDao;
 @Service
 public class MemberManagemant {
 	@Autowired
-	private MemberDao mDao;
-	
+	MemberDao mDao;
+	@Autowired
 	private HttpSession session; //request는 권장하지 않음
 	ModelAndView mav;
 	
@@ -32,13 +32,12 @@ public class MemberManagemant {
 		System.out.println("phone = " + mb.getM_phone());
 		System.out.println("birth = " + mb.getM_birth());
 		System.out.println("addr = " + mb.getM_addr());
-		System.out.println("addr2 = " + mb.getM_addr2());
+		System.out.println("exaddr = " + mb.getM_exaddr());
 		System.out.println("kind = " + mb.getM_kind());
 		
-		mb.setM_addr(mb.getM_addr() +" "+ mb.getM_addr2()); 
-		System.out.println("addr = " + mb.getM_addr());
 			
 		if (mDao.normalMemberJoin(mb)) {
+			System.out.println("얍얍얍");
 			view = "loginJoinFrm/loginFrm";
 		} else {
 			view = "loginJoinFrm/join";
