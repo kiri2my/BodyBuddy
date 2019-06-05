@@ -6,23 +6,30 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-//test12344
-/**
- * Handles requests for the application home page.
- */
+
+import com.bodybuddy.hey.service.YoonService;
+
 @Controller
 public class YoonHomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(YoonHomeController.class);
+	@Autowired
+	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
 	
 	ModelAndView mav;
 	
-	@RequestMapping(value = "/infomodifyfrmn", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView mainList() { //int pageNum 게시판페이징
+		mav=ys.mainList();
+		return mav;
+	}
+	
+	@RequestMapping(value = "/infomodifyfrmn")
 	public String login(Model model) {
 		//일반 회원 내 정보수정
 		return "manage/infoModifyN";

@@ -58,11 +58,11 @@
 </head>
 
 <body>
-	<div class="container-scroller">
+	
 		<!-- partial:partials/_navbar.html -->
 
 		<!-- partial -->
-		<div class="container-fluid page-body-wrapper">
+		
 			<!-- partial:partials/_sidebar.html -->
 
 			<!-- partial -->
@@ -85,7 +85,7 @@
 				<!-- main-panel ends -->
 			</div>
 			<!-- page-body-wrapper ends -->
-		</div>
+		
 		<!-- container-scroller -->
 </body>
 

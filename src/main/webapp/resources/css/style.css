@@ -21095,7 +21095,7 @@ dl li {
   flex-direction: row;
   padding-left: 0;
   padding-right: 0;
-  padding-top: 60px;
+  /* padding-top: 60px; */
 }
 
 .page-body-wrapper.full-page-wrapper {
@@ -21123,7 +21123,7 @@ dl li {
 
 .content-wrapper {
   background: #f3f3f3;
-  padding: 2.1rem 1.04rem;
+  /* padding: 2.1rem 1.04rem; */	
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1;
