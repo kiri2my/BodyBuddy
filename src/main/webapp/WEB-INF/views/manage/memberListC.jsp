@@ -4,35 +4,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- Required meta tags -->
-<meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BODY BUDDY_COMPANY_MANAGER</title>
-<!-- plugins:css -->
 <link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<!-- End plugin css for this page -->
-<!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
-<!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
+
+<style type="text/css">
+#memsearch {
+	height: 40px;
+	width: 200px;
+}
+#membtn {
+	vertical-align: bottom;
+}
+</style>
 </head>
 <body>
-	<div class="row" style="height: 700px">
+	<div class="row" style="height: 100%">
 		<div class="col-md-12 stretch-card">
-			<!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title">회원 목록</p>
-					<form class="navbar-search pull-left">
-						<input type="text" class="search-query" placeholder="회원 검색"
-							style="margin: 0px 0px 20px 20px">
+					<p class="card-title"><br></p>
+					<form class="navbar-form pull-left">
+						<input type="text" class="span2" id="memsearch"
+							placeholder="회원 검색" >
+						<button type="submit" class="btn" id="membtn">검색</button>
 					</form>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
@@ -74,47 +81,33 @@
 			</div>
 		</div>
 	</div>
-	</div>
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div
-			class="d-sm-flex justify-content-center justify-content-sm-between">
-			<span
-				class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-				FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved.
-				Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i>
-			</span>
 
-		</div>
-	</footer>
-	<!-- partial -->
-	</div>
-	<!-- main-panel ends -->
-	</div>
-	<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
 
 	<!-- plugins:js -->
-	<script src="vendors/base/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<script src="vendors/chart.js/Chart.min.js"></script>
-	<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-	<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<script src="js/off-canvas.js"></script>
-	<script src="js/hoverable-collapse.js"></script>
-	<script src="js/template.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script src="js/dashboard.js"></script>
-	<script src="js/data-table.js"></script>
-	<script src="js/jquery.dataTables.js"></script>
-	<script src="js/dataTables.bootstrap4.js"></script>
-	<!-- End custom js for this page-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 
 </body>
 </html>

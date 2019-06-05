@@ -25,6 +25,7 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+	
 </head>
 
 <body>
@@ -37,19 +38,18 @@
 				<ul class="nav" >
 
 					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='/memberlist'"> <i
+						onclick="memberList()"><!-- onclick="location.href='/memberlist'" --> <i
 							class="mdi mdi-account-multiple menu-icon"></i> <span
 							class="menu-title">회원 관리</span>
 					</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='/trainerlist'"> <i
+						onclick="trainerList()"> <i
 							class="mdi mdi-human-handsup menu-icon"></i> <span
 							class="menu-title">소속 트레이너 관리</span>
 					</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='/dailycheck'" data-toggle="collapse"
+					<li class="nav-item"><a class="nav-link" href="#aaaa" data-toggle="collapse"
 						aria-expanded="false" aria-controls="aaaa"> <i
 							class="mdi mdi-calendar-check menu-icon"></i> <span
 							class="menu-title">출결/근태 관리</span> <i class="menu-arrow"></i>
@@ -58,7 +58,7 @@
 						<div class="collapse" id="aaaa">
 							<ul class="nav flex-column sub-menu">
 								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/buttons.html">일반회원 출결보기</a></li>
+									href="#" onclick="dailyCheck()">일반회원 출결보기</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="pages/ui-features/typography.html">프로그램 출결보기</a></li>
 								<li class="nav-item"><a class="nav-link"

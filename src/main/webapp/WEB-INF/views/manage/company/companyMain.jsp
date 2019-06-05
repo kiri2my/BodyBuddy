@@ -4,6 +4,7 @@
 <html>
 
 <head>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -56,6 +57,7 @@
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 
+
 <style>
 #header {
 	position: relative;
@@ -68,6 +70,13 @@
 }
 
 #main {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 105%;
+}
+
+#memberList {
 	position: absolute;
 	left: 240px;
 	top: 25px;
@@ -105,5 +114,52 @@
 	</div>
 
 </body>
+
+<script type="text/javascript">
+	function memberList() {
+		$.ajax({
+			type : "GET",
+			url : "memberlist",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data).trigger('create');
+			}
+		});
+	}
+	
+	function trainerList() {
+		$.ajax({
+			type : "GET",
+			url : "trainerlist",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	function dailyCheck() {
+		$.ajax({
+			type : "GET",
+			url : "dailycheck",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+</script>
 
 </html>
