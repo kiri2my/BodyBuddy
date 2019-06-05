@@ -23,7 +23,8 @@ import com.google.gson.reflect.TypeToken;
 @Service
 public class KirimService {
 
-	 KirimDao kDao;
+	@Autowired 
+	KirimDao kDao;
 
 	@Autowired
 	private HttpSession session;

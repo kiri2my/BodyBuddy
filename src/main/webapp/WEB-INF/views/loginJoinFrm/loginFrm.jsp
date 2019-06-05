@@ -76,7 +76,8 @@
                   <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="access" style="background-color: #71c016">로그인</a>
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                  style="background-color: #71c016">로그인</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center" >
                     <a href="#" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
