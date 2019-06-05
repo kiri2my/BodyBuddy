@@ -231,11 +231,12 @@
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 			success : function(data) {
 				if (data < 1) {
+					alert(" 사용가능한 아이디입니다  ");
 					console.log(data);
 					$('#joinbtn').prop("disabled", false);
 					console.log(m_id);
 				} else {
-					alert(" 가능 ");
+					alert(" 중복된 아이디입니다 ");
 					$('#joinbtn').prop("disabled", true);
 				}
 			},
