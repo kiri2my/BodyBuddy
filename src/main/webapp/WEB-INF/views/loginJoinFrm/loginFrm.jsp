@@ -4,22 +4,57 @@
 <html>
 
 <head>
+<!-- plugins:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+<!-- End custom js for this page-->
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY</title>
+<title>BODY BUDDY(지도없음,로그인함)</title>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 </head>
 
 <body>
@@ -31,7 +66,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                  <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
+                  <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <form action="access" name="loginFrm" class="pt-3">
                 <div class="form-group">
@@ -41,10 +76,11 @@
                   <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="access" style="background-color: #71c016">로그인</a>
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                  style="background-color: #71c016">로그인</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center" >
-                    <a href="#" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
+                    <a href="forget" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-google">

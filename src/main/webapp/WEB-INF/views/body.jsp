@@ -38,6 +38,15 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     <!-- endinject -->
     <link type="text/css" rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<style>
+.scroll {
+    max-height: 97%;
+    overflow-y: auto;
+}
+
+</style>
+
+
 </head>
 
 <body>
@@ -95,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="height: 700px">
+                    <div class="row"  style="height:60em;">
                         <!--지도<div class="col-md-4 stretch-card" >
                             <div class="card">
                                 <div class="card-body">
@@ -108,109 +117,7 @@
                         </div>-->
                            
                            
-                        <div class="col-md-12 stretch-card"> <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="card-title">총 _ 건의 결과가 있습니다.</p>
-                                    <div class="table-responsive">
-                                        <table id="recent-purchases-listing" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Status report</th>
-                                                    <th>Office</th>
-                                                    <th>Price</th>
-                                                    <th>Date</th>
-                                                    <th>Gross amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Jeremy Ortega</td>
-                                                    <td>Levelled up</td>
-                                                    <td>Catalinaborough</td>
-                                                    <td>$790</td>
-                                                    <td>06 Jan 2018</td>
-                                                    <td>$2274253</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alvin Fisher</td>
-                                                    <td>Ui design completed</td>
-                                                    <td>East Mayra</td>
-                                                    <td>$23230</td>
-                                                    <td>18 Jul 2018</td>
-                                                    <td>$83127</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emily Cunningham</td>
-                                                    <td>support</td>
-                                                    <td>Makennaton</td>
-                                                    <td>$939</td>
-                                                    <td>16 Jul 2018</td>
-                                                    <td>$29177</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Minnie Farmer</td>
-                                                    <td>support</td>
-                                                    <td>Agustinaborough</td>
-                                                    <td>$30</td>
-                                                    <td>30 Apr 2018</td>
-                                                    <td>$44617</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Betty Hunt</td>
-                                                    <td>Ui design not completed</td>
-                                                    <td>Lake Sandrafort</td>
-                                                    <td>$571</td>
-                                                    <td>25 Jun 2018</td>
-                                                    <td>$78952</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Myrtie Lambert</td>
-                                                    <td>Ui design completed</td>
-                                                    <td>Cassinbury</td>
-                                                    <td>$36</td>
-                                                    <td>05 Nov 2018</td>
-                                                    <td>$36422</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jacob Kennedy</td>
-                                                    <td>New project</td>
-                                                    <td>Cletaborough</td>
-                                                    <td>$314</td>
-                                                    <td>12 Jul 2018</td>
-                                                    <td>$34167</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ernest Wade</td>
-                                                    <td>Levelled up</td>
-                                                    <td>West Fidelmouth</td>
-                                                    <td>$484</td>
-                                                    <td>08 Sep 2018</td>
-                                                    <td>$50862</td>
-                                                </tr>                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ${mainListHTML}
                         
                         
                         

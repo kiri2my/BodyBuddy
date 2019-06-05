@@ -4,23 +4,62 @@
 <html>
 
 <head>
+<!-- plugins:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+<!-- End custom js for this page-->
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Majestic Admin</title>
+<title>BODY BUDDY(지도없음,로그인함)</title>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
 </head>
 
 <body>
@@ -31,7 +70,7 @@
 					<div class="col-lg-4 mx-auto">
 						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
 							<div class="brand-logo">
-								<a class="navbar-brand brand-logo" href="main.jsp"
+								<a class="navbar-brand brand-logo" href="/"
 									style="color: #71c016;">BODY BUDDY</a>
 							</div>
 							<h5>아이콘이 있으면 필수내용입니다</h5>
@@ -48,8 +87,9 @@
 										<input type="text" name="m_id" id="m_id"
 											class="form-control form-control-lg border-left-0"
 											placeholder="이메일을 입력해주세요" />
-										<button type="button" class="btn btn-outline-secondary btn-md">중복
-											확인</button>
+										<button type="button" class="btn btn-outline-secondary btn-md"
+											id="idCheck">중복 확인</button>
+										<br />
 									</div>
 								</div>
 
@@ -123,10 +163,10 @@
 											placeholder="시/도-군/구">
 										<button type="button" class="btn btn-outline-secondary btn-md">주소
 											검색</button>
-										<input type="text" name="m_addr2" id="m_addr2"
+										<input type="text" name="m_exaddr" id="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
-											<input type="hidden" name="m_kind" id="m_kind" value="n"/>
+											placeholder="상세주소 입력"> <input type="hidden"
+											name="m_kind" id="m_kind" value="n" />
 
 									</div>
 								</div>
@@ -145,9 +185,9 @@
 								</div>
 								<div class="mt-3">
 
-									<input
+									<input id="joinbtn"
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										type="submit" value="회원가입">
+										type="submit" value="회원가입" disabled="disabled" />
 								</div>
 								<div class="text-center mt-4 font-weight-light">
 									이미 회원가입 하셨나요?<a href="login.html" class="text-primary"> 로그인</a>
@@ -173,12 +213,43 @@
 	<script src="js/template.js"></script>
 	<!-- endinject -->
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 
 <script>
-$(function() {
+	console.log($('#joinbtn'));
+
+	$('#idCheck').click(function() {
+		$.ajax({
+			url : "checkid",
+			type : "post",
+			data : {
+				"m_id" : $('#m_id').val()
+			},
+			dataType  : "html",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				if (data < 1) {
+					alert(" 사용가능한 아이디입니다  ");
+					console.log(data);
+					$('#joinbtn').prop("disabled", false);
+					console.log(m_id);
+				} else {
+					alert(" 중복된 아이디입니다 ");
+					$('#joinbtn').prop("disabled", true);
+				}
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		});//end ajax
+
+	});//end click
+
+	$(function() {
 
 		$("#memberjoin").validate({
 			rules : {
@@ -255,10 +326,8 @@ $(function() {
 		});
 		//end validate
 
-	
 	});
 	//end function
-	
 </script>
 
 </html>

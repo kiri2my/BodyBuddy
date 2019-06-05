@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -55,67 +56,111 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
+<style>
+#header {
+	position: relative;
+}
+
+#nav {
+	position: fixed;
+	top: 50px;
+	height: 90%;
+}
+
+#main {
+	position: relative;
+	left: 257px;
+	top: 60px;
+	width: 110%;
+}
+
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
+#footer {
+	position: relative;
+	left: 240px;
+	width: 70%;
+	padding: 15px 0;
+	text-align: center;
+	color: white;
+	background: gray;
+}
+</style>
 </head>
 
-
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-9 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5" style="width: 820px">
-              <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
-              </div>
-              
-                
-              <div class="btn-group" role="group">
-                         
-              
-             
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="nomaljoin">일반 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="trainerjoin">트레이너 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="companyjoin">업체 회원가입</a>
-                </div>
-              </div>
-              </div>
-              
-              
-                
-                
-                
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
-</body>
+	<!-- partial -->
+	<div id="wrap">
+		<div id="header">
+			<jsp:include page="../../headerNCT.jsp" />
+		</div>
+		
+		<div id="main">
+			<jsp:include page="trainerMain.jsp" />
+		</div>
+		
+		<div id="nav">
+			<jsp:include page="trainerSidebar.jsp" />
+		<%--</div>
+		 <div id="footer">
+			<jsp:include page="trainerFooter.jsp" />
+		</div>   --%>
+	</div>
 
+</body>
+<script type="text/javascript">
+	function advertisemanage() {
+		$.ajax({
+			type : "GET",
+			url : "advertisemanage",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	function advertisewritefrm() {
+		$.ajax({
+			type : "GET",
+			url : "advertisewritefrm",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	function advertisemodifyfrm() {
+		$.ajax({
+			type : "GET",
+			url : "advertisemodifyfrm",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	
+	
+	
+	</script>
 </html>

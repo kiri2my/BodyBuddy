@@ -62,8 +62,8 @@
 				<!-- partial -->
 				<div id="wrap">
 					<div id="header">
-						<%-- <jsp:include page="headerNCT.jsp" /> --%>
-						<jsp:include page="headerNonLogin.jsp" />
+						<jsp:include page="headerNCT.jsp" /> 
+						<%-- <jsp:include page="headerNonLogin.jsp" /> --%>
 					</div>
 					<div id="main">
 						<jsp:include page="body.jsp" />
@@ -73,12 +73,7 @@
 					</div>
 				</div>
 
-			</div>
-			<!-- main-panel ends -->
-		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
+			
 
 
 </body>

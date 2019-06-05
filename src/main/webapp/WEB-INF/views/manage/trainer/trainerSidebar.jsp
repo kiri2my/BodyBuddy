@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -57,65 +57,64 @@
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 </head>
 
-
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-9 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5" style="width: 820px">
-              <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
-              </div>
-              
-                
-              <div class="btn-group" role="group">
-                         
-              
-             
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="nomaljoin">일반 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="trainerjoin">트레이너 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="companyjoin">업체 회원가입</a>
-                </div>
-              </div>
-              </div>
-              
-              
-                
-                
-                
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
+
+	<div class="container-scroller">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar">
+
+                <ul class="nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="">
+                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                            <span class="menu-title">내 회원목록</span>
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="advertisemanage()">
+                            <i class="mdi mdi-bulletin-board menu-icon"></i>
+                            <span class="menu-title">내 프로그램 광고 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="mdi mdi-account-card-details menu-icon"></i>
+                            <span class="menu-title">내 프로필 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/charts/chartjs.html">
+                            <i class="mdi mdi-comment-question-outline menu-icon"></i>
+                            <span class="menu-title">내 문의 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/forms/basic_elements.html">
+                            <i class="mdi mdi-square-inc-cash menu-icon"></i>
+                            <span class="menu-title">내 판매 내역</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/charts/chartjs.html">
+                            <i class="mdi mdi-walk menu-icon"></i>
+                            <span class="menu-title">회원 탈퇴하기</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </nav>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+
 </body>
 
 </html>

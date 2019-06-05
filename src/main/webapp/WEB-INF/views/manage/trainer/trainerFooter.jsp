@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -57,65 +57,17 @@
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 </head>
 
-
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-9 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5" style="width: 820px">
-              <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
-              </div>
-              
-                
-              <div class="btn-group" role="group">
-                         
-              
-             
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="nomaljoin">일반 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="trainerjoin">트레이너 회원가입</a>
-                </div>
-              </div>
-              <div>
-                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" style="width: 240px; color:white"
-                  href="companyjoin">업체 회원가입</a>
-                </div>
-              </div>
-              </div>
-              
-              
-                
-                
-                
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
+
+	<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		<span
+			class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
+			FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved.
+			Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i>
+		</span>
+	</div>
+
+
 </body>
 
 </html>

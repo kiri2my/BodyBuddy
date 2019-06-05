@@ -255,7 +255,7 @@
                                     <td>30,000</td>
                                     <td>2019/01/31</td>
                                     <td>모집마감</td>
-                                    <td><a href="#">박한솔</a></td>
+                                    <td><a href="#" onclick="advertisemodifyfrm()">박한솔</a></td>
                                     <td>
                                         <button class="btn btn-secondary" type="button">수정</button>
                                         <button class="btn btn-secondary" type="button">삭제</button>
@@ -322,7 +322,7 @@
                             </tbody>
                         </table>
                         <td>
-                             <button class="btn btn-secondary" type="button">신규 등록</button>  
+                             <button class="btn btn-secondary" onclick="advertisewritefrm()" type="button">신규 등록</button>  
                         </td>
                     </div>
                 </div>
