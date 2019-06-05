@@ -71,7 +71,7 @@
                 <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <h5>아이콘이 있으면 필수내용입니다</h5>
-              <form action="trainerjoin" class="pt-3" name="companyjoin" id="companyjoin"
+              <form action="companymemberjoin" class="pt-3" name="companyjoin" id="companyjoin"
 			method="post">
             <div class="form-group">
                 

@@ -50,6 +50,24 @@ public class HomeController {
 		
 		return mav;
 	}
+	@RequestMapping(value = "/trainermemberjoin", method = RequestMethod.POST)
+	public ModelAndView trainerMemberJoin(Member mb) {
+		System.out.println(" 트레이너 조인 ");
+		
+		mav = mm.trainerMemberJoin(mb);
+		System.out.println(" 트레이너 조인 끝 ");
+		
+		return mav;
+	}
+	@RequestMapping(value = "/companymemberjoin", method = RequestMethod.POST)
+	public ModelAndView companyMemberJoin(Member mb) {
+		System.out.println(" 트레이너 조인 ");
+		
+		mav = mm.companyMemberJoin(mb);
+		System.out.println(" 트레이너 조인 끝 ");
+		
+		return mav;
+	}
 	
 	
 	

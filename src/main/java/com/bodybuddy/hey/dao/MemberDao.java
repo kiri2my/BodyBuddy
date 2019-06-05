@@ -6,6 +6,10 @@ public interface MemberDao {
 
 	public boolean normalMemberJoin(Member mb);
 
+	public boolean trainerMemberJoin(Member mb);
+
+	public boolean companyMemberJoin(Member mb);
+
 
 
 }
