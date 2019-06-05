@@ -98,7 +98,7 @@
 	<!-- partial -->
 	<div id="wrap">
 		<div id="header">
-			<jsp:include page="../company/companyHeader.jsp" />
+			<jsp:include page="../../headerNCT.jsp" />
 		</div>
 		
 		<div id="main">
