@@ -4,6 +4,7 @@
 <html>
 
 <head>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -55,37 +56,111 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
+<style>
+#header {
+	position: relative;
+}
+
+#nav {
+	position: fixed;
+	top: 50px;
+	height: 90%;
+}
+
+#main {
+	position: relative;
+	left: 257px;
+	top: 60px;
+	width: 110%;
+}
+
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
+#footer {
+	position: relative;
+	left: 240px;
+	width: 70%;
+	padding: 15px 0;
+	text-align: center;
+	color: white;
+	background: gray;
+}
+</style>
 </head>
 
 <body>
-	<div class="container-scroller">
-
-		<div class="container-fluid page-body-wrapper">
-			<!-- partial:partials/_sidebar.html -->
-
-			<!-- partial -->
-			<div class="main-panel" style="width: 100%">
-				<div class="content-wrapper">
-					<footer class="footer">
-						<div
-							class="d-sm-flex justify-content-center justify-content-sm-between">
-							<span
-								class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-								FiveMan assembled in Incheon ICIA Academy 2019. All rights
-								reserved. Thanks to ji-hun Cha.<i
-								class="mdi mdi-heart text-danger"></i>
-							</span>
-
-						</div>
-					</footer>
-					<!-- partial -->
-				</div>
-				<!-- main-panel ends -->
-			</div>
-			<!-- page-body-wrapper ends -->
+	<!-- partial -->
+	<div id="wrap">
+		<div id="header">
+			<jsp:include page="../company/companyHeader.jsp" />
 		</div>
-		<!-- container-scroller -->
+		
+		<div id="main">
+			<jsp:include page="trainerMain.jsp" />
 		</div>
+		
+		<div id="nav">
+			<jsp:include page="trainerSidebar.jsp" />
+		<%--</div>
+		 <div id="footer">
+			<jsp:include page="trainerFooter.jsp" />
+		</div>   --%>
+	</div>
+
 </body>
-
+<script type="text/javascript">
+	function advertisemanage() {
+		$.ajax({
+			type : "GET",
+			url : "advertisemanage",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	function advertisewritefrm() {
+		$.ajax({
+			type : "GET",
+			url : "advertisewritefrm",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	function advertisemodifyfrm() {
+		$.ajax({
+			type : "GET",
+			url : "advertisemodifyfrm",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+	
+	
+	
+	
+	</script>
 </html>

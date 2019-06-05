@@ -58,34 +58,63 @@
 </head>
 
 <body>
+
 	<div class="container-scroller">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar">
 
-		<div class="container-fluid page-body-wrapper">
-			<!-- partial:partials/_sidebar.html -->
+                <ul class="nav">
 
-			<!-- partial -->
-			<div class="main-panel" style="width: 100%">
-				<div class="content-wrapper">
-					<footer class="footer">
-						<div
-							class="d-sm-flex justify-content-center justify-content-sm-between">
-							<span
-								class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-								FiveMan assembled in Incheon ICIA Academy 2019. All rights
-								reserved. Thanks to ji-hun Cha.<i
-								class="mdi mdi-heart text-danger"></i>
-							</span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="">
+                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                            <span class="menu-title">내 회원목록</span>
+                        </a>
 
-						</div>
-					</footer>
-					<!-- partial -->
-				</div>
-				<!-- main-panel ends -->
-			</div>
-			<!-- page-body-wrapper ends -->
-		</div>
-		<!-- container-scroller -->
-		</div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="advertisemanage()">
+                            <i class="mdi mdi-bulletin-board menu-icon"></i>
+                            <span class="menu-title">내 프로그램 광고 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="mdi mdi-account-card-details menu-icon"></i>
+                            <span class="menu-title">내 프로필 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/charts/chartjs.html">
+                            <i class="mdi mdi-comment-question-outline menu-icon"></i>
+                            <span class="menu-title">내 문의 관리</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/forms/basic_elements.html">
+                            <i class="mdi mdi-square-inc-cash menu-icon"></i>
+                            <span class="menu-title">내 판매 내역</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/charts/chartjs.html">
+                            <i class="mdi mdi-walk menu-icon"></i>
+                            <span class="menu-title">회원 탈퇴하기</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </nav>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+
 </body>
 
 </html>

@@ -58,34 +58,16 @@
 </head>
 
 <body>
-	<div class="container-scroller">
 
-		<div class="container-fluid page-body-wrapper">
-			<!-- partial:partials/_sidebar.html -->
+	<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		<span
+			class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
+			FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved.
+			Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i>
+		</span>
+	</div>
 
-			<!-- partial -->
-			<div class="main-panel" style="width: 100%">
-				<div class="content-wrapper">
-					<footer class="footer">
-						<div
-							class="d-sm-flex justify-content-center justify-content-sm-between">
-							<span
-								class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-								FiveMan assembled in Incheon ICIA Academy 2019. All rights
-								reserved. Thanks to ji-hun Cha.<i
-								class="mdi mdi-heart text-danger"></i>
-							</span>
 
-						</div>
-					</footer>
-					<!-- partial -->
-				</div>
-				<!-- main-panel ends -->
-			</div>
-			<!-- page-body-wrapper ends -->
-		</div>
-		<!-- container-scroller -->
-		</div>
 </body>
 
 </html>
