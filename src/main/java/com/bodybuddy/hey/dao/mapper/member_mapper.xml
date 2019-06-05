@@ -36,6 +36,8 @@
 	</select>
 	
 
+
+<!--bodybuddy-->
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
 	</insert>
@@ -45,6 +47,9 @@
 	<insert id="companyMemberJoin" parameterType="member">
 		INSERT INTO C VALUES(#{m_id},#{c_num},#{c_bname},#{c_bphone})
 	</insert>
-		
+	
+	<select id="checkId" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM M WHERE M_ID = #{m_id}
+	</select>
 	
 </mapper>

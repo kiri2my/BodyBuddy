@@ -66,7 +66,7 @@
           <div class="col-lg-9 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5" style="width: 820px">
               <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
+                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
               
                 

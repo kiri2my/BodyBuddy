@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.dao.MemberDao;
+import com.google.gson.Gson;
 
 @Service
 public class MemberManagemant {
@@ -96,9 +97,6 @@ public class MemberManagemant {
 		System.out.println("C_num = " + mb.getC_num());
 		System.out.println("C_bname = " + mb.getC_bname());
 		System.out.println("C_bphone = " + mb.getC_bphone());
-		
-
-		 
 
 		if (mDao.normalMemberJoin(mb)) {
 			if (mDao.companyMemberJoin(mb)) {
@@ -112,5 +110,31 @@ public class MemberManagemant {
 		System.out.println("업체 매니지맨트 종료");
 
 		return mav;
+	}
+
+	public ModelAndView forgetId(Member mb) {
+		System.out.println("phone = " + mb.getM_phone());
+		System.out.println("name = " + mb.getM_name());
+		System.out.println("birth = " + mb.getM_birth());
+		if (mDao.forgetId(mb)) {
+			view = "loginJoinFrm/forgetResult";
+		} else {
+			mav.addObject("nodate", "일치하는 정보가 없습니다");
+			view = "loginJoinFrm/forget";
+
+		}
+
+		mav.setViewName(view);
+		return mav;
+	}
+
+	public int checkId(String m_id) {
+		System.out.println("아이디 찾는다에 체크 아이디 맴버 매니지 먼트");
+
+		int check = mDao.checkId(m_id);
+
+		System.out.println(" int check " + check);
+	
+		return check;
 	}
 }

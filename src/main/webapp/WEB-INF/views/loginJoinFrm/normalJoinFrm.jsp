@@ -56,7 +56,10 @@
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
 </head>
 
 <body>
@@ -67,7 +70,7 @@
 					<div class="col-lg-4 mx-auto">
 						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
 							<div class="brand-logo">
-								<a class="navbar-brand brand-logo" href="main.jsp"
+								<a class="navbar-brand brand-logo" href="/"
 									style="color: #71c016;">BODY BUDDY</a>
 							</div>
 							<h5>아이콘이 있으면 필수내용입니다</h5>
@@ -84,8 +87,9 @@
 										<input type="text" name="m_id" id="m_id"
 											class="form-control form-control-lg border-left-0"
 											placeholder="이메일을 입력해주세요" />
-										<button type="button" class="btn btn-outline-secondary btn-md">중복
-											확인</button>
+										<button type="button" class="btn btn-outline-secondary btn-md"
+											id="idCheck">중복 확인</button>
+										<br />
 									</div>
 								</div>
 
@@ -161,8 +165,8 @@
 											검색</button>
 										<input type="text" name="m_exaddr" id="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
-											<input type="hidden" name="m_kind" id="m_kind" value="n"/>
+											placeholder="상세주소 입력"> <input type="hidden"
+											name="m_kind" id="m_kind" value="n" />
 
 									</div>
 								</div>
@@ -181,9 +185,9 @@
 								</div>
 								<div class="mt-3">
 
-									<input
+									<input id="joinbtn"
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										type="submit" value="회원가입">
+										type="submit" value="회원가입" disabled="disabled" />
 								</div>
 								<div class="text-center mt-4 font-weight-light">
 									이미 회원가입 하셨나요?<a href="login.html" class="text-primary"> 로그인</a>
@@ -209,12 +213,42 @@
 	<script src="js/template.js"></script>
 	<!-- endinject -->
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 
 <script>
-$(function() {
+	console.log($('#joinbtn'));
+
+	$('#idCheck').click(function() {
+		$.ajax({
+			url : "checkid",
+			type : "post",
+			data : {
+				"m_id" : $('#m_id').val()
+			},
+			dataType  : "html",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				if (data < 1) {
+					console.log(data);
+					$('#joinbtn').prop("disabled", false);
+					console.log(m_id);
+				} else {
+					alert(" 가능 ");
+					$('#joinbtn').prop("disabled", true);
+				}
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		});//end ajax
+
+	});//end click
+
+	$(function() {
 
 		$("#memberjoin").validate({
 			rules : {
@@ -291,10 +325,8 @@ $(function() {
 		});
 		//end validate
 
-	
 	});
 	//end function
-	
 </script>
 
 </html>

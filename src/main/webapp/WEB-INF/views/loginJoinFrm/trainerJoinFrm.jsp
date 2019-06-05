@@ -68,7 +68,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
+                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <h5>아이콘이 있으면 필수내용입니다</h5>
               <form action="trainermemberjoin" class="pt-3" name="trainerjoin" id="trainerjoin"
