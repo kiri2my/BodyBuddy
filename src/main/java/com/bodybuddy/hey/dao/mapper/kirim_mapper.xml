@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bodybuddy.hey.dao.KirimDao">
+
+	<select id="getSecurityPwd" parameterType="String" resultType="String">
+	SELECT M_PW FROM M WHERE M_ID = #{m_id}</select>
+
+	<select parameterType="String" id="getMemberKind" resultType="String"> 
+	SELECT M_KIND FROM M WHERE M_ID = #{m_id} </select>
+
+	<select parameterType="String" id="getNormalInfo" resultType="member"> 
+	SELECT * FROM NINFO WHERE M_ID = #{m_id} </select>
+
+	<select parameterType="String" id="getTrainerInfo" resultType="member"> 
+	SELECT * FROM TINFO WHERE M_ID = #{m_id} </select>
+
+	<select parameterType="String" id="getCompanyInfo" resultType="member"> 
+	SELECT * FROM CINFO WHERE M_ID = #{m_id} </select>
+
+	
+</mapper>
+
