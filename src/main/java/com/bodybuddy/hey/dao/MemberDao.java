@@ -16,4 +16,8 @@ public interface MemberDao {
 
 	public List<Member> getTrainerSearch(Member m);
 
+	public boolean trainerMemberJoin(Member mb);
+
+	public boolean companyMemberJoin(Member mb);
+
 }
