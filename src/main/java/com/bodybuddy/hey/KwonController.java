@@ -20,7 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.service.MemberManagemant;
 
-
+//A 업무 작업 중 입니다.
+//A 업무 작업 완료 하였습니다.
 @Controller
 public class KwonController {
 
