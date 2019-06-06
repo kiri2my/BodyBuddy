@@ -158,15 +158,6 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	public ModelAndView forgetId(Member mb) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int checkId(String m_id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public ModelAndView trainerMemberJoin(Member mb) {
 		System.out.println("맴버 매니지맨트 시작");
@@ -210,5 +201,14 @@ public class MemberManagemant {
 		System.out.println("매니지맨트 종료");
 
 		return mav;
+	}
+	
+	public ModelAndView forgetId(Member mb) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int checkId(String m_id) {
+		return 0;
 	}
 }
