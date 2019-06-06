@@ -203,12 +203,15 @@ public class MemberManagemant {
 		return mav;
 	}
 	
+
+	public int checkId(String m_id) {
+		int check =0;
+		check = mDao.checkId(m_id);
+		
+		return check;
+	}
 	public ModelAndView forgetId(Member mb) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public int checkId(String m_id) {
-		return 0;
 	}
 }

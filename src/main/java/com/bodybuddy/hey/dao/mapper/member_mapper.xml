@@ -25,6 +25,11 @@
 		INSERT INTO C
 		VALUES(#{m_id},#{c_num},#{c_bname},#{c_bphone})
 	</insert>
+	
+	<select id="checkId" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM M
+	WHERE = #{m_id}
+	</select>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[

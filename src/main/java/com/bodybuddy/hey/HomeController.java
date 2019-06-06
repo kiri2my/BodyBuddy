@@ -54,10 +54,10 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/companymemberjoin", method = RequestMethod.POST)
 	public ModelAndView companyMemberJoin(Member mb) {
-		System.out.println(" 트레이너 조인 ");
+		System.out.println(" 업체 조인 ");
 		
 		mav = mm.companyMemberJoin(mb);
-		System.out.println(" 트레이너 조인 끝 ");
+		System.out.println(" 업체 조인 끝 ");
 		
 		return mav;
 	}

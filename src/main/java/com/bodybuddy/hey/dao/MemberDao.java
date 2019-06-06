@@ -20,4 +20,6 @@ public interface MemberDao {
 
 	public boolean companyMemberJoin(Member mb);
 
+	public int checkId(String m_id);
+
 }

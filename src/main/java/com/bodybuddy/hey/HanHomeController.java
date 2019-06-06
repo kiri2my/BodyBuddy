@@ -53,33 +53,6 @@ public class HanHomeController {
 		
 		return mav;
 	}
-	/*
-	 * @RequestMapping(value = "/join", method = RequestMethod.GET) public String
-	 * join(Model model) {
-	 * 
-	 * return "loginJoinFrm/join"; }
-	 * 
-	 * @RequestMapping(value = "/nomaljoin", method = RequestMethod.GET) public
-	 * String nomaljoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/normalJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/companyjoin", method = RequestMethod.GET) public
-	 * String companyjoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/companyJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/trainerjoin", method = RequestMethod.GET) public
-	 * String trainerjoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/trainerJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/nomalmemberjoin", method = RequestMethod.POST)
-	 * public ModelAndView nomalmemberjoin(Member mb) {
-	 * 
-	 * mav = mm.nomalmemberjoin(mb); System.out.println(" 노말 조인 ");
-	 * 
-	 * return mav; }
-	 */
+
 
 }
