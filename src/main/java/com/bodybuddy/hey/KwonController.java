@@ -18,85 +18,93 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.service.MemberManagemant;
+
 
 @Controller
 public class KwonController {
 
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
+	@Autowired
+	MemberManagemant mm;
 	
 	@Autowired
 	private JavaMailSender mailSender;
 	
 	ModelAndView mav;
 
-	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	@RequestMapping(value = "/email")
 	public String email(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
 
 		return "email/emailCheckFrm";
 	}
 	
-	@RequestMapping(value = "/company", method = RequestMethod.GET)
+	@RequestMapping(value = "/company")
 	public String company(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
 
 		return "manage/company/companyMain";
 	}
 	
-	@RequestMapping(value = "/memberlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberlist")
 	public String memberList(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
 
 		return "manage/memberListC";
 	}
 	
-	@RequestMapping(value = "/trainerlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/trainerlist")
 	public String trainerList(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
 
 		return "manage/trainerListC";
 	}
 	
-	@RequestMapping(value = "/dailycheck", method = RequestMethod.GET)
+	@RequestMapping(value = "/dailycheck")
 	public String dailyCheck(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
 
 		return "manage/dailyCheck";
+	}
+	
+	@RequestMapping(value = "/memberlistc")
+	public ModelAndView memberListC(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+		
+		mav = mm.getMemberList(id);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/membersearch")
+	public ModelAndView memberSearch(HttpServletRequest request) {
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		System.out.println(name);
+		System.out.println(id);
+		
+		mav = mm.getMemberSearch(name,id);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/trainerlistc")
+	public ModelAndView trainerListC(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+		
+		mav = mm.getTrainerList(id);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/trainersearch")
+	public ModelAndView trainerSearch(HttpServletRequest request) {
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		System.out.println(name);
+		System.out.println(id);
+		
+		mav = mm.getTrainerSearch(name,id);
+		
+		return mav;
 	}
 
 	// mailSending 코드

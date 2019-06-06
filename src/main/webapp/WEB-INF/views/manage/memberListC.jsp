@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,7 @@
 	height: 40px;
 	width: 200px;
 }
+
 #membtn {
 	vertical-align: bottom;
 }
@@ -35,14 +37,20 @@
 		<div class="col-md-12 stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title"><br></p>
-					<form class="navbar-form pull-left">
+					<p class="card-title">
+						<br>
+					</p>
 						<input type="text" class="span2" id="memsearch"
-							placeholder="회원 검색" >
-						<button type="submit" class="btn" id="membtn">검색</button>
-					</form>
+							placeholder="회원 검색">
+						<button type="button" onclick="memberSearch()" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
+							
+							<c:set var="member" value="${mList }" /> 
+								<c:if test="${empty member }">
+									회원이 없습니다.
+								</c:if> 
+							<c:if test="${!empty member }">
 							<thead>
 								<tr>
 									<th>회원번호</th>
@@ -55,33 +63,25 @@
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="member" items="${mList }">
 								<tr>
 									<td>2</td>
-									<td>고소영</td>
+									<td><a href="#">${member.m_name }</a></td>
 									<td>2019.4.1~2019.6.3</td>
 									<td>2</td>
 									<td>없음</td>
-									<td>010-1234-5678</td>
+									<td><a href="#">${member.m_phone }</a></td>
 									<td>이용중</td>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td>송혜교</td>
-									<td>2019.5.1~2019.7.1</td>
-									<td>28</td>
-									<td>김현석</td>
-									<td>010-2234-5678</td>
-									<td>이용중</td>
-								</tr>
-
-							</tbody>
+								</c:forEach>
+								</tbody>
+							</c:if>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 
 	<!-- plugins:js -->
 	<script
@@ -110,4 +110,26 @@
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 
 </body>
+
+<script type="text/javascript">
+	function memberSearch(){
+		var name = $('#memsearch').val();
+		$.ajax({
+			type : "get",
+			url : "membersearch",
+			data : {
+				name : name, id : '3333'
+			},
+			dataType : "html",
+			success : function(data) {
+				alert(data);
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('회원 검색 실패');
+			}
+		});
+	}
+	
+</script>
 </html>
