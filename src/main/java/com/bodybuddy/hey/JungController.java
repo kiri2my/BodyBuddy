@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.service.JungService;
@@ -70,17 +71,29 @@ public class JungController {
 		
 		return mav;
 	}
-	@RequestMapping(value = "/TfindC")
-	public ModelAndView TfindC(HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/TfindC",produces = "application/json; charset=utf8")
+	public String TfindC(HttpServletRequest request) {
 		String name = request.getParameter("name");
 		
 		System.out.println(name);
 		
 		
-		mav = js.getTfindC(name);
+		String result = js.getTfindC(name);
 		
-		return mav;
+		return result;
 	}
 	
+	@RequestMapping(value = "/questionList")
+	public String questionList(HttpServletRequest request) {
+		String name = request.getParameter("name");
+		
+		System.out.println(name);
+		
+		
+		/* mav = js.questionList(name); */
+		
+		return "manage/question/questionList";
+	}
 	
 }
