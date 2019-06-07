@@ -22,4 +22,8 @@ public interface MemberDao {
 
 	public int checkId(String m_id);
 
+	public Member getProfileList(String id);
+
+	public List<Member> getTfindC(Member m);
+
 }

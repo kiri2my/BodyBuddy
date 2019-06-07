@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -18,8 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.service.JungService;
+import com.bodybuddy.hey.service.MemberManagemant;
+
 @Controller
 public class JungController {
+	@Autowired
+	JungService js;
+	
+	
+	ModelAndView mav;
+	
 	@RequestMapping(value = "/trainer", method = RequestMethod.GET)
 	public String trainer(Locale locale, Model model) {
 		
@@ -49,4 +59,28 @@ public class JungController {
 		System.out.println("advertisemodifyfrm controller");
 		return "manage/advertisemodifyfrm";
 	}
+	
+	
+	@RequestMapping(value = "/profileModifyT")
+	public ModelAndView profileModifyT(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+		System.out.println("profileModifyT controller");
+		mav = js.getProfileList(id);
+		
+		return mav;
+	}
+	@RequestMapping(value = "/TfindC")
+	public ModelAndView TfindC(HttpServletRequest request) {
+		String name = request.getParameter("name");
+		
+		System.out.println(name);
+		
+		
+		mav = js.getTfindC(name);
+		
+		return mav;
+	}
+	
+	
 }
