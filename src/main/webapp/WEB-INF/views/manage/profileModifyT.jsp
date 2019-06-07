@@ -47,15 +47,15 @@
 
 								<div class="form-group">
 									<div class="input-group">
-											
-											<textarea rows="8" cols="8" name="t_career"
-												class="form-control form-control-lg border-left-0">
+
+										<textarea rows="8" cols="8" name="t_career"
+											class="form-control form-control-lg border-left-0">
 												
 														${m.t_career}
 											
 											</textarea>
-										
-										
+
+
 									</div>
 								</div>
 
@@ -63,14 +63,47 @@
 									<div class="input-group">
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder= "현재나의소속업체 : ${m.t_cid}">
-										<button type="button" onclick="TfindC()" class="btn btn-outline-secondary btn-md">업체
-											검색</button>
+											id="sample6_address" placeholder="현재나의소속업체 : ${m.t_cid}">
+										<button type="button" onclick="TfindC()"
+											class="btn btn-outline-secondary btn-md">업체 검색</button>
 									</div>
 								</div>
-								<div id=TfindC>
+
+								<div id="TfindC" class="table-responsive" style="display:none">
 								
+									<table id="recent-purchases-listing" class="table">
+
+										<%-- <c:set var="member" value="${mList }" />
+										<c:if test="${empty member }">
+												회원이 없습니다.
+											</c:if>--%>
+										<c:if test="${!empty member }">
+											<thead>
+												<tr>
+													<th>업체이름</th>
+													<th>업체주소</th>
+													<th>요청</th>
+													<th>요청취소</th>
+													<th>상태</th>
+												</tr>
+											</thead>
+											<tbody>
+												<div id="test" style="width:300px">
+												</div>
+												<%-- <c:forEach var="member" items="${mList }">
+													<tr>
+														<td>${member.m_bname }</td>
+														<td>${member.c_bname }</td>
+														<td><button>요청</button></td>
+														<td><button>취소</button></td>
+														<td>상태</td>
+													</tr>
+												</c:forEach> --%>
+											</tbody>
+										</c:if>
+									</table>
 								</div>
+
 
 								<div class="mb-4">
 									<div class="form-check">
@@ -83,11 +116,9 @@
 								<div class="mt-3">
 									<a
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">프로필등록하기</a>
-									<a
+										href="main.jsp">프로필등록하기</a> <a
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">프로필수정하기</a>
-																		<a
+										href="main.jsp">프로필수정하기</a> <a
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
 										href="main.jsp">프로필삭제하기</a>
 								</div>
@@ -114,26 +145,31 @@
 
 <script type="text/javascript" src="./js/jquery-3.1.0.min.js"
 	charset="utf-8">
+	
 </script>
 <script type="text/javascript">
-function TfindC(){
-	var name = $('#sample6_address').val();
-	$.ajax({
-		type : "get",
-		url : "TfindC",
-		data : {
-			name : name
-		},
-		dataType : "html",
-		success : function(data) {
-			alert(data);
-			$('#TfindC').html(data);
-		},
-		error : function() {
-			alert('업체 검색 실패');
-		}
-	});
-}
+	function TfindC() {
+		var name = $('#sample6_address').val();
+		$.ajax({
+			type : "get",
+			url : "TfindC",
+			data : {
+				name : name
+			},
+			dataType : "json",
+
+			success : function(data) {
+				console.log(data);
+				/* $('#TfindC').html(); */
+				$("#test").html("<c:forEach var='member' items=\"${mList}\"><tr><td>${member.m_bname }</td><td>${member.c_bname }</td><td><button>요청</button></td><td><button>취소</button></td><td>상태</td></tr></c:forEach>");
+				$("#TfindC").show();
+			},
+			error : function(er) {
+				console.log(er);
+				alert('업체 검색 실패');
+			}
+		});
+	}
 </script>
 
 

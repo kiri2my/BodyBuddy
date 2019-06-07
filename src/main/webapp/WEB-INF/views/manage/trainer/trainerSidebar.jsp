@@ -87,7 +87,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/charts/chartjs.html">
+                        <a class="nav-link" href="#" onclick="questionList()">
                             <i class="mdi mdi-comment-question-outline menu-icon"></i>
                             <span class="menu-title">내 문의 관리</span>
                         </a>
