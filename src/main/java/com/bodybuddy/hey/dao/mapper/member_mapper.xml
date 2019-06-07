@@ -38,6 +38,14 @@
 	SELECT M_ID FROM M
 	WHERE M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth}
 	</select>
+	<select id="forgetPw" parameterType="member" resultType="member">
+	SELECT M_ID FROM M
+	WHERE M_ID = #{m_id} AND M_NAME =  #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth} 
+	</select>
+	
+	<update id="temporaryPw" parameterType="String">
+	UPDATE M SET M_PW = #{m_pw} WHERE M_ID = #{m_id}
+	</update>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[
