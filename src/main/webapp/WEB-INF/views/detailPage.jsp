@@ -85,25 +85,75 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jquery.serializeObject.js"></script>
 <script>
-console.log($("#optionSelect"));
 
-
+//var ad_code 
 
 
 $("#optionSelect").change(function(){
-	console.log($("#optionSelect").prop("selectedOptions")[0].id.replace("op",""));
-		
-	var $op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
-	var str = "#"+$op_code;
-	console.log(str);
-	var $op_priceValue = $(str).val();
-	
-	console.log($op_priceValue);
+	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
+	var $op_code = "#"+op_code;
+	var $op_priceValue = $($op_code).val();
 	
 	$("#priceShow").html("<h3><small class='text-muted'>가격: </small>"+$op_priceValue+"원</h3>")
-	//console.log($("#priceShow"));	
 });
+
+
+
+
+
+
+
+
+
+$("#review-tab").click(function(){
+		//var obj=$("#rFrm").serializeObject(); //{속성:값,속성:값}
+		
+		var obj=$("form[name=detailPageInfo]").serializeObject();
+		//obj.r_bnum=bnum;//r_bnum은 name에 없으니 따로 추가해준다.
+		console.log(obj);
+		//js객체-->json형태로 변환(문자열)
+		var jsonStr=JSON.stringify(obj);
+		console.log(jsonStr);
+		$.ajax({
+			type:'post', //json으로 넘길때는 무조건 post
+			url:'ajax/replyInsert',
+			data:jsonStr,
+			//data:$('#rFrm').serialize(), 폼 전체 데이터 전송
+			dataType:'json',
+			contentType:"application/json",
+			success:function(data,status,xhr){
+				console.log(data);
+				var str='';
+				var rList=data['rList'];
+				for(var i in rList){
+				
+					str+='<tr height="25" align="center">'
+						  +'<td width="100">'+rList[i]['r_mid']+'</td>'
+						  +'<td width="200">'+rList[i]['r_contents']+'</td>'
+						  +'<td width="200">'+rList[i]['r_date']+'</td>'
+						  +'</tr>'
+				}
+				$('#yes').html(str);
+			},
+			error:function(xhr,status){
+				alert("error");
+				console.log(status);
+				console.log(xhr);
+			}
+		}); //ajax End
+	
+	
+	
+});//click End
+
+
+$("#question-tab").click(function(){
+	
+});
+
 
 
 </script>

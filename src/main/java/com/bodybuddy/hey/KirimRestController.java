@@ -36,5 +36,16 @@ public class KirimRestController { // Restful 방식
 		mav = ks.detailPage(adcode);
 		return mav;
 	}
+	
+	@RequestMapping(value = "/review/{adcode}", method = RequestMethod.GET)
+	public ModelAndView detailReview(@PathVariable String adcode) { // @ResponseBody생략가능
+		mav = ks.detailReview(adcode);
+		return mav;
+	}
+	@RequestMapping(value = "/qa/{adcode}", method = RequestMethod.GET)
+	public ModelAndView detailQa(@PathVariable String adcode) { // @ResponseBody생략가능
+		mav = ks.detailQa(adcode);
+		return mav;
+	}
 
 }

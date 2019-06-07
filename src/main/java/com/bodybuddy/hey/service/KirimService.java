@@ -50,12 +50,15 @@ public class KirimService {
 				switch(kind) {
 				case "n":
 					mb = kDao.getNormalInfo(mb.getM_id());
+					mav.addObject("kindSignal", "n");
 					break;
 				case "t":
 					mb = kDao.getTrainerInfo(mb.getM_id());
+					mav.addObject("kindSignal", "t");
 					break;
 				case "c":
 					mb = kDao.getCompanyInfo(mb.getM_id());
+					mav.addObject("kindSignal", "c");
 					break;	
 				}				
 							
@@ -65,7 +68,7 @@ public class KirimService {
 				//forward:url, POST-POST, GET-GET끼리만 가능
 				//view="forward:/board";
 				//redirect:url, POST-GET 둘다 GET방식만 가능
-				view="main";
+				view="forward:/";
 			}else {//비번오류
 				view="loginJoinFrm/loginFrm";
 				mav.addObject("loginCheck", "비번오류");
@@ -92,6 +95,79 @@ public class KirimService {
 		mav.addObject("detailPageHTML", html);
 		mav.setViewName(view);
 		return mav;
+	}
+	
+	public ModelAndView detailReview(String ad_code) {
+		
+		
+		return null;
+	}
+
+	public ModelAndView detailQa(String ad_code) {
+		
+		
+		return null;
+	}
+	
+	
+	private String makeHTMLReview() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div class=\"tab-pane fade show\" id=\"review\" role=\"tabpanel\" aria-labelledby=\"review-tab\">\r\n" + 
+				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
+				"\r\n" + 
+				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
+				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
+				"                                                        <p>총 _건의 후기가 있습니다.</p> 평점:\r\n" + 
+				"                                                        <div class=\"table-responsive\">\r\n" + 
+				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
+				"                                                                <thead>\r\n" + 
+				"                                                                    <tr>\r\n" + 
+				"                                                                        <th>별점</th>\r\n" + 
+				"                                                                        <th>옵션</th>\r\n" + 
+				"                                                                        <th>내용</th>\r\n" + 
+				"                                                                        <th>작성일</th>\r\n" + 
+				"                                                                    </tr>\r\n" + 
+				"                                                                </thead>\r\n" + 
+				"                                                                <tbody>\r\n" + 
+				"                                                                    <tr>\r\n" + 
+				"                                                                        <td>1.0</td>\r\n" + 
+				"                                                                        <td>기간+시간+횟수+요일</td>\r\n" + 
+				"                                                                        <td>인생 모두 부질없는것이다 <a href=\"#\"> 더보기<i class=\"mdi mdi-arrow-down\"></i></a></td>\r\n" + 
+				"                                                                        <td>2018/04/23</td>\r\n" + 
+				"                                                                    </tr>\r\n" + 
+				"\r\n" + 
+				"                                                                </tbody>\r\n" + 
+				"                                                            </table>\r\n" + 
+				"                                                        </div>\r\n" + 
+				"                                                        <nav>\r\n" + 
+				"                                                            <ul class=\"pagination pagination-lg\">\r\n" + 
+				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n" + 
+				"                                                                    <div class=\"btn-group\" role=\"group\" aria-label=\"First group\">\r\n" + 
+				"                                                                        <li>\r\n" + 
+				"                                                                            <a href=\"#\" aria-label=\"Previous\">\r\n" + 
+				"                                                                                <span aria-hidden=\"true\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">«</button></span>\r\n" + 
+				"                                                                            </a>\r\n" + 
+				"                                                                        </li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"active\"><button type=\"button\" class=\"btn btn-outline-secondary\">1</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">2</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">3</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">4</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">5</button></a></li>\r\n" + 
+				"                                                                        <li>\r\n" + 
+				"                                                                            <a href=\"#\" aria-label=\"Next\">\r\n" + 
+				"                                                                                <span aria-hidden=\"true\"><button type=\"button\" class=\"btn btn-outline-secondary\">»</button></span>\r\n" + 
+				"                                                                            </a>\r\n" + 
+				"                                                                        </li>\r\n" + 
+				"                                                                    </div>\r\n" + 
+				"                                                                </div>\r\n" + 
+				"                                                            </ul>\r\n" + 
+				"                                                        </nav>\r\n" + 
+				"                                                    </li>\r\n" + 
+				"                                                </div>\r\n" + 
+				"                                            </div>\r\n" + 
+				"                                        </div>");
+		
+		return sb.toString();
 	}
 
 	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList) {
@@ -226,10 +302,10 @@ public class KirimService {
 				"                                            <a class=\"nav-link active\" id=\"detailInfo-tab\" data-toggle=\"tab\" href=\"#detailInfo\" role=\"tab\" aria-controls=\"detailInfo\" aria-selected=\"true\" style=\"border-bottom-color : #71c016; color: #71c016\">상세 정보 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
 				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link\" id=\"review-tab\" data-toggle=\"tab\" href=\"#review\" role=\"tab\" aria-controls=\"review\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">별점 및 후기 보기</a>\r\n" + 
+				"                                            <a class=\"nav-link\" id=\"review-tab\" data-toggle=\"tab\" role=\"tab\" aria-controls=\"review\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">별점 및 후기 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
 				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" href=\"#question\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
+				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
@@ -238,6 +314,9 @@ public class KirimService {
 				"\r\n" + 
 				"\r\n" + 
 				"                                    <div class=\"tab-content py-0 px-0\">\r\n" + 
+				
+				//상세정보 시작
+				
 				"                                        <div class=\"tab-pane fade show active\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">\r\n" + 
 				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
 				"\r\n" + 
@@ -250,11 +329,8 @@ public class KirimService {
 				"                                                </div>\r\n" + 
 				"                                            </div>\r\n" + 
 				"                                        </div>\r\n" + 
-				"\r\n" + 
-				"                                        \r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"                                        \r\n" + 
+				//상세정보끝
+				
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
 				"                            </div>\r\n" + 
@@ -264,6 +340,10 @@ public class KirimService {
 				"                </div>");
 		return sb.toString();
 	}
+
+
+	
+	
 
 	/*
 	 * public String purchSingle(PaymentHistory ph) { String str="";
