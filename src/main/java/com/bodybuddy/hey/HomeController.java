@@ -97,6 +97,7 @@ public class HomeController {
 
 		return "loginJoinFrm/trainerJoinFrm";
 	}
+	
 
 
 	

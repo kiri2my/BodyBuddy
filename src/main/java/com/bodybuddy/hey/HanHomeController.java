@@ -84,6 +84,12 @@ public class HanHomeController {
 
 		return "loginJoinFrm/forgetpw";
 	}
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout() {
+		session.invalidate();
+		//mav.setViewName("home");
+		return "loginJoinFrm/loginFrm";
+	}
 
 
 

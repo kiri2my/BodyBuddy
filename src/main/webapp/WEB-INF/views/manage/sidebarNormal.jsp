@@ -88,7 +88,7 @@
                                 <i class="mdi mdi-settings text-primary"></i>
                                 마이페이지
                             </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="logout">
                                 <i class="mdi mdi-logout text-primary"></i>
                                 로그아웃
                             </a>
