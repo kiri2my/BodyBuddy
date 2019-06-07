@@ -1,4 +1,4 @@
-package com.bodybuddy.hey;
+﻿package com.bodybuddy.hey;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.service.MemberManagemant;
-
 
 @Controller
 public class KwonController {
