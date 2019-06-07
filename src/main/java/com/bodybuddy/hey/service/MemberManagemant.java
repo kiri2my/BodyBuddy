@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.service;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -206,12 +207,20 @@ public class MemberManagemant {
 
 	public int checkId(String m_id) {
 		int check =0;
+		String s = m_id;
+		System.out.println(s+"                                   123");
 		check = mDao.checkId(m_id);
 		
 		return check;
 	}
 	public ModelAndView forgetId(Member mb) {
-		// TODO Auto-generated method stub
+
 		return null;
+	}
+
+	public int checkCnum(String c_num) {
+		int cnum= 0;
+		cnum = mDao.checkCnum(c_num);
+		return cnum;
 	}
 }

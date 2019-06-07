@@ -15,7 +15,7 @@
 
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M
-		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind})
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
 		INSERT INTO T(T_ID,T_CID)
@@ -28,7 +28,11 @@
 	
 	<select id="checkId" parameterType="String" resultType="Integer">
 	SELECT COUNT(*) FROM M
-	WHERE = #{m_id}
+	WHERE M_ID = #{m_id}
+	</select>
+	<select id="checkCnum" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM C
+	WHERE C_NUM = #{c_num}
 	</select>
 
 	<select id="getMemberList" resultType="member">
