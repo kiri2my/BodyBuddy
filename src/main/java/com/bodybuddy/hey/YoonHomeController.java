@@ -29,31 +29,26 @@ public class YoonHomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/infomodifyfrmn")
+	@RequestMapping(value = "/infoprogramn")
 	public String login(Model model) {
-		//일반 회원 내 정보수정
-		return "manage/infoModifyN";
+		
+		return "manage/normal/normalMain";
 	}
 
-	@RequestMapping(value = "/infomodifyfrmt", method = RequestMethod.GET)
+	@RequestMapping(value = "/infomodifyfrmn")
 	public String login2(Model model) {
-		//트레이너 내 정보수정
-		return "manage/infoModifyT";
+		
+		return "manage/infoModifyN";
 	}
-	@RequestMapping(value = "/infomodifyfrmc", method = RequestMethod.GET)
+	@RequestMapping(value = "/dibsn")
 	public String login3(Model model) {
-		//업체 내 정보수정
-		return "manage/infoModifyC";
+		
+		return "manage/dibsListN";
 	}
-	@RequestMapping(value = "/profilemodifytfrm", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberdelten")
 	public String login4(Model model) {
-		//트레이너 내 프로필수정
-		return "manage/profileModifyT";
-	}
-	@RequestMapping(value = "/selectmodifyt", method = RequestMethod.GET)
-	public String login5(Model model) {
-		//트레이너 프로필,내정보수정선택
-		return "manage/selectModifyT";
+		
+		return "manage/payHistoryN.";
 	}
 
 }
