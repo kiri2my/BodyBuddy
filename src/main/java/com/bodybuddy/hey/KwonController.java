@@ -1,4 +1,4 @@
-package com.bodybuddy.hey;
+﻿package com.bodybuddy.hey;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -19,12 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.service.MemberManagemant;
-
-//A 업무 작업 중 입니다.
-//A 업무 작업 완료 하였습니다.
-
-//B 작업 진행 중 입니다.-정근이
-//B 작업을 완료했습니다 -정근
 
 @Controller
 public class KwonController {
