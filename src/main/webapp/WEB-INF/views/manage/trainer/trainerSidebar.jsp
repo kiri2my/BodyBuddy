@@ -65,7 +65,7 @@
                 <ul class="nav">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="">
+                        <a class="nav-link" href="#" onclick="normalMemList()">
                             <i class="mdi mdi-account-multiple menu-icon"></i>
                             <span class="menu-title">내 회원목록</span>
                         </a>
@@ -80,7 +80,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="#" onclick="profileModifyT()">
                             <i class="mdi mdi-account-card-details menu-icon"></i>
                             <span class="menu-title">내 프로필 관리</span>
                         </a>

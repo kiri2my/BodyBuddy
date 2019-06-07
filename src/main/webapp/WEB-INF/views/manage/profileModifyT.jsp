@@ -47,11 +47,15 @@
 
 								<div class="form-group">
 									<div class="input-group">
-
-										<textarea rows="8" cols="8" name="t_career"
-											class="form-control form-control-lg border-left-0">
-										내 경력 및 활동사항
-									</textarea>
+											
+											<textarea rows="8" cols="8" name="t_career"
+												class="form-control form-control-lg border-left-0">
+												
+														${m.t_career}
+											
+											</textarea>
+										
+										
 									</div>
 								</div>
 
@@ -59,13 +63,13 @@
 									<div class="input-group">
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="업체명">
-										<button type="button" class="btn btn-outline-secondary btn-md">업체
+											id="sample6_address" placeholder= "현재나의소속업체 : ${m.t_cid}">
+										<button type="button" onclick="TfindC()" class="btn btn-outline-secondary btn-md">업체
 											검색</button>
-
-
 									</div>
-
+								</div>
+								<div id=TfindC>
+								
 								</div>
 
 								<div class="mb-4">
@@ -109,9 +113,28 @@
 </body>
 
 <script type="text/javascript" src="./js/jquery-3.1.0.min.js"
-	charset="utf-8"></script>
-
-<script>
-	
+	charset="utf-8">
 </script>
+<script type="text/javascript">
+function TfindC(){
+	var name = $('#sample6_address').val();
+	$.ajax({
+		type : "get",
+		url : "TfindC",
+		data : {
+			name : name
+		},
+		dataType : "html",
+		success : function(data) {
+			alert(data);
+			$('#TfindC').html(data);
+		},
+		error : function() {
+			alert('업체 검색 실패');
+		}
+	});
+}
+</script>
+
+
 </html>

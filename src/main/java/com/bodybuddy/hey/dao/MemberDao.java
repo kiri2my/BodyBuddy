@@ -29,5 +29,8 @@ public interface MemberDao {
 	public List<Member> forgetPw(Member mb);
 
 	public void temporaryPw(Member mb);
+	public Member getProfileList(String id);
+
+	public List<Member> getTfindC(Member m);
 
 }

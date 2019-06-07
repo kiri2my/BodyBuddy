@@ -68,7 +68,7 @@
               <div class="brand-logo">
                   <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
-              <form action="access" name="loginFrm" class="pt-3">
+              <form action="access" name="loginFrm" class="pt-3" method="post">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
                 </div>

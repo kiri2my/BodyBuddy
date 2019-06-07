@@ -23,7 +23,7 @@ public class YoonHomeController {
 	
 	ModelAndView mav;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView mainList() { //int pageNum 게시판페이징
 		mav=ys.mainList();
 		return mav;
