@@ -24,6 +24,7 @@ import com.bodybuddy.hey.service.MemberManagemant;
 //A 업무 작업 완료 하였습니다.
 
 //B 작업 진행 중 입니다.-정근이
+//A 작업 완료 했습니까? - 순철
 @Controller
 public class KwonController {
 
