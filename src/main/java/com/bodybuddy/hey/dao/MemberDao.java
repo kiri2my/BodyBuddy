@@ -20,7 +20,11 @@ public interface MemberDao {
 
 	public boolean companyMemberJoin(Member mb);
 
-	public int checkId(String m_id);
+	public int checkId(String s);
+
+	public int checkCnum(String c_num);
+
+	public List<Member> forgetId(Member mb);
 
 	public Member getProfileList(String id);
 

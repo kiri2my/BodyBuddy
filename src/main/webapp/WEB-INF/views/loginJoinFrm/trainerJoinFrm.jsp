@@ -83,7 +83,7 @@
                       </span>
                     </div>
                     <input type="text" name="m_id" id="m_id" class="form-control form-control-lg border-left-0" placeholder="이메일을 입력해주세요"
-                    /><button type="button" class="btn btn-outline-secondary btn-md">중복 확인</button>
+                    /><button type="button" id="idCheck" class="btn btn-outline-secondary btn-md">중복 확인</button>
                   </div>
                 </div>
                 
@@ -203,6 +203,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 <script>
+console.log($('#joinbtn'));
+
+$('#idCheck').click(function() {
+	console.log($('#m_id').val());
+	$.ajax({
+		url : "checkid",
+		type : "post",
+		data : {
+			"m_id" : $('#m_id').val()
+		},
+		dataType  : "html",
+		/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+		success : function(data) {
+			if (data < 1) {
+				alert(" 사용가능한 아이디입니다  ");
+				console.log(data);
+				$('#joinbtn').prop("disabled", false);
+				console.log(m_id);
+			} else {
+				alert(" 중복된 아이디입니다 ");
+				$('#joinbtn').prop("disabled", true);
+			}
+		},
+		error : function(error) {
+			console.log(error);
+			alert(" 실패 ");
+
+		}
+	});//end ajax
+
+});//end click
+
 	$(function() {
        
 		$("#trainerjoin").validate({
@@ -287,8 +319,6 @@
                
 	});
 	//end function
-
-
 </script>
 
 </html>

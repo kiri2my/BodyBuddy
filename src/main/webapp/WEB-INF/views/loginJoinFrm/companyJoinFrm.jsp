@@ -82,7 +82,7 @@
                       </span>
                     </div>
                     
-                    <input type="text" name="c_num" id="c_num" class="form-control form-control-lg border-left-0"  placeholder="사업자 번호를 입력해주세요"> <button type="button" class="btn btn-outline-secondary btn-md">번호 확인</button>
+                    <input type="text" name="c_num" id="c_num" class="form-control form-control-lg border-left-0"  placeholder="사업자 번호를 입력해주세요"> <button type="button" id="numCheck" class="btn btn-outline-secondary btn-md">번호 확인</button>
                     
                 </div>
                 </div>
@@ -94,7 +94,7 @@
                       </span>
                     </div>
                     <input type="text" name="m_id" id="m_id" class="form-control form-control-lg border-left-0" placeholder="이메일을 입력해주세요"
-                    /><button type="button" class="btn btn-outline-secondary btn-md">중복 확인</button>
+                    /><button type="button" id="idCheck" class="btn btn-outline-secondary btn-md">중복 확인</button>
                   </div>
                 </div>
                 
@@ -225,6 +225,65 @@
 <!--<script src="../majestic-master/dist/additional-methods.min.js"></script>
 <script src="../majestic-master/dist/jquery.validate.min.js"></script>-->
 <script>
+console.log($('#joinbtn'));
+
+$('#idCheck').click(function() {
+	console.log($('#m_id').val());
+	$.ajax({
+		url : "checkid",
+		type : "post",
+		data : {
+			"m_id" : $('#m_id').val()
+		},
+		dataType  : "html",
+		/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+		success : function(data) {
+			if (data < 1) {
+				alert(" 사용가능한 아이디입니다  ");
+				console.log(data);
+				$('#joinbtn').prop("disabled", false);
+				console.log(m_id);
+			} else {
+				alert(" 중복된 아이디입니다 ");
+				$('#joinbtn').prop("disabled", true);
+			}
+		},
+		error : function(error) {
+			console.log(error);
+			alert(" 실패 ");
+
+		}
+	});//end ajax
+});//end click
+	
+$('#numCheck').click(function() {
+	console.log($('#c_num').val());
+	$.ajax({
+		url : "checkcnum",
+		type : "post",
+		data : {
+			"c_num" : $('#c_num').val()
+		},
+		dataType  : "html",
+		/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+		success : function(data) {
+			if (data < 1) {
+				alert(" 가입가능한 업체 입니다  ");
+				console.log(data);
+				console.log(m_id);
+			} else {
+				alert(" 이미 가입된 업체 입니다 ");
+			}
+		},
+		error : function(error) {
+			console.log(error);
+			alert(" 실패 ");
+
+		}
+	});//end ajax
+
+});//end click
+
 	$(function() {
        
 		$("#companyjoin").validate({
@@ -265,6 +324,7 @@
                 agree  : "required"
 			//email: true	
 			},//end rules
+			
 			messages : {
 				m_id : {
 					required : "이메일를 입력 해주세요.",
@@ -299,7 +359,7 @@
                     
                 },
                 m_addr :  "주소를 입력 해주세요",
-                agree : "개인정보 보호 동의해 체크해주세요"
+                agree :  "개인정보 보호 동의해 체크해주세요"
                
     
 			}//end messages

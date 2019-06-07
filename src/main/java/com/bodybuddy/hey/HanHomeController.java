@@ -38,14 +38,25 @@ public class HanHomeController {
 		return "loginJoinFrm/forget";
 	}
 
-	@RequestMapping(value = "/checkid", method = RequestMethod.POST)
 	@ResponseBody
-	public int checkId(@RequestBody String m_id) {
+	@RequestMapping(value = "/checkid", method = RequestMethod.POST)
+	public int checkId(String m_id) {
 		System.out.println(" 아이디찾는다! ");
 		int checkcon = mm.checkId(m_id);
+		
 		System.out.println();
 		return checkcon;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/checkcnum", method = RequestMethod.POST)
+	public int checkCnum(String c_num) {
+		
+		int checknum = mm.checkCnum(c_num);
+		
+		System.out.println();
+		return checknum;
+	}
+	//@RequestMapping(value = "replyInsert", produces = "application/json; charset=utf8")
 	@RequestMapping(value = "/forgetid", method = RequestMethod.POST)
 	public ModelAndView forgetId(Member mb) {
 		System.out.println(" 잊은아이디찾는다! ");

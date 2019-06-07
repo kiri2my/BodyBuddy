@@ -221,6 +221,7 @@
 	console.log($('#joinbtn'));
 
 	$('#idCheck').click(function() {
+		console.log($('#m_id').val());
 		$.ajax({
 			url : "checkid",
 			type : "post",
