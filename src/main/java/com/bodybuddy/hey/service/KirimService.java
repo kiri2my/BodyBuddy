@@ -50,12 +50,15 @@ public class KirimService {
 				switch(kind) {
 				case "n":
 					mb = kDao.getNormalInfo(mb.getM_id());
+					mav.addObject("kindSignal", "n");
 					break;
 				case "t":
 					mb = kDao.getTrainerInfo(mb.getM_id());
+					mav.addObject("kindSignal", "t");
 					break;
 				case "c":
 					mb = kDao.getCompanyInfo(mb.getM_id());
+					mav.addObject("kindSignal", "c");
 					break;	
 				}				
 							
@@ -65,7 +68,7 @@ public class KirimService {
 				//forward:url, POST-POST, GET-GET끼리만 가능
 				//view="forward:/board";
 				//redirect:url, POST-GET 둘다 GET방식만 가능
-				view="main";
+				view="forward:/";
 			}else {//비번오류
 				view="loginJoinFrm/loginFrm";
 				mav.addObject("loginCheck", "비번오류");
