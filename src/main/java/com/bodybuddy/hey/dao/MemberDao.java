@@ -24,4 +24,6 @@ public interface MemberDao {
 
 	public int checkCnum(String c_num);
 
+	public List<Member> forgetId(Member mb);
+
 }

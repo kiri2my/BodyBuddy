@@ -79,13 +79,21 @@
 					</li>&nbsp;&nbsp;
 
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				
+				
+				
+				
+				
+				
+				<ul id="headerAlarm" class="nav navbar-nav">
 				<a href="login">
-					<li>
 						<button type="button" class="btn btn-outline-secondary btn-sm">LOGIN</button>
-					</li>
 					</a>
 				</ul>
+				<ul id="headerKind" class='navbar-nav navbar-nav-right'>
+					
+				</ul>
+				
 			</div>
     </nav>
         <!-- partial -->
@@ -96,6 +104,75 @@
 
   
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
 
+var kind='${kindSignal}';
+
+console.log("2",kind);
+
+if(kind=='n'||kind=='t'||kind=='c'){
+	
+	var strAlarm =
+			"<li class='nav-item dropdown mr-4'>\n" + 
+			"    <a class='nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown' id='notificationDropdown' href='#' data-toggle='dropdown'>\n" + 
+			"        <i class='mdi mdi-bell mx-0'></i>\n" + 
+			"        <span class='count'></span>\n" + 
+			"    </a>\n" + 
+			"    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='notificationDropdown'>\n" + 
+			"        <p class='mb-3 font-weight-normal float-left dropdown-header'>알림</p>\n" + 
+			"        <a class='dropdown-item'>\n" + 
+			"            <div class='item-content'>\n" + 
+			"                <h6 class='font-weight-normal'>김X솔 회원 박X솔 트레이너의 XXX프로그램 결제함</h6>\n" + 
+			"                <p class='font-weight-light small-text mb-0 text-muted'>\n" + 
+			"                    방금 전\n" + 
+			"                </p>\n" + 
+			"            </div>\n" + 
+			"        </a>\n" + 
+			"        <a class='dropdown-item'>\n" + 
+			"            <div class='item-content'>\n" + 
+			"                <h6 class='font-weight-normal'>차X헌 트레이너의 소속 승인요청 대기중</h6>\n" + 
+			"                <p class='font-weight-light small-text mb-0 text-muted'>\n" + 
+			"                    2 일 전\n" + 
+			"                </p>\n" + 
+			"            </div>\n" + 
+			"        </a>\n" + 
+			"    </div>\n" + 
+			"</li>\n";		
+	
+	$('#headerAlarm').html(strAlarm);
+		
+	var strKind =			
+			"<li class='nav-item nav-profile dropdown'>\n" + 
+			"    <a class='nav-link dropdown-toggle' href='#' data-toggle='dropdown' id='profileDropdown'>\n" + 
+			"        <img src='resources/images/faces/mydefault.jpg' alt='profile' />\n" + 
+			"        <span class='nav-profile-name'>${mb.m_name}</span>\n" + 
+			"    </a>\n" + 
+			"    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='profileDropdown'>\n" + 
+			"        <a href='";
+			
+			if(kind=='n'){
+				strKind += "infoprogramn?m_id=${mb.m_id}\n";
+				console.log(strKind);
+			}else if(kind=='t'){
+				strKind += "trainer?m_id=${mb.m_id}\n";
+			}else if(kind=='c'){
+				strKind += "company?m_id=${mb.m_id}\n";
+			}
+ strKind += "' target='_blank' class='dropdown-item'>\n" + 
+			"            <i class='mdi mdi-settings text-primary'></i>\n" + 
+			"            마이페이지\n" + 
+			"        </a>\n" + 
+			"        <a href='#' class='dropdown-item'>\n" + 
+			"            <i class='mdi mdi-logout text-primary'></i>\n" + 
+			"            로그아웃\n" + 
+			"        </a>\n" + 
+			"    </div>\n" + 
+			"</li>\n";
+			
+			$('#headerKind').html(strKind);
+}
+
+</script>
 </html>
 	

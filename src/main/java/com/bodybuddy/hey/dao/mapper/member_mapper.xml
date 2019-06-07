@@ -34,6 +34,10 @@
 	SELECT COUNT(*) FROM C
 	WHERE C_NUM = #{c_num}
 	</select>
+	<select id="forgetId" parameterType="member" resultType="member">
+	SELECT M_ID FROM M
+	WHERE M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth}
+	</select>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[
