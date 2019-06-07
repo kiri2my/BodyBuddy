@@ -163,7 +163,7 @@ if(kind=='n'||kind=='t'||kind=='c'){
 			"            <i class='mdi mdi-settings text-primary'></i>\n" + 
 			"            마이페이지\n" + 
 			"        </a>\n" + 
-			"        <a href='#' class='dropdown-item'>\n" + 
+			"        <a href='logout' class='dropdown-item'>\n" + 
 			"            <i class='mdi mdi-logout text-primary'></i>\n" + 
 			"            로그아웃\n" + 
 			"        </a>\n" + 
