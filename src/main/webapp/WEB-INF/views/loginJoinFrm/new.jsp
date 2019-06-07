@@ -8,7 +8,8 @@
 </head>
 <body>
 
-${m_id}
+${m_id}<br>
+${m_pw}
 
 </body>
 </html>

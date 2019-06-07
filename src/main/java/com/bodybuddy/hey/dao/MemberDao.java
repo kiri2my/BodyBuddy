@@ -26,4 +26,8 @@ public interface MemberDao {
 
 	public List<Member> forgetId(Member mb);
 
+	public List<Member> forgetPw(Member mb);
+
+	public void temporaryPw(Member mb);
+
 }

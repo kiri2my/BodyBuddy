@@ -72,9 +72,21 @@
 								<a class="navbar-brand brand-logo" href="/"
 									style="color: #71c016;">BODY BUDDY</a>
 							</div>
-							<h5>아이디 </h5>
-							<form action="forgetidsearch" class="pt-3" name="forgetidsearch"
-								id="forgetidsearch" method="post">
+							<h5>아이디 찾기 </h5>
+							<form action="forgetpwsearch" class="pt-3" name="forgetpwsearch"
+								id="forgetpwsearch" method="post">
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend bg-transparent">
+											<span class="input-group-text bg-transparent border-right-0">
+												<i class="mdi mdi-account-box text-primary"></i>
+											</span>
+										</div>
+										<input type="text" name="m_id" id="m_id"
+											class="form-control form-control-lg border-left-0"
+											placeholder="아이디을 입력하세요" />
+									</div>
+								</div>
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend bg-transparent">
@@ -120,7 +132,7 @@
 										type="submit" value="찾기">
 								</div>
 								<div class="text-center mt-4 font-weight-light">
-									<a href="forgetpw" class="text-primary">비밀번호를 찾으시나요?</a>
+									<a href="forgetid" class="text-primary">아이디를 찾으시나요?</a>
 								</div>
 							</form>
 						</div>

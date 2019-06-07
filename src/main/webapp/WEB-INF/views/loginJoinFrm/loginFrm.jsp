@@ -80,7 +80,7 @@
                   style="background-color: #71c016">로그인</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center" >
-                    <a href="forget" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
+                    <a href="forgetid" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-google">
