@@ -11,4 +11,11 @@
 		
 		ON MAINLIST.T_CID=T_CID_ADDR.T_CID  
 	</select>
+	
+	
+	
+	<select id="opCateListAll" resultType="opCategory" >
+		SELECT * FROM CATEGORY
+	</select>
+	
 </mapper>
