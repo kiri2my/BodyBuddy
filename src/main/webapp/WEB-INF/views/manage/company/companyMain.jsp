@@ -116,7 +116,7 @@
 </body>
 
 <script type="text/javascript">
-	function memberList() {
+	/* function memberList() {
 		$.ajax({
 			type : "GET",
 			url : "memberlist",
@@ -125,11 +125,11 @@
 				alert('통신실패!!');
 			},
 			success : function(data) {
-				/* $('#main').hide(); */
+				$('#main').hide();
 				$('#main').html(data).trigger('create');
 			}
 		});
-	}
+	} 
 	
 	function trainerList() {
 		$.ajax({
@@ -140,11 +140,11 @@
 				alert('통신실패!!');
 			},
 			success : function(data) {
-				/* $('#main').hide(); */
+				$('#main').hide();
 				$('#main').html(data);
 			}
 		});
-	}
+	} */
 	
 	function dailyCheck() {
 		$.ajax({
@@ -158,6 +158,42 @@
 				/* $('#main').hide(); */
 				$('#main').html(data);
 			}
+		});
+	}
+	
+	function normalMemList(){
+		$.ajax({
+			type : "get",
+			url : "memberlistc",
+			data : {
+				id : "3333"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('회원목록 로드 실패');
+			}
+
+		});
+	}
+	
+	function trainerMemList(){
+		$.ajax({
+			type : "get",
+			url : "trainerlistc",
+			data : {
+				id : 'company1'
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('트레이너 목록 로드 실패');
+			}
+
 		});
 	}
 </script>

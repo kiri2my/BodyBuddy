@@ -4,8 +4,8 @@
 
 <configuration>
 	<typeAliases>
-		<!-- <typeAlias type="com.board.kwon.bean.Member" alias="member"/>
-			 <typeAlias type="com.board.kwon.bean.Board" alias="board"/> -->
+		<!-- <typeAlias type="com.bodybuddy.hey.bean.Member" alias="member"/> -->
+		<!--  <typeAlias type="com.board.kwon.bean.Board" alias="board"/> -->
 		<package name="com.bodybuddy.hey.bean" />
 	</typeAliases>
 </configuration>

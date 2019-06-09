@@ -158,8 +158,58 @@
 			}
 		});
 	}
+	function normalMemList(){
+		$.ajax({
+			type : "get",
+			url : "memberlistc",
+			data : {
+				id : "3333"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('회원목록 로드 실패');
+			}
+		});
+	}
 	
+	function profileModifyT() {
+		$.ajax({
+			type : "GET",
+			url : "profileModifyT",
+			data : {
+				id:"3333"
+			},
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
 	
+	function questionList() {
+		$.ajax({
+			type : "GET",
+			url : "questionList",
+			data : {
+				id:"3333"
+			},
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
 	
 	
 	</script>

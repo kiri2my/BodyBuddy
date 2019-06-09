@@ -68,7 +68,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
+                <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <h5>아이콘이 있으면 필수내용입니다</h5>
               <form action="trainermemberjoin" class="pt-3" name="trainerjoin" id="trainerjoin"
@@ -83,7 +83,7 @@
                       </span>
                     </div>
                     <input type="text" name="m_id" id="m_id" class="form-control form-control-lg border-left-0" placeholder="이메일을 입력해주세요"
-                    /><button type="button" class="btn btn-outline-secondary btn-md">중복 확인</button>
+                    /><button type="button" id="idCheck" class="btn btn-outline-secondary btn-md">중복 확인</button>
                   </div>
                 </div>
                 
@@ -145,20 +145,27 @@
                     <input type="text"  name="m_birth" id="m_birth" class="form-control form-control-lg border-left-0" placeholder="생년월일 8자리를 입력해주세요 ex)19900601">
                   </div>
                 </div> 
-                
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="text"  name="m_addr" id="addr" class="form-control form-control-lg border-left-0" placeholder="시/도-군/구">
-                    <button type="button" class="btn btn-outline-secondary btn-md">주소 검색</button>
-                    <input type="text" name="m_exaddr" id="m_exaddr" class="form-control form-control-lg border-left-0" placeholder="상세주소 입력">
-                 	<input type="hidden" name="m_kind" id="m_kind" value="t"/>
-                  </div>
-                </div> 
-            
-                
-                 
-                
-                
+								<div class="form-group">
+									<div class="input-group">
+
+										<input type="text" name="m_addr"
+											class="form-control form-control-lg border-left-0"
+											id="m_addr" placeholder="시/도-군/구">
+										<button type="button" onclick="sample6_execDaumPostcode()"
+											class="btn btn-outline-secondary btn-md">주소 검색</button>
+
+
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" name="m_exaddr"
+											class="form-control form-control-lg border-left-0"
+											placeholder="상세주소 입력">
+									</div>
+
+								</div>
                 <div class="mb-4">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
@@ -200,9 +207,40 @@
 
 <!--js경로-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
+console.log($('#joinbtn'));
+
+$('#idCheck').click(function() {
+	console.log($('#m_id').val());
+	$.ajax({
+		url : "checkid",
+		type : "post",
+		data : {
+			"m_id" : $('#m_id').val()
+		},
+		dataType  : "html",
+		/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+		success : function(data) {
+			if (data < 1) {
+				alert(" 사용가능한 아이디입니다  ");
+				console.log(data);
+				$('#joinbtn').prop("disabled", false);
+				console.log(m_id);
+			} else {
+				alert(" 중복된 아이디입니다 ");
+				$('#joinbtn').prop("disabled", true);
+			}
+		},
+		error : function(error) {
+			console.log(error);
+			alert(" 실패 ");
+
+		}
+	});//end ajax
+
+});//end click
+
 	$(function() {
        
 		$("#trainerjoin").validate({
@@ -287,8 +325,52 @@
                
 	});
 	//end function
+	function sample6_execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
 
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', '
+								+ data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+				document.getElementById("m_addr").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+
+			}
+		}).open();
+	} //다음주소api End
+</script>
 </script>
 
 </html>

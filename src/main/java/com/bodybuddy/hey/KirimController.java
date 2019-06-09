@@ -33,13 +33,13 @@ public class KirimController {
 	@Autowired
 	KirimService ks;
 
-	@RequestMapping(value = "/access", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/access", method = RequestMethod.POST)
 	public ModelAndView access(Member mb) {
 		System.out.println("url:/access");
 		mav = ks.access(mb);
 		return mav;
 	}
-
+	
 	/*
 	 * @RequestMapping(value = "/purchsingle", produces =
 	 * "application/json; charset=utf-8")

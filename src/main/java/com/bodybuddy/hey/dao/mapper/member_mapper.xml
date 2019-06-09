@@ -8,43 +8,77 @@
 	추가됨 7.${} : ''(따옴표)없이 그대로 입력됨 8.resultType도 1개만 올 수 있는데 1개 이상의 레코드를 검색하는 
 	경우도 bean타입만 명시하면 된다. -->
 <mapper namespace="com.bodybuddy.hey.dao.MemberDao">
-
 	<!-- 빈 필드명과 컬럼명이 다르거나 타입이 호환되지 않을 때 -->
-	<!-- <resultMap type="memeber(Alias 타입)" id="member(resultMap의 이름)">
-		<result property="mid(빈 변수명)" column="M_ID(테이블 컬럼명)"
-			javaType="String" jdbcType="NVARCHAR2" /> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환
-	</resultMap> -->
-
-	<insert id="memberInsert" parameterType="member">
-		INSERT INTO M
-		VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT)
-	</insert>
-
-	<select id="getSecurityPwd" parameterType="String"
-		resultType="String">
-		SELECT M_PWD FROM M WHERE M_ID = #{m_id}
-	</select>
-
-	<select id="getMemberInfo" parameterType="String"
-		resultType="member">
-		SELECT * FROM MINFO WHERE M_ID = #{m_id}
-	</select>
-
-	<select id="mybatisTest" resultType="member">
-		SELECT * FROM MINFO
-		<if test="point != null"> WHERE ${cName} = #{point} </if>
-	</select>
-	
+	<!-- <resultMap type="memeber(Alias 타입)" id="member(resultMap의 이름)"> <result 
+		property="mid(빈 변수명)" column="M_ID(테이블 컬럼명)" javaType="String" jdbcType="NVARCHAR2" 
+		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
 
 	<insert id="normalMemberJoin" parameterType="member">
-		INSERT INTO M VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
+		INSERT INTO M
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
-		INSERT INTO T (T_ID,T_CID) VALUES(#{m_id},#{t_cid})
+		INSERT INTO T(T_ID,T_CID)
+		VALUES(#{m_id},#{t_cid})
 	</insert>
 	<insert id="companyMemberJoin" parameterType="member">
-		INSERT INTO C VALUES(#{m_id},#{c_num},#{c_bname},#{c_bphone})
+		INSERT INTO C
+		VALUES(#{m_id},#{c_num},#{c_bname},#{c_bphone})
 	</insert>
-		
 	
+	<select id="checkId" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM M
+	WHERE M_ID = #{m_id}
+	</select>
+	<select id="checkCnum" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM C
+	WHERE C_NUM = #{c_num}
+	</select>
+	<select id="forgetId" parameterType="member" resultType="member">
+	SELECT M_ID FROM M
+	WHERE M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth}
+	</select>
+	<select id="forgetPw" parameterType="member" resultType="member">
+	SELECT M_ID FROM M
+	WHERE M_ID = #{m_id} AND M_NAME =  #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth} 
+	</select>
+	
+	<update id="temporaryPw" parameterType="String">
+	UPDATE M SET M_PW = #{m_pw} WHERE M_ID = #{m_id}
+	</update>
+
+	<select id="getMemberList" resultType="member">
+		<![CDATA[
+		SELECT M_NAME,M_PHONE FROM
+		M WHERE M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+		AD.AD_CODE AND AD.AD_NAME = #{id})
+		]]>
+	</select>
+	
+	<select id="getMemberSearch" parameterType="member" resultType="member">
+		<![CDATA[
+		SELECT M_NAME,M_PHONE FROM
+		M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+		AD.AD_CODE AND AD.AD_NAME = #{m_id})
+		]]>
+	</select>
+
+	<select id="getTrainerList" resultType="member">
+		<![CDATA[
+		SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{id})
+		]]>
+	</select>
+	
+	<select id="getTrainerSearch" parameterType="member" resultType="member">
+		<![CDATA[
+		SELECT M_NAME,M_PHONE FROM M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{m_id})
+		]]>
+	</select>
+
+	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
+		</insert> <select id="getSecurityPwd" parameterType="String" resultType="String"> 
+		SELECT M_PWD FROM M WHERE M_ID = #{m_id} </select> <select id="getMemberInfo" 
+		parameterType="String" resultType="member"> SELECT * FROM MINFO WHERE M_ID 
+		= #{m_id} </select> <select id="mybatisTest" resultType="member"> SELECT 
+		* FROM MINFO <if test="point != null"> WHERE ${cName} = #{point} </if> </select> -->
 </mapper>

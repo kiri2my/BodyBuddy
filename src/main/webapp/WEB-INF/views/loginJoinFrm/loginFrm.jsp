@@ -66,9 +66,9 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                  <a class="navbar-brand brand-logo" href="main.jsp" style="color: #71c016;">BODY BUDDY</a>
+                  <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
-              <form action="access" name="loginFrm" class="pt-3">
+              <form action="access" name="loginFrm" class="pt-3" method="post">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
                 </div>
@@ -80,7 +80,7 @@
                   style="background-color: #71c016">로그인</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center" >
-                    <a href="#" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
+                    <a href="forgetid" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-google">

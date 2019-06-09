@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,46 +25,72 @@ import com.bodybuddy.hey.service.MemberManagemant;
 
 public class HanHomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	
-	/*
-	MemberManagemant mm ;
+	@Autowired
+	MemberManagemant mm;
+
 	HttpSession session;
 
 	ModelAndView mav;
 
-	 * @RequestMapping(value = "/login", method = RequestMethod.GET) public String
-	 * login(Model model) {
-	 * 
-	 * return "loginJoinFrm/loginFrm"; }
-	 * 
-	 * @RequestMapping(value = "/join", method = RequestMethod.GET) public String
-	 * join(Model model) {
-	 * 
-	 * return "loginJoinFrm/join"; }
-	 * 
-	 * @RequestMapping(value = "/nomaljoin", method = RequestMethod.GET) public
-	 * String nomaljoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/normalJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/companyjoin", method = RequestMethod.GET) public
-	 * String companyjoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/companyJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/trainerjoin", method = RequestMethod.GET) public
-	 * String trainerjoin(Model model) {
-	 * 
-	 * return "loginJoinFrm/trainerJoinFrm"; }
-	 * 
-	 * @RequestMapping(value = "/nomalmemberjoin", method = RequestMethod.POST)
-	 * public ModelAndView nomalmemberjoin(Member mb) {
-	 * 
-	 * mav = mm.nomalmemberjoin(mb); System.out.println(" 노말 조인 ");
-	 * 
-	 * return mav; }
-	 */
+
+	@ResponseBody
+	@RequestMapping(value = "/checkid", method = RequestMethod.POST)
+	public int checkId(String m_id) {
+		System.out.println(" 아이디찾는다! ");
+		int checkcon = mm.checkId(m_id);
+
+		System.out.println();
+		return checkcon;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/checkcnum", method = RequestMethod.POST)
+	public int checkCnum(String c_num) {
+
+		int checknum = mm.checkCnum(c_num);
+
+		System.out.println();
+		return checknum;
+	}
+
+	// @RequestMapping(value = "replyInsert", produces = "application/json;
+	// charset=utf8")
+	@RequestMapping(value = "/forgetidsearch", method = RequestMethod.POST)
+	public ModelAndView forgetIdSearch(Member mb) {
+		System.out.println(" 잊은아이디찾는다! ");
+		mav = mm.forgetId(mb);
+
+		return mav;
+	}
+	@RequestMapping(value = "/forgetpwsearch", method = RequestMethod.POST)
+	public ModelAndView forgetPwSearch(Member mb) {
+		System.out.println(" 잊은아이디찾는다! ");
+		mav = mm.forgetPw(mb);
+		
+		return mav;
+	}
+
+	@RequestMapping(value = "/forgetid", method = RequestMethod.GET)
+	public String forgetid(Model model) {
+		System.out.println("아이디 찾기 믿고있었다고!");
+
+		return "loginJoinFrm/forget";
+	}
+	
+
+	@RequestMapping(value = "/forgetpw", method = RequestMethod.GET)
+	public String forgetpw(Model model) {
+		System.out.println("비번 찾기 라구!!");
+
+		return "loginJoinFrm/forgetpw";
+	}
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout() {
+		session.invalidate();
+		//mav.setViewName("home");
+		return "loginJoinFrm/loginFrm";
+	}
+
 
 
 }
