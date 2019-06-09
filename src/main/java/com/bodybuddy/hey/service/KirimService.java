@@ -364,6 +364,8 @@ public class KirimService {
 				"                </div>");
 		return sb.toString();
 	}
+	
+	
 	private String makeHTMLQa() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("");

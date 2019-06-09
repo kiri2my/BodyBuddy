@@ -9,15 +9,9 @@
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
 		ORDER BY AD_CODE
 	</select>
-	
-	
-	
 	<select id="opCateListAll" resultType="opCategory" >
 		SELECT * FROM CATEGORY
 	</select>
-	
-	
-	
 	
 	<!-- <resultMap type="String" id="dibsId">
 		<result property="d_id" column="D_ID" jdbcType="NVARCHAR2" javaType="String" />

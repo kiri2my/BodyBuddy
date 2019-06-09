@@ -175,4 +175,3 @@ if(kind=='n'||kind=='t'||kind=='c'){
 
 </script>
 </html>
-	

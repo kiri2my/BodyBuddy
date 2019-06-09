@@ -29,10 +29,8 @@ public interface KirimDao {
 	public boolean dibsAdd(Map<String, String> dibs);
 
 	public boolean dibsDelete(Map<String, String> dibs);
-
 	
 
-	
 
 	/*
 	 * boolean payInsert(PaymentHistory ph);
