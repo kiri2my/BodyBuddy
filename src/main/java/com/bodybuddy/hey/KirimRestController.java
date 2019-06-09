@@ -2,17 +2,17 @@ package com.bodybuddy.hey;
 
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.service.KirimService;
 
 @RestController // REST방식이라 ResponseBody, RequestBody 안써도 된다는 컨트롤러
@@ -37,15 +37,27 @@ public class KirimRestController { // Restful 방식
 		return mav;
 	}
 	
-	@RequestMapping(value = "/review/{adcode}", method = RequestMethod.GET)
-	public ModelAndView detailReview(@PathVariable String adcode) { // @ResponseBody생략가능
-		mav = ks.detailReview(adcode);
+	@RequestMapping(value = "/{adcode}/qa", method = RequestMethod.GET)
+	public ModelAndView detailQa(String qa_adcode) {
+		System.out.println("url:/qa");
+		System.out.println("222222222"+qa_adcode);
+		mav = ks.detailQa(qa_adcode);
 		return mav;
 	}
-	@RequestMapping(value = "/qa/{adcode}", method = RequestMethod.GET)
-	public ModelAndView detailQa(@PathVariable String adcode) { // @ResponseBody생략가능
-		mav = ks.detailQa(adcode);
+	@RequestMapping(value = "/{adcode}/review", method = RequestMethod.GET)
+	public ModelAndView detailReview(String rv_adcode) {
+		System.out.println("url:/review");
+		System.out.println("111111111"+rv_adcode);
+		mav = ks.detailReview(rv_adcode);
 		return mav;
 	}
-
+	
+	@RequestMapping(value = "{adcode}/purchsingle", method = RequestMethod.POST) 
+	public String purchSingle(Payment ph, HttpSession session) { 
+		System.out.println("URL : /purchsingle");
+		
+		String json = ks.purchSingle(ph, session); 
+		return json; 
+	}
+	
 }

@@ -46,8 +46,7 @@
 				<!-- partial -->
 				<div id="wrap">
 					<div id="header">
-						<jsp:include page="headerNonLogin.jsp" /> 
-						<%-- <jsp:include page="headerNonLogin.jsp" /> --%>
+						<jsp:include page="header.jsp" /> 
 					</div>
 					<div id="main">
 						<jsp:include page="body.jsp" />
@@ -61,11 +60,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <script>
- var kind='${kindSignal}';
 
-/* if(kind=='n'){
-	$('#header').text("<jsp:include page='headerNCT.jsp'/>");
-} */
-console.log('현재kind=',kind); 
 </script>
 </html>

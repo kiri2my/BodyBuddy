@@ -5,11 +5,9 @@
 <mapper namespace="com.bodybuddy.hey.dao.YoonDao">
 
 	<select id="mainList" resultType="HashMap">
-		SELECT * FROM MAINLIST
-		
-		LEFT JOIN T_CID_ADDR 
-		
-		ON MAINLIST.T_CID=T_CID_ADDR.T_CID  
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		ORDER BY AD_CODE
 	</select>
 	
 	
@@ -18,4 +16,13 @@
 		SELECT * FROM CATEGORY
 	</select>
 	
+	
+	
+	
+	<!-- <resultMap type="String" id="dibsId">
+		<result property="d_id" column="D_ID" jdbcType="NVARCHAR2" javaType="String" />
+	</resultMap> -->
+	<select id="dibsN" parameterType="String">
+		SELECT * FROM D WHERE D_ID=#{d_id}
+	</select>
 </mapper>

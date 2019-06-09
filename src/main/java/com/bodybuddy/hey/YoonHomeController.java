@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.service.YoonService;
@@ -25,35 +30,33 @@ public class YoonHomeController {
 	
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView mainList() { //int pageNum 게시판페이징
-		mav=ys.mainList();
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		mav=ys.mainList(request);
 		return mav;
 	}
 	
-	@RequestMapping(value = "/infomodifyfrmn")
+	@RequestMapping(value = "/infoprogramn")
 	public String login(Model model) {
-		//일반 회원 내 정보수정
-		return "manage/infoModifyN";
+		
+		return "manage/normal/normalMain";
 	}
 
-	@RequestMapping(value = "/infomodifyfrmt", method = RequestMethod.GET)
+	@RequestMapping(value = "/infomodifyfrmn")
 	public String login2(Model model) {
-		//트레이너 내 정보수정
-		return "manage/infoModifyT";
+		
+		return "manage/infoModifyN";
 	}
-	@RequestMapping(value = "/infomodifyfrmc", method = RequestMethod.GET)
+	@RequestMapping(value = "/dibsn")
 	public String login3(Model model) {
-		//업체 내 정보수정
-		return "manage/infoModifyC";
+		
+		return "manage/dibsListN";
 	}
-	@RequestMapping(value = "/profilemodifytfrm", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberdelten")
 	public String login4(Model model) {
-		//트레이너 내 프로필수정
-		return "manage/profileModifyT";
-	}
-	@RequestMapping(value = "/selectmodifyt", method = RequestMethod.GET)
-	public String login5(Model model) {
-		//트레이너 프로필,내정보수정선택
-		return "manage/selectModifyT";
+		
+		return "manage/payHistoryN.";
 	}
 
 }

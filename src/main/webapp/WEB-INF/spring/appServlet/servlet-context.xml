@@ -39,8 +39,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName"
 			value="net.sf.log4jdbc.DriverSpy" />
-		<beans:property name="url"
-			value="jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521:xe" />
+		<!-- <beans:property name="url" value="jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521:xe" /> -->
+		<beans:property name="url" value="jdbc:log4jdbc:oracle:thin:@106.243.194.226:3100:xe" />
 		<beans:property name="username" value="ICIA" />
 		<beans:property name="password" value="1111" />
 	</beans:bean>
@@ -84,7 +84,25 @@
 		<beans:property name="dataSource" ref="dataSource" />
 	</beans:bean>
 	<!-- @Transactional 어노테이션 사용을 위한 설정 : 반드시 servlet-context에 설정할것 -->
+	<!-- <tx:annotation-driven  transaction-manager="transactionManager" />  -->
 	
+	<!-- 파일 업로드 설정 -->
+	<!-- <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<beans:property name="defaultEncoding" value="UTF-8"/>
+	<beans:property name="maxUploadSize" value="10000000"/> 10MB
+	<beans:property name="maxInMemorySize" value="10000000"/> 10MB
+	</beans:bean> -->
+	
+	<!--Session Interceptor(가로채기)-->
+	<interceptors>
+		<interceptor>
+			<mapping path="/*"/><!-- Mapping의 모든 요청은 Controller에 도착하기 전에 가로챈다. -->	
+		 	<!-- <exclude-mapping path="/"/> --><!-- exclude-mapping의 요청은 가로채지 않는다 -->
+		 	
+		 	
+		 	<beans:bean class="com.bodybuddy.hey.userClass.SessionInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 
 

@@ -1,35 +1,40 @@
 package com.bodybuddy.hey.service;
 
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
+import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.dao.KirimDao;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @Service
+@SessionAttributes({"mb"}) //mb라는 키로 저장된 attribute는 세션객체에 저장 됨
 public class KirimService {
 
+	
 	@Autowired 
 	KirimDao kDao;
-
-	@Autowired
-	private HttpSession session;
+	
+	HttpSession session;
 	ModelAndView mav;
-
 	public ModelAndView access(Member mb) {
 		mav=new ModelAndView();
 		String view=null;
@@ -41,8 +46,6 @@ public class KirimService {
 			System.out.println("2="+pwdEncode);
 		if(pwdEncode!=null) { //암호화된 비번이 존재한다면:아이디가 존재
 			if(pwdEncoder.matches(mb.getM_pw(), pwdEncode)) {
-				session.setAttribute("id", mb.getM_id());
-				System.out.println("getmid="+mb.getM_id());
 				//로그인 후 회원정보를 3종류로 나눠 화면에 출력하기 위해
 				String kind = kDao.getMemberKind(mb.getM_id());
 				System.out.println("kind="+kind);
@@ -50,21 +53,15 @@ public class KirimService {
 				switch(kind) {
 				case "n":
 					mb = kDao.getNormalInfo(mb.getM_id());
-					mav.addObject("kindSignal", "n");
 					break;
 				case "t":
 					mb = kDao.getTrainerInfo(mb.getM_id());
-					mav.addObject("kindSignal", "t");
 					break;
 				case "c":
 					mb = kDao.getCompanyInfo(mb.getM_id());
-					mav.addObject("kindSignal", "c");
 					break;	
 				}				
-							
-				mav.addObject("mb", mb);
-				session.setAttribute("mb", mb);
-				System.out.println("mb="+mb);
+				mav.addObject("mb", mb);//@SessionAttributes때문에 세션영역에 mb저장됨
 				//forward:url, POST-POST, GET-GET끼리만 가능
 				//view="forward:/board";
 				//redirect:url, POST-GET 둘다 GET방식만 가능
@@ -86,7 +83,7 @@ public class KirimService {
 		
 		mav=new ModelAndView();
 		String view=null;
-		System.out.println("ad_code="+ad_code);
+		System.out.println("aaaad_code="+ad_code);
 		Map<String,String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList=kDao.opCateList(ad_code);
 		
@@ -97,78 +94,105 @@ public class KirimService {
 		return mav;
 	}
 	
-	public ModelAndView detailReview(String ad_code) {
+	public ModelAndView detailReview(String rv_adcode) {
 		
 		
 		return null;
 	}
 
-	public ModelAndView detailQa(String ad_code) {
+	public ModelAndView detailQa(String qa_adcode) {
 		
 		
 		return null;
 	}
 	
-	
-	private String makeHTMLReview() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"tab-pane fade show\" id=\"review\" role=\"tabpanel\" aria-labelledby=\"review-tab\">\r\n" + 
-				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
-				"\r\n" + 
-				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
-				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
-				"                                                        <p>총 _건의 후기가 있습니다.</p> 평점:\r\n" + 
-				"                                                        <div class=\"table-responsive\">\r\n" + 
-				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
-				"                                                                <thead>\r\n" + 
-				"                                                                    <tr>\r\n" + 
-				"                                                                        <th>별점</th>\r\n" + 
-				"                                                                        <th>옵션</th>\r\n" + 
-				"                                                                        <th>내용</th>\r\n" + 
-				"                                                                        <th>작성일</th>\r\n" + 
-				"                                                                    </tr>\r\n" + 
-				"                                                                </thead>\r\n" + 
-				"                                                                <tbody>\r\n" + 
-				"                                                                    <tr>\r\n" + 
-				"                                                                        <td>1.0</td>\r\n" + 
-				"                                                                        <td>기간+시간+횟수+요일</td>\r\n" + 
-				"                                                                        <td>인생 모두 부질없는것이다 <a href=\"#\"> 더보기<i class=\"mdi mdi-arrow-down\"></i></a></td>\r\n" + 
-				"                                                                        <td>2018/04/23</td>\r\n" + 
-				"                                                                    </tr>\r\n" + 
-				"\r\n" + 
-				"                                                                </tbody>\r\n" + 
-				"                                                            </table>\r\n" + 
-				"                                                        </div>\r\n" + 
-				"                                                        <nav>\r\n" + 
-				"                                                            <ul class=\"pagination pagination-lg\">\r\n" + 
-				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n" + 
-				"                                                                    <div class=\"btn-group\" role=\"group\" aria-label=\"First group\">\r\n" + 
-				"                                                                        <li>\r\n" + 
-				"                                                                            <a href=\"#\" aria-label=\"Previous\">\r\n" + 
-				"                                                                                <span aria-hidden=\"true\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">«</button></span>\r\n" + 
-				"                                                                            </a>\r\n" + 
-				"                                                                        </li>\r\n" + 
-				"                                                                        <li><a href=\"#\" class=\"active\"><button type=\"button\" class=\"btn btn-outline-secondary\">1</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">2</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">3</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">4</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">5</button></a></li>\r\n" + 
-				"                                                                        <li>\r\n" + 
-				"                                                                            <a href=\"#\" aria-label=\"Next\">\r\n" + 
-				"                                                                                <span aria-hidden=\"true\"><button type=\"button\" class=\"btn btn-outline-secondary\">»</button></span>\r\n" + 
-				"                                                                            </a>\r\n" + 
-				"                                                                        </li>\r\n" + 
-				"                                                                    </div>\r\n" + 
-				"                                                                </div>\r\n" + 
-				"                                                            </ul>\r\n" + 
-				"                                                        </nav>\r\n" + 
-				"                                                    </li>\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>");
-		
-		return sb.toString();
+	public String purchSingle(Payment ph, HttpSession session) {
+		String json=null;
+		System.out.println("PS_ADCODE============"+ph.getPs_adcode());
+		System.out.println("PS_OPCODE============"+ph.getPs_opcode());
+		System.out.println("PS_PRICE============"+ph.getPs_price());
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String sessionId = sessionMb.getM_id();
+		if(sessionId=="" || sessionId==null ) {
+			json="loginFrm"; 
+		}else if(sessionId!="" || sessionId!=null ) {
+			ph.setPs_mid(sessionId);
+			if(kDao.purchSingle(ph)) {
+				json="구매가 성공하였습니다";
+			}else {
+				json="구매 실패";
+			}
+		}	
+		json = new Gson().toJson(json);
+		return json;
 	}
+
+	public String dibsAdd(String d_adcode, HttpServletRequest request) {
+		String suc="<button id='"+"dibsDelete"+d_adcode+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
+			 	"<i class=\"mdi mdi-heart\"></i></button>";
+		String err="<button id='"+"dibsAdd"+d_adcode+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
+				"<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+		String html=null;
+		
+		session = request.getSession();
+		System.out.println("d_adcode============="+d_adcode);
+		System.out.println(session.getId());
+		Member sessionMb = (Member) session.getAttribute("mb");
+		if(sessionMb==null ) {//비회원 찜 추가
+			session.setAttribute("tempDibs"+d_adcode,"dibs");
+			html=suc;//"일시적으로 찜 목록에 추가되었습니다.";
+			
+		}else if(sessionMb!=null ) {//회원 찜 추가
+			String sessionId = sessionMb.getM_id();
+			Map<String,String> dibs = new HashMap<>();
+			dibs.put("d_adcode", d_adcode);
+			dibs.put("d_id", sessionId);
+			if(kDao.dibsAdd(dibs)) {
+				html=suc; //sessionId+"님의 찜 목록에 추가되었습니다";
+			}
+			html=err; //sessionId+"님의 찜 목록에 추가실패";
+		}
+		System.out.println("비회원장바구니 세션등록키==="+session.getAttribute("tempDibs"+d_adcode));
+		Enumeration<String> names = session.getAttributeNames();
+		while(names.hasMoreElements()) {
+			System.out.println("찜추가완료NAMES="+names.nextElement());
+		}	
+		return html;
+	}
+
+	public String dibsDelete(String d_adcode,  HttpServletRequest request) {
+		String err="<button id='"+"dibsDelete"+d_adcode+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
+			 	"<i class=\"mdi mdi-heart\"></i></button>";
+		String suc="<button id='"+"dibsAdd"+d_adcode+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
+				"<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+		String html=null;
+		
+		session = request.getSession();
+		System.out.println("2d_adcode============="+d_adcode);
+		System.out.println(session.getId());
+		Member sessionMb = (Member) session.getAttribute("mb");
+		if(sessionMb==null) {//비회원 찜 제거
+			session.setAttribute("tempDibs"+d_adcode,null);
+			html=suc;//"해당 광고가 찜 목록에서 제거되었습니다.";
+		}else if(sessionMb!=null) {//회원 찜 제거
+			String sessionId = sessionMb.getM_id();
+			Map<String,String> dibs = new HashMap<>();
+			dibs.put("D_ADCODE", d_adcode);
+			dibs.put("D_ID", sessionId);
+			if(kDao.dibsDelete(dibs)) {
+				html = suc;//"님의 찜 목록에서 제거되었습니다";
+			}
+			html = err;//"님의 찜 목록에서 제거실패";
+		}
+		System.out.println("222비회원장바구니 세션등록키==="+session.getAttribute("tempDibs"+d_adcode));
+		Enumeration<String> names = session.getAttributeNames();
+		while(names.hasMoreElements()) {
+			System.out.println("찜취소완료NAMES="+names.nextElement());
+		}
+		return html;
+	}
+	
+	
 
 	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList) {
 		StringBuilder sb = new StringBuilder();
@@ -193,7 +217,7 @@ public class KirimService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
-				"<form method='post' name='detailPageInfo'>"+
+				//"<form name='detailPageInfo'>"+
 				"<input type=\"hidden\" id=\"ad_code\" name=\"ad_code\" value='"+dp.get("AD_CODE")+"'>"+
 				"                                    <div class=\"caption\">\r\n" + 
 				"                                        <h3 class=\"display-4\" style=\"text-align: center\">"+dp.get("AD_TITLE")+"<br><br>\r\n" + 
@@ -276,8 +300,8 @@ public class KirimService {
 	  sb.append("                            </div>\r\n" + 
 				"                                                   <a href='"+"/dibsadd?ad_code="+dp.get("AD_CODE")+"' class=\"btn btn-default\" role=\"button\"><button type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">\r\n" + 
 				"                                                    <i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + 
-				"                                                </button></a><button id='purchase' class=\"btn btn-primary\" role=\"button\">구매</button> </div>\r\n" + 
-				"</form>"+
+				"                                                </button></a><button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>\r\n" + 
+				//"</form>"+
 				"                                    </div>\r\n" + 
 				"\r\n" + 
 				"                                </div>\r\n" + 
@@ -305,7 +329,7 @@ public class KirimService {
 				"                                            <a class=\"nav-link\" id=\"review-tab\" data-toggle=\"tab\" role=\"tab\" aria-controls=\"review\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">별점 및 후기 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
 				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
+				"                                            <a class=\"nav-link\" id=\"qa-tab\" data-toggle=\"tab\" role=\"tab\" aria-controls=\"qa\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
@@ -340,24 +364,77 @@ public class KirimService {
 				"                </div>");
 		return sb.toString();
 	}
-
+	private String makeHTMLQa() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("");
+		
+		
+		
+		return sb.toString();
+		
+	}
+	private String makeHTMLReview() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div class=\"tab-pane fade show\" id=\"review\" role=\"tabpanel\" aria-labelledby=\"review-tab\">\r\n" + 
+				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
+				"\r\n" + 
+				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
+				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
+				"                                                        <p>총 _건의 후기가 있습니다.</p> 평점:\r\n" + 
+				"                                                        <div class=\"table-responsive\">\r\n" + 
+				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
+				"                                                                <thead>\r\n" + 
+				"                                                                    <tr>\r\n" + 
+				"                                                                        <th>별점</th>\r\n" + 
+				"                                                                        <th>옵션</th>\r\n" + 
+				"                                                                        <th>내용</th>\r\n" + 
+				"                                                                        <th>작성일</th>\r\n" + 
+				"                                                                    </tr>\r\n" + 
+				"                                                                </thead>\r\n" + 
+				"                                                                <tbody>\r\n" + 
+				"                                                                    <tr>\r\n" + 
+				"                                                                        <td>1.0</td>\r\n" + 
+				"                                                                        <td>기간+시간+횟수+요일</td>\r\n" + 
+				"                                                                        <td>인생 모두 부질없는것이다 <a href=\"#\"> 더보기<i class=\"mdi mdi-arrow-down\"></i></a></td>\r\n" + 
+				"                                                                        <td>2018/04/23</td>\r\n" + 
+				"                                                                    </tr>\r\n" + 
+				"\r\n" + 
+				"                                                                </tbody>\r\n" + 
+				"                                                            </table>\r\n" + 
+				"                                                        </div>\r\n" + 
+				"                                                        <nav>\r\n" + 
+				"                                                            <ul class=\"pagination pagination-lg\">\r\n" + 
+				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n" + 
+				"                                                                    <div class=\"btn-group\" role=\"group\" aria-label=\"First group\">\r\n" + 
+				"                                                                        <li>\r\n" + 
+				"                                                                            <a href=\"#\" aria-label=\"Previous\">\r\n" + 
+				"                                                                                <span aria-hidden=\"true\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">«</button></span>\r\n" + 
+				"                                                                            </a>\r\n" + 
+				"                                                                        </li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"active\"><button type=\"button\" class=\"btn btn-outline-secondary\">1</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">2</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">3</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">4</button></a></li>\r\n" + 
+				"                                                                        <li><a href=\"#\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">5</button></a></li>\r\n" + 
+				"                                                                        <li>\r\n" + 
+				"                                                                            <a href=\"#\" aria-label=\"Next\">\r\n" + 
+				"                                                                                <span aria-hidden=\"true\"><button type=\"button\" class=\"btn btn-outline-secondary\">»</button></span>\r\n" + 
+				"                                                                            </a>\r\n" + 
+				"                                                                        </li>\r\n" + 
+				"                                                                    </div>\r\n" + 
+				"                                                                </div>\r\n" + 
+				"                                                            </ul>\r\n" + 
+				"                                                        </nav>\r\n" + 
+				"                                                    </li>\r\n" + 
+				"                                                </div>\r\n" + 
+				"                                            </div>\r\n" + 
+				"                                        </div>");
+		
+		return sb.toString();
+	}
 
 	
 	
-
-	/*
-	 * public String purchSingle(PaymentHistory ph) { String str="";
-	 * ph.setPs_mid((String)session.getAttribute("id"));
-	 * 
-	 * if(kDao.payInsert(ph)) { Gson gson = new Gson(); String
-	 * jsonStr=gson.toJson(str); str="결제성공"; System.out.println("payinsert 성공");
-	 * 
-	 * }else { System.out.println("payinsert 실패"); str="결제실패"; }
-	 * 
-	 * 
-	 * return str;
-	 * 
-	 * }
-	 */
-
+	
+	
 }

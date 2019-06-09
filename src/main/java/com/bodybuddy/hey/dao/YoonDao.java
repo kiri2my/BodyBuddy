@@ -12,5 +12,7 @@ public interface YoonDao {
 
 	List<OpCategory> opCateListAll();
 
+	List<Map<String, String>> dibsN(String d_id);
+
 	
 }
