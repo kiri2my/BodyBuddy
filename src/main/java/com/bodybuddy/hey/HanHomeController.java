@@ -44,10 +44,10 @@ public class HanHomeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/checkcnum", method = RequestMethod.POST)
-	public int checkCnum(String c_num) {
+	@RequestMapping(value = "/checkcompanynum", method = RequestMethod.POST)
+	public int checkCompanyNum(String c_num) {
 
-		int checknum = mm.checkCnum(c_num);
+		int checknum = mm.checkCompanyNum(c_num);
 
 		System.out.println();
 		return checknum;

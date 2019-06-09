@@ -249,8 +249,6 @@
 <!--js경로-->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <!--<script src="../majestic-master/dist/additional-methods.min.js"></script>
 <script src="../majestic-master/dist/jquery.validate.min.js"></script>-->

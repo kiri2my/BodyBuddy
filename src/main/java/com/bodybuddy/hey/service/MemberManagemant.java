@@ -230,9 +230,9 @@ public class MemberManagemant {
 
 	}
 
-	public int checkCnum(String c_num) {
+	public int checkCompanyNum(String c_num) {
 		int cnum = 0;
-		cnum = mDao.checkCnum(c_num);
+		cnum = mDao.checkCompanyNum(c_num);
 		return cnum;
 	}
 

@@ -22,7 +22,7 @@ public interface MemberDao {
 
 	public int checkId(String s);
 
-	public int checkCnum(String c_num);
+	public int checkCompanyNum(String c_num);
 
 	public List<Member> forgetId(Member mb);
 
