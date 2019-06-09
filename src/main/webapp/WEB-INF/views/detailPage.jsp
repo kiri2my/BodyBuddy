@@ -95,18 +95,15 @@ $("#optionSelect").change(function(){
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
 	var $op_code = "#"+op_code;
 	var $op_priceValue = $($op_code).val();
-		
-	$("#priceShow").html("<h3><small class='text-muted'>가격: </small>"+$op_priceValue+"원</h3>")
-	
 	if($("#optionSelect").val()=="상세 옵션을 선택해주세요"){
 		$("#purchase").prop("disabled",true);
+		$("#priceShow").html("<h3><small class='text-muted'>가격: </small>0원</h3>")
 	}else{
 		$("#purchase").prop("disabled",false);
+		$("#priceShow").html("<h3><small class='text-muted'>가격: </small>"+$op_priceValue+"원</h3>")
 	}
-	
 	console.log(op_code);
 	console.log($op_priceValue);
-	
 });
 
 $("#purchase").click(function(){
@@ -125,21 +122,82 @@ $("#purchase").click(function(){
 		data: {ps_adcode:ad_code, ps_opcode:op_code, ps_price:$op_priceValue},
 		//data:$('#rFrm').serialize(), 폼 전체 데이터 전송
 		//processData:true,
-		dataType:'html',
+		dataType:'text',
 		success:function(data){
 			console.log(data);
-			alert("결제성공");
-
+			if(data=='success'){
+				var sucConf = confirm("구매에 성공하셨습니다. 내 프로그램 보기로 이동하시겠습니까?");
+				if(sucConf == true){
+					location.href="infoprogramn";
+				}else if(sucConf == false){
+					location.href="#";
+				}
+			}
+			if(data=='failed'){
+				alert("구매에 실패하였습니다. 다시 시도해주세요.")	
+			}
+			if(data=='login'){
+				var logConf = confirm("로그인을 해야 구매가 가능합니다. 로그인창으로 이동하시겠습니까?");
+				if(logConf == true){
+					location.href="login";
+				}else if(logConf == false){
+					location.href="#";
+				}
+			}
 		},
 		error:function(err){
 			console.log(err);
-
 		}
 	}); //ajax End
 });//click End
 
+dibsAdd();
+dibsDelete();
 
-
+function dibsAdd() {
+	$(".btn.btn-outline-secondary.btn-rounded.btn-icon").click(function() {
+		var dibsAddBtn = $(this);
+		var ad_code = $(this).prop("id").replace("dibsAdd", "");
+		$.ajax({
+			type : 'get',
+			url : 'dibsadd',
+			data : {d_adcode : ad_code},
+			dataType : 'html',
+			success : function(data) {
+				console.log(data);
+				console.log(dibsAddBtn);
+				dibsAddBtn.prop("outerHTML", data);
+				dibsDelete();
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		}); //ajax End
+	});//click secondary
+}//end dibsAdd
+function dibsDelete() {
+	$(".btn.btn-outline-danger.btn-rounded.btn-icon").click(function() {
+		console.log($(this));
+		var dibsDeleteBtn = $(this);
+		var ad_code = $(this).prop("id").replace("dibsDelete", "");
+		$.ajax({
+			type : 'get',
+			url : 'dibsdelete',
+			data : {d_adcode : ad_code},
+			dataType : 'html',
+			success : function(data) {
+				console.log(data);
+				console.log(dibsDeleteBtn);
+				dibsDeleteBtn.prop("outerHTML", data);
+				dibsAdd();
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		}); //ajax End
+	});//click danger
+}//end dibsDelete
+/*
 $("#review-tab").click(function(){
 		//var obj=$("#rFrm").serializeObject(); //{속성:값,속성:값}
 		var ad_code = $("#ad_code").val();
@@ -191,6 +249,7 @@ $("#qa-tab").click(function(){
 	}); //ajax End
 
 });//qna click End
+*/
 </script>
 
 </html>

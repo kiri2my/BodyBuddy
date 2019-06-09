@@ -35,6 +35,7 @@ public class KirimController {
 	@Autowired
 	KirimService ks;
 	ModelAndView mav;
+	String html;
 	@RequestMapping(value = "/access", method = RequestMethod.POST)
 	public ModelAndView access(Member mb) {
 		System.out.println("url:/access");
@@ -42,7 +43,23 @@ public class KirimController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/detailpage", method = RequestMethod.GET)
+	public ModelAndView detailPage(String ad_code) {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		mav = ks.detailPage(ad_code, request);
+		return mav;
+	}
 	
+	@RequestMapping(value = "/purchsingle", method = RequestMethod.POST) 
+	@ResponseBody
+	public String purchSingle(Payment ph) { 
+		System.out.println("URL : /purchsingle");
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		html = ks.purchSingle(ph, request); 
+		return html; 
+	}
 	
 	@RequestMapping(value = "/dibsadd", method = RequestMethod.GET)
 	@ResponseBody
@@ -50,7 +67,7 @@ public class KirimController {
 		
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		String html = ks.dibsAdd(d_adcode, request);
+		html = ks.dibsAdd(d_adcode, request);
 		return html;
 	}
 	
@@ -59,9 +76,10 @@ public class KirimController {
 	public String dibsDelete(@RequestParam("d_adcode") String d_adcode) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		String html = ks.dibsDelete(d_adcode, request);
+		html = ks.dibsDelete(d_adcode, request);
 		return html;
 	}
+	
 
 	
 	

@@ -44,4 +44,10 @@
 		DELETE FROM D WHERE D_ADCODE=#{d_adcode} AND D_ID=#{d_id}
 	</delete>
 	
+	<insert id="purchSingle" parameterType="Payment">
+		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
+	</insert>
+	
+	
+	
 </mapper>

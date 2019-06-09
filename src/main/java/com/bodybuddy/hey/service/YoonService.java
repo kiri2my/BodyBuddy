@@ -53,6 +53,7 @@ public class YoonService {
 
 	private String makeHTMLMainList(List<Map<String,String>> mainList, List<OpCategory> opCateListAll, List<Map<String, String>> dibsList, HttpSession session) {
 		StringBuilder sb = new StringBuilder();
+		
 		sb.append("<div class=\"col-md-12 card scroll \">\r\n" + 
 				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
@@ -61,6 +62,7 @@ public class YoonService {
 				"                                    <div class=\"row\">\r\n");
 		
 				for(int i=0; i<mainList.size();i++) {
+					String ad_code = mainList.get(i).get("AD_CODE").toString();
 				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
 							"                                        <div class=\"thumbnail\">\r\n" + 
 							"                                            <img alt=\"100%x200\" src='"+mainList.get(i).get("PF_IMAGE")+"'"+
@@ -93,34 +95,34 @@ public class YoonService {
 								}
 							}
 							 
-				  sb.append("                                                    <p>");
+				  sb.append("<p>");
 				  for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
-					  if(opCateListAll.get(j).getOp_adcode().equals(mainList.get(i).get("AD_CODE"))) {
+					  if(opCateListAll.get(j).getOp_adcode().equals(ad_code)) {
 						  sb.append(opCateListAll.get(j).getOp_category()+"/");
 					  }
 				  }				  
 				  sb.append("</p>\r\n" + 
-							"<p><a href='"+"detail/page/"+mainList.get(i).get("AD_CODE")+"' class=\"btn btn-primary\" role=\"button\">상세보기</a> ");
+							"<p><a href='"+"detailpage?ad_code="+ad_code+"' class=\"btn btn-primary\" role=\"button\">상세보기</a> ");
 							
 				//찜버튼 위치
 				if(dibsList!=null) { //(회원:찜하지 않은 상품은 찜하기버튼) 
-					if(!dibsList.get(i).get("D_ADCODE").equals(mainList.get(i).get("AD_CODE"))) {
+					if(!dibsList.get(i).get("D_ADCODE").equals(ad_code)) {
 						  sb.append("<a class=\"btn btn-default\" role=\"button\">"+
-						  		 	"<button id='"+"dibsAdd"+mainList.get(i).get("AD_CODE")+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
+						  		 	"<button id='"+"dibsAdd"+ad_code+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
 									"<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + 
 								 	"</button></a>");
 						  
 					//회원 : 찜한상품 찜 취소버튼  
-					  }else if(dibsList.get(i).get("D_ADCODE").equals(mainList.get(i).get("AD_CODE"))) {
+					  }else if(dibsList.get(i).get("D_ADCODE").equals(ad_code)) {
 						  sb.append("<a class=\"btn btn-default\" role=\"button\">"+
-								  	"<button id='"+"dibsDelete"+mainList.get(i).get("AD_CODE")+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
+								  	"<button id='"+"dibsDelete"+ad_code+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
 								 	"<i class=\"mdi mdi-heart\"></i>\r\n" + 
 									"</button></a>");
 					  }
 					//회원인데 찜 하나도 없을때도  dibsList null일수있음 : 찜하기버튼	
 				}else if(dibsList==null && session.getAttribute("mb")!=null){   
 					sb.append("<a class=\"btn btn-default\" role=\"button\">"+
-				  		 	"<button id='"+"dibsAdd"+mainList.get(i).get("AD_CODE")+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
+				  		 	"<button id='"+"dibsAdd"+ad_code+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
 							"<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + 
 						 	"</button></a>");
 					
@@ -130,20 +132,20 @@ public class YoonService {
 					while(names.hasMoreElements()) {
 						System.out.println("찜NAMES="+names.nextElement());
 					}
-					String ad_code = mainList.get(i).get("AD_CODE").toString();
+					
 					if(session.getAttribute("tempDibs"+ad_code)!=null) {
 						System.out.println("찜찜찜!"+session.getAttribute("tempDibs"+ad_code));
 					}
 					
 					if(session.getAttribute("tempDibs"+ad_code)==null || session.getAttribute("tempDibs"+ad_code)!="dibs") {
 						sb.append("<a class=\"btn btn-default\" role=\"button\">"+
-					  		 	"<button id='"+"dibsAdd"+mainList.get(i).get("AD_CODE")+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
+					  		 	"<button id='"+"dibsAdd"+ad_code+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
 								"<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + 
 							 	"</button></a>");
 						//비회원 세션에 찜한 상품 찜취소버튼 : session.setAttribute("tempDibs"+d_adcode,"dibs")/session.getAttribute("tempDibs"+d_adcode)
 						}else if(session.getAttribute("tempDibs"+ad_code)=="dibs") {
 							sb.append("<a class=\"btn btn-default\" role=\"button\">"+
-								  	"<button id='"+"dibsDelete"+mainList.get(i).get("AD_CODE")+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
+								  	"<button id='"+"dibsDelete"+ad_code+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
 								 	"<i class=\"mdi mdi-heart\"></i>\r\n" + 
 									"</button></a>");
 						}

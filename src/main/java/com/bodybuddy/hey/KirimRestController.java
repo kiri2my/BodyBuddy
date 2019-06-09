@@ -2,6 +2,7 @@ package com.bodybuddy.hey;
 
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Payment;
@@ -31,33 +34,35 @@ public class KirimRestController { // Restful 방식
 	 }*/
 	
 
-	@RequestMapping(value = "/page/{adcode}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/page/{adcode}", method = RequestMethod.GET)
 	public ModelAndView detailPage(@PathVariable String adcode) { // @ResponseBody생략가능
-		mav = ks.detailPage(adcode);
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		mav = ks.detailPage(adcode, request);
 		return mav;
-	}
+	}*/
 	
-	@RequestMapping(value = "/{adcode}/qa", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/{adcode}/qa", method = RequestMethod.GET)
 	public ModelAndView detailQa(String qa_adcode) {
 		System.out.println("url:/qa");
 		System.out.println("222222222"+qa_adcode);
 		mav = ks.detailQa(qa_adcode);
 		return mav;
-	}
-	@RequestMapping(value = "/{adcode}/review", method = RequestMethod.GET)
+	}*/
+	/*@RequestMapping(value = "/{adcode}/review", method = RequestMethod.GET)
 	public ModelAndView detailReview(String rv_adcode) {
 		System.out.println("url:/review");
 		System.out.println("111111111"+rv_adcode);
 		mav = ks.detailReview(rv_adcode);
 		return mav;
-	}
+	}*/
 	
-	@RequestMapping(value = "{adcode}/purchsingle", method = RequestMethod.POST) 
+	/*@RequestMapping(value = "{adcode}/purchsingle", method = RequestMethod.POST) 
 	public String purchSingle(Payment ph, HttpSession session) { 
 		System.out.println("URL : /purchsingle");
 		
 		String json = ks.purchSingle(ph, session); 
 		return json; 
-	}
+	}*/
 	
 }
