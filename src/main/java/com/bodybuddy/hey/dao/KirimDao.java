@@ -1,6 +1,7 @@
 package com.bodybuddy.hey.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bodybuddy.hey.bean.Member;
 
@@ -18,6 +19,14 @@ public interface KirimDao {
 	public Member getCompanyInfo(String m_id);
 
 	boolean purchSingle(String op_code);
+
+	public Map<String, String> detailPage(String ad_code);
+
+	public List<Map<String, String>> opCateList(String ad_code);
+
+	
+
+	
 
 	/*
 	 * boolean payInsert(PaymentHistory ph);

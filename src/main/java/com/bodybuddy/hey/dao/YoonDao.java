@@ -8,5 +8,7 @@ public interface YoonDao {
 
 	List<Map<String, String>> mainList();
 
+	List<Map<String, String>> opCateListAll();
+
 	
 }
