@@ -24,7 +24,7 @@ public class KwonController {
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
 	@Autowired
 	MemberManagemant mm;
-	
+	   
 	@Autowired
 	SalesService ss;
 

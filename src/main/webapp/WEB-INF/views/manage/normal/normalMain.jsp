@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 
 <head>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -55,60 +57,58 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
+
+<style>
+#header {
+	position: relative;
+}
+
+#nav {
+	position: fixed;
+	top: 50px;
+	height: 90%;
+}
+
+#main {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 105%;
+}
+
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
+#footer {
+	position: relative;
+	left: 240px;
+	width: 70%;
+	padding: 15px 0;
+	text-align: center;
+	color: white;
+	background: gray;
+}
+</style>
 </head>
 
 <body>
-
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-                  <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
-              </div>
-              <form action="access" name="loginFrm" class="pt-3" method="post">
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
-                </div>
-                <div class="mt-3">
-                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                  style="background-color: #71c016">로그인</button>
-                </div>
-                <div class="my-2 d-flex justify-content-between align-items-center" >
-                    <a href="forgetid" class="auth-link text-black" >이메일과 패스워드를 잊으셨나요?</a>
-                </div>
-                <div class="mb-2">
-                  <button type="button" class="btn btn-block btn-google">
-                    <i class="mdi mdi-google-plus mr-2"></i><font>구글 계정으로 접속하기</font>
-                  </button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  아직 회원이 아니신가요? <a href="join" class="text-primary">회원가입</a>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
+	<!-- partial -->
+	<div id="wrap">
+		<div id="header">
+			<%-- <jsp:include page="headerNCT.jsp" /> --%>
+			<jsp:include page="../../header.jsp" />
+		</div>
+		<div id="main">
+			<jsp:include page="../infoProgramN.jsp" />
+		</div>
+		<div id="nav">
+			<jsp:include page="../sidebarNormal.jsp" />
+		</div>
+	</div>
 
 </body>
-
-</html>

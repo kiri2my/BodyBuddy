@@ -98,7 +98,7 @@
 	<!-- partial -->
 	<div id="wrap">
 		<div id="header">
-			<jsp:include page="../../headerNCT.jsp" />
+			<jsp:include page="../../header.jsp" />
 		</div>
 		
 		<div id="main">
@@ -158,9 +158,57 @@
 			}
 		});
 	}
+		function normalMemList(){
+		$.ajax({
+			type : "get",
+			url : "memberlistc",
+			data : {
+				id : "3333"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('회원목록 로드 실패');
+			}
+		});
+	}
 	
+	function profileModifyT() {
+		$.ajax({
+			type : "GET",
+			url : "profileModifyT",
+			data : {
+				id:"3333"
+			},
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
 	
-	
-	
-	</script>
+	function questionList() {
+		$.ajax({
+			type : "GET",
+			url : "questionList",
+			data : {
+				id:"3333"
+			},
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				$('#main').html(data);
+			}
+		});
+	}
+</script>
 </html>

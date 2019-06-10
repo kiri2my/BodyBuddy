@@ -20,7 +20,18 @@ public interface MemberDao {
 
 	public boolean companyMemberJoin(Member mb);
 
-	public int checkId(String m_id);
+	public int checkId(String s);
+
+	public int checkCompanyNum(String c_num);
+
+	public List<Member> forgetId(Member mb);
+
+	public List<Member> forgetPw(Member mb);
+
+	public void temporaryPw(Member mb);
+	public Member getProfileList(String id);
+
+	public List<Member> getTfindC(Member m);
 
 	public List<Member> getNormalMemberList(String id);
 

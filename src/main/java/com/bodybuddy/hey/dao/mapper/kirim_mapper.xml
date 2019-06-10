@@ -5,20 +5,49 @@
 <mapper namespace="com.bodybuddy.hey.dao.KirimDao">
 
 	<select id="getSecurityPwd" parameterType="String" resultType="String">
-	SELECT M_PW FROM M WHERE M_ID = #{m_id}</select>
+	SELECT M_PW FROM M WHERE M_ID = #{m_id}
+	</select>
 
 	<select parameterType="String" id="getMemberKind" resultType="String"> 
-	SELECT M_KIND FROM M WHERE M_ID = #{m_id} </select>
+	SELECT M_KIND FROM M WHERE M_ID = #{m_id} 
+	</select>
 
 	<select parameterType="String" id="getNormalInfo" resultType="member"> 
-	SELECT * FROM NINFO WHERE M_ID = #{m_id} </select>
+	SELECT * FROM NINFO WHERE M_ID = #{m_id} 
+	</select>
 
 	<select parameterType="String" id="getTrainerInfo" resultType="member"> 
-	SELECT * FROM TINFO WHERE M_ID = #{m_id} </select>
+	SELECT * FROM TINFO WHERE M_ID = #{m_id} 
+	</select>
 
 	<select parameterType="String" id="getCompanyInfo" resultType="member"> 
-	SELECT * FROM CINFO WHERE M_ID = #{m_id} </select>
+	SELECT * FROM CINFO WHERE M_ID = #{m_id} 
+	</select>
+		
+	<resultMap type="HashMap" id="detailPageResultMap">
+		<result property="AD_CONTENT" column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
+	</resultMap>
+	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
+	SELECT * FROM DETAILPAGE WHERE AD_CODE = #{ad_code} 
+	</select>
+			
+	<select id="opCateList" parameterType="String" resultType="opCategory">
+		SELECT * FROM CATEGORY WHERE OP_ADCODE = #{ad_code}
+	</select>
 
+
+	<insert id="dibsAdd" parameterType="HashMap">
+		INSERT INTO D VALUES(#{d_adcode},#{d_id})
+	</insert>
+	
+	<delete id="dibsDelete" parameterType="HashMap">
+		DELETE FROM D WHERE D_ADCODE=#{d_adcode} AND D_ID=#{d_id}
+	</delete>
+	
+	<insert id="purchSingle" parameterType="Payment">
+		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
+	</insert>
+	
+	
 	
 </mapper>
-
