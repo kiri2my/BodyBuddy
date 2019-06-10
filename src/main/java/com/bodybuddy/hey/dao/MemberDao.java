@@ -22,4 +22,8 @@ public interface MemberDao {
 
 	public int checkId(String m_id);
 
+	public List<Member> getNormalMemberList(String id);
+
+	public List<Member> getProgramMemberList(String id);
+
 }

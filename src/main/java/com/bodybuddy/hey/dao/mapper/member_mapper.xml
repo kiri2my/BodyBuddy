@@ -18,47 +18,62 @@
 		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
-		INSERT INTO T(T_ID,T_CID)
+		INSERT INTO
+		T(T_ID,T_CID)
 		VALUES(#{m_id},#{t_cid})
 	</insert>
 	<insert id="companyMemberJoin" parameterType="member">
 		INSERT INTO C
 		VALUES(#{m_id},#{c_num},#{c_bname},#{c_bphone})
 	</insert>
-	
+
 	<select id="checkId" parameterType="String" resultType="Integer">
-	SELECT COUNT(*) FROM M
-	WHERE = #{m_id}
+		SELECT
+		COUNT(*) FROM M
+		WHERE = #{m_id}
 	</select>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[
-		SELECT M_NAME,M_PHONE FROM
-		M WHERE M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
-		AD.AD_CODE AND AD.AD_NAME = #{id})
+			SELECT M_NAME,M_PHONE FROM
+			M WHERE M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+			AD.AD_CODE AND AD.AD_NAME = #{id})
 		]]>
 	</select>
-	
-	<select id="getMemberSearch" parameterType="member" resultType="member">
+
+	<select id="getMemberSearch" parameterType="member"
+		resultType="member">
 		<![CDATA[
-		SELECT M_NAME,M_PHONE FROM
-		M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
-		AD.AD_CODE AND AD.AD_NAME = #{m_id})
+			SELECT M_NAME,M_PHONE FROM
+			M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+			AD.AD_CODE AND AD.AD_NAME = #{m_id})
 		]]>
 	</select>
 
 	<select id="getTrainerList" resultType="member">
 		<![CDATA[
-		SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{id})
-		]]>
-	</select>
-	
-	<select id="getTrainerSearch" parameterType="member" resultType="member">
-		<![CDATA[
-		SELECT M_NAME,M_PHONE FROM M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{m_id})
+			SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{id})
 		]]>
 	</select>
 
+	<select id="getTrainerSearch" parameterType="member"
+		resultType="member">
+		<![CDATA[
+			SELECT M_NAME,M_PHONE FROM M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{m_id})
+		]]>
+	</select>
+	<select id="getNormalMemberList" resultType="member">
+		<![CDATA[
+			select m_id,m_name,m_phone,TO_CHAR(ps_date, 'YYYY.MM.DD') as ps_date,TO_CHAR(ps_date+30, 'YYYY.MM.DD') as ps_date1, trunc (ps_date+30-sysdate) as ps_date2 from ps left join m on ps_mid = m_id  where ps.ps_opcode is null and m_id in( select ps.ps_mid 
+from ad,ps where  ad_code = ps_adcode and ad_name = #{id} group by ps.ps_mid)
+		]]>
+	</select>
+	<select id="getProgramMemberList" resultType="member">
+		<![CDATA[
+			select m_name,m_phone from m where m_id in( select ps.ps_mid 
+			from ad,ps where ps.ps_opcode is not null and ad_code = ps_adcode and ad_name = #{id})
+		]]>
+	</select>
 	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
 		</insert> <select id="getSecurityPwd" parameterType="String" resultType="String"> 
 		SELECT M_PWD FROM M WHERE M_ID = #{m_id} </select> <select id="getMemberInfo" 
