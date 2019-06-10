@@ -168,6 +168,57 @@ public class YoonService {
 		return sb.toString();
 	}
 
+	public ModelAndView programListN(String m_id) {
+		System.out.println("idididididi="+m_id);
+		String view=null;
+		List<Map<String, String>> getprogramListN=null;
+		List<Map<String, String>> getnormalListN=null;
+		getprogramListN=yDao.getproListN(m_id);
+		getnormalListN=yDao.getnormalListN(m_id);
+		String html = makeHTMLproPage(getprogramListN);
+		String html2 = makeHTMLnorPage(getnormalListN);
+		
+		
+		mav.addObject("programListN",html);
+		mav.addObject("getnormalListN",html2);
+
+		view="manage/normal/normalMain";
+		mav.setViewName(view);
+		return mav;
+	}
+
+
+	private String makeHTMLproPage(List<Map<String, String>> getprogramListN) {
+		StringBuilder sb = new StringBuilder();
+			for(int i=0; i<getprogramListN.size();i++) {
+				sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_TRAINER")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_CATEGORY")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("AD_STATUS")+"</td>\r\n" + 
+						"													<td>상담내역보기</td>\r\n" + 
+						"													<td>출결현황보기</td>\r\n"+
+						"													<td>후기쓰기</td>\r\n"+ 
+						"												</tr>"	
+			);}
+		return sb.toString();
+	}
+	
+	private String makeHTMLnorPage(List<Map<String, String>> getnormalListN) {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<getnormalListN.size();i++) {
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("C_BNAME")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+					"													<td>출결현황보기</td>\r\n"+
+					"													<td>"+getnormalListN.get(i).get("AD_STATUS")+"</td>\r\n" + 
+					"													<td>후기쓰기</td>\r\n"+ 
+					"												</tr>"	
+		);}
+	return sb.toString();
+	}
 
 	
 	

@@ -51,12 +51,13 @@ public class YoonHomeController {
 				.getRequest();
 		mav=ys.mainList(request);
 		return mav;
-	}
-	
-	@RequestMapping(value = "/infoprogramn")
-	public String login(Model model) {
 		
-		return "manage/normal/normalMain";
+	}
+	//manage/normal/normalMain
+	@RequestMapping(value = "/infoprogramn")
+	public ModelAndView getInfoProgramN(String m_id) {
+		mav=ys.programListN(m_id);
+		return mav;
 	}
 
 	@RequestMapping(value = "/infomodifyfrmn")
@@ -73,6 +74,12 @@ public class YoonHomeController {
 	public String login4(Model model) {
 		
 		return "manage/payHistoryN.";
+	}
+	
+	@RequestMapping(value = "/payhistoryn")
+	public String login5(Model model) {
+		
+		return "manage/payHistoryN";
 	}
 
 }

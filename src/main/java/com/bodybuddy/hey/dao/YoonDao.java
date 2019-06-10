@@ -14,5 +14,9 @@ public interface YoonDao {
 
 	List<Map<String, String>> dibsN(String d_id);
 
+	List<Map<String, String>> getproListN(String m_id);
+
+	List<Map<String, String>> getnormalListN(String m_id);
+
 	
 }
