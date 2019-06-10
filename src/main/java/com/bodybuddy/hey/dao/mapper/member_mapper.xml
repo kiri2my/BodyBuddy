@@ -18,8 +18,8 @@
 		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
-		INSERT INTO T(T_ID,T_CID)
-		VALUES(#{m_id},#{t_cid})
+		INSERT INTO T(T_ID)
+		VALUES(#{m_id})
 	</insert>
 	<insert id="companyMemberJoin" parameterType="member">
 		INSERT INTO C

@@ -202,6 +202,7 @@
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력">
+											<input type="hidden" value="c" id="m_kind" name="m_kind"/>
 									</div>
 								</div>
 								<div class="mb-4">
