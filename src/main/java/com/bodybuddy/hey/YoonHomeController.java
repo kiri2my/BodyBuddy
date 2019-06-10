@@ -27,7 +27,22 @@ public class YoonHomeController {
 	@Autowired
 	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
 	
+	@Autowired
+	HttpSession session;
+	
 	ModelAndView mav;
+	
+	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout() {
+		session.invalidate();
+		String view = null;
+		view="forward:/";
+		mav.setViewName(view);
+		return mav;
+	
+}
 	
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView mainList() { //int pageNum 게시판페이징
