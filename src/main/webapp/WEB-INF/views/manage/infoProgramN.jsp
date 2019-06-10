@@ -105,6 +105,11 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Name: activate to sort column descending"
+														style="width: 140px;">이용기간</th>	
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1"
+														aria-label="Name: activate to sort column descending"
 														style="width: 70px;">카테고리</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"

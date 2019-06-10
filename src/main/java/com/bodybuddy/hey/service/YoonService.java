@@ -1,5 +1,7 @@
 package com.bodybuddy.hey.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -168,15 +170,16 @@ public class YoonService {
 		return sb.toString();
 	}
 
-	public ModelAndView programListN(String m_id) {
+	public ModelAndView programListN(String m_id ) {
 		System.out.println("idididididi="+m_id);
+		session.setAttribute("id", m_id);
 		String view=null;
-		List<Map<String, String>> getprogramListN=null;
-		List<Map<String, String>> getnormalListN=null;
-		getprogramListN=yDao.getproListN(m_id);
-		getnormalListN=yDao.getnormalListN(m_id);
-		String html = makeHTMLproPage(getprogramListN);
-		String html2 = makeHTMLnorPage(getnormalListN);
+		List<Map<String, String>> getProgramListN=null;
+		List<Map<String, String>> getNormalListN=null;
+		getProgramListN=yDao.getproListN(m_id);
+		getNormalListN=yDao.getnormalListN(m_id);
+		String html = makeHTMLproPage(getProgramListN);
+		String html2 = makeHTMLnorPage(getNormalListN);
 		
 		
 		mav.addObject("programListN",html);
@@ -195,8 +198,9 @@ public class YoonService {
 						"													<td>"+getprogramListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
 						"													<td>"+getprogramListN.get(i).get("OP_TRAINER")+"</td>\r\n" + 
 						"													<td>"+getprogramListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
 						"													<td>"+getprogramListN.get(i).get("OP_CATEGORY")+"</td>\r\n" + 
-						"													<td>"+getprogramListN.get(i).get("AD_STATUS")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("DA_STATUS")+"</td>\r\n" + 
 						"													<td>상담내역보기</td>\r\n" + 
 						"													<td>출결현황보기</td>\r\n"+
 						"													<td>후기쓰기</td>\r\n"+ 
@@ -211,14 +215,50 @@ public class YoonService {
 			sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
 					"													<td>"+getnormalListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
 					"													<td>"+getnormalListN.get(i).get("C_BNAME")+"</td>\r\n" + 
-					"													<td>"+getnormalListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
 					"													<td>출결현황보기</td>\r\n"+
-					"													<td>"+getnormalListN.get(i).get("AD_STATUS")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" + 
 					"													<td>후기쓰기</td>\r\n"+ 
 					"												</tr>"	
 		);}
 	return sb.toString();
 	}
+
+	public ModelAndView payListN(String m_id) {
+		session.setAttribute("id", m_id);
+		String view=null;
+		List<Map<String, String>> getPayListN=null;
+		getPayListN=yDao.getpayListN(m_id);
+		String html = makeHTMLpayPage(getPayListN);
+		mav.addObject("payListN",html);
+		view="manage/payHistoryN";
+		mav.setViewName(view);
+		return mav;
+	}
+
+	private String makeHTMLpayPage(List<Map<String, String>> getPayListN) {
+		StringBuilder sb=new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		for(int i=0; i<getPayListN.size();i++) {
+			String price = String.valueOf(getPayListN.get(i).get("PS_PRICE"));
+			String Date = sdFormat.format(getPayListN.get(i).get("PS_DATE"));
+			System.out.println("price========"+price);
+			sb.append("                      <tr role=\"row\" class=\"odd\">\r\n" + 
+					"                            <td class=\"sorting_1\">"+getPayListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_CATEGORY")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
+					"                            <td>"+price+"</td>\r\n" + 
+					"                            <td>"+Date+"</td>\r\n" + 
+					"                       </tr>");
+			
+		}
+		
+		return sb.toString();
+	}
+
+
 
 	
 	

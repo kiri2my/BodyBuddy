@@ -76,10 +76,13 @@ public class YoonHomeController {
 		return "manage/payHistoryN.";
 	}
 	
-	@RequestMapping(value = "/payhistoryn")
-	public String login5(Model model) {
-		
-		return "manage/payHistoryN";
-	}
+	
+	
+	 @RequestMapping(value = "/payhistoryn") 
+	 public ModelAndView payList(String m_id) {
+		 mav=ys.payListN(m_id);
+		return mav;
+	  }
+	 
 
 }

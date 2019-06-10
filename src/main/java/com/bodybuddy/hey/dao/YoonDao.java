@@ -18,5 +18,7 @@ public interface YoonDao {
 
 	List<Map<String, String>> getnormalListN(String m_id);
 
+	List<Map<String, String>> getpayListN(String m_id);
+
 	
 }
