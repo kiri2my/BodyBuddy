@@ -71,9 +71,9 @@
 
 #main {
 	position: absolute;
-	left: 240px;
-	top: 25px;
-	width: 105%;
+	left: 255px;
+	top: 50px;
+	width: 90%;
 }
 
 #memberList {
@@ -116,52 +116,61 @@
 </body>
 
 <script type="text/javascript">
-	/* function memberList() {
+	function company() {
 		$.ajax({
-			type : "GET",
-			url : "memberlist",
-			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
+			type : "get",
+			url : "company",
+			/* data : {
+				id : "company1"
 			},
+			dataType : "html", */
 			success : function(data) {
-				$('#main').hide();
-				$('#main').html(data).trigger('create');
-			}
-		});
-	} 
-	
-	function trainerList() {
-		$.ajax({
-			type : "GET",
-			url : "trainerlist",
-			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
+				
 			},
-			success : function(data) {
-				$('#main').hide();
-				$('#main').html(data);
-			}
-		});
-	} */
-	
-	function dailyCheck() {
-		$.ajax({
-			type : "GET",
-			url : "dailycheck",
-			dataType : "html",
 			error : function() {
-				alert('통신실패!!');
-			},
-			success : function(data) {
-				/* $('#main').hide(); */
-				$('#main').html(data);
+				alert('일반회원 출석 로드 실패');
 			}
+
 		});
 	}
-	
-	function normalMemList(){
+
+	function normalDailyCheck() {
+		$.ajax({
+			type : "get",
+			url : "normaldailycheck",
+			data : {
+				id : "company1"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('일반회원 출석 로드 실패');
+			}
+
+		});
+	}
+
+	function programDailyCheck() {
+		$.ajax({
+			type : "get",
+			url : "programdailycheck",
+			data : {
+				id : "company1"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('일반회원 출석 로드 실패');
+			}
+
+		});
+	}
+
+	function normalMemList() {
 		$.ajax({
 			type : "get",
 			url : "memberlistc",
@@ -178,8 +187,8 @@
 
 		});
 	}
-	
-	function trainerMemList(){
+
+	function trainerMemList() {
 		$.ajax({
 			type : "get",
 			url : "trainerlistc",
@@ -192,6 +201,24 @@
 			},
 			error : function() {
 				alert('트레이너 목록 로드 실패');
+			}
+
+		});
+	}
+	
+	function salesHistory() {
+		$.ajax({
+			type : "get",
+			url : "saleshistory",
+			data : {
+				id : 'company1'
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('판매 목록 로드 실패');
 			}
 
 		});

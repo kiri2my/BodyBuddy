@@ -3,20 +3,71 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bodybuddy.hey.dao.YoonDao">
+	
+		<resultMap type="OpCategory" id="OpCategory">
+		<result property="op_adcode" column="OP_ADCODE" />
+		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER"/> 
+		<result property="op_name" column="OP_NAME"  />
+		<result property="op_price" column="OP_PRICE" />
+		<result property="op_category" column="OP_CATEGORY" />
+		<result property="m_name" column="M_NAME" />
+		<result property="m_addr" column="M_ADDR"/>
+		</resultMap>
+		
 
+		
 	<select id="mainList" resultType="HashMap">
 		SELECT DISTINCT * FROM MAINLIST
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-		ORDER BY AD_CODE
+		ORDER BY
+		AD_CODE
 	</select>
-	<select id="opCateListAll" resultType="opCategory" >
+	<select id="opCateListAll" resultMap="OpCategory">
 		SELECT * FROM CATEGORY
-	</select>
-	
-	<!-- <resultMap type="String" id="dibsId">
-		<result property="d_id" column="D_ID" jdbcType="NVARCHAR2" javaType="String" />
-	</resultMap> -->
+	</select> 
+
+	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
+		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
 	<select id="dibsN" parameterType="String">
-		SELECT * FROM D WHERE D_ID=#{d_id}
+		SELECT * FROM D WHERE
+		D_ID=#{d_id}
 	</select>
+
+	<select id="getproListN" resultType="HashMap">
+	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	FROM PS
+	JOIN AD on PS_ADCODE = AD_CODE
+	JOIN OP on PS_OPCODE = OP_CODE
+	JOIN C ON AD_NAME=C_ID
+	JOIN DA ON PS_CODE=DA_PSCODE
+	WHERE PS_MID= #{m_id} AND AD_KIND='p'
+	</select>
+
+	<select id="getnormalListN" resultType="HashMap">
+	<![CDATA[
+	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	FROM PS
+	JOIN AD on PS_ADCODE = AD_CODE
+	JOIN OP on PS_OPCODE = OP_CODE
+	JOIN C ON AD_NAME=C_ID
+	JOIN DA ON PS_CODE=DA_PSCODE
+	WHERE PS_MID=#{m_id} AND AD_KIND='mo'
+		]]>
+	</select>
+	<select id="getpayListN" resultType="HashMap">
+		SELECT AD_TITLE,
+		OP_CATEGORY, PS_PRICE, PS_DATE, OP_NAME, OP_PERIOD
+		FROM PS
+		JOIN AD on
+		PS_ADCODE = AD_CODE
+		JOIN OP on OP_CODE = PS_OPCODE
+		WHERE PS_MID=#{m_id}
+	</select>
+	<select id="getModifyN" parameterType="String" resultType="Member">
+	SELECT * FROM M WHERE M_ID=#{m_id}
+	</select>
+	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
+	SELECT * FROM PF WHERE PF_ID=#{m_id}
+	</select> 
 </mapper>

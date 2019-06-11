@@ -25,97 +25,98 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-	
+
 </head>
 
 <body>
-<!-- 	<div class="container-scroller">
+	<!-- 	<div class="container-scroller">
 		partial
 		<div class="container-fluid page-body-wrapper"> -->
-			<!-- partial:partials/_sidebar.html -->
-			<nav class="sidebar sidebar-offcanvas" id="sidebar">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
 
-				<ul class="nav" >
+		<ul class="nav">
 
-					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="normalMemList()"><!-- onclick="location.href='/memberlist'" --> <i
-							class="mdi mdi-account-multiple menu-icon"></i> <span
-							class="menu-title">회원 관리</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="normalMemList()">
+					<!-- onclick="location.href='/memberlist'" --> <i
+					class="mdi mdi-account-multiple menu-icon"></i> <span
+					class="menu-title">회원 관리</span>
+			</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="trainerMemList()"> <i
-							class="mdi mdi-human-handsup menu-icon"></i> <span
-							class="menu-title">트레이너 관리</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="trainerMemList()"> <i
+					class="mdi mdi-human-handsup menu-icon"></i> <span
+					class="menu-title">트레이너 관리</span>
+			</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="#aaaa" data-toggle="collapse"
-						aria-expanded="false" aria-controls="aaaa"> <i
-							class="mdi mdi-calendar-check menu-icon"></i> <span
-							class="menu-title">출결/근태 관리</span> <i class="menu-arrow"></i>
-					</a>
+			<li class="nav-item"><a class="nav-link" href="#aaaa"
+				data-toggle="collapse" aria-expanded="false" aria-controls="aaaa">
+					<i class="mdi mdi-calendar-check menu-icon"></i> <span
+					class="menu-title">출결/근태 관리</span> <i class="menu-arrow"></i>
+			</a>
 
-						<div class="collapse" id="aaaa">
-							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link"
-									href="#" onclick="dailyCheck()">일반회원 출결보기</a></li>
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/typography.html">프로그램 출결보기</a></li>
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/buttons.html">트레이너 근태 보기</a></li>
-							</ul>
-						</div></li>
+				<div class="collapse" id="aaaa">
+					<ul class="nav flex-column sub-menu">
+						<li class="nav-item"><a class="nav-link" href="#"
+							onclick="normalDailyCheck()">일반회원 출결</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							onclick="programDailyCheck()">프로그램 출결</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							onclick="trainerDailyCheck()">트레이너 근태</a></li>
+					</ul>
+				</div></li>
 
-					<li class="nav-item"><a class="nav-link" href="#bbbb"
-						data-toggle="collapse" aria-expanded="false" aria-controls="bbbb">
-							<i class="mdi mdi-bulletin-board menu-icon"></i> <span
-							class="menu-title">업체 광고 관리</span> <i class="menu-arrow"></i>
-					</a>
+			<li class="nav-item"><a class="nav-link" href="#bbbb"
+				data-toggle="collapse" aria-expanded="false" aria-controls="bbbb">
+					<i class="mdi mdi-bulletin-board menu-icon"></i> <span
+					class="menu-title">업체 광고 관리</span> <i class="menu-arrow"></i>
+			</a>
 
-						<div class="collapse" id="bbbb">
-							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/buttons.html">새 프로그램 만들기</a></li>
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/typography.html">프로그램 수정</a></li>
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/buttons.html">모집광고 올리기</a></li>
-								<li class="nav-item"><a class="nav-link"
-									href="pages/ui-features/typography.html">모집광고 수정</a></li>
-							</ul>
-						</div></li>
+				<div class="collapse" id="bbbb">
+					<ul class="nav flex-column sub-menu">
+						<li class="nav-item"><a class="nav-link"
+							href="pages/ui-features/buttons.html">새 프로그램 만들기</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="pages/ui-features/typography.html">프로그램 수정</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="pages/ui-features/buttons.html">모집광고 올리기</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="pages/ui-features/typography.html">모집광고 수정</a></li>
+					</ul>
+				</div></li>
 
-					<li class="nav-item"><a class="nav-link"
-						href="pages/charts/chartjs.html"> <i
-							class="mdi mdi-comment-question-outline menu-icon"></i> <span
-							class="menu-title">문의관리</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="pages/charts/chartjs.html"> <i
+					class="mdi mdi-comment-question-outline menu-icon"></i> <span
+					class="menu-title">문의관리</span>
+			</a></li>
 
-					<li class="nav-item"><a class="nav-link"
-						href="pages/forms/basic_elements.html"> <i
-							class="mdi mdi-square-inc-cash menu-icon"></i> <span
-							class="menu-title">판매내역</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="pages/forms/basic_elements.html"> <i
-							class="mdi mdi-chart-areaspline menu-icon"></i> <span
-							class="menu-title">매출/실적 관리</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="#" onclick="salesHistory()"> <i
+					class="mdi mdi-square-inc-cash menu-icon"></i> <span
+					class="menu-title">판매내역</span>
+			</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="pages/forms/basic_elements.html"> <i
+					class="mdi mdi-chart-areaspline menu-icon"></i> <span
+					class="menu-title">매출/실적 관리</span>
+			</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="index.html">
-							<i class="mdi mdi-home-modern menu-icon"></i> <span
-							class="menu-title">업체 정보 수정</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link" href="index.html">
+					<i class="mdi mdi-home-modern menu-icon"></i> <span
+					class="menu-title">업체 정보 수정</span>
+			</a></li>
 
-					<li class="nav-item"><a class="nav-link"
-						href="pages/charts/chartjs.html"> <i
-							class="mdi mdi-walk menu-icon"></i> <span class="menu-title">회원
-								탈퇴하기</span>
-					</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="pages/charts/chartjs.html"> <i
+					class="mdi mdi-walk menu-icon"></i> <span class="menu-title">회원
+						탈퇴하기</span>
+			</a></li>
 
-				</ul>
-			</nav>
-			
+		</ul>
+	</nav>
+	
 
 	<!-- plugins:js -->
 	<script type="text/javascript"
@@ -149,5 +150,6 @@
 	<!-- End custom js for this page-->
 	<!-- Required meta tags -->
 </body>
+
 
 </html>

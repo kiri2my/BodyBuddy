@@ -44,10 +44,10 @@ public class HanHomeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/checkcnum", method = RequestMethod.POST)
-	public int checkCnum(String c_num) {
+	@RequestMapping(value = "/checkcompanynum", method = RequestMethod.POST)
+	public int checkCompanyNum(String c_num) {
 
-		int checknum = mm.checkCnum(c_num);
+		int checknum = mm.checkCompanyNum(c_num);
 
 		System.out.println();
 		return checknum;
@@ -84,12 +84,7 @@ public class HanHomeController {
 
 		return "loginJoinFrm/forgetpw";
 	}
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String logout() {
-		session.invalidate();
-		//mav.setViewName("home");
-		return "loginJoinFrm/loginFrm";
-	}
+
 
 
 

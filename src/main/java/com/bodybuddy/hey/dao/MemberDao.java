@@ -23,7 +23,7 @@ public interface MemberDao {
 
 	public int checkId(String s);
 
-	public int checkCnum(String c_num);
+	public int checkCompanyNum(String c_num);
 
 	public List<Member> forgetId(Member mb);
 
@@ -35,6 +35,7 @@ public interface MemberDao {
 
 	public List<Member> getTfindC(Member m);
 
+
 	public List<Question> getQuestionList(String id);
 
 	public boolean cancel(String id);
@@ -43,6 +44,11 @@ public interface MemberDao {
 
 	public boolean acceptrequestInsert(String id, String name);
 
+
+
+	public List<Member> getNormalMemberList(String id);
+
+	public List<Member> getProgramMemberList(String id);
 
 
 }

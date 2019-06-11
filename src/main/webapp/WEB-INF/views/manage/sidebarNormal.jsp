@@ -37,13 +37,13 @@
 
 				<ul class="nav" >
 
-					<li class="nav-item"><a class="nav-link" href="#"
+					<li class="nav-item"><a class="nav-link" href="infoprogramn?m_id=${id}"
 						onclick="normalMemList()"><!-- onclick="location.href='/memberlist'" --> <i
 							class="mdi mdi-account-multiple menu-icon"></i> <span
 							class="menu-title">내 프로그램 가기</span>
 					</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="#"
+					<li class="nav-item"><a class="nav-link" href="infomodifyfrmn?m_id=${id}"
 						onclick="trainerMemList()"> <i
 							class="mdi mdi-human-handsup menu-icon"></i> <span
 							class="menu-title">내 정보 수정</span>
@@ -56,7 +56,7 @@
 
 
 					<li class="nav-item"><a class="nav-link"
-						href="pages/charts/chartjs.html"> <i
+						href="payhistoryn?m_id=${id}"> <i
 							class="mdi mdi-walk menu-icon"></i> <span class="menu-title">결제 내역</span>
 					</a></li>
 	

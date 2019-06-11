@@ -149,26 +149,28 @@ if(kind=='n'||kind=='t'||kind=='c'){
 			"        <span class='nav-profile-name'>${mb.m_name}</span>\n" + 
 			"    </a>\n" + 
 			"    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='profileDropdown'>\n" + 
-			"        <a href='";
+			"        <a href=";
+			
 			
 			if(kind=='n'){
-				strKind += "infoprogramn?m_id=${mb.m_id}\n";
+				strKind += "infoprogramn?m_id=${mb.m_id} \n";
 				console.log(strKind);
 			}else if(kind=='t'){
-				strKind += "trainer?m_id=${mb.m_id}\n";
+				strKind += "trainer?m_id=${mb.m_id} target='_blank' \n";
 			}else if(kind=='c'){
-				strKind += "company?m_id=${mb.m_id}\n";
+				strKind += "company?m_id=${mb.m_id} target='_blank' \n";
 			}
- strKind += "' target='_blank' class='dropdown-item'>\n" + 
+ strKind += "' class='dropdown-item'>\n" + 
 			"            <i class='mdi mdi-settings text-primary'></i>\n" + 
 			"            마이페이지\n" + 
 			"        </a>\n" + 
-			"        <a href='#' class='dropdown-item'>\n" + 
+			"        <a href='logout' class='dropdown-item'>\n" + 
 			"            <i class='mdi mdi-logout text-primary'></i>\n" + 
 			"            로그아웃\n" + 
 			"        </a>\n" + 
 			"    </div>\n" + 
 			"</li>\n";
+
 			
 			$('#headerKind').html(strKind);
 }

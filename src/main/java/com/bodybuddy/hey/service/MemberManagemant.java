@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.dao.MemberDao;
 
 @Service
@@ -23,6 +24,7 @@ public class MemberManagemant {
 	Member m;
 
 	ModelAndView mav;
+
 	String view = null;
 
 	public ModelAndView normalMemberJoin(Member mb) {
@@ -66,7 +68,7 @@ public class MemberManagemant {
 
 		if (0 != mList.size()) {
 			System.out.println("member list select success");
-			view = "manage/memberListC";
+			view = "manage/company/normalDailyCheck";
 			mav.setViewName(view);
 			mav.addObject("mList", mList);
 		} else {
@@ -230,24 +232,23 @@ public class MemberManagemant {
 
 	}
 
-	public int checkCnum(String c_num) {
+	public int checkCompanyNum(String c_num) {
 		int cnum = 0;
-		cnum = mDao.checkCnum(c_num);
+		cnum = mDao.checkCompanyNum(c_num);
 		return cnum;
 	}
 
 	public ModelAndView forgetPw(Member mb) {
 		List<Member> tList = null;
-		
-		
+
 		tList = mDao.forgetPw(mb);
 		mav = new ModelAndView();
 		if (tList.size() == 0) {
 			mav.addObject("m_pw", "일치하는정보가 없습니다");
 		} else {
-			
+
 			mav = new ModelAndView();
-			mb.setM_pw(getRamdomPassword(12));			
+			mb.setM_pw(getRamdomPassword(12));
 			mav.addObject("m_pw", mb.getM_pw());
 			// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
@@ -260,6 +261,54 @@ public class MemberManagemant {
 		mav.setViewName(view);
 		return mav;
 
+	}
+
+	public ModelAndView getNormalMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> mList = null;
+		System.out.println("getNormalMemberList mDao in");
+		mList = mDao.getNormalMemberList(id);
+		System.out.println("mList = " + mList.get(0).getM_name());
+		System.out.println("mList size = " + mList.size());
+
+		if (0 != mList.size()) {
+			System.out.println("getNormalMemberList select success");
+			view = "manage/company/normalDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("mList", mList);
+		} else {
+			System.out.println("member list select error");
+			view = "redirect:memberListC.jsp";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
+	public ModelAndView getProgramMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> mList = null;
+		System.out.println("getProgramMemberList mDao in");
+		mList = mDao.getProgramMemberList(id);
+		System.out.println("mList = " + mList.get(0).getM_name());
+		System.out.println("mList size = " + mList.size());
+
+		if (0 != mList.size()) {
+			System.out.println("getProgramMemberList select success");
+			view = "manage/company/programDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("mList", mList);
+		} else {
+			System.out.println("member list select error");
+			view = "redirect:memberListC.jsp";
+			mav.setViewName(view);
+		}
+
+		return mav;
 	}
 
 	public static String getRamdomPassword(int len) {
