@@ -43,7 +43,7 @@
 							class="menu-title">내 프로그램 가기</span>
 					</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="#"
+					<li class="nav-item"><a class="nav-link" href="infomodifyfrmn?m_id=${id}"
 						onclick="trainerMemList()"> <i
 							class="mdi mdi-human-handsup menu-icon"></i> <span
 							class="menu-title">내 정보 수정</span>

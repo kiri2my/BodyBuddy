@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,7 +29,7 @@ public class YoonService {
 	HttpSession session;
 	
 
-	public ModelAndView mainList(HttpServletRequest request) {
+	public ModelAndView mainList( HttpServletRequest request) {
 		mav=new ModelAndView();
 		String view=null;
 		List<Map<String, String>> mainList=null;
@@ -37,7 +38,11 @@ public class YoonService {
 		
 		mainList = yDao.mainList();
 		opCateListAll  = yDao.opCateListAll();
-		
+		for(int i=0 ; i>opCateListAll.size(); i++) {
+			if(opCateListAll.get(i).getM_addr()==null) {
+			}
+		}
+	
 		//로그인 되어있을 시
 		session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -53,7 +58,7 @@ public class YoonService {
 		return mav;
 	}
 
-	private String makeHTMLMainList(List<Map<String,String>> mainList, List<OpCategory> opCateListAll, List<Map<String, String>> dibsList, HttpSession session) {
+	private String makeHTMLMainList(@Nullable List<Map<String,String>> mainList, @Nullable List<OpCategory> opCateListAll, @Nullable List<Map<String, String>> dibsList, @Nullable HttpSession session) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<div class=\"col-md-12 card scroll \">\r\n" + 
@@ -256,6 +261,18 @@ public class YoonService {
 		}
 		
 		return sb.toString();
+	}
+
+	public ModelAndView modifyN(String m_id) {
+		session.setAttribute("id", m_id);
+		String view=null;
+		Member mb=yDao.getModifyN(m_id);
+		Member mbPhoto=yDao.getPhotoModifyN(m_id);
+		mav.addObject("mb",mb);
+		mav.addObject("mbPhoto",mbPhoto);
+		view="manage/infoModifyN";
+		mav.setViewName(view);
+		return mav;
 	}
 
 
