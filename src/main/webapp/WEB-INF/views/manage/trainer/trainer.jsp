@@ -196,9 +196,9 @@
 	function questionList() {
 		$.ajax({
 			type : "GET",
-			url : "questionList",
+			url : "questionlist",
 			data : {
-				id:"3333"
+				id:"5555"
 			},
 			dataType : "html",
 			error : function() {
@@ -210,5 +210,6 @@
 			}
 		});
 	}
+	
 </script>
 </html>

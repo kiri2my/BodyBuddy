@@ -26,6 +26,12 @@ public class Member {
 	private String c_bphone;
 	 
 	private String pf_image;
+	
+	private String yn_code;
+	private String yn_company;
+	private String yn_trainer;
+	private String yn_state;
+	
 	 
 	
 }
