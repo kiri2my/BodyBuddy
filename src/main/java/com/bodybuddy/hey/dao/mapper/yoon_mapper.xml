@@ -4,36 +4,50 @@
 
 <mapper namespace="com.bodybuddy.hey.dao.YoonDao">
 	
-		<resultMap type="OpCategory" id="OpCategory">
-		<result property="op_adcode" column="OP_ADCODE" />
-		<result property="op_code" column="OP_CODE" />
-		<result property="op_trainer" column="OP_TRAINER"/> 
-		<result property="op_name" column="OP_NAME"  />
-		<result property="op_price" column="OP_PRICE" />
-		<result property="op_category" column="OP_CATEGORY" />
-		<result property="m_name" column="M_NAME" />
-		<result property="m_addr" column="M_ADDR"/>
-		</resultMap>
-		
-
-		
-	<select id="mainList" resultType="HashMap">
+	<select id="mainList" resultType="HashMap" >
 		SELECT DISTINCT * FROM MAINLIST
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-		ORDER BY
-		AD_CODE
+		ORDER BY AD_CODE DESC
 	</select>
-	<select id="opCateListAll" resultMap="OpCategory">
+	<resultMap type="OpCategory" id="opCategory">
+  		<result property="op_adcode" column="OP_ADCODE" />
+ 		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER"/> 
+  		<result property="op_name" column="OP_NAME"  />
+  		<result property="op_price" column="OP_PRICE" />
+  		<result property="op_category" column="OP_CATEGORY"/>
+  		<result property="m_name" column="M_NAME" />
+  		<result property="m_addr" column="M_ADDR"/>
+  	</resultMap>
+	
+	<select id="opCateListAll" resultMap="opCategory" >
 		SELECT * FROM CATEGORY
 	</select> 
-
-	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
-		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
-	<select id="dibsN" parameterType="String">
-		SELECT * FROM D WHERE
-		D_ID=#{d_id}
+	
+	<select id="dibsN" parameterType="String" resultType="HashMap" >
+		SELECT * FROM D WHERE D_ID=#{d_id}
 	</select>
-
+	
+	<select id="mainMapList2" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
+        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%')
+		ORDER BY AD_CODE DESC
+		]]>
+	</select>
+	
+	<select id="mainMapList1" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
+        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%')
+		ORDER BY AD_CODE DESC
+		]]>
+	</select>
+	
 	<select id="getproListN" resultType="HashMap">
 	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
@@ -44,7 +58,7 @@
 	WHERE PS_MID= #{m_id} AND AD_KIND='p'
 	</select>
 
-	<select id="getnormalListN" resultType="HashMap">
+	<select id="getnormalListN" parameterType="String" resultType="HashMap">
 	<![CDATA[
 	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
@@ -55,7 +69,7 @@
 	WHERE PS_MID=#{m_id} AND AD_KIND='mo'
 		]]>
 	</select>
-	<select id="getpayListN" resultType="HashMap">
+	<select id="getpayListN" parameterType="String" resultType="HashMap">
 		SELECT AD_TITLE,
 		OP_CATEGORY, PS_PRICE, PS_DATE, OP_NAME, OP_PERIOD
 		FROM PS
@@ -67,7 +81,22 @@
 	<select id="getModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM M WHERE M_ID=#{m_id}
 	</select>
+	
 	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM PF WHERE PF_ID=#{m_id}
 	</select> 
+	<select id="getdibs" resultType="HashMap">
+	SELECT AD_TITLE
+	FROM AD
+	JOIN DIBS
+	ON AD_CODE=D_ADCODE
+	WHERE D_ID=#{m_id}
+	</select>
+	<insert id="reviewInsert" parameterType="review">
+	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_adcode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
+	</insert>
+	<select id="reviewOverlap" parameterType="review" resultType="boolean">
+	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_ADCODE=#{rv_adcode}
+	</select>
+	
 </mapper>

@@ -64,6 +64,7 @@ to {
 </style>
 </head>
 <body>
+
 	<div class="container-scroller">
 
 
@@ -144,6 +145,7 @@ to {
 	
 							</div>
 						</div>
+						${ReviewError}
 					</div>
 					<br>
 					<br>
@@ -160,6 +162,7 @@ to {
 									<div class="col-sm-6 col-md-5"></div>
 									<div class="col-sm-6 col-md-5"></div>
 								</div>
+								
 								<div class="row">
 									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
@@ -221,5 +224,7 @@ to {
 
 
 </body>
-
+<script type="text/javascript">
+${alert}
+</script>
 </html>

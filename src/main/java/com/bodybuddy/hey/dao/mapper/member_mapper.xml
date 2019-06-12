@@ -31,7 +31,7 @@
 		COUNT(*) FROM M
 		WHERE M_ID = #{m_id}
 	</select>
-	<select id="checkCnum" parameterType="String"
+	<select id="checkCompanyNum" parameterType="String"
 		resultType="Integer">
 		SELECT COUNT(*) FROM C
 		WHERE C_NUM = #{c_num}
@@ -49,6 +49,12 @@
 		#{m_phone} AND
 		M_BIRTH = #{m_birth}
 	</select>
+	<update id="memberDeleteReal" parameterType="String">
+		UPDATE M SET M_PW =
+		'탈퇴회원',M_NAME = '탈퇴회원',M_PHONE = '탈퇴회원',M_BIRTH = SYSDATE,M_ADDR =
+		'탈퇴회원',M_EXADDR = '탈퇴회원'
+		WHERE M_ID = #{m_id}
+	</update>
 
 	<update id="temporaryPw" parameterType="String">
 		UPDATE M SET M_PW =

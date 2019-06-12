@@ -1,11 +1,14 @@
 package com.bodybuddy.hey.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
+import com.bodybuddy.hey.bean.Qna;
+import com.bodybuddy.hey.bean.Review;
 
 
 public interface KirimDao {
@@ -29,6 +32,20 @@ public interface KirimDao {
 	public boolean dibsAdd(Map<String, String> dibs);
 
 	public boolean dibsDelete(Map<String, String> dibs);
+
+	public List<Review> detailReview(String rv_adcode);
+	
+	public List<Qna> detailQa(String qa_adcode);
+
+	public HashMap<String, String> getTrainerProfile(String m_id);
+
+	public List<HashMap<String, String>> getTrainerProfileOption(String m_id);
+
+	public HashMap<String, String> getCompanyProfile(String m_id);
+
+	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
+
+	
 	
 
 

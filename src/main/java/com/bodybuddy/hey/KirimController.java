@@ -43,11 +43,15 @@ public class KirimController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/profilepage", method = RequestMethod.GET)
+	public ModelAndView profilePage(String m_id) {
+		mav = ks.profilePage(m_id);
+		return mav;
+	}
+	
 	@RequestMapping(value = "/detailpage", method = RequestMethod.GET)
 	public ModelAndView detailPage(String ad_code) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		mav = ks.detailPage(ad_code, request);
+		mav = ks.detailPage(ad_code);
 		return mav;
 	}
 	
@@ -55,28 +59,21 @@ public class KirimController {
 	@ResponseBody
 	public String purchSingle(Payment ph) { 
 		System.out.println("URL : /purchsingle");
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		html = ks.purchSingle(ph, request); 
+		html = ks.purchSingle(ph); 
 		return html; 
 	}
 	
 	@RequestMapping(value = "/dibsadd", method = RequestMethod.GET)
 	@ResponseBody
 	public String dibsAdd(@RequestParam("d_adcode") String d_adcode) {
-		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		html = ks.dibsAdd(d_adcode, request);
+		html = ks.dibsAdd(d_adcode);
 		return html;
 	}
 	
 	@RequestMapping(value = "/dibsdelete", method = RequestMethod.GET)
 	@ResponseBody
 	public String dibsDelete(@RequestParam("d_adcode") String d_adcode) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		html = ks.dibsDelete(d_adcode, request);
+		html = ks.dibsDelete(d_adcode);
 		return html;
 	}
 	

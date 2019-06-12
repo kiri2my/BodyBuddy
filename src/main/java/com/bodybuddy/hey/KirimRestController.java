@@ -27,35 +27,39 @@ public class KirimRestController { // Restful 방식
 	ModelAndView mav;
 
 	
-	 /*
-	 @RequestMapping(value = "ajax/replyInsert", produces = "application/json; charset=UTF-8") // 한글 깨짐방지
+	 
+	 /*@RequestMapping(value = "ajax/replyInsert", produces = "application/json; charset=UTF-8") // 한글 깨짐방지
 	 @ResponseBody public String replyInserte(@RequestBody Reply r) { // @ResponseBody:응답하는곳에다가찍는다. 
 		 String json = bm.replyInsert(r); return json; 
 	 }*/
 	
 
-	/*@RequestMapping(value = "/page/{adcode}", method = RequestMethod.GET)
-	public ModelAndView detailPage(@PathVariable String adcode) { // @ResponseBody생략가능
+	/*
+	@RequestMapping(value = "/page/{adcode}", method = RequestMethod.GET)
+	public ModelAndView detailPage(@PathVariable String adcode) { // @ResponseBody생략가능 @PathVariable쓰면 url에서 데이터받음
+		System.out.println("URL : /detail/page");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
+		System.out.println("adcodeadcodeadcodeadcode="+adcode);
 		mav = ks.detailPage(adcode, request);
 		return mav;
-	}*/
+	}
 	
-	/*@RequestMapping(value = "/{adcode}/qa", method = RequestMethod.GET)
+	@RequestMapping(value = "/qa", method = RequestMethod.GET)
 	public ModelAndView detailQa(String qa_adcode) {
-		System.out.println("url:/qa");
+		System.out.println("URL : /detail/qa");
 		System.out.println("222222222"+qa_adcode);
 		mav = ks.detailQa(qa_adcode);
-		return mav;
-	}*/
-	/*@RequestMapping(value = "/{adcode}/review", method = RequestMethod.GET)
+		return mav; 
+	}
+	@RequestMapping(value = "/review", method = RequestMethod.GET)
 	public ModelAndView detailReview(String rv_adcode) {
-		System.out.println("url:/review");
+		System.out.println("url:/detail/review");
 		System.out.println("111111111"+rv_adcode);
 		mav = ks.detailReview(rv_adcode);
 		return mav;
-	}*/
+	}
+	*/
 	
 	/*@RequestMapping(value = "{adcode}/purchsingle", method = RequestMethod.POST) 
 	public String purchSingle(Payment ph, HttpSession session) { 
