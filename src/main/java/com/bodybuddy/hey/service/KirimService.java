@@ -72,9 +72,7 @@ public class KirimService {
 					mb = kDao.getCompanyInfo(mb.getM_id());
 					break;
 				}
-<<<<<<< HEAD
 				session.setAttribute("mb", mb);
-=======
 				System.out.println("회원타입 확인 완료");
 				System.out.println("확인 후 값 확인 한다"+mb);
 				System.out.println("확인 후 값 확인 한다"+mb.getM_id());
@@ -82,7 +80,6 @@ public class KirimService {
 				System.out.println("확인 후 값 확인 한다"+mb.getM_kind());
 				session.setAttribute("mb", mb);
 				System.out.println("세션에 Member bean 저장");
->>>>>>> b339f098e94f2f370d5239abc4f7519c4264b122
 				//mav.addObject("mb", mb);// @SessionAttributes때문에 세션영역에 mb저장됨
 				// forward:url, POST-POST, GET-GET끼리만 가능
 				// view="forward:/board";
@@ -487,13 +484,10 @@ public class KirimService {
 		System.out.println("aaaad_code=" + ad_code);
 		Map<String, String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList = kDao.opCateList(ad_code);
-<<<<<<< HEAD
 		//qaList = kDao.detailQa(ad_code);
 		//rvList = kDao.detailReview(ad_code);
-=======
 
 		//session = request.getSession();
->>>>>>> b339f098e94f2f370d5239abc4f7519c4264b122
 		Member sessionMb = (Member) session.getAttribute("mb");
 
 		if(sessionMb!=null) {
