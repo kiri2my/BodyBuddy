@@ -1,7 +1,5 @@
 ﻿package com.bodybuddy.hey;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.mail.internet.MimeMessage;
@@ -15,10 +13,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.MemberManagemant;
+import com.bodybuddy.hey.service.SalesService;
 
 @Controller
 public class KwonController {
@@ -26,101 +26,173 @@ public class KwonController {
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
 	@Autowired
 	MemberManagemant mm;
-	   
+
+	@Autowired
+	SalesService ss;
+
+	@Autowired
+	KwonService ks;
+
 	@Autowired
 	private JavaMailSender mailSender;
-	
+
 	ModelAndView mav;
 
 	@RequestMapping(value = "/email")
 	public String email(Locale locale, Model model) {
-
 		return "email/emailCheckFrm";
 	}
-	
+
 	@RequestMapping(value = "/company")
 	public String company(Locale locale, Model model) {
-
 		return "manage/company/companyMain";
 	}
-	
-	@RequestMapping(value = "/memberlist")
-	public String memberList(Locale locale, Model model) {
 
-		return "manage/memberListC";
+	@RequestMapping(value = "/question")
+	public String question(Locale locale, Model model) {
+		return "manage/question/questionList";
 	}
-	
-	@RequestMapping(value = "/trainerlist")
-	public String trainerList(Locale locale, Model model) {
 
-		return "manage/trainerListC";
-	}
-	
-	@RequestMapping(value = "/dailycheck")
-	public String dailyCheck(Locale locale, Model model) {
-
-		return "manage/dailyCheck";
-	}
-	
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		System.out.println(id);
-		
+
 		mav = mm.getMemberList(id);
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/membersearch")
 	public ModelAndView memberSearch(HttpServletRequest request) {
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
 		System.out.println(name);
 		System.out.println(id);
-		
-		mav = mm.getMemberSearch(name,id);
-		
+
+		mav = mm.getMemberSearch(name, id);
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/trainerlistc")
 	public ModelAndView trainerListC(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		System.out.println(id);
-		
+
 		mav = mm.getTrainerList(id);
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/trainersearch")
 	public ModelAndView trainerSearch(HttpServletRequest request) {
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
 		System.out.println(name);
 		System.out.println(id);
-		
-		mav = mm.getTrainerSearch(name,id);
-		
+
+		mav = mm.getTrainerSearch(name, id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/normaldailycheck")
+	public ModelAndView normalDailyCheck(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+
+		mav = mm.getNormalMemberList(id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/programdailycheck")
+	public ModelAndView programDailyCheck(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+
+		mav = mm.getProgramMemberList(id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/trainerdailycheck")
+	public ModelAndView trainerDailyCheck(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+
+		mav = mm.getTrainerMemberList(id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/dailycheckinsert")
+	public ModelAndView dailyCheckInsert(HttpServletRequest request) {
+		System.out.println(request.getParameter("tid"));
+		System.out.println(request.getParameter("cid"));
+		System.out.println(request.getParameter("status"));
+
+		mav = ks.dailyCheckInsert(request);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/saleshistory")
+	public ModelAndView salesHistory(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+
+		mav = ss.getSalesHistory(id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/workingattitude", produces = "application/text; charset=utf8")
+	public @ResponseBody String workingAttitude(HttpServletRequest request) {
+
+		System.out.println("workingAttitude tid =" + request.getParameter("tid"));
+		System.out.println("workingAttitude cid =" + request.getParameter("cid"));
+
+		String gson = ks.getworkingAttitude(request);
+		System.out.println(gson);
+		System.out.println("여기까지");
+
+		return gson;
+	}
+
+	@RequestMapping(value = "/programmember", produces = "application/text; charset=utf8")
+	public @ResponseBody String programMember(HttpServletRequest request) {
+
+		String gson = ks.getProgramMember(request);
+		System.out.println(gson);
+
+		return gson;
+	}
+
+	@RequestMapping(value = "/programcheck")
+	public ModelAndView programCheckInsert(HttpServletRequest request) {
+
+		mav = ks.programCheckInsert(request);
+
 		return mav;
 	}
 
 	// mailSending 코드
-	@RequestMapping(value = "/sendEmail")
+	@RequestMapping(value="/sendEmail")
+
 	public String mailSending(HttpServletRequest request) {
 
 		String setfrom = "soonchul88@gmail.com";
 		String tomail = request.getParameter("tomail"); // 받는 사람 이메일
 		String title = request.getParameter("title"); // 제목
 		String content = request.getParameter("content"); // 내용
-		
+
 		System.out.println(setfrom);
 		System.out.println(tomail);
 		System.out.println(title);
 		System.out.println(content);
-		
-		
+
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");

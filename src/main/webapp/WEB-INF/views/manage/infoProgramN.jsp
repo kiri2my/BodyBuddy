@@ -58,9 +58,13 @@ to {
 .odd {
 	text-align: center;
 }
+.even {
+	text-align: center;
+}
 </style>
 </head>
 <body>
+
 	<div class="container-scroller">
 
 
@@ -68,8 +72,6 @@ to {
 		<div class="row">
 			<div class="col-md-12 grid-margin"></div>
 		</div>
-
-
 		<div class="row">
 			<div class="col-md-12 stretch-card">
 				<div class="card">
@@ -78,120 +80,72 @@ to {
 						<div class="table-responsive">
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+
 								<div class="row">
-									<div class="col-sm-12 col-md-6"></div>
-									<div class="col-sm-12 col-md-6"></div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
 												<tr role="row">
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1" aria-sort="ascending"
+														colspan="1" 
 														aria-label="Name: activate to sort column descending"
-														style="width: 100px;">업체명</th>
+														style="width: 80px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Status report: activate to sort column ascending"
-														style="width: 100px;">프로그램명</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">트레이너</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Office: activate to sort column ascending"
-														style="width: 100px;">트레이너</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 140px;">옵션</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Price: activate to sort column ascending"
-														style="width: 144px;">이용기간</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 140px;">이용기간</th>	
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Date: activate to sort column ascending"
-														style="width: 100px;">출결확인</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 70px;">카테고리</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">이용상태</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 70px;">이용상태</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">상담내역</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">상담내역</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">후기</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">출결현황</th>
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1"
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">후기</th>
 												</tr>
 											</thead>
 											<tbody>
 
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
+										${programListN}
+
 											</tbody>
 										</table>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-12 col-md-5"></div>
-									<div class="col-sm-12 col-md-7"></div>
-								</div>
+	
 							</div>
 						</div>
+						${ReviewError}
 					</div>
 					<br>
 					<br>
@@ -205,11 +159,12 @@ to {
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 								<div class="row">
-									<div class="col-sm-12 col-md-6"></div>
-									<div class="col-sm-12 col-md-6"></div>
+									<div class="col-sm-6 col-md-5"></div>
+									<div class="col-sm-6 col-md-5"></div>
 								</div>
+								
 								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
@@ -218,58 +173,36 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1" aria-sort="ascending"
 														aria-label="Name: activate to sort column descending"
-														style="width: 105px;">업체명</th>
+														style="width: 80px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Status report: activate to sort column ascending"
-														style="width: 105px;">이용기간</th>
+														style="width: 80px;">업체명</th>
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1"
+														aria-label="Status report: activate to sort column ascending"
+														style="width: 80px;">이용기간</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Office: activate to sort column ascending"
-														style="width: 96px;">출결확인</th>
+														style="width: 80px;">출결확인</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Price: activate to sort column ascending"
-														style="width: 37px;">이용상태</th>
+														style="width: 80px;">이용상태</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Date: activate to sort column ascending"
-														style="width: 69px;">후기쓰기</th>
+														style="width: 80px;">후기쓰기</th>
 											</thead>
 											<tbody>
-
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
+										
+			${getnormalListN}
 
 											</tbody>
 										</table>
@@ -291,4 +224,7 @@ to {
 
 
 </body>
+<script type="text/javascript">
+${alert}
+</script>
 </html>

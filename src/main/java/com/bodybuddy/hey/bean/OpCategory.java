@@ -15,8 +15,14 @@ public class OpCategory {
 	private int op_price;  
 	private String op_category;
 	
+<<<<<<< HEAD
 	private String m_name;//
 	private String m_addr;//
+=======
+	private String m_name;
+	private String m_addr;
+	
+>>>>>>> b339f098e94f2f370d5239abc4f7519c4264b122
 	 
  
 	

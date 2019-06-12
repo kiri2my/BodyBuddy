@@ -40,37 +40,38 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch"
-						placeholder="일반회원 검색">
+					<input type="text" class="span2" id="memsearch" placeholder="일반회원 검색">
 					<button type="button" onclick="memberSearch()" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
-							<c:set var="sales" value="${sList }" />
-							<c:if test="${empty sales }">
-									판매내역이 없습니다.
+							<c:set var="member" value="${mList }" />
+							<c:if test="${empty member }">
+									회원이 없습니다.
 								</c:if>
-							<c:if test="${!empty sales }">
+							<c:if test="${!empty member }">
 								<thead>
 									<tr>
-										<th style="width: 100px">판매번호</th>
-										<th style="width: 400px; text-align: center;">광고명</th>
-										<th style="width: 200px">결제자</th>
-										<th style="width: 100px">결제금액</th>
-										<th style="width: 100px">거래상태</th>
-										<th style="width: 200px">판매일자</th>
+										<th>이름</th>
+										<th style="width: 200px">이용기간</th>
+										<th style="width: 100px">남은기간</th>
+										<th>연락처</th>
+										<th>이용상태</th>
+										<th style="width: 100px">출석</th>
+										<th>현황</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="sales" items="${sList }">
+									<c:forEach var="member" items="${mList }">
 										<tr>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td>
-											<td style="text-align: center;"><a href="#" onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_mid})">${sales.m_name }(${sales.ps_mid})</a></td>
-											<td style="text-align: right;">${sales.ps_price }</td>
-											<td>결제완료</td>
-											<th>${sales.ps_date }</th>
+											<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+											<td>${member.ps_date }~${member.ps_date1 }</td>
+											<td>${member.ps_date2 }</td>
+											<td>${member.m_phone }</td>
+											<td>이용중</td>
+											<th><a href="#" onclick="ndc()">출석</a></th>
+											<th><a href="#" >보기</a></th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -81,7 +82,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- plugins:js -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -132,4 +133,3 @@
 	}
 </script>
 </html>
-

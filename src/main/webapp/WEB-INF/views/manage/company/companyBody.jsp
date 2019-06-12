@@ -4,34 +4,25 @@
 <html>
 
 <head>
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>COMPANY</title>
-<!-- plugins:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<!-- End plugin css for this page -->
-<!-- inject:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
-<!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 </head>
 
 <body>
-	<!-- partial -->
-	<div class="main-panel" >
+	<div class="main-panel">
 		<div class="content-wrapper">
-			<div class="row" >
+			<div class="row">
 				<div class="col-md-12 grid-margin stretch-card">
 					<div class="card">
 						<div class="card-body dashboard-tabs p-0">
@@ -291,14 +282,9 @@
 						</div>
 					</div>
 				</div>
-
-
-
 			</div>
 
 			<div class="row" style="height: 700px">
-
-
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">
 						<div class="card-body">
@@ -324,34 +310,23 @@
 				</div>
 			</div>
 		</div>
-		<!-- content-wrapper ends -->
-		<!-- partial:partials/_footer.html -->
-		
-		<!-- partial -->
 	</div>
-	<!-- main-panel ends -->
-
-	<!-- plugins:js -->
+	
+	
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 	<script type="text/javascript"
@@ -360,8 +335,6 @@
 		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-	<!-- End custom js for this page-->
-	<!-- Required meta tags -->
 </body>
 
 </html>

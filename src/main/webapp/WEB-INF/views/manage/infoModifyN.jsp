@@ -81,9 +81,44 @@
 .img_wrap img {
 	max-width: 100%;
 }
+
+#nav {
+	position: fixed;
+	top: 50px;
+	height: 90%;
+}
+
+#main {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 105%;
+}
+
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
+#footer {
+	position: relative;
+	left: 240px;
+	width: 70%;
+	padding: 15px 0;
+	text-align: center;
+	color: white;
+	background: gray;
+}
 </style>
 </head>
 <body>
+	<div id="wrap">
+		<div id="header">
+			<%-- <jsp:include page="headerNCT.jsp" /> --%>
+			<jsp:include page="../header.jsp" />
+		</div>
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="content-wrapper d-flex align-items-center auth px-0">
@@ -102,7 +137,7 @@
 								</div>
 								<div>
 									<div class="img_wrap">
-										<img id="img" />
+										<img id="img" value="${mbPhoto.pf_image}" />
 									</div>
 								</div>
 								<br>
@@ -115,7 +150,7 @@
 										</div>
 										<input type="email" name="m_id"
 											class="form-control form-control-lg border-left-0"
-											value="gozldsos@naver.com" disabled>
+											value="${mb.m_id}" disabled>
 									</div>
 								</div>
 
@@ -154,7 +189,7 @@
 										</div>
 										<input type="text" name="m_name"
 											class="form-control form-control-lg border-left-0"
-											value="윤상기" disabled>
+											value="${mb.m_name}" disabled>
 									</div>
 								</div>
 
@@ -168,7 +203,7 @@
 										</div>
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
-											placeholder="전화번호를 입력해주세요">
+											value="${mb.m_phone}">
 									</div>
 								</div>
 
@@ -176,7 +211,7 @@
 									<div class="input-group">
 										<input type="text" name="m_birth"
 											class="form-control form-control-lg border-left-0"
-											value="1992년 11월 7일" disabled>
+											value="${mb.m_birth}" disabled>
 									</div>
 								</div>
 
@@ -185,7 +220,7 @@
 
 										<input type="text" name="m_addr"
 											class="form-control form-control-lg border-left-0"
-											id="m_addr" placeholder="시/도-군/구">
+											id="sample6_address" value="${mb.m_addr}">
 										<button type="button" onclick="sample6_execDaumPostcode()"
 											class="btn btn-outline-secondary btn-md">주소 검색</button>
 									</div>
@@ -194,16 +229,13 @@
 									<div class="input-group">
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
+											value="${mb.m_exaddr}">
 									</div>
 								</div>
 
 
 								<div class="mb-4">
 									<div class="form-check">
-
-
-
 										<i class="input-helper"></i>
 									</div>
 								</div>
@@ -231,6 +263,11 @@
 	<script src="js/hoverable-collapse.js"></script>
 	<script src="js/template.js"></script>
 	<!-- endinject -->
+	   		<div id="nav">
+			<jsp:include page="sidebarNormal.jsp" />
+		</div>
+	</div>     
+   
 </body>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
@@ -386,7 +423,7 @@
 				}
 
 				// 우편번호와 주소 정보를 해당 필드에 넣는다.
-
+				
 				document.getElementById("sample6_address").value = addr;
 				// 커서를 상세주소 필드로 이동한다.
 

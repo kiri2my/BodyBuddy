@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.service;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,8 +44,9 @@ public class KirimService {
 
 	public ModelAndView access(Member mb) {
 		mav = new ModelAndView();
+		List<Member> mList = new ArrayList<Member>();
 		String view = null;
-
+		Member mmb = new Member();
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		// 해당 아이디의 암호화된 비번을 가져옴
 		String pwdEncode = kDao.getSecurityPwd(mb.getM_id());
@@ -70,20 +72,35 @@ public class KirimService {
 					mb = kDao.getCompanyInfo(mb.getM_id());
 					break;
 				}
+<<<<<<< HEAD
 				session.setAttribute("mb", mb);
+=======
+				System.out.println("회원타입 확인 완료");
+				System.out.println("확인 후 값 확인 한다"+mb);
+				System.out.println("확인 후 값 확인 한다"+mb.getM_id());
+				System.out.println("확인 후 값 확인 한다"+mb.getM_name());
+				System.out.println("확인 후 값 확인 한다"+mb.getM_kind());
+				session.setAttribute("mb", mb);
+				System.out.println("세션에 Member bean 저장");
+>>>>>>> b339f098e94f2f370d5239abc4f7519c4264b122
 				//mav.addObject("mb", mb);// @SessionAttributes때문에 세션영역에 mb저장됨
 				// forward:url, POST-POST, GET-GET끼리만 가능
 				// view="forward:/board";
 				// redirect:url, POST-GET 둘다 GET방식만 가능
 				view = "forward:/";
 			} else {// 비번오류
+				System.out.println("5252 비번이 틀렸다고");
 				view = "loginJoinFrm/loginFrm";
 				mav.addObject("loginCheck", "비번오류");
 			}
 		} else {// 아이디오류
+			System.out.println("5252 아이디가 틀렸다고");
 			view = "loginJoinFrm/loginFrm";
 			mav.addObject("loginCheck", "아이디오류");
 		}
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_id());
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_name());
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_kind());
 		mav.setViewName(view);
 		return mav;
 
@@ -470,9 +487,15 @@ public class KirimService {
 		System.out.println("aaaad_code=" + ad_code);
 		Map<String, String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList = kDao.opCateList(ad_code);
+<<<<<<< HEAD
 		//qaList = kDao.detailQa(ad_code);
 		//rvList = kDao.detailReview(ad_code);
+=======
+
+		//session = request.getSession();
+>>>>>>> b339f098e94f2f370d5239abc4f7519c4264b122
 		Member sessionMb = (Member) session.getAttribute("mb");
+
 		if(sessionMb!=null) {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);

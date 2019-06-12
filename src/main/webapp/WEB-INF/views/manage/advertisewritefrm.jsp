@@ -31,6 +31,7 @@
 
 
 <body>
+	<form action="adinsert">
     <div class="container">
         <table id="recent-purchases-listing" class="table">
             <thead>
@@ -60,25 +61,25 @@
                     <td >
                         <div class="checkbox">
                             <label for="foo">
-                                <input type="checkbox" id="foo">월
+                                <input type="checkbox" id="foo" name="mon">월
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">화
+                                <input type="checkbox" id="foo" name="tue">화
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">수
+                                <input type="checkbox" id="foo" name="wed">수
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">목
+                                <input type="checkbox" id="foo" name="thr">목
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">금
+                                <input type="checkbox" id="foo" name="fir">금
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">토
+                                <input type="checkbox" id="foo" name="sat">토
                             </label>
                             <label for="foo">
-                                <input type="checkbox" id="foo">일
+                                <input type="checkbox" id="foo" name="sun">일
                             </label>
                         </div>
                     </td>
@@ -113,11 +114,11 @@
                 </tr>
             </tbody>
         </table>
-        <button id="ins" class="btn btn-secondary" type="button">등록</button>
+        <button id="ins" class="btn btn-secondary" type="button" >등록</button>
         <button id="back" class="btn btn-secondary" type="button">돌아가기</button>
         
     </div>
-
+	</form>
 
 
 

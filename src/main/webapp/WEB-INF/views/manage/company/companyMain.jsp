@@ -5,27 +5,20 @@
 
 <head>
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-<!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page-->
-<!-- inject:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 <script type="text/javascript"
@@ -34,26 +27,17 @@
 	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-<!-- End custom js for this page-->
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY(지도없음,로그인함)</title>
-<!-- plugins:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<!-- End plugin css for this page -->
-<!-- inject:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
-<!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 
@@ -71,9 +55,9 @@
 
 #main {
 	position: absolute;
-	left: 240px;
-	top: 25px;
-	width: 105%;
+	left: 255px;
+	top: 50px;
+	width: 90%;
 }
 
 #memberList {
@@ -96,7 +80,6 @@
 </head>
 
 <body>
-	<!-- partial -->
 	<div id="wrap">
 		<div id="header">
 			<%-- <jsp:include page="headerNCT.jsp" /> --%>
@@ -116,52 +99,76 @@
 </body>
 
 <script type="text/javascript">
-	/* function memberList() {
+	function company() {
 		$.ajax({
-			type : "GET",
-			url : "memberlist",
+			type : "get",
+			url : "company",
 			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
-			},
 			success : function(data) {
-				$('#main').hide();
-				$('#main').html(data).trigger('create');
+				$('#main').append(data);
+			},
+			error : function() {
+				alert('일반회원 출석 로드 실패');
 			}
+
 		});
-	} 
-	
-	function trainerList() {
+	}
+
+	function normalDailyCheck() {
 		$.ajax({
-			type : "GET",
-			url : "trainerlist",
-			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
+			type : "get",
+			url : "normaldailycheck",
+			data : {
+				id : "company1"
 			},
+			dataType : "html",
 			success : function(data) {
-				$('#main').hide();
 				$('#main').html(data);
+			},
+			error : function() {
+				alert('일반회원 출석 로드 실패');
 			}
+
 		});
-	} */
-	
-	function dailyCheck() {
+	}
+
+	function programDailyCheck() {
 		$.ajax({
-			type : "GET",
-			url : "dailycheck",
-			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
+			type : "get",
+			url : "programdailycheck",
+			data : {
+				id : "company1"
 			},
+			dataType : "html",
 			success : function(data) {
-				/* $('#main').hide(); */
 				$('#main').html(data);
+			},
+			error : function() {
+				alert('프로그램  로드 실패');
 			}
+
 		});
 	}
 	
-	function normalMemList(){
+	function trainerDailyCheck() {
+		$.ajax({
+			type : "get",
+			url : "trainerdailycheck",
+			data : {
+				id : "company1"
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('트레이너 출석 로드 실패');
+			}
+
+		});
+	}
+
+	function normalMemList() {
 		$.ajax({
 			type : "get",
 			url : "memberlistc",
@@ -178,8 +185,8 @@
 
 		});
 	}
-	
-	function trainerMemList(){
+
+	function trainerMemList() {
 		$.ajax({
 			type : "get",
 			url : "trainerlistc",
@@ -196,6 +203,42 @@
 
 		});
 	}
+	
+	
+	function salesHistory() {
+		$.ajax({
+			type : "get",
+			url : "saleshistory",
+			data : {
+				id : 'company1'
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('판매 목록 로드 실패');
+			}
+
+		});
+	}
+	
+	function question() {
+		$.ajax({
+			type : "get",
+			url : "question",
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('문의 관리 로드 실패');
+			}
+
+		});
+	}
+	
+	
 </script>
 
 </html>

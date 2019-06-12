@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> --%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -40,37 +41,40 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch"
-						placeholder="일반회원 검색">
+					<input type="text" class="span2" id="memsearch" placeholder="회원 검색">
 					<button type="button" onclick="memberSearch()" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
-							<c:set var="sales" value="${sList }" />
-							<c:if test="${empty sales }">
-									판매내역이 없습니다.
+							<c:set var="trainer" value="${tList }" />
+							<c:if test="${empty trainer }">
+									회원이 없습니다.
 								</c:if>
-							<c:if test="${!empty sales }">
+							<c:if test="${!empty trainer }">
 								<thead>
 									<tr>
-										<th style="width: 100px">판매번호</th>
-										<th style="width: 400px; text-align: center;">광고명</th>
-										<th style="width: 200px">결제자</th>
-										<th style="width: 100px">결제금액</th>
-										<th style="width: 100px">거래상태</th>
-										<th style="width: 200px">판매일자</th>
+										<th style="width: 10%">이름</th>
+										<th style="width: 10%">입사일자</th>
+										<th style="width: 10%">연락처</th>
+										<th style="width: 10%">근태 입력</th>
+										<th style="width: 10%">근태 현황</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="sales" items="${sList }">
+									<c:forEach var="trainer" items="${tList }">
 										<tr>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td>
-											<td style="text-align: center;"><a href="#" onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_mid})">${sales.m_name }(${sales.ps_mid})</a></td>
-											<td style="text-align: right;">${sales.ps_price }</td>
-											<td>결제완료</td>
-											<th>${sales.ps_date }</th>
+											<td><a href="#">${trainer.m_name }(${trainer.m_id })</a></td>
+											<td>2019.6.3</td>
+											<td>${trainer.m_phone }</td>
+											<td><button class="btn btn-danger"
+													onclick="dailyCheck('출근','${trainer.m_id }')">출근</button>
+												<button class="btn btn-danger"
+													onclick="dailyCheck('결근','${trainer.m_id }')">결근</button>
+												<button class="btn btn-danger"
+													onclick="dailyCheck('휴가','${trainer.m_id }')">휴가</button>${msg}</td>
+											<td><a href="#"
+												onclick="workingAttitude('${trainer.m_id }')">근태보기</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -81,7 +85,18 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<div class="modal" id="modal"
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3>트레이너 근태</h3>
+		</div>
+		<div class="modal-body" id="modalBody"></div>
+	</div>
+
 	<!-- plugins:js -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -115,21 +130,74 @@
 		var name = $('#memsearch').val();
 		$.ajax({
 			type : "get",
-			url : "normalmembersearch",
+			url : "membersearch",
 			data : {
 				name : name,
 				id : '3333'
 			},
 			dataType : "html",
 			success : function(data) {
-				alert(data);
 				$('#main').html(data);
 			},
 			error : function() {
-				alert('일반회원 검색 실패');
+				alert('회원 검색 실패');
 			}
 		});
 	}
+
+	function dailyCheck(status, id) {
+		var status = status;
+		var tid = id;
+		var cid = 'company1';
+		$.ajax({
+			type : "POST",
+			url : "dailycheckinsert",
+			data : {
+				tid : tid,
+				status : status,
+				cid : cid
+			},
+			dataType : 'html',
+			success : function(data) {
+				alert("근태 입력 성공");
+			},
+			error : function() {
+				alert('트레이너 근태 입력 실패');
+			}
+		});
+	}
+
+	
+	function workingAttitude(id) {
+		var tid = id;
+		var cid = 'company1';
+		$
+				.ajax({
+					type : "post",
+					url : "workingattitude",
+					data : {
+						tid : tid,
+						cid : cid
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>근태</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].dt_date + "</td><td>"
+									+ data[i].dt_status + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+						/* $('#modalBody').append(data); */
+					},
+					error : function(error) {
+						alert('근태 목록 로드 실패');
+						console.log(error);
+					}
+				});
+	}
 </script>
 </html>
-

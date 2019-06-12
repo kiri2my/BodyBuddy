@@ -47,30 +47,32 @@
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
-							<c:set var="sales" value="${sList }" />
-							<c:if test="${empty sales }">
-									판매내역이 없습니다.
+							<c:set var="program" value="${pList }" />
+							<c:if test="${empty program }">
+									회원이 없습니다.
 								</c:if>
-							<c:if test="${!empty sales }">
+							<c:if test="${!empty program }">
 								<thead>
 									<tr>
-										<th style="width: 100px">판매번호</th>
-										<th style="width: 400px; text-align: center;">광고명</th>
-										<th style="width: 200px">결제자</th>
-										<th style="width: 100px">결제금액</th>
-										<th style="width: 100px">거래상태</th>
-										<th style="width: 200px">판매일자</th>
+										<th>프로그램명</th>
+										<th style="width: 200px">트레이너</th>
+										<!-- 	<th style="width: 100px">회원수</th> -->
+										<th>기간</th>
+										<th>상태</th>
+										<th style="width: 200px">모집 회원</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="sales" items="${sList }">
+									<c:forEach var="program" items="${pList }">
 										<tr>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td>
-											<td style="text-align: center;"><a href="#" onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_mid})">${sales.m_name }(${sales.ps_mid})</a></td>
-											<td style="text-align: right;">${sales.ps_price }</td>
-											<td>결제완료</td>
-											<th>${sales.ps_date }</th>
+											<td><a href="#">${program.ad_title }</a></td>
+											<td>${program.m_name}(${program.op_trainer })</td>
+											<!-- <td>32</td> -->
+											<td>${program.op_period }</td>
+											<td>진행중</td>
+											<th><button class="btn btn-danger"
+													onclick="programMember(${program.op_adcode})">회원
+													보기</button></th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -81,7 +83,18 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<div class="modal" id="modal"
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3>모집 회원</h3>
+		</div>
+		<div class="modal-body" id="modalBody"></div>
+	</div>
+
 	<!-- plugins:js -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -130,6 +143,59 @@
 			}
 		});
 	}
+	
+	function programMember(adcode) {
+		var adCode = adcode;
+		var cid = 'company1';
+		$.ajax({
+				type : "post",
+				url : "programmember",
+				data : {
+						code : adCode,
+						cid : cid
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						 var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>연락처</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].m_name+"("+data[i].m_id+")" + "</td><td>" + data[i].m_phone + "</td><td>" + data[i].m_birth + "</td><td><button class='btn btn-danger'	onclick='programCheck("+data[i].ps_code+")'>출석</button></td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+					},
+					error : function(error) {
+						alert('근태 목록 로드 실패');
+						console.log(error);
+					}
+		});
+	}
+	
+	programCheck
+	
+	function programCheck(psCode) {
+		var code = psCode;
+		alert(code);
+		
+		$.ajax({
+			type : "POST",
+			url : "programcheck",
+			data : {
+				code : code,
+			},
+			dataType : 'html',
+			success : function(data) {
+				alert("출석 입력 성공");
+			},
+			error : function() {
+				alert('출석 입력 실패');
+			}
+		});
+	}
+	
+	
+	
 </script>
 </html>
-

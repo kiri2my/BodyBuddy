@@ -40,7 +40,7 @@
 					<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>회원번호</th>
+								<th>회원번호!</th>
 								<th>회원명</th>
 								<th>생년월일</th>
 								<th>등록기간</th>

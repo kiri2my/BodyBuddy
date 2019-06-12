@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,59 +34,41 @@
 					<p class="card-title">문의 관리</p>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
+							<c:set var="question" value="${qList }" /> 
+								<c:if test="${empty question }">
+									문의가 없습니다.
+								</c:if> 
+								<c:if test="${!empty question }">
+							
 							<thead>
 								<tr>
 									<th>광고명</th>
-									<th>내용</th>
+									<th>문의내용</th>
 									<th>작성자</th>
 									<th>등록일</th>
 									<th>답변상태</th>
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="question" items="${qList }">
 								<tr>
-									<td>회원모집 광고</td>
-									<td>이용 관련 문의 드려요</td>
-									<td>고용근</td>
-									<td>2019.6.3 18:20:25</td>
-									<td>YES <a href="" class="btn btn-inverse">답변</a>
-									</td>
+									<td><a href="#">${question.ad_title }</a></td>
+									<td><a href="#">${question.qa_wcontent }</a></td>
+									<td><a href="#">${question.qa_writer }</a></td>
+									<td>${question.qa_wdate }</td>
+									<td>${question.qa_adate }</td>
 								</tr>
-								<tr>
-									<td>요가 광고</td>
-									<td>요일 관련 문의 드려요</td>
-									<td>정우성</td>
-									<td>2019.6.3 19:10:57</td>
-									<td>NO <a href="" class="btn btn-inverse" s>답변</a></td>
-								</tr>
+								</c:forEach>
 							</tbody>
+							</c:if>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div
-			class="d-sm-flex justify-content-center justify-content-sm-between">
-			<span
-				class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-				FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved.
-				Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i>
-			</span>
-
-		</div>
-	</footer>
-	<!-- partial -->
-	</div>
-	<!-- main-panel ends -->
-	</div>
-	<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
+	
+	
 
 	<!-- plugins:js -->
 	<script src="vendors/base/vendor.bundle.base.js"></script>

@@ -1,6 +1,5 @@
 package com.bodybuddy.hey.service;
 
-import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +22,7 @@ public class MemberManagemant {
 	Member m;
 
 	ModelAndView mav;
+
 	String view = null;
 
 	public ModelAndView normalMemberJoin(Member mb) {
@@ -230,24 +230,23 @@ public class MemberManagemant {
 
 	}
 
-	public int checkCnum(String c_num) {
+	public int checkCompanyNum(String c_num) {
 		int cnum = 0;
-		cnum = mDao.checkCnum(c_num);
+		cnum = mDao.checkCompanyNum(c_num);
 		return cnum;
 	}
 
 	public ModelAndView forgetPw(Member mb) {
 		List<Member> tList = null;
-		
-		
+
 		tList = mDao.forgetPw(mb);
 		mav = new ModelAndView();
 		if (tList.size() == 0) {
 			mav.addObject("m_pw", "일치하는정보가 없습니다");
 		} else {
-			
+
 			mav = new ModelAndView();
-			mb.setM_pw(getRamdomPassword(12));			
+			mb.setM_pw(getRamdomPassword(12));
 			mav.addObject("m_pw", mb.getM_pw());
 			// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
@@ -262,6 +261,54 @@ public class MemberManagemant {
 
 	}
 
+	public ModelAndView getNormalMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> mList = null;
+		System.out.println("getNormalMemberList mDao in");
+		mList = mDao.getNormalMemberList(id);
+		System.out.println("mList = " + mList.get(0).getM_name());
+		System.out.println("mList size = " + mList.size());
+
+		if (0 != mList.size()) {
+			System.out.println("getNormalMemberList select success");
+			view = "manage/company/normalDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("mList", mList);
+		} else {
+			System.out.println("member list select error");
+			view = "redirect:memberListC.jsp";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
+	public ModelAndView getProgramMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> pList = null;
+		System.out.println("getProgramMemberList mDao in");
+		pList = mDao.getProgramMemberList(id);
+		System.out.println("pList = " + pList.get(0).getM_name());
+		System.out.println("pList size = " + pList.size());
+
+		if (0 != pList.size()) {
+			System.out.println("getProgramMemberList select success");
+			view = "manage/company/programDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("pList", pList);
+		} else {
+			System.out.println("getProgramMemberList select error");
+			view = "manage/company/programDailyCheck";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
 	public static String getRamdomPassword(int len) {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -274,5 +321,31 @@ public class MemberManagemant {
 		}
 		return sb.toString();
 	}
+
+	public ModelAndView getTrainerMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> tList = null;
+		System.out.println("getTrainerMemberList mDao in");
+		tList = mDao.getTrainerMemberList(id);
+		System.out.println("tList = " + tList.get(0).getM_name());
+		System.out.println("tList size = " + tList.size());
+
+		if (0 != tList.size()) {
+			System.out.println("getTrainerMemberList select success");
+			view = "manage/company/trainerDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("tList", tList);
+		} else {
+			System.out.println("getTrainerMemberList select error");
+			view = "manage/company/trainerDailyCheck";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
+	
 
 }
