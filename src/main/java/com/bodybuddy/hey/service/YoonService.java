@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
+import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.dao.YoonDao;
 import com.google.gson.Gson;
 
@@ -217,8 +218,9 @@ public class YoonService {
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "													<td>상담내역보기</td>\r\n"
 					+ "													<td>출결현황보기</td>\r\n"
-					+ "													<td>후기쓰기</td>\r\n"
-					+ "												</tr>");
+					+ "													<td><a href='" + "reviewwritefrm?ad_code="
+					+ getprogramListN.get(i).get("AD_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
+					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
 		}
 		return sb.toString();
 	}
@@ -233,7 +235,7 @@ public class YoonService {
 					+ "													<td>" + getnormalListN.get(i).get("OP_PERIOD")
 					+ "</td>\r\n" + "													<td>출결현황보기</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td>후기쓰기</td>\r\n"
+					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ad_code="+getnormalListN.get(i).get("AD_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -284,4 +286,54 @@ public class YoonService {
 		return mav;
 	}
 
+	public ModelAndView dibsList(String m_id) {
+		session.setAttribute("id", m_id);
+		String view = null;
+		List<Map<String, String>> dibs = null;
+		dibs = yDao.getdibs(m_id);
+		String html = makeHTMLdibsPage(dibs);
+		mav.addObject("dibs", html);
+		view = "manage/dibsListN";
+		mav.setViewName(view);
+		return mav;
+	}
+
+	private String makeHTMLdibsPage(List<Map<String, String>> dibs) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < dibs.size(); i++) {
+			System.out.println("-----------------------==" + dibs.get(i).get("AD_TITLE"));
+			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td class=\"sorting_1\">"
+					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
+					+ "													<td><button>삭제</button></td>\r\n"
+					+ "												</tr>");
+		}
+		return sb.toString();
+	}
+
+	public ModelAndView reviewWriteFrm(String m_id, String ad_code) {
+		ModelAndView mav = new ModelAndView();
+		Review rv = new Review();
+		rv.setRv_name(m_id);
+		rv.setRv_adcode(ad_code);
+		if (yDao.reviewOverlap(rv)) {// true
+			String alert = "alert('이미 해당 광고글에 후기등록을 하셨습니다');";
+			mav.addObject("alert", alert);
+
+			mav.setViewName("forward:/infoprogramn");
+		} else {// false
+			mav.addObject("m_id", m_id);
+			mav.addObject("ad_code", ad_code);
+			mav.setViewName("manage/review");
+		}
+		return mav;
+	}
+
+	public ModelAndView insertReview(Review rv) {
+		String view = null;
+		boolean insertRv = yDao.reviewInsert(rv);
+		view = "manage/normal/normalMain";
+		mav.setViewName(view);
+		return mav;
+	}
 }

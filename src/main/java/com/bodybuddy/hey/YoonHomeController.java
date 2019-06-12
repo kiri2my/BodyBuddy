@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.service.YoonService;
 
 @Controller
@@ -58,15 +59,30 @@ public class YoonHomeController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/reviewwritefrm")
+	public ModelAndView reviewWriteFrm(String m_id, String ad_code)  {	
+		mav=ys.reviewWriteFrm(m_id, ad_code);
+		return mav;
+	}
+
+	
+	
+	@RequestMapping(value = "/reviewwriteinsert")
+	public ModelAndView insertReview(Review rv) {
+		mav=ys.insertReview(rv);
+		return mav;
+	}
+
 	@RequestMapping(value = "/infomodifyfrmn")
 	public ModelAndView modifyN(String m_id) {
 		mav=ys.modifyN(m_id);
 		return mav;
 	}
 	@RequestMapping(value = "/dibsn")
-	public String login3(Model model) {
-		
-		return "manage/dibsListN";
+	public ModelAndView dibsList(String m_id) {
+		System.out.println("mmmmmmmmmmmmmmm="+m_id);
+		mav=ys.dibsList(m_id);
+		return mav;
 	}
 	@RequestMapping(value = "/memberdelten")
 	public String login4(Model model) {
@@ -81,6 +97,7 @@ public class YoonHomeController {
 		 mav=ys.payListN(m_id);
 		return mav;
 	  }
+	 
 	 
 
 }
