@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.service.YoonService;
 
 @Controller
@@ -28,36 +29,59 @@ public class YoonHomeController {
 	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
 	
 	ModelAndView mav;
+	@Autowired
+	HttpSession session;
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout() {
+		session.invalidate();
+		String view = null;
+		view="forward:/";
+		mav.setViewName(view);
+		return mav;
+	
+	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList() { //int pageNum 게시판페이징
-		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		mav=ys.mainList(request);
+	public ModelAndView mainList(String sido, String sigungu, String extra) { //int pageNum 게시판페이징
+		mav=ys.mainList(sido, sigungu, extra);
 		return mav;
 	}
-	
+	//manage/normal/normalMain
 	@RequestMapping(value = "/infoprogramn")
-	public String login(Model model) {
-		
-		return "manage/normal/normalMain";
+	public ModelAndView getInfoProgramN(String m_id) {
+		mav=ys.programListN(m_id);
+		return mav;
 	}
-
+	@RequestMapping(value = "/reviewwritefrm")
+	public ModelAndView reviewWriteFrm(String m_id, String ad_code)  {	
+		mav=ys.reviewWriteFrm(m_id, ad_code);
+		return mav;
+	}
+	@RequestMapping(value = "/reviewwriteinsert")
+	public ModelAndView insertReview(Review rv) {
+		mav=ys.insertReview(rv);
+		return mav;
+	}
 	@RequestMapping(value = "/infomodifyfrmn")
-	public String login2(Model model) {
-		
-		return "manage/infoModifyN";
+	public ModelAndView modifyN(String m_id) {
+		mav=ys.modifyN(m_id);
+		return mav;
 	}
 	@RequestMapping(value = "/dibsn")
-	public String login3(Model model) {
-		
-		return "manage/dibsListN";
+	public ModelAndView dibsList(String m_id) {
+		System.out.println("mmmmmmmmmmmmmmm="+m_id);
+		mav=ys.dibsList(m_id);
+		return mav;
 	}
 	@RequestMapping(value = "/memberdelten")
 	public String login4(Model model) {
 		
 		return "manage/payHistoryN.";
+	}
+	@RequestMapping(value = "/payhistoryn") 
+	public ModelAndView payList(String m_id) {
+		 mav=ys.payListN(m_id);
+		return mav;
 	}
 
 }

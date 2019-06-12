@@ -197,7 +197,7 @@ function dibsDelete() {
 		}); //ajax End
 	});//click danger
 }//end dibsDelete
-/*
+
 $("#review-tab").click(function(){
 		//var obj=$("#rFrm").serializeObject(); //{속성:값,속성:값}
 		var ad_code = $("#ad_code").val();
@@ -213,7 +213,7 @@ $("#review-tab").click(function(){
 			data:{rv_adcode:ad_code},
 			//data:$('#rFrm').serialize(), 폼 전체 데이터 전송
 			dataType:'json',
-			contentType:"application/json",
+			//contentType:"application/json",
 			success:function(data,status,xhr){
 				console.log(data);
 				var str='';
@@ -235,7 +235,7 @@ $("#qa-tab").click(function(){
 		url:'qa',
 		data:{qa_adcode:ad_code},
 		dataType:'json',
-		contentType:"application/json",
+		//contentType:"application/json",
 		success:function(data,status,xhr){
 			console.log(data);
 			var str='';
@@ -249,7 +249,7 @@ $("#qa-tab").click(function(){
 	}); //ajax End
 
 });//qna click End
-*/
+
 </script>
 
 </html>

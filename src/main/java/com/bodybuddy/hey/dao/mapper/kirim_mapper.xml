@@ -19,19 +19,33 @@
 	<select parameterType="String" id="getTrainerInfo" resultType="member"> 
 	SELECT * FROM TINFO WHERE M_ID = #{m_id} 
 	</select>
+	
 
 	<select parameterType="String" id="getCompanyInfo" resultType="member"> 
 	SELECT * FROM CINFO WHERE M_ID = #{m_id} 
 	</select>
+	
+	
 		
 	<resultMap type="HashMap" id="detailPageResultMap">
-		<result property="AD_CONTENT" column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
+		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
 	</resultMap>
+	
 	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
 	SELECT * FROM DETAILPAGE WHERE AD_CODE = #{ad_code} 
 	</select>
-			
-	<select id="opCateList" parameterType="String" resultType="opCategory">
+	
+	<resultMap type="OpCategory" id="opCategory">
+  		<result property="op_adcode" column="OP_ADCODE" />
+ 		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER"/> 
+  		<result property="op_name" column="OP_NAME"  />
+  		<result property="op_price" column="OP_PRICE" />
+  		<result property="op_category" column="OP_CATEGORY"/>
+  		<result property="m_name" column="M_NAME" />
+  		<result property="m_addr" column="M_ADDR"/>
+  	</resultMap>			
+	<select id="opCateList" parameterType="String" resultType="opCategory" resultMap="opCategory">
 		SELECT * FROM CATEGORY WHERE OP_ADCODE = #{ad_code}
 	</select>
 
@@ -47,6 +61,38 @@
 	<insert id="purchSingle" parameterType="Payment">
 		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
 	</insert>
+	
+	
+	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
+		SELECT M.M_ID, M.M_NAME, M.M_KIND, T.T_CID, T.T_CAREER, C.C_BNAME, PF.PF_IMAGE 
+		FROM M
+		LEFT JOIN T ON M.M_ID=T.T_ID
+		LEFT JOIN C ON T.T_CID=C.C_ID
+		LEFT JOIN PF ON M.M_ID=PF_ID
+		WHERE M.M_ID=#{m_id} AND M.M_KIND='t'
+	</select>
+	
+	<select parameterType="String" id="getTrainerProfileOption" resultType="HashMap"> 
+		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CATEGORY, OP_NAME, OP_PERIOD, AD_TITLE, AD_STATUS, AD_DATE, AD_KIND, 
+		AD_NAME, MT.M_ADDR AS T_ADDR, MC.M_ADDR AS AD_ADDR, C_BNAME
+		FROM OP
+		LEFT JOIN AD ON OP_ADCODE = AD_CODE
+		LEFT JOIN M MT ON OP_TRAINER=MT.M_ID
+		LEFT JOIN M MC ON AD_NAME=MC.M_ID
+		LEFT JOIN C ON AD_NAME=C_ID
+		WHERE OP_TRAINER=#{m_id} 
+	</select>
+	
+	<select parameterType="String" id="getCompanyProfile" resultType="HashMap"> 
+		SELECT M_ID, M_NAME, M_PHONE, M_ADDR, C_NUM, C_BNAME, C_BPHONE ,PF_IMAGE FROM CINFO
+		WHERE M_ID=#{m_id} 
+	</select>
+	
+	<select parameterType="String" id="getCompanyProfileOption" resultType="HashMap"> 
+		SELECT AD_CODE, AD_TITLE, AD_DATE, AD_STATUS, AD_KIND FROM AD
+		WHERE AD_NAME=#{m_id} 
+	</select>
+	
 	
 	
 	
