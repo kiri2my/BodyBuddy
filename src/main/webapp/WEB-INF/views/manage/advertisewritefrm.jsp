@@ -31,7 +31,7 @@
 
 
 <body>
-	<form>
+	<form action="adinsert">
     <div class="container">
         <table id="recent-purchases-listing" class="table">
             <thead>
@@ -114,7 +114,7 @@
                 </tr>
             </tbody>
         </table>
-        <button id="ins" class="btn btn-secondary" type="button">등록</button>
+        <button id="ins" class="btn btn-secondary" type="button" >등록</button>
         <button id="back" class="btn btn-secondary" type="button">돌아가기</button>
         
     </div>

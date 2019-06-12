@@ -66,7 +66,7 @@ public class JungService {
 				+ "													<tr>\n"
 				+ "														<td>" + bname + "</td>\n"
 				+ "														<td>" + addr + "</td>\n"
-				+ "														<td><button onclick='request()'>요청</button></td>\n"
+				+ "														<td><button onclick='acceptrequest()'>요청</button></td>\n"
 				+ "														<td><button onclick='cancel()'>취소</button></td>\n"
 				+ "														<td>" + state + "</td>\n"
 				+ "													</tr>\n"
@@ -222,16 +222,17 @@ public class JungService {
 		m.setC_bname(name);
 		System.out.println("id:"+m.getM_id());
 		System.out.println("name:"+m.getC_bname());
-		System.out.println("m.getM_id(id)" + m.getM_id());
 		List<Member> mList = new ArrayList<Member>();
-		System.out.println("켄슬전");
+		System.out.println("들어가자");
 
-		System.out.println("update");
-		mDao.acceptrequestupdate(id, name);
+		if(mDao.acceptrequestupdate(m)) {
+			System.out.println("update 완료");
+		}else if(mDao.acceptrequestInsert(id,name)) {
+			System.out.println("insert 완료");
+		}
+		System.out.println("나오자");
 
-		/*
-		 * System.out.println("insert"); mDao.acceptrequestInsert(id, name);
-		 */
+		
 
 		/*
 		 * mList = mDao.getTfindC(m); System.out.println("다오다녀옴"); String addr =

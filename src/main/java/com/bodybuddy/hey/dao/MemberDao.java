@@ -40,7 +40,6 @@ public interface MemberDao {
 
 	public boolean cancel(String id);
 
-	public boolean acceptrequestupdate(String id, String name);
 
 	public boolean acceptrequestInsert(String id, String name);
 
@@ -49,6 +48,8 @@ public interface MemberDao {
 	public List<Member> getNormalMemberList(String id);
 
 	public List<Member> getProgramMemberList(String id);
+
+	public boolean acceptrequestupdate(Member m);
 
 
 }

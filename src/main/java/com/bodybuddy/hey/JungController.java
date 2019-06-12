@@ -113,6 +113,7 @@ public class JungController {
 		String id = request.getParameter("id");
 		System.out.println("id="+id);
 		String name = request.getParameter("name");
+		System.out.println("name="+name);
 		
 		String html = js.acceptrequest(id,name);
 		
