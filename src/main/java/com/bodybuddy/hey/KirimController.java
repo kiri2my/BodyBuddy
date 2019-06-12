@@ -43,6 +43,12 @@ public class KirimController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/profilepage", method = RequestMethod.GET)
+	public ModelAndView profilePage(String m_id) {
+		mav = ks.profilePage(m_id);
+		return mav;
+	}
+	
 	@RequestMapping(value = "/detailpage", method = RequestMethod.GET)
 	public ModelAndView detailPage(String ad_code) {
 		mav = ks.detailPage(ad_code);

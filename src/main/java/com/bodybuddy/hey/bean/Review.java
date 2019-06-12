@@ -8,14 +8,13 @@ import lombok.Setter;
 
 @Alias("review")
 @Setter @Getter
-public class Review { 
-	private String rv_num;
-	private String rv_adcode;
-	private String rv_name;
-	private String rv_content;
-	private String rv_date;
-	private int rv_stpoint;
-	
 
+public class Review {
+	 private String rv_num;
+	 private String rv_adcode;
+	 private String rv_name;
+	 private String rv_content;
+	 private String rv_date;
+	 private int rv_stPoint;
 
 }

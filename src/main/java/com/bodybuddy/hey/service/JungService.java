@@ -3,6 +3,7 @@ package com.bodybuddy.hey.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -252,5 +253,23 @@ public class JungService {
 
 		return "zzz";
 	}
+
+	public ModelAndView adinsert(Question adadd, String[] day) {
+		
+		String ad_title = adadd.getAd_title();
+		System.out.println("ad_title : "+ad_title);
+		
+		String ad_content = adadd.getAd_content();
+		System.out.println("ad_content : "+ad_content);
+		for(int i =0;i<day.length;i++) {
+			System.out.println("출력 : "+day[i]);
+		}
+		int op_price = adadd.getOp_price();
+		System.out.println("op_price : "+ op_price);
+		
+		return null;
+	}
+
+	
 
 }

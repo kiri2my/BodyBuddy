@@ -101,15 +101,15 @@
 	</beans:bean> -->
 	
 	<!--Session Interceptor(가로채기)-->
-	<interceptors>
+	<!--<interceptors>
 		<interceptor>
-			<mapping path="/*"/><!-- Mapping의 모든 요청은 Controller에 도착하기 전에 가로챈다. -->	
-		 	<!-- <exclude-mapping path="/"/> --><!-- exclude-mapping의 요청은 가로채지 않는다 -->
+			<mapping path="/*"/> Mapping의 모든 요청은 Controller에 도착하기 전에 가로챈다.
+		 	<exclude-mapping path="/"/> exclude-mapping의 요청은 가로채지 않는다  
 		 	
 		 	
 		 	<beans:bean class="com.bodybuddy.hey.userClass.SessionInterceptor"/>
 		</interceptor>
-	</interceptors>
+	</interceptors>-->
 
 
 

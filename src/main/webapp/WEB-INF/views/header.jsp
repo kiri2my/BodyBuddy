@@ -156,9 +156,9 @@ if(kind=='n'||kind=='t'||kind=='c'){
 				strKind += "infoprogramn?m_id=${mb.m_id} \n";
 				console.log(strKind);
 			}else if(kind=='t'){
-				strKind += "trainer?m_id=${mb.m_id} target='_blank' \n";
+				strKind += "trainer?m_id=${mb.m_id} \n";
 			}else if(kind=='c'){
-				strKind += "company?m_id=${mb.m_id} target='_blank' \n";
+				strKind += "company?m_id=${mb.m_id}  \n";
 			}
  strKind += "' class='dropdown-item'>\n" + 
 			"            <i class='mdi mdi-settings text-primary'></i>\n" + 

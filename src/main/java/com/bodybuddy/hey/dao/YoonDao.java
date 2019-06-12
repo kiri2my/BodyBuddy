@@ -16,6 +16,10 @@ public interface YoonDao {
 
 	List<Map<String, String>> dibsN(String d_id);
 
+	List<Map<String, String>> mainMapList2(Map<String, String> local);
+
+	List<Map<String, String>> mainMapList1(Map<String, String> local);
+
 	List<Map<String, String>> getproListN(String m_id);
 
 	List<Map<String, String>> getnormalListN(String m_id);
@@ -31,6 +35,5 @@ public interface YoonDao {
 	boolean reviewInsert(Review rv);
 
 	boolean reviewOverlap(Review rv);
-
 	
 }
