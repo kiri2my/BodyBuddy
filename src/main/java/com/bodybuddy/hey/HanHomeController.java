@@ -91,8 +91,8 @@ public class HanHomeController {
 	}
 	// mailSending 코드
 		@ResponseBody
-		@RequestMapping(value="/mailCheck")
-		public String mailSending() {
+		@RequestMapping(value="/sendrndnum")
+		public String sendRndNum() {
 			
 			System.out.println("메일 보내기");
 			String setfrom = "soonchul88@gmail.com"; //보내는 아이디

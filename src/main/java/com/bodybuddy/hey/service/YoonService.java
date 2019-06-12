@@ -244,8 +244,10 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>"
 					+ getprogramListN.get(i).get("OP_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td>상담내역보기</td>\r\n"
-					+ "													<td>출결현황보기</td>\r\n"
+					+ "</td>\r\n" + "<td><button class='showCounsel'>상담내역보기</button>"
+							+ "<input type='hidden' value='"+getprogramListN.get(i).get("AD_CODE")+"'/>"
+							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
+					+ "		<td>출결현황보기</td>\r\n"
 					+ "													<td><a href='" + "reviewwritefrm?ad_code="
 					+ getprogramListN.get(i).get("AD_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
@@ -365,7 +367,33 @@ StringBuilder sb = new StringBuilder();
 		return mav;
 	}
 	
+	public ModelAndView counselListn(String cs_adcode, String cs_mid) {
+		List<Map<String, String>> getCounselListN = null;
+		String view=null;
+		Map<String,String> cs = new HashMap<>();
+		cs.put("CS_ADCODE", cs_adcode);
+		cs.put("CS_MID", cs_mid);
+		getCounselListN=yDao.getCounsel(cs_adcode,cs_mid);
+		String html = makeHTMLCounselPage(getCounselListN);
+		mav.addObject("counselList", html);
+		view="manage/counselNList";
+		mav.setViewName(view);
+		return mav;
+	}
 
+	private String makeHTMLCounselPage(List<Map<String, String>> getCounselListN) {
+		StringBuilder sb=new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i <  getCounselListN.size(); i++) { 
+			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
+		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+				"													<td>자세히보기</td>\r\n" + 
+				"													<td>" + Date + "</td>\r\n" + 
+				"												</tr>");
+		}
+		return sb.toString();
+	}
+	
 	
 
 	
