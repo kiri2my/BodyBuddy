@@ -171,7 +171,9 @@
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력"> <input type="hidden" value="t"
-											id="m_kind" name="m_kind" />
+											id="m_kind" name="m_kind" /> 
+											<input type="hidden" value="소속업체없음"id="t_cid" name="t_cid" /> 
+											<input type="hidden" value=" "	id="t_career" name="t_career" />
 									</div>
 
 								</div>

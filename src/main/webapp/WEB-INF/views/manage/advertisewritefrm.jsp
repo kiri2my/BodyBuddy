@@ -137,14 +137,14 @@ body {
 						<td style="vert ical-align: middle">
 							<div class="radio">
 								<label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio1" value="option1">
+									name="op_content" id="" value="am">
 									오전
 								</label> <label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									name="op_content" id="" value="pm">
 									오후
-								</label> <input type="text" placeholder="시작시간" style="width: 80px">
-								<input type="text" placeholder="종료시간" style="width: 80px">
-								<br> <input type="text" placeholder="횟수"
+								</label> <input name="op_content" type="text" placeholder="시작시간" style="width: 80px">
+								<input name="op_content" type="text" placeholder="종료시간" style="width: 80px">
+								<br> <input name="op_content" type="text" placeholder="횟수"
 									style="width: 160px">
 							</div>
 						</td>
@@ -152,7 +152,7 @@ body {
 
 					<tr id="damdang" style="display: none">
 						<th>담당자</th>
-						<td style="vertical-align: middle"><select
+						<td style="vertical-align: middle"><select name="op_trainer"
 							class="form-control" style="width: 100px">
 								<option>트레이너1</option>
 								<option>트레이너2</option>
@@ -211,15 +211,20 @@ body {
 <script>
 	$(".box input").attr("abled", true);
 	$("#chk").on('click', function() {
+		
 		var chk = $('input:checkbox[id="chk"]').is(":checked");
 		if (chk == true) {
 			$(".box input").attr("disabled", true);
 			$(".box").addClass("on");
+			$("#testDatepicker").val("");
 			
 		} else {
 			$(".box input").removeAttr('disabled');
 			$(".box").removeClass("on");
+			
+			
 		}
+		
 	});
 	$(function() {
 		$("#testDatepicker").datepicker({

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.JungService;
 import com.bodybuddy.hey.service.MemberManagemant;
@@ -30,6 +32,8 @@ import com.bodybuddy.hey.service.MemberManagemant;
 public class JungController {
 	@Autowired
 	JungService js;
+	@Autowired
+	HttpSession session;
 	
 	ModelAndView mav;
 	
@@ -73,14 +77,19 @@ public class JungController {
 		return "manage/advertisemodifyfrm";
 	}
 	
-	
-	@RequestMapping(value = "/profileModifyT")
-	public ModelAndView profileModifyT(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
-		System.out.println("profileModifyT controller");
-		mav = js.getProfileList(id);
+	@ResponseBody
+	@RequestMapping(value = "/profileModifyT" ,method = RequestMethod.GET)
+	public ModelAndView profileModifyT() {
+		System.out.println("/profileModifyT 시작");
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println(mb.getM_id());
+		String m_id = mb.getM_id();
 		
+
+		System.out.println(m_id);
+		System.out.println("profileModifyT controller");
+		mav = js.getProfileList(m_id);
+		System.out.println("끝");
 		return mav;
 	}
 	
@@ -127,8 +136,8 @@ public class JungController {
 	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
 		
 		String[] day = request.getParameterValues("day");
-		
-		mav=js.adinsert(adadd,day);
+		String[] op_content = request.getParameterValues("op_content");
+		mav=js.adinsert(adadd,day,op_content);
 		
 		return mav;
 	}

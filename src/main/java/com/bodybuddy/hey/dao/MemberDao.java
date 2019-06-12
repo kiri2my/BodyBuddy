@@ -31,7 +31,7 @@ public interface MemberDao {
 
 	public void temporaryPw(Member mb);
 	
-	public Member getProfileList(String id);
+	public Member getProfileList(String m_id);
 
 	public List<Member> getTfindC(Member m);
 

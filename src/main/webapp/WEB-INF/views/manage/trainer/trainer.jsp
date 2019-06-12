@@ -176,12 +176,10 @@
 	}
 	
 	function profileModifyT() {
+		alert("얍야얍");
 		$.ajax({
 			type : "GET",
 			url : "profileModifyT",
-			data : {
-				id:"3333	"
-			},
 			dataType : "html",
 			error : function() {
 				alert('통신실패!!');

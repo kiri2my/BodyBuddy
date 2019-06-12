@@ -27,26 +27,18 @@ public class JungService {
 	String view = null;
 	ModelAndView mav;
 
-	public ModelAndView getProfileList(String id) {
+	public ModelAndView getProfileList(String m_id) {
 		System.out.println("정 서비스");
 		mav = new ModelAndView();
 		String view = null;
-
 		m = new Member();
-		m = mDao.getProfileList(id);
+		System.out.println("696969696969696969   "+m_id);
+		m = mDao.getProfileList(m_id);
 
-		if (null != m) {
-			System.out.println("profile list select success");
+		view = "manage/profileModifyT";
+		mav.setViewName(view);
 
-			view = "manage/profileModifyT";
-			mav.setViewName(view);
-
-			mav.addObject("m", m);
-		} else {
-			System.out.println("profile list select error");
-			view = "redirect:profileModifyT.jsp";
-			mav.setViewName(view);
-		}
+		mav.addObject("m", m);
 
 		return mav;
 	}
@@ -111,8 +103,9 @@ public class JungService {
 		System.out.println("정 서비스");
 		mav = new ModelAndView();
 		String view = null;
-
 		m = new Member();
+		List<Member> mList = new ArrayList<Member>();
+
 		m = mDao.getProfileList(id);
 		System.out.println("이거다");
 		if (null != m) {
@@ -221,19 +214,17 @@ public class JungService {
 		m = new Member();
 		m.setM_id(id);
 		m.setC_bname(name);
-		System.out.println("id:"+m.getM_id());
-		System.out.println("name:"+m.getC_bname());
+		System.out.println("id:" + m.getM_id());
+		System.out.println("name:" + m.getC_bname());
 		List<Member> mList = new ArrayList<Member>();
 		System.out.println("들어가자");
 
-		if(mDao.acceptrequestupdate(m)) {
+		if (mDao.acceptrequestupdate(m)) {
 			System.out.println("update 완료");
-		}else if(mDao.acceptrequestInsert(id,name)) {
+		} else if (mDao.acceptrequestInsert(id, name)) {
 			System.out.println("insert 완료");
 		}
 		System.out.println("나오자");
-
-		
 
 		/*
 		 * mList = mDao.getTfindC(m); System.out.println("다오다녀옴"); String addr =
@@ -254,22 +245,29 @@ public class JungService {
 		return "zzz";
 	}
 
-	public ModelAndView adinsert(Question adadd, String[] day) {
-		
+	public ModelAndView adinsert(Question adadd, String[] day, String[] op_content) {
+
 		String ad_title = adadd.getAd_title();
-		System.out.println("ad_title : "+ad_title);
-		
+		System.out.println("ad_title : " + ad_title);
+
 		String ad_content = adadd.getAd_content();
-		System.out.println("ad_content : "+ad_content);
-		for(int i =0;i<day.length;i++) {
-			System.out.println("출력 : "+day[i]);
+		System.out.println("ad_content : " + ad_content);
+
+		for (int i = 0; i < day.length; i++) {
+			System.out.println("day출력 : " + day[i]);
 		}
+
 		int op_price = adadd.getOp_price();
-		System.out.println("op_price : "+ op_price);
-		
+		System.out.println("op_price : " + op_price);
+
+		for (int i = 0; i < op_content.length; i++) {
+			System.out.println("op_content출력 : " + op_content[i]);
+		}
+
+		String op_trainer = adadd.getOp_trainer();
+		System.out.println("op_trainer : " + op_trainer);
+
 		return null;
 	}
-
-	
 
 }
