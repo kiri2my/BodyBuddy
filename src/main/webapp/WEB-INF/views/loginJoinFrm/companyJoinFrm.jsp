@@ -288,7 +288,7 @@
 	$('#numCheck').click(function() {
 		console.log($('#c_num').val());
 		$.ajax({
-			url : "checkcnum",
+			url : "checkcompanynum",
 			type : "post",
 			data : {
 				"c_num" : $('#c_num').val()
@@ -350,7 +350,8 @@
 					maxlength : 20
 				},
 				m_addr : "required",
-				agree : "required"
+				agree : "required",
+				m_exaddr : "required"
 			//email: true	
 			},//end rules
 
@@ -388,6 +389,7 @@
 
 				},
 				m_addr : "주소를 입력 해주세요",
+				m_exaddr : "상세주소를 입력 해주세요",
 				agree : "개인정보 보호 동의해 체크해주세요"
 
 			}

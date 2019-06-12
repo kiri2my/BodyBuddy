@@ -92,6 +92,23 @@
 										<br />
 									</div>
 								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend bg-transparent">
+											<span class="input-group-text bg-transparent border-right-0">
+												<i class="mdi mdi-email-outline text-primary"></i>
+											</span>
+										</div>
+										<input type="text" name="emailNum" id="emailNum"
+											class="form-control form-control-lg border-left-0"
+											placeholder="인증번호" />
+										<input type="button" class="btn btn-outline-secondary btn-md"
+											id="mailCheck" value="인증번호전송" />
+										<input type="hidden" class="btn btn-outline-secondary btn-md"
+											id="mailNumCheck" name="mailenum" value="인증번호확인"/>
+										<br />
+									</div>
+								</div>
 
 								<div class="form-group">
 
@@ -169,8 +186,8 @@
 									<div class="input-group">
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
-											<input type="hidden" value="t" id="m_kind" name="m_kind"/>
+											placeholder="상세주소 입력"> <input type="hidden" value="n"
+											id="m_kind" name="m_kind" />
 									</div>
 								</div>
 								<div class="mb-4">
@@ -216,8 +233,46 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <script>
-	console.log($('#joinbtn'));
+//인증메일전송
+var mail = null;
 
+	$('#mailCheck').click(function() {
+		$.ajax({
+			url : "mailCheck",
+			type : "post",
+			dataType : "html",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+					$('#mailNumCheck').prop("type", "button");
+					$('#mailCheck').prop("type", "hidden");
+					mail = data;
+					console.log("data"+data);
+					console.log("mail"+mail);
+					alert("인증번호를  발송하였습니다")
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		});//end ajax
+
+	});//end click
+	//인증번호 체크
+	$("#mailNumCheck").click(function () {
+		console.log(mail);
+	
+		if($("#emailNum").val() == mail){
+			$('#joinbtn').prop("disabled", false);
+			alert("인증되었습니다")
+		}else{
+			alert("인증번호를 다시 확인해주세요")
+		}
+	})
+
+	
+	
+	//중복아이디 체크
 	$('#idCheck').click(function() {
 		console.log($('#m_id').val());
 		$.ajax({
@@ -226,13 +281,12 @@
 			data : {
 				"m_id" : $('#m_id').val()
 			},
-			dataType  : "html",
+			dataType : "html",
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 			success : function(data) {
 				if (data < 1) {
 					alert(" 사용가능한 아이디입니다  ");
 					console.log(data);
-					$('#joinbtn').prop("disabled", false);
 					console.log(m_id);
 				} else {
 					alert(" 중복된 아이디입니다 ");
@@ -317,6 +371,7 @@
 
 				},
 				m_addr : "주소를 입력 해주세요",
+				m_exaddr : "상세주소를 입력 해주세요",
 				agree : "개인정보 보호 동의해 체크해주세요"
 
 			}

@@ -2,8 +2,10 @@
 
 import java.util.Locale;
 
+import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.MemberManagemant;
 import com.bodybuddy.hey.service.SalesService;
@@ -33,6 +36,9 @@ public class KwonController {
 	@Autowired
 	KwonService ks;
 
+	@Autowired
+	HttpSession session;
+	
 	@Autowired
 	private JavaMailSender mailSender;
 
@@ -179,34 +185,29 @@ public class KwonController {
 	}
 
 	// mailSending 코드
-	@RequestMapping(value="/sendEmail")
+		@RequestMapping(value="/sendEmail1")
+		public String mailSending() {
+			System.out.println("메일 보내기");
+			String setfrom = "soonchul88@gmail.com"; //보내는 아이디
+			String title = "BodyBuddy 인증번호"; // 제목
+			Member mb = (Member) session.getAttribute("mb"); //세션 가져오자
+			String m_id = mb.getM_id(); // 받는사람 아이디
+			String certification = mm.getRamdomPassword(10);//내용 인증번호 디비에 저장
+			
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
-	public String mailSending(HttpServletRequest request) {
+				messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
+				messageHelper.setTo(m_id); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText("인증번호 : "+certification); // 메일 내용,인증번호
 
-		String setfrom = "soonchul88@gmail.com";
-		String tomail = request.getParameter("tomail"); // 받는 사람 이메일
-		String title = request.getParameter("title"); // 제목
-		String content = request.getParameter("content"); // 내용
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 
-		System.out.println(setfrom);
-		System.out.println(tomail);
-		System.out.println(title);
-		System.out.println(content);
-
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-
-			messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
-			messageHelper.setTo(tomail); // 받는사람 이메일
-			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
-			messageHelper.setText(content); // 메일 내용
-
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e);
+			return "redirect:/";
 		}
-
-		return "redirect:/";
-	}
 }

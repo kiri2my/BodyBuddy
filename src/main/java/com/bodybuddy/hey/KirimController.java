@@ -45,9 +45,7 @@ public class KirimController {
 	
 	@RequestMapping(value = "/detailpage", method = RequestMethod.GET)
 	public ModelAndView detailPage(String ad_code) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		mav = ks.detailPage(ad_code, request);
+		mav = ks.detailPage(ad_code);
 		return mav;
 	}
 	

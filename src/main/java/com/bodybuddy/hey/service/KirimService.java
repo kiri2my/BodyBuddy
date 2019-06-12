@@ -168,7 +168,7 @@ public class KirimService {
 		return html;
 	}
 
-	public ModelAndView detailPage(String ad_code, HttpServletRequest request) {
+	public ModelAndView detailPage(String ad_code) {
 		mav = new ModelAndView();
 		String view = null;
 		List<Map<String, String>> dibsList=null;

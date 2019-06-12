@@ -68,5 +68,8 @@ public interface MemberDao {
 
 	public boolean programcheckInsert2(String da_code);
 
+	public boolean memberDeleteReal(String m_id);
+
+
 
 }
