@@ -8,19 +8,18 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Majestic Admin</title>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
-<link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <style type="text/css">/* Chart.js */
 @
 -webkit-keyframes chartjs-render-animation {
@@ -61,6 +60,51 @@ to {
 .even {
 	text-align: center;
 }
+#articleView_layer {
+
+	display: none;
+	position: fixed;	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#articleView_layer.open {
+	display: block;
+	color: red
+}
+
+#articleView_layer #bg_layer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+	z-index: 100;
+}
+
+ #contents_layer {
+	
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	width: 700px;
+	height: 700px;
+	margin: -150px 0 0 -194px;
+	padding: 28px 28px 0 28px;
+	border: 2px solid #555;
+	background: silver;
+	font-size: 12px;
+	z-index: 200;
+	color: #767676;
+	line-height: normal;
+	white-space: normal;
+	overflow: scroll
+} 
 </style>
 </head>
 <body>
@@ -145,11 +189,14 @@ to {
 	
 							</div>
 						</div>
-						${ReviewError}
 					</div>
 					<br>
 					<br>
 					<br>
+					<div id="articleView_layer">
+					<div id="bg_layer"></div>
+					<div id="contents_layer"></div>
+					</div>
 					<br>
 					<br>
 					<br>
@@ -224,7 +271,42 @@ to {
 
 
 </body>
-<script type="text/javascript">
+<script>
 ${alert}
+
+$(".showCounsel").click(function(){
+
+	var adnum=$(".showCounsel").parent().children().eq(1).val();
+	var mid=$(".showCounsel").parent().children().eq(2).val();
+	console.log(adnum);
+	console.log(mid);
+ 	$('#articleView_layer').addClass('open');
+	$.ajax({
+		type:'post', 
+		url:'counsellistn',
+		data:{cs_adcode:adnum,cs_mid:mid},
+		dataType:'html',
+		success:function(data){
+			console.log(data);
+			$('#contents_layer').html(data);
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+	//ajax End 
+
+});
+
+	
+
+	//ModalBox 해제
+	var $layerWindow=$('#articleView_layer');
+	$layerWindow.find('#bg_layer').on('mousedown',function(event){
+		console.log(event);
+		$layerWindow.removeClass('open');
+		
+	})//function End
 </script>
 </html>
