@@ -33,9 +33,9 @@ public interface KirimDao {
 
 	public boolean dibsDelete(Map<String, String> dibs);
 
-	public List<Review> detailReview(String rv_adcode);
+	public List<Review> detailReview(String ad_code);
 	
-	public List<Qna> detailQa(String qa_adcode);
+	public List<Qna> detailQa(String ad_code);
 
 	public HashMap<String, String> getTrainerProfile(String m_id);
 

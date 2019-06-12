@@ -51,13 +51,13 @@ public class KirimService {
 		// 해당 아이디의 암호화된 비번을 가져옴
 		
 		
-		if(mb.getM_id()==mDao.deleteRealId){
+		if(mb.getM_id()==mDao.deleteRealIdCheck()){
 			mav.setViewName("loginJoinFrm/loginFrm");
 			mav.addObject("loginCheck", "탈퇴회원");
 			return mav;
 		}
 		
-		String pwdEncode = kDao.getSecurityPwd(mb.getM_pw());
+		String pwdEncode = kDao.getSecurityPwd(mb.getM_id());
 		System.out.println("access패스워드="+pwdEncode);
 		if (pwdEncode != null) { // 암호화된 비번이 존재한다면:아이디가 존재
 			if (pwdEncoder.matches(mb.getM_pw(), pwdEncode)) {
@@ -158,8 +158,9 @@ public class KirimService {
 		} else if (sessionMb != null) {// 회원 찜 제거
 			String sessionId = sessionMb.getM_id();
 			Map<String, String> dibs = new HashMap<>();
-			dibs.put("D_ADCODE", d_adcode);
-			dibs.put("D_ID", sessionId);
+			dibs.put("d_adcode", d_adcode);
+			dibs.put("d_id", sessionId);
+			System.out.println("^^^^^^^^^^^^^^"+dibs.get("d_adcode"));
 			if (kDao.dibsDelete(dibs)) {
 				html = suc;// "님의 찜 목록에서 제거되었습니다";
 			}
@@ -479,24 +480,21 @@ public class KirimService {
 	public ModelAndView detailPage(String ad_code) {
 		mav = new ModelAndView();
 		String view = null;
+		Member sessionMb=null;
 		List<Map<String, String>> dibsList=null;
 		List<Qna> qaList = null;
 		List<Review> rvList = null;
-		
 		System.out.println("aaaad_code=" + ad_code);
 		Map<String, String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList = kDao.opCateList(ad_code);
-		//qaList = kDao.detailQa(ad_code);
-		//rvList = kDao.detailReview(ad_code);
-
-		//session = request.getSession();
-		Member sessionMb = (Member) session.getAttribute("mb");
-
+		qaList = kDao.detailQa(ad_code);
+		rvList = kDao.detailReview(ad_code);
+		sessionMb = (Member) session.getAttribute("mb");
 		if(sessionMb!=null) {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);
 		}
-		String html = makeHTMLDetailPage(dp, opCateList, dibsList, session);
+		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList);
 		
 		view = "detailPage";
 		mav.addObject("detailPageHTML", html);
@@ -515,7 +513,8 @@ public class KirimService {
 		return text;
 	}
 
-	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList, List<Map<String, String>> dibsList, HttpSession session) {
+	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList, 
+			List<Map<String, String>> dibsList, Member sessionMb, List<Qna> qaList, List<Review> rvList) {
 		StringBuilder sb = new StringBuilder();
 		String ad_code = dp.get("AD_CODE").toString();
 		System.out.println("HTMLad_code===="+ad_code);
@@ -605,45 +604,45 @@ public class KirimService {
 					//}
 				}
 	  sb.append("</div>");
-	  			//찜버튼시작
-	  		String addBtn="<a class=\"btn btn-default\" role=\"button\">"+
-					  "<button id='"+"dibsAdd"+ad_code+"'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">" + 
-					  "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + 
-					  "</button></a>";
-	  		String delBtn="<a class=\"btn btn-default\" role=\"button\">"+
-					  "<button id='"+"dibsDelete"+ad_code+"' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">" + 
-					  "<i class=\"mdi mdi-heart\"></i>\r\n" + 
-					  "</button></a>";
-	  		//회원, 찜목록에 하나라도 있는 경우
-	  		if(dibsList!=null) { 
-	  			for(int i=0;i<dibsList.size();i++) {//회원:찜하지 않은 상품은 찜하기버튼
-	  				if(!dibsList.get(i).get("D_ADCODE").equals(ad_code)) {
-	  					sb.append(addBtn);
-	  					
-	  				}else if(dibsList.get(i).get("D_ADCODE").equals(ad_code)) {//회원 : 찜한상품 찜 취소버튼  
-	  					sb.append(delBtn);
-	  				}
-	  			}
-	  		//회원인데 찜 하나도 없는경우  dibsList null일수있음 : 찜하기버튼	
-	  		}else if(dibsList==null){
-	  			String dibsCode = (String) session.getAttribute("tempDibs"+ad_code);
-	  			if(session.getAttribute("mb")!=null) {
-	  				sb.append(addBtn);
-	  			}
-			//비회원
-	  		//비회원 세션에 찜한상품 아니면 찜하기버튼 
-	  			else if(dibsCode==null || dibsCode!="dibs") {
-	  				sb.append(addBtn);
-	  			}
-			//비회원 세션에 찜한 상품 찜취소버튼 : session.setAttribute("tempDibs"+d_adcode,"dibs")/session.getAttribute("tempDibs"+d_adcode)
-	  			else if(session.getAttribute("tempDibs"+ad_code)=="dibs") {
-	  				sb.append(delBtn);
-	  			}
-	  		}
-	  		
-	  		//찜버튼 끝
-	
-				
+	// 찜버튼 위치
+	  	String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
+				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
+		
+	  	String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
+				+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
+				+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
+		
+	  	if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { 
+			for (int j = 0; j < dibsList.size(); j++) {
+				if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜하지 않은 상품은 찜하기버튼
+					sb.append(addBtn);
+				}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜한상품 찜 취소버튼
+					sb.append(delBtn);
+				}
+			}
+			//중복버튼 제거
+			StringBuilder sb2 = null;
+			if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
+				sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
+			}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
+				sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
+				sb2.append(addBtn);
+			}
+			sb=sb2;
+			// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
+		} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
+			sb.append(addBtn);
+		} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
+			// 비회원 세션에 찜한상품 아니면 찜하기버튼
+			if (session.getAttribute("tempDibs" + ad_code) == null
+					|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
+				sb.append(addBtn);
+				// 비회원 세션에 찜한 상품 찜취소버튼 :
+			} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
+				sb.append(delBtn);
+			}
+		} // 찜버튼 끝
 				
 				sb.append("<button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>\r\n" + 
 				//"</form>"+

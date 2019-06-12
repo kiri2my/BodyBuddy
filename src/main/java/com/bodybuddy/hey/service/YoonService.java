@@ -164,15 +164,16 @@ StringBuilder sb = new StringBuilder();
 							
 						}
 						//중복버튼 제거
+						/*
 						StringBuilder sb2 = null;
 						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
 							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
 						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
 							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
-							sb.append(addBtn);
+							sb2.append(addBtn);
 						}
 						sb=sb2;
-						
+						*/
 						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
 					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {

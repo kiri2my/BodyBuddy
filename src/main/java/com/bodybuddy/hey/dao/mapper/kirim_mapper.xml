@@ -93,6 +93,15 @@
 		WHERE AD_NAME=#{m_id} 
 	</select>
 	
+	<select parameterType="String" id="detailQa" resultType="qna"> 
+		SELECT * FROM QA
+		WHERE QA_ADCODE=#{ad_code} 
+	</select>
+	<select parameterType="String" id="detailReview" resultType="review"> 
+		SELECT * FROM RV
+		WHERE RV_ADCODE=#{ad_code} 
+	</select>
+	
 	
 	
 	
