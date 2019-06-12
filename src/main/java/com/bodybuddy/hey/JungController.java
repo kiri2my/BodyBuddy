@@ -3,6 +3,7 @@ package com.bodybuddy.hey;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletRequest;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.JungService;
 import com.bodybuddy.hey.service.MemberManagemant;
 
@@ -118,6 +121,16 @@ public class JungController {
 		String html = js.acceptrequest(id,name);
 		
 		return html;
+	}
+	
+	@RequestMapping(value = "/adinsert",produces = "application/json; charset=utf8")
+	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
+		
+		String[] day = request.getParameterValues("day");
+		
+		mav=js.adinsert(adadd,day);
+		
+		return mav;
 	}
 	
 	
