@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.JungService;
 import com.bodybuddy.hey.service.MemberManagemant;
@@ -30,6 +32,8 @@ import com.bodybuddy.hey.service.MemberManagemant;
 public class JungController {
 	@Autowired
 	JungService js;
+	@Autowired
+	HttpSession session;
 	
 	ModelAndView mav;
 	
@@ -45,7 +49,10 @@ public class JungController {
 	
 	@RequestMapping(value = "/trainer", method = RequestMethod.GET)
 	public String trainer(Locale locale, Model model) {
-		
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("mb.getM_id() = "+mb.getM_id());
+		System.out.println("mb.getM_kind() = "+mb.getM_kind());
+		System.out.println("mb.getM_name() = "+mb.getM_name());
 		System.out.println("good");
 		return "manage/trainer/trainer";
 	}

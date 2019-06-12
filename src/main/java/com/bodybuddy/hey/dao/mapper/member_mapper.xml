@@ -52,9 +52,12 @@
 	<update id="memberDeleteReal" parameterType="String">
 		UPDATE M SET M_PW =
 		'탈퇴회원',M_NAME = '탈퇴회원',M_PHONE = '탈퇴회원',M_BIRTH = SYSDATE,M_ADDR =
-		'탈퇴회원',M_EXADDR = '탈퇴회원'
+		'탈퇴회원',M_EXADDR = '탈퇴회원',M_KIND = 'D'
 		WHERE M_ID = #{m_id}
 	</update>
+	<insert id="DeleteRealId" parameterType="String">
+		INSERT INTO DELETEREALID VALUES(#{m_id},'탈퇴회원')
+	</insert>
 
 	<update id="temporaryPw" parameterType="String">
 		UPDATE M SET M_PW =

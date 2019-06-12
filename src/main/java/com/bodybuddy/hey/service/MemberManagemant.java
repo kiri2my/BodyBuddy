@@ -356,6 +356,8 @@ public class MemberManagemant {
 		System.out.println("mb.getM_id()mb.getM_id()  " +mb.getM_id());
 		System.out.println("m_id   " + m_id);
 		if (mDao.memberDeleteReal(m_id)) {
+			System.out.println("m_idm_idm_idm_id  = "+m_id);
+			mDao.DeleteRealId(m_id);
 			System.out.println("성공이라규!");
 			session.invalidate();
 			view = "main";
