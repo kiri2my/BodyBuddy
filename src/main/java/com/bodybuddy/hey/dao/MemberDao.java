@@ -52,4 +52,21 @@ public interface MemberDao {
 	public boolean acceptrequestupdate(Member m);
 
 
+	public List<Member> getTrainerMemberList(String id);
+
+	public boolean dailyCheckInsert(Member m);
+
+	public boolean dailyCheckUpdate(Member m);
+
+	public List<Member> getworkingAttitude(Member m);
+
+	public List<Member> getProgramMember(String id);
+
+	public boolean programCheckInsert(String code);
+
+	public String programCheckSelect(String code);
+
+	public boolean programcheckInsert2(String da_code);
+
+
 }

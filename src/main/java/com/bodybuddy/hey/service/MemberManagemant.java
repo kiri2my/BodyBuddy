@@ -1,6 +1,5 @@
 package com.bodybuddy.hey.service;
 
-import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
-import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.dao.MemberDao;
 
 @Service
@@ -68,7 +66,7 @@ public class MemberManagemant {
 
 		if (0 != mList.size()) {
 			System.out.println("member list select success");
-			view = "manage/company/normalDailyCheck";
+			view = "manage/memberListC";
 			mav.setViewName(view);
 			mav.addObject("mList", mList);
 		} else {
@@ -291,20 +289,20 @@ public class MemberManagemant {
 		mav = new ModelAndView();
 		String view = null;
 
-		List<Member> mList = null;
+		List<Member> pList = null;
 		System.out.println("getProgramMemberList mDao in");
-		mList = mDao.getProgramMemberList(id);
-		System.out.println("mList = " + mList.get(0).getM_name());
-		System.out.println("mList size = " + mList.size());
+		pList = mDao.getProgramMemberList(id);
+		System.out.println("pList = " + pList.get(0).getM_name());
+		System.out.println("pList size = " + pList.size());
 
-		if (0 != mList.size()) {
+		if (0 != pList.size()) {
 			System.out.println("getProgramMemberList select success");
 			view = "manage/company/programDailyCheck";
 			mav.setViewName(view);
-			mav.addObject("mList", mList);
+			mav.addObject("pList", pList);
 		} else {
-			System.out.println("member list select error");
-			view = "redirect:memberListC.jsp";
+			System.out.println("getProgramMemberList select error");
+			view = "manage/company/programDailyCheck";
 			mav.setViewName(view);
 		}
 
@@ -323,5 +321,31 @@ public class MemberManagemant {
 		}
 		return sb.toString();
 	}
+
+	public ModelAndView getTrainerMemberList(String id) {
+		mav = new ModelAndView();
+		String view = null;
+
+		List<Member> tList = null;
+		System.out.println("getTrainerMemberList mDao in");
+		tList = mDao.getTrainerMemberList(id);
+		System.out.println("tList = " + tList.get(0).getM_name());
+		System.out.println("tList size = " + tList.size());
+
+		if (0 != tList.size()) {
+			System.out.println("getTrainerMemberList select success");
+			view = "manage/company/trainerDailyCheck";
+			mav.setViewName(view);
+			mav.addObject("tList", tList);
+		} else {
+			System.out.println("getTrainerMemberList select error");
+			view = "manage/company/trainerDailyCheck";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
+	
 
 }

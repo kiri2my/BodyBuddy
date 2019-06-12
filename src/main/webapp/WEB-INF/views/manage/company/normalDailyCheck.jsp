@@ -58,20 +58,20 @@
 										<th style="width: 100px">남은기간</th>
 										<th>연락처</th>
 										<th>이용상태</th>
-										<th style="width: 200px">출석</th>
+										<th style="width: 100px">출석</th>
 										<th>현황</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="member" items="${mList }">
 										<tr>
-											<td><a href="#">${member.m_name }</a></td>
-											<td>2019-5-5~2019-7-5</td>
-											<td>32</td>
-											<td><a href="#">${member.m_phone }</a></td>
+											<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+											<td>${member.ps_date }~${member.ps_date1 }</td>
+											<td>${member.ps_date2 }</td>
+											<td>${member.m_phone }</td>
 											<td>이용중</td>
-											<th><a href="#" class="btn btn-inverse">출석</a></th>
-											<th><a href="#" class="btn btn-inverse">보기</a></th>
+											<th><a href="#" onclick="ndc()">출석</a></th>
+											<th><a href="#" >보기</a></th>
 										</tr>
 									</c:forEach>
 								</tbody>
