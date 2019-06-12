@@ -72,7 +72,7 @@
 	position: relative;
 	left: 257px;
 	top: 60px;
-	width: 110%;
+	width: 95%;
 }
 
 #memberList {
@@ -180,7 +180,7 @@
 			type : "GET",
 			url : "profileModifyT",
 			data : {
-				id:"3333"
+				id:"3333	"
 			},
 			dataType : "html",
 			error : function() {
