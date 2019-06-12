@@ -29,10 +29,11 @@
 
 	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
 		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
-<!-- 	<select id="dibsN"  resultType="HashMap">
-		SELECT * FROM D WHERE
+	<select id="dibsN" parameterType="String" resultType="HashMap">
+		SELECT *
+		FROM D WHERE
 		D_ID=#{d_id}
-	</select>  -->
+	</select>
 
 	<select id="getproListN" resultType="HashMap">
 	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
@@ -70,18 +71,4 @@
 	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM PF WHERE PF_ID=#{m_id}
 	</select> 
-	<select id="getdibs" resultType="HashMap">
-	SELECT AD_TITLE
-	FROM AD
-	JOIN DIBS
-	ON AD_CODE=D_ADCODE
-	WHERE D_ID=#{m_id}
-	</select>
-	<insert id="reviewInsert" parameterType="review">
-	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_adcode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
-	</insert>
-	<select id="reviewOverlap" parameterType="review" resultType="boolean">
-	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_ADCODE=#{rv_adcode}
-	</select> 
-	
 </mapper>
