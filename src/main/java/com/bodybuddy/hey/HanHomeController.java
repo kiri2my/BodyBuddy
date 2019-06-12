@@ -20,7 +20,7 @@ public class HanHomeController {
 	
 	@Autowired
 	MemberManagemant mm;
-
+	@Autowired
 	HttpSession session;
 
 	ModelAndView mav;

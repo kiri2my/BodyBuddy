@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,9 +47,7 @@ public class YoonHomeController {
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView mainList() { //int pageNum 게시판페이징
 		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		mav=ys.mainList( request);
+		mav=ys.mainList();
 		return mav;
 		
 	}

@@ -29,8 +29,9 @@
 
 	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
 		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
-	<select id="dibsN" parameterType="String">
-		SELECT * FROM D WHERE
+	<select id="dibsN" parameterType="String" resultType="HashMap">
+		SELECT *
+		FROM D WHERE
 		D_ID=#{d_id}
 	</select>
 

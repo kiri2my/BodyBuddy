@@ -11,15 +11,16 @@ public interface YoonDao {
 
 	List<Map<String, String>> mainList();
 
-	 List<OpCategory> opCateListAll(); 
-
-	List<Map<String, String>> dibsN(String d_id);
+	List<OpCategory> opCateListAll();
 
 	List<Map<String, String>> getproListN(String m_id);
 
 	List<Map<String, String>> getnormalListN(String m_id);
 
 	List<Map<String, String>> getpayListN(String m_id);
+
+	List<Map<String, String>> dibsN(String d_id);
+
 
 	Member getModifyN(String m_id);
 

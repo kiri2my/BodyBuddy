@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.service;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,19 +34,22 @@ public class KirimService {
 	KirimDao kDao;
 	@Autowired
 	YoonDao yDao;
-
+	
+	@Autowired
 	HttpSession session;
+
 	ModelAndView mav;
 
 	public ModelAndView access(Member mb) {
 		mav = new ModelAndView();
+		List<Member> mList = new ArrayList<Member>();
 		String view = null;
-
+		Member mmb = new Member();
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		// 해당 아이디의 암호화된 비번을 가져옴
 		String pwdEncode = kDao.getSecurityPwd(mb.getM_id());
 
-		System.out.println("2=" + pwdEncode);
+		System.out.println("access 패스워드 =" + pwdEncode);
 		if (pwdEncode != null) { // 암호화된 비번이 존재한다면:아이디가 존재
 			if (pwdEncoder.matches(mb.getM_pw(), pwdEncode)) {
 				// 로그인 후 회원정보를 3종류로 나눠 화면에 출력하기 위해
@@ -54,34 +58,49 @@ public class KirimService {
 				System.out.println("getid=" + mb.getM_id());
 				switch (kind) {
 				case "n":
+					System.out.println("N 타입 회원");
 					mb = kDao.getNormalInfo(mb.getM_id());
 					break;
 				case "t":
+					System.out.println("T 타입 회원");
 					mb = kDao.getTrainerInfo(mb.getM_id());
 					break;
 				case "c":
+					System.out.println("C 타입 회원");
 					mb = kDao.getCompanyInfo(mb.getM_id());
 					break;
 				}
-				mav.addObject("mb", mb);// @SessionAttributes때문에 세션영역에 mb저장됨
+				System.out.println("회원타입 확인 완료");
+				System.out.println("확인 후 값 확인 한다"+mb);
+				System.out.println("확인 후 값 확인 한다"+mb.getM_id());
+				System.out.println("확인 후 값 확인 한다"+mb.getM_name());
+				System.out.println("확인 후 값 확인 한다"+mb.getM_kind());
+				session.setAttribute("mb", mb);
+				System.out.println("세션에 Member bean 저장");
+				//mav.addObject("mb", mb);// @SessionAttributes때문에 세션영역에 mb저장됨
 				// forward:url, POST-POST, GET-GET끼리만 가능
 				// view="forward:/board";
 				// redirect:url, POST-GET 둘다 GET방식만 가능
 				view = "forward:/";
 			} else {// 비번오류
+				System.out.println("5252 비번이 틀렸다고");
 				view = "loginJoinFrm/loginFrm";
 				mav.addObject("loginCheck", "비번오류");
 			}
 		} else {// 아이디오류
+			System.out.println("5252 아이디가 틀렸다고");
 			view = "loginJoinFrm/loginFrm";
 			mav.addObject("loginCheck", "아이디오류");
 		}
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_id());
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_name());
+		System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_kind());
 		mav.setViewName(view);
 		return mav;
 
 	}
 
-	public String dibsAdd(String d_adcode, HttpServletRequest request) {
+	public String dibsAdd(String d_adcode) {
 		String suc = "<button id='" + "dibsDelete" + d_adcode
 				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart\"></i></button>";
@@ -90,7 +109,6 @@ public class KirimService {
 				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		String html = null;
 
-		session = request.getSession();
 		System.out.println("d_adcode=============" + d_adcode);
 		System.out.println(session.getId());
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -116,7 +134,7 @@ public class KirimService {
 		return html;
 	}
 
-	public String dibsDelete(String d_adcode, HttpServletRequest request) {
+	public String dibsDelete(String d_adcode) {
 		String err = "<button id='" + "dibsDelete" + d_adcode
 				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart\"></i></button>";
@@ -125,7 +143,7 @@ public class KirimService {
 				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		String html = null;
 
-		session = request.getSession();
+		
 		System.out.println("2d_adcode=============" + d_adcode);
 		System.out.println(session.getId());
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -158,8 +176,9 @@ public class KirimService {
 		Map<String, String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList = kDao.opCateList(ad_code);
 
-		session = request.getSession();
+		//session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
+		System.out.println("111111111111111111111                      222222222222222222222          3"+sessionMb.getM_id());
 		if(sessionMb!=null) {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);
@@ -171,9 +190,8 @@ public class KirimService {
 		return mav;
 	}
 
-	public String purchSingle(Payment ph, HttpServletRequest request) {
+	public String purchSingle(Payment ph) {
 		String text = null;
-		session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
 		if (sessionMb != null) {
 			ph.setPs_mid(sessionMb.getM_id());
