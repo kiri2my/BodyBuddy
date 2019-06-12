@@ -178,7 +178,7 @@ public class KirimService {
 
 		//session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
-		System.out.println("111111111111111111111                      222222222222222222222          3"+sessionMb.getM_id());
+
 		if(sessionMb!=null) {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);

@@ -50,7 +50,7 @@
 					</a></li>
 
 						<li class="nav-item"><a class="nav-link"
-						href="pages/charts/chartjs.html"> <i
+						href="dibsn?m_id=${id}"> <i
 							class="mdi mdi-walk menu-icon"></i> <span class="menu-title">찜내역보기</span>
 					</a></li>
 
