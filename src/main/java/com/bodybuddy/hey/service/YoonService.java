@@ -144,38 +144,39 @@ StringBuilder sb = new StringBuilder();
 						System.out.println("dibsList 사이즈" + dibsList.size());
 					}
 
-					String btnDibsAdd = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+					String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
 							+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
 
-					String btnDibsDelete = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
+					String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
 							+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
 
 					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 						// StringBuilder sb2=null;
 						for (int j = 0; j < dibsList.size(); j++) {
-							if (!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(btnDibsAdd);
-								// add반복버튼 제거
-								if (sb.toString().contains("dibsAdd")) {
-									// sb2 = new StringBuilder(sb.toString().replace(btnDibsAdd, ""));
-									continue;
-								}
-
-								// 회원 : 찜한상품 찜 취소버튼
-							} else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(btnDibsDelete);
-								if (sb.toString().contains("dibsAdd")) {
-									continue;
-								}
+							if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								sb.append(addBtn);
+							// 회원 : 찜한상품 찜 취소버튼
+							}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								sb.append(delBtn);
 							}
+							
 						}
-						// sb=sb2;
-
+						//중복버튼 제거
+						StringBuilder sb2 = null;
+						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
+							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
+						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
+							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
+							sb.append(addBtn);
+						}
+						sb=sb2;
+						
+						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
 					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-						sb.append(btnDibsAdd);
+						sb.append(addBtn);
 					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 						// 비회원 세션에 찜한상품 아니면 찜하기버튼
 						Enumeration<String> names = session.getAttributeNames();
@@ -187,11 +188,11 @@ StringBuilder sb = new StringBuilder();
 						}
 						if (session.getAttribute("tempDibs" + ad_code) == null
 								|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
-							sb.append(btnDibsAdd);
+							sb.append(addBtn);
 							// 비회원 세션에 찜한 상품 찜취소버튼 :
 							// session.setAttribute("tempDibs"+d_adcode,"dibs")/session.getAttribute("tempDibs"+d_adcode)
 						} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
-							sb.append(btnDibsDelete);
+							sb.append(delBtn);
 						}
 					} // 찜버튼 끝
 				  
@@ -244,8 +245,10 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>"
 					+ getprogramListN.get(i).get("OP_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td>상담내역보기</td>\r\n"
-					+ "													<td>출결현황보기</td>\r\n"
+					+ "</td>\r\n" + "<td><button class='showCounsel'>상담내역보기</button>"
+							+ "<input type='hidden' value='"+getprogramListN.get(i).get("AD_CODE")+"'/>"
+							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
+					+ "		<td>출결현황보기</td>\r\n"
 					+ "													<td><a href='" + "reviewwritefrm?ad_code="
 					+ getprogramListN.get(i).get("AD_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
@@ -365,7 +368,33 @@ StringBuilder sb = new StringBuilder();
 		return mav;
 	}
 	
+	public ModelAndView counselListn(String cs_adcode, String cs_mid) {
+		List<Map<String, String>> getCounselListN = null;
+		String view=null;
+		Map<String,String> cs = new HashMap<>();
+		cs.put("CS_ADCODE", cs_adcode);
+		cs.put("CS_MID", cs_mid);
+		getCounselListN=yDao.getCounsel(cs_adcode,cs_mid);
+		String html = makeHTMLCounselPage(getCounselListN);
+		mav.addObject("counselList", html);
+		view="manage/counselNList";
+		mav.setViewName(view);
+		return mav;
+	}
 
+	private String makeHTMLCounselPage(List<Map<String, String>> getCounselListN) {
+		StringBuilder sb=new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i <  getCounselListN.size(); i++) { 
+			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
+		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+				"													<td>자세히보기</td>\r\n" + 
+				"													<td>" + Date + "</td>\r\n" + 
+				"												</tr>");
+		}
+		return sb.toString();
+	}
+	
 	
 
 	

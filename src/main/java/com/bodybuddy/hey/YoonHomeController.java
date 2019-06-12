@@ -90,6 +90,10 @@ public class YoonHomeController {
 		mav=ys.payListN(m_id);
 		return mav;
 	}
-	
+	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
+	 public ModelAndView counselList(String cs_adcode,String cs_mid) {
+		 mav=ys.counselListn(cs_adcode,cs_mid);
+		return mav;
+	  }
 
 }

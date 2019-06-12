@@ -63,6 +63,10 @@
 		UPDATE M SET M_PW =
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
+	<select id="deleteRealIdCheck" parameterType="String" resultType="member">
+	SELECT M_ID FROM DELETEREALID 
+	WHERE M_ID = #{m_id} 
+	</select>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[

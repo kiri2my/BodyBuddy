@@ -72,6 +72,8 @@ public interface MemberDao {
 
 	public void DeleteRealId(String m_id);
 
+	public String deleteRealIdCheck(String m_id);
+
 
 
 }
