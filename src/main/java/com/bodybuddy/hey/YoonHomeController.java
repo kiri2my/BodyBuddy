@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,27 +28,43 @@ public class YoonHomeController {
 	@Autowired
 	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
 	
+	@Autowired
+	HttpSession session;
+	
 	ModelAndView mav;
+	
+	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout() {
+		session.invalidate();
+		String view = null;
+		view="forward:/";
+		mav.setViewName(view);
+		return mav;
+	
+}
 	
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView mainList() { //int pageNum 게시판페이징
 		
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		mav=ys.mainList(request);
+		mav=ys.mainList( request);
 		return mav;
-	}
-	
-	@RequestMapping(value = "/infoprogramn")
-	public String login(Model model) {
 		
-		return "manage/normal/normalMain";
+	}
+	//manage/normal/normalMain
+	@RequestMapping(value = "/infoprogramn")
+	public ModelAndView getInfoProgramN(String m_id) {
+		mav=ys.programListN(m_id);
+		return mav;
 	}
 
 	@RequestMapping(value = "/infomodifyfrmn")
-	public String login2(Model model) {
-		
-		return "manage/infoModifyN";
+	public ModelAndView modifyN(String m_id) {
+		mav=ys.modifyN(m_id);
+		return mav;
 	}
 	@RequestMapping(value = "/dibsn")
 	public String login3(Model model) {
@@ -59,5 +76,14 @@ public class YoonHomeController {
 		
 		return "manage/payHistoryN.";
 	}
+	
+	
+	
+	 @RequestMapping(value = "/payhistoryn") 
+	 public ModelAndView payList(String m_id) {
+		 mav=ys.payListN(m_id);
+		return mav;
+	  }
+	 
 
 }

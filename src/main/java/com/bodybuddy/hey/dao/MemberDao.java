@@ -3,6 +3,7 @@ package com.bodybuddy.hey.dao;
 import java.util.List;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.Question;
 
 public interface MemberDao {
 
@@ -34,9 +35,21 @@ public interface MemberDao {
 
 	public List<Member> getTfindC(Member m);
 
+
+	public List<Question> getQuestionList(String id);
+
+	public boolean cancel(String id);
+
+	public boolean acceptrequestupdate(String id, String name);
+
+	public boolean acceptrequestInsert(String id, String name);
+
+
+
 	public List<Member> getNormalMemberList(String id);
 
 	public List<Member> getProgramMemberList(String id);
+
 
 	public List<Member> getTrainerMemberList(String id);
 
@@ -53,5 +66,6 @@ public interface MemberDao {
 	public String programCheckSelect(String code);
 
 	public boolean programcheckInsert2(String da_code);
+
 
 }

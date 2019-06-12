@@ -9,6 +9,25 @@
 	</select>
 	
 	<select id="getTfindC" parameterType="member" resultType="member">
-		SELECT COMPANY.C_BNAME, MEMBER.M_ADDR FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID WHERE COMPANY.C_BNAME= #{c_bname} 
+		SELECT COMPANY.C_BNAME, MEMBER.M_ADDR ,YN_STATE FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID INNER JOIN YESORNO ON COMPANY.C_ID = YESORNO.YN_COMPANY WHERE COMPANY.C_BNAME= #{c_bname}
+		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID WHERE COMPANY.C_BNAME= #{c_bname}  -->
 	</select>
+	
+	
+	<select id="getQuestionList" resultType="question">
+		SELECT ADVERTISE.AD_TITLE, QNA.QA_WCONTENT, QNA.QA_WRITER, QA_WDATE, QA_ADATE FROM ADVERTISE INNER JOIN QNA ON ADVERTISE.AD_CODE = QNA.QA_ADCODE WHERE ADVERTISE.AD_NAME = #{id}
+	</select>
+		
+	<update id="cancel" >
+		UPDATE YESORNO SET YN_STATE= '취소' WHERE YN_TRAINER=#{id} 
+	</update>
+	
+	<insert id="acceptrequestInsert"  >
+		
+		INSERT INTO YESORNO VALUES(#{c_bname},#{id},'진행',SYSDATE)
+	</insert>
+	<update id="acceptrequestupdate">
+		UPDATE YESORNO SET YN_STATE= '진행' WHERE YN_TRAINER=#{id} 
+	</update>
+	
 </mapper>

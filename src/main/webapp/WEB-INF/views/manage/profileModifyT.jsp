@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,42 +69,9 @@
 											class="btn btn-outline-secondary btn-md">업체 검색</button>
 									</div>
 								</div>
-
-								<div id="TfindC" class="table-responsive" style="display:none">
-								
-									<table id="recent-purchases-listing" class="table">
-
-										<%-- <c:set var="member" value="${mList }" />
-										<c:if test="${empty member }">
-												회원이 없습니다.
-											</c:if>--%>
-										<c:if test="${!empty member }">
-											<thead>
-												<tr>
-													<th>업체이름</th>
-													<th>업체주소</th>
-													<th>요청</th>
-													<th>요청취소</th>
-													<th>상태</th>
-												</tr>
-											</thead>
-											<tbody>
-												<div id="test" style="width:300px">
-												</div>
-												<%-- <c:forEach var="member" items="${mList }">
-													<tr>
-														<td>${member.m_bname }</td>
-														<td>${member.c_bname }</td>
-														<td><button>요청</button></td>
-														<td><button>취소</button></td>
-														<td>상태</td>
-													</tr>
-												</c:forEach> --%>
-											</tbody>
-										</c:if>
-									</table>
+								<div id="test">
+									 ${update}
 								</div>
-
 
 								<div class="mb-4">
 									<div class="form-check">
@@ -156,17 +124,57 @@
 			data : {
 				name : name
 			},
-			dataType : "json",
+			dataType : "html",
 
 			success : function(data) {
 				console.log(data);
 				/* $('#TfindC').html(); */
-				$("#test").html("<c:forEach var='member' items=\"${mList}\"><tr><td>${member.m_bname }</td><td>${member.c_bname }</td><td><button>요청</button></td><td><button>취소</button></td><td>상태</td></tr></c:forEach>");
-				$("#TfindC").show();
+				 $("#test").html(data); 
+				/* $("#TfindC").show(); */
 			},
 			error : function(er) {
 				console.log(er);
 				alert('업체 검색 실패');
+			}
+		});
+	}
+	function cancel() {
+		$.ajax({
+			type : "GET",
+			url : "cancel",
+			data : {
+				id:"5555"
+			},
+			dataType : "html",
+			error : function() {
+				alert('취소 실패');
+				location.href="manage/profileModify"
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				location.href="manage/profileModify";
+				$('#main').html(data);
+				
+				alert('취소완료');
+			}
+		});
+	}
+	function acceptrequest() {
+		$.ajax({
+			type : "GET",
+			url : "acceptrequest",
+			data : {
+				id:"5555",
+				name: "테스트업체명"
+			},
+			dataType : "html",
+			error : function() {
+				alert('요청 실패');
+			},
+			success : function(data) {
+				$('#main').html(data);
+				
+				alert('요청완료');
 			}
 		});
 	}

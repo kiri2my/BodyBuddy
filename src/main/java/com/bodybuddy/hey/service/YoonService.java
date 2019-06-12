@@ -1,5 +1,7 @@
 package com.bodybuddy.hey.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +29,7 @@ public class YoonService {
 	HttpSession session;
 	
 
-	public ModelAndView mainList(HttpServletRequest request) {
+	public ModelAndView mainList( HttpServletRequest request) {
 		mav=new ModelAndView();
 		String view=null;
 		List<Map<String, String>> mainList=null;
@@ -35,7 +38,11 @@ public class YoonService {
 		
 		mainList = yDao.mainList();
 		opCateListAll  = yDao.opCateListAll();
-		
+		for(int i=0 ; i>opCateListAll.size(); i++) {
+			if(opCateListAll.get(i).getM_addr()==null) {
+			}
+		}
+	
 		//로그인 되어있을 시
 		session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -51,7 +58,7 @@ public class YoonService {
 		return mav;
 	}
 
-	private String makeHTMLMainList(List<Map<String,String>> mainList, List<OpCategory> opCateListAll, List<Map<String, String>> dibsList, HttpSession session) {
+	private String makeHTMLMainList(@Nullable List<Map<String,String>> mainList, @Nullable List<OpCategory> opCateListAll, @Nullable List<Map<String, String>> dibsList, @Nullable HttpSession session) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<div class=\"col-md-12 card scroll \">\r\n" + 
@@ -167,6 +174,107 @@ public class YoonService {
 		
 		return sb.toString();
 	}
+
+	public ModelAndView programListN(String m_id ) {
+		System.out.println("idididididi="+m_id);
+		session.setAttribute("id", m_id);
+		String view=null;
+		List<Map<String, String>> getProgramListN=null;
+		List<Map<String, String>> getNormalListN=null;
+		getProgramListN=yDao.getproListN(m_id);
+		getNormalListN=yDao.getnormalListN(m_id);
+		String html = makeHTMLproPage(getProgramListN);
+		String html2 = makeHTMLnorPage(getNormalListN);
+		
+		
+		mav.addObject("programListN",html);
+		mav.addObject("getnormalListN",html2);
+
+		view="manage/normal/normalMain";
+		mav.setViewName(view);
+		return mav;
+	}
+
+
+	private String makeHTMLproPage(List<Map<String, String>> getprogramListN) {
+		StringBuilder sb = new StringBuilder();
+			for(int i=0; i<getprogramListN.size();i++) {
+				sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_TRAINER")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("OP_CATEGORY")+"</td>\r\n" + 
+						"													<td>"+getprogramListN.get(i).get("DA_STATUS")+"</td>\r\n" + 
+						"													<td>상담내역보기</td>\r\n" + 
+						"													<td>출결현황보기</td>\r\n"+
+						"													<td>후기쓰기</td>\r\n"+ 
+						"												</tr>"	
+			);}
+		return sb.toString();
+	}
+	
+	private String makeHTMLnorPage(List<Map<String, String>> getnormalListN) {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<getnormalListN.size();i++) {
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("C_BNAME")+"</td>\r\n" + 
+					"													<td>"+getnormalListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
+					"													<td>출결현황보기</td>\r\n"+
+					"													<td>"+getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" + 
+					"													<td>후기쓰기</td>\r\n"+ 
+					"												</tr>"	
+		);}
+	return sb.toString();
+	}
+
+	public ModelAndView payListN(String m_id) {
+		session.setAttribute("id", m_id);
+		String view=null;
+		List<Map<String, String>> getPayListN=null;
+		getPayListN=yDao.getpayListN(m_id);
+		String html = makeHTMLpayPage(getPayListN);
+		mav.addObject("payListN",html);
+		view="manage/payHistoryN";
+		mav.setViewName(view);
+		return mav;
+	}
+
+	private String makeHTMLpayPage(List<Map<String, String>> getPayListN) {
+		StringBuilder sb=new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		for(int i=0; i<getPayListN.size();i++) {
+			String price = String.valueOf(getPayListN.get(i).get("PS_PRICE"));
+			String Date = sdFormat.format(getPayListN.get(i).get("PS_DATE"));
+			System.out.println("price========"+price);
+			sb.append("                      <tr role=\"row\" class=\"odd\">\r\n" + 
+					"                            <td class=\"sorting_1\">"+getPayListN.get(i).get("AD_TITLE")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_CATEGORY")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_NAME")+"</td>\r\n" + 
+					"                            <td>"+getPayListN.get(i).get("OP_PERIOD")+"</td>\r\n" + 
+					"                            <td>"+price+"</td>\r\n" + 
+					"                            <td>"+Date+"</td>\r\n" + 
+					"                       </tr>");
+			
+		}
+		
+		return sb.toString();
+	}
+
+	public ModelAndView modifyN(String m_id) {
+		session.setAttribute("id", m_id);
+		String view=null;
+		Member mb=yDao.getModifyN(m_id);
+		Member mbPhoto=yDao.getPhotoModifyN(m_id);
+		mav.addObject("mb",mb);
+		mav.addObject("mbPhoto",mbPhoto);
+		view="manage/infoModifyN";
+		mav.setViewName(view);
+		return mav;
+	}
+
 
 
 	

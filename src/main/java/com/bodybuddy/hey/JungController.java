@@ -28,8 +28,17 @@ public class JungController {
 	@Autowired
 	JungService js;
 	
-	
 	ModelAndView mav;
+	
+	@RequestMapping(value = "/questionlist")
+	public ModelAndView trainerListC(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+		
+		mav = js.getQuestionList(id);
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/trainer", method = RequestMethod.GET)
 	public String trainer(Locale locale, Model model) {
@@ -71,29 +80,45 @@ public class JungController {
 		
 		return mav;
 	}
-	@ResponseBody
+	
 	@RequestMapping(value = "/TfindC",produces = "application/json; charset=utf8")
+	@ResponseBody
 	public String TfindC(HttpServletRequest request) {
 		String name = request.getParameter("name");
 		
 		System.out.println(name);
 		
 		
-		String result = js.getTfindC(name);
+		String html = js.getTfindC(name);
 		
-		return result;
+		return html;
 	}
 	
-	@RequestMapping(value = "/questionList")
-	public String questionList(HttpServletRequest request) {
+	
+	@RequestMapping(value = "/cancel",produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String cancel(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println("id="+id);
+		
+		
+		String html = js.cancel(id);
+		
+		return html;
+	}
+	
+	@RequestMapping(value = "/acceptrequest",produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String acceptrequest(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println("id="+id);
 		String name = request.getParameter("name");
 		
-		System.out.println(name);
+		String html = js.acceptrequest(id,name);
 		
-		
-		/* mav = js.questionList(name); */
-		
-		return "manage/question/questionList";
+		return html;
 	}
+	
+	
 	
 }

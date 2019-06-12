@@ -26,10 +26,18 @@ public class Member {
 	 
 	private String pf_image;
 	
+
 	private String ps_date;
 	private String ps_date1;
 	private String ps_date2;
 	private String ps_code;
+
+	private String yn_code;
+	private String yn_company;
+	private String yn_trainer;
+	private String yn_state;
+	
+
 	 
 	private String dt_tid;
 	private String dt_cid;
