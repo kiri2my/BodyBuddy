@@ -101,12 +101,11 @@
 										</div>
 										<input type="text" name="emailNum" id="emailNum"
 											class="form-control form-control-lg border-left-0"
-											placeholder="인증번호" />
-										<input type="button" class="btn btn-outline-secondary btn-md"
-											id="mailCheck" value="인증번호전송" />
-										<input type="hidden" class="btn btn-outline-secondary btn-md"
-											id="mailNumCheck" name="mailenum" value="인증번호확인"/>
-										<br />
+											placeholder="인증번호" /> <input type="button"
+											class="btn btn-outline-secondary btn-md" id="sendRndNum"
+											value="인증번호발송" disabled="disabled"/> <input type="hidden"
+											class="btn btn-outline-secondary btn-md" id="sendRndNumCheck"
+											name="mailenum" value="인증번호확인" /> <br />
 									</div>
 								</div>
 
@@ -218,37 +217,42 @@
 		<!-- page-body-wrapper ends -->
 	</div>
 
-	<!-- container-scroller -->
-	<!-- plugins:js -->
-	<script src="vendors/base/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- inject:js -->
-	<script src="js/off-canvas.js"></script>
-	<script src="js/hoverable-collapse.js"></script>
-	<script src="js/template.js"></script>
-	<!-- endinject -->
 </body>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <script>
-//인증메일전송
-var mail = null;
+	//인증메일전송
+	var mail = null;
+	var oldid= null;
+	$("#m_id").on("propertychange change keyup paste input", function() {
+	    var currentVal = $(this).val();
+	    if(currentVal == oldid) {
+	        return;
+	    }
+	 
+	    oldid = currentVal;
+	    $('#sendRndNumCheck').prop("type", "hidden");
+		$('#sendRndNum').prop("type", "button");
+		$('#joinbtn').prop("disabled", true);
+		$('#sendRndNum').prop("disabled", true);
+	});
+	 
 
-	$('#mailCheck').click(function() {
+	$('#sendRndNum').click(function() {
 		$.ajax({
-			url : "mailCheck",
+			url : "sendrndnum",
 			type : "post",
 			dataType : "html",
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 			success : function(data) {
-					$('#mailNumCheck').prop("type", "button");
-					$('#mailCheck').prop("type", "hidden");
-					mail = data;
-					console.log("data"+data);
-					console.log("mail"+mail);
-					alert("인증번호를  발송하였습니다")
+				$('#sendRndNumCheck').prop("type", "button");
+				$('#sendRndNum').prop("type", "hidden");
+				mail = data;
+				console.log("data" + data);
+				console.log("mail" + mail);
+				alert("인증번호를  발송하였습니다")
 			},
 			error : function(error) {
 				console.log(error);
@@ -259,22 +263,20 @@ var mail = null;
 
 	});//end click
 	//인증번호 체크
-	$("#mailNumCheck").click(function () {
+	$("#sendRndNumCheck").click(function() {
 		console.log(mail);
-	
-		if($("#emailNum").val() == mail){
+		if ($("#emailNum").val() == mail) {
 			$('#joinbtn').prop("disabled", false);
 			alert("인증되었습니다")
-		}else{
+		} else {
 			alert("인증번호를 다시 확인해주세요")
 		}
 	})
 
-	
-	
 	//중복아이디 체크
 	$('#idCheck').click(function() {
 		console.log($('#m_id').val());
+		oldid = $('#m_id').val();
 		$.ajax({
 			url : "checkid",
 			type : "post",
@@ -288,9 +290,11 @@ var mail = null;
 					alert(" 사용가능한 아이디입니다  ");
 					console.log(data);
 					console.log(m_id);
+					$('#sendRndNum').prop("disabled", false);
 				} else {
 					alert(" 중복된 아이디입니다 ");
 					$('#joinbtn').prop("disabled", true);
+					
 				}
 			},
 			error : function(error) {
