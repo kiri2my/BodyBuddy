@@ -58,7 +58,7 @@
 	WHERE PS_MID= #{m_id} AND AD_KIND='p'
 	</select>
 
-	<select id="getnormalListN" resultType="HashMap">
+	<select id="getnormalListN" parameterType="String" resultType="HashMap">
 	<![CDATA[
 	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
@@ -69,7 +69,7 @@
 	WHERE PS_MID=#{m_id} AND AD_KIND='mo'
 		]]>
 	</select>
-	<select id="getpayListN" resultType="HashMap">
+	<select id="getpayListN" parameterType="String" resultType="HashMap">
 		SELECT AD_TITLE,
 		OP_CATEGORY, PS_PRICE, PS_DATE, OP_NAME, OP_PERIOD
 		FROM PS
