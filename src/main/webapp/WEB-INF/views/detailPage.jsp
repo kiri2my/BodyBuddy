@@ -106,6 +106,19 @@ $("#optionSelect").change(function(){
 	console.log($op_priceValue);
 });
 
+var kind="${mb.m_kind}";
+console.log(kind);
+
+if(kind!='n'){
+	$("#purchase").prop("disabled",true);
+	$("#purchase").attr("data-toggle","tooltip");
+	$("#purchase").attr("data-placement","bottom");
+	$("#purchase").attr("title","일반 회원만 구매가 가능합니다");
+	$("#purchase").after("<br><br><p class='text-light bg-dark pl-1 '>일반 회원만 구매가 가능합니다</p>");
+	console.dir($("#purchase"));
+	console.log($("#purchase"));
+}
+
 $("#purchase").click(function(){
 	var ad_code = $("#ad_code").val();
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
@@ -115,6 +128,7 @@ $("#purchase").click(function(){
 	console.log(ad_code);
 	console.log(op_code);
 	console.log($op_priceValue);
+	
 	
 	$.ajax({
 		type:'post', 

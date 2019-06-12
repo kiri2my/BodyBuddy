@@ -144,38 +144,39 @@ StringBuilder sb = new StringBuilder();
 						System.out.println("dibsList 사이즈" + dibsList.size());
 					}
 
-					String btnDibsAdd = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+					String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
 							+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
 
-					String btnDibsDelete = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
+					String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
 							+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
 
 					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 						// StringBuilder sb2=null;
 						for (int j = 0; j < dibsList.size(); j++) {
-							if (!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(btnDibsAdd);
-								// add반복버튼 제거
-								if (sb.toString().contains("dibsAdd")) {
-									// sb2 = new StringBuilder(sb.toString().replace(btnDibsAdd, ""));
-									continue;
-								}
-
-								// 회원 : 찜한상품 찜 취소버튼
-							} else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(btnDibsDelete);
-								if (sb.toString().contains("dibsAdd")) {
-									continue;
-								}
+							if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								sb.append(addBtn);
+							// 회원 : 찜한상품 찜 취소버튼
+							}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								sb.append(delBtn);
 							}
+							
 						}
-						// sb=sb2;
-
+						//중복버튼 제거
+						StringBuilder sb2 = null;
+						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
+							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
+						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
+							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
+							sb.append(addBtn);
+						}
+						sb=sb2;
+						
+						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
 					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-						sb.append(btnDibsAdd);
+						sb.append(addBtn);
 					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 						// 비회원 세션에 찜한상품 아니면 찜하기버튼
 						Enumeration<String> names = session.getAttributeNames();
@@ -187,11 +188,11 @@ StringBuilder sb = new StringBuilder();
 						}
 						if (session.getAttribute("tempDibs" + ad_code) == null
 								|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
-							sb.append(btnDibsAdd);
+							sb.append(addBtn);
 							// 비회원 세션에 찜한 상품 찜취소버튼 :
 							// session.setAttribute("tempDibs"+d_adcode,"dibs")/session.getAttribute("tempDibs"+d_adcode)
 						} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
-							sb.append(btnDibsDelete);
+							sb.append(delBtn);
 						}
 					} // 찜버튼 끝
 				  
