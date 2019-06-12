@@ -50,10 +50,10 @@ public class YoonService {
 		//로그인 되어있을 시
 		session = request.getSession();
 		Member sessionMb = (Member) session.getAttribute("mb");
-		if(sessionMb!=null) {
-			String d_id = sessionMb.getM_id();
-			dibsList = yDao.dibsN(d_id);
-		}	
+		/*
+		 * if(sessionMb!=null) { String d_id = sessionMb.getM_id(); dibsList =
+		 * yDao.dibsN(d_id); }
+		 */
 		String html = makeHTMLMainList(mainList, opCateListAll, dibsList, session);
 		mav.addObject("mainListHTML",html);
 		view="main";

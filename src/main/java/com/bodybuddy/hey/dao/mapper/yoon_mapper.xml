@@ -29,10 +29,10 @@
 
 	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
 		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
-	<select id="dibsN" parameterType="String">
+<!-- 	<select id="dibsN"  resultType="HashMap">
 		SELECT * FROM D WHERE
 		D_ID=#{d_id}
-	</select>
+	</select>  -->
 
 	<select id="getproListN" resultType="HashMap">
 	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
