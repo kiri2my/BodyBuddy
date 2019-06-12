@@ -2,6 +2,7 @@ package com.bodybuddy.hey.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,7 @@ public class SalesService {
 	// private HttpSession session; // request는 권장하지 않음
 
 	Sales sales;
-
+	
 	ModelAndView mav;
 
 	public ModelAndView getSalesHistory(String id) {
@@ -43,4 +44,5 @@ public class SalesService {
 
 		return mav;
 	}
+
 }

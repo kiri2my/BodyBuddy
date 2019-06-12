@@ -29,6 +29,7 @@ public interface MemberDao {
 	public List<Member> forgetPw(Member mb);
 
 	public void temporaryPw(Member mb);
+	
 	public Member getProfileList(String id);
 
 	public List<Member> getTfindC(Member m);
@@ -36,5 +37,21 @@ public interface MemberDao {
 	public List<Member> getNormalMemberList(String id);
 
 	public List<Member> getProgramMemberList(String id);
+
+	public List<Member> getTrainerMemberList(String id);
+
+	public boolean dailyCheckInsert(Member m);
+
+	public boolean dailyCheckUpdate(Member m);
+
+	public List<Member> getworkingAttitude(Member m);
+
+	public List<Member> getProgramMember(String id);
+
+	public boolean programCheckInsert(String code);
+
+	public String programCheckSelect(String code);
+
+	public boolean programcheckInsert2(String da_code);
 
 }

@@ -40,38 +40,39 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch" placeholder="일반회원 검색">
+					<input type="text" class="span2" id="memsearch"
+						placeholder="일반회원 검색">
 					<button type="button" onclick="memberSearch()" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
-							<c:set var="member" value="${mList }" />
-							<c:if test="${empty member }">
+							<c:set var="program" value="${pList }" />
+							<c:if test="${empty program }">
 									회원이 없습니다.
 								</c:if>
-							<c:if test="${!empty member }">
+							<c:if test="${!empty program }">
 								<thead>
 									<tr>
-										<th>이름</th>
-										<th style="width: 200px">이용기간</th>
-										<th style="width: 100px">남은기간</th>
-										<th>연락처</th>
-										<th>이용상태</th>
-										<th style="width: 200px">출석</th>
-										<th>현황</th>
+										<th>프로그램명</th>
+										<th style="width: 200px">트레이너</th>
+										<!-- 	<th style="width: 100px">회원수</th> -->
+										<th>기간</th>
+										<th>상태</th>
+										<th style="width: 200px">모집 회원</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="member" items="${mList }">
+									<c:forEach var="program" items="${pList }">
 										<tr>
-											<td><a href="#">${member.m_name }</a></td>
-											<td>2019-5-5~2019-7-5</td>
-											<td>32</td>
-											<td><a href="#">${member.m_phone }</a></td>
-											<td>이용중</td>
-											<th><a href="#" class="btn btn-inverse">출석</a></th>
-											<th><a href="#" class="btn btn-inverse">보기</a></th>
+											<td><a href="#">${program.ad_title }</a></td>
+											<td>${program.m_name}(${program.op_trainer })</td>
+											<!-- <td>32</td> -->
+											<td>${program.op_period }</td>
+											<td>진행중</td>
+											<th><button class="btn btn-danger"
+													onclick="programMember(${program.op_adcode})">회원
+													보기</button></th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -81,6 +82,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="modal" id="modal"
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3>모집 회원</h3>
+		</div>
+		<div class="modal-body" id="modalBody"></div>
 	</div>
 
 	<!-- plugins:js -->
@@ -131,5 +143,59 @@
 			}
 		});
 	}
+	
+	function programMember(adcode) {
+		var adCode = adcode;
+		var cid = 'company1';
+		$.ajax({
+				type : "post",
+				url : "programmember",
+				data : {
+						code : adCode,
+						cid : cid
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						 var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>연락처</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].m_name+"("+data[i].m_id+")" + "</td><td>" + data[i].m_phone + "</td><td>" + data[i].m_birth + "</td><td><button class='btn btn-danger'	onclick='programCheck("+data[i].ps_code+")'>출석</button></td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+					},
+					error : function(error) {
+						alert('근태 목록 로드 실패');
+						console.log(error);
+					}
+		});
+	}
+	
+	programCheck
+	
+	function programCheck(psCode) {
+		var code = psCode;
+		alert(code);
+		
+		$.ajax({
+			type : "POST",
+			url : "programcheck",
+			data : {
+				code : code,
+			},
+			dataType : 'html',
+			success : function(data) {
+				alert("출석 입력 성공");
+			},
+			error : function() {
+				alert('출석 입력 실패');
+			}
+		});
+	}
+	
+	
+	
 </script>
 </html>

@@ -27,7 +27,8 @@
 	</insert>
 
 	<select id="checkId" parameterType="String" resultType="Integer">
-		SELECT COUNT(*) FROM M
+		SELECT
+		COUNT(*) FROM M
 		WHERE M_ID = #{m_id}
 	</select>
 	<select id="checkCnum" parameterType="String"
@@ -36,24 +37,28 @@
 		WHERE C_NUM = #{c_num}
 	</select>
 	<select id="forgetId" parameterType="member" resultType="member">
-		SELECT M_ID FROM M
-		WHERE M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND M_BIRTH = #{m_birth}
+		SELECT
+		M_ID FROM M
+		WHERE M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND
+		M_BIRTH = #{m_birth}
 	</select>
 	<select id="forgetPw" parameterType="member" resultType="member">
-		SELECT M_ID FROM M
-		WHERE M_ID = #{m_id} AND M_NAME = #{m_name} AND M_PHONE = #{m_phone} AND
+		SELECT
+		M_ID FROM M
+		WHERE M_ID = #{m_id} AND M_NAME = #{m_name} AND M_PHONE =
+		#{m_phone} AND
 		M_BIRTH = #{m_birth}
 	</select>
 
 	<update id="temporaryPw" parameterType="String">
-		UPDATE M SET M_PW = #{m_pw} WHERE M_ID = #{m_id}
+		UPDATE M SET M_PW =
+		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[
-			SELECT M_NAME,M_PHONE FROM
-			M WHERE M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
-			AD.AD_CODE AND AD.AD_NAME = #{id})
+			select m_id,m_name,m_phone,TO_CHAR(ps_date, 'YYYY.MM.DD') as ps_date,TO_CHAR(ps_date+30, 'YYYY.MM.DD') as ps_date1, trunc (ps_date+30-sysdate) as ps_date2 from ps left join m on ps_mid = m_id  where ps.ps_opcode is null and m_id in( select ps.ps_mid 
+from ad,ps where  ad_code = ps_adcode and ad_name = 'company1' group by ps.ps_mid)
 		]]>
 	</select>
 
@@ -81,15 +86,64 @@
 	<select id="getNormalMemberList" resultType="member">
 		<![CDATA[
 			select m_id,m_name,m_phone,TO_CHAR(ps_date, 'YYYY.MM.DD') as ps_date,TO_CHAR(ps_date+30, 'YYYY.MM.DD') as ps_date1, trunc (ps_date+30-sysdate) as ps_date2 from ps left join m on ps_mid = m_id  where ps.ps_opcode is null and m_id in( select ps.ps_mid 
-from ad,ps where  ad_code = ps_adcode and ad_name = #{id} group by ps.ps_mid)
+			from ad,ps where  ad_code = ps_adcode and ad_name = #{id} group by ps.ps_mid)
 		]]>
 	</select>
 	<select id="getProgramMemberList" resultType="member">
-		<![CDATA[
-			select m_name,m_phone from m where m_id in( select ps.ps_mid 
-			from ad,ps where ps.ps_opcode is not null and ad_code = ps_adcode and ad_name = #{id})
-		]]>
+		select
+		op_code,op_adcode,op_trainer,m_name,op_period,ad_title from m left
+		join op on
+		m_id=op_trainer left join ad on ad_code = op_adcode where
+		ad_name =
+		#{id}
+
 	</select>
+	<select id="getTrainerMemberList" resultType="member">
+		SELECT
+		M_NAME,M_PHONE,M_ID FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE
+		T_CID = #{id})
+	</select>
+
+	<insert id="dailyCheckInsert" parameterType="member">
+		INSERT INTO
+		DAILYCHECKT
+		VALUES(#{dt_tid},#{dt_cid},TO_CHAR(sysdate,'YYYYMMDD'),#{dt_status})
+	</insert>
+
+	<update id="dailyCheckUpdate" parameterType="member">
+		update dailycheckt
+		set dt_status = #{dt_status} where dt_tid = #{dt_tid} and dt_cid =
+		#{dt_cid}
+		and dt_date = to_char(sysdate,'YYYYMMDD')
+	</update>
+
+	<select id="getworkingAttitude" parameterType="member"
+		resultType="member">
+		select TO_CHAR(dt_date, 'YYYY"년"MM"월"DD"일"') as dt_date,
+		dt_status,dt_tid from dailycheckt where dt_cid = #{dt_cid} and dt_tid
+		=
+		#{dt_tid}
+	</select>
+
+	<select id="getProgramMember" resultType="member">
+		select
+		ps_code,m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth
+		from ps left join m
+		on m_id=ps_mid where ps_adcode = #{code}
+	</select>
+
+	<insert id="programCheckInsert" parameterType="String">
+		insert into daily
+		values(DA_SEQ.nextval,#{code},'이용중')
+	</insert>
+	<select id="programCheckSelect" resultType="String"
+		parameterType="String">
+		select da_code from daily da_pscode = #{code}
+	</select>
+	<insert id="programcheckInsert2" parameterType="String">
+		insert into
+		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
+	</insert>
 	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
 		</insert> <select id="getSecurityPwd" parameterType="String" resultType="String"> 
 		SELECT M_PWD FROM M WHERE M_ID = #{m_id} </select> <select id="getMemberInfo" 

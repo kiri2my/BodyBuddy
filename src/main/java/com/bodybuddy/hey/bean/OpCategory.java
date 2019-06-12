@@ -17,6 +17,7 @@ public class OpCategory {
 	
 	private String m_name;
 	private String m_addr;
+	
 	 
  
 	

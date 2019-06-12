@@ -13,8 +13,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.MemberManagemant;
 import com.bodybuddy.hey.service.SalesService;
 
@@ -24,9 +26,12 @@ public class KwonController {
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
 	@Autowired
 	MemberManagemant mm;
-	   
+
 	@Autowired
 	SalesService ss;
+
+	@Autowired
+	KwonService ks;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -43,13 +48,10 @@ public class KwonController {
 		return "manage/company/companyMain";
 	}
 
-	/*
-	 * @RequestMapping(value = "/memberlist") public String memberList(Locale
-	 * locale, Model model) { return "manage/memberListC"; }
-	 * 
-	 * @RequestMapping(value = "/trainerlist") public String trainerList(Locale
-	 * locale, Model model) { return "manage/trainerListC"; }
-	 */
+	@RequestMapping(value = "/question")
+	public String question(Locale locale, Model model) {
+		return "manage/question/questionList";
+	}
 
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
@@ -99,34 +101,86 @@ public class KwonController {
 	public ModelAndView normalDailyCheck(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		System.out.println(id);
-		
+
 		mav = mm.getNormalMemberList(id);
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/programdailycheck")
 	public ModelAndView programDailyCheck(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		System.out.println(id);
-		
+
 		mav = mm.getProgramMemberList(id);
-		
+
 		return mav;
 	}
-	
+
+	@RequestMapping(value = "/trainerdailycheck")
+	public ModelAndView trainerDailyCheck(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		System.out.println(id);
+
+		mav = mm.getTrainerMemberList(id);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/dailycheckinsert")
+	public ModelAndView dailyCheckInsert(HttpServletRequest request) {
+		System.out.println(request.getParameter("tid"));
+		System.out.println(request.getParameter("cid"));
+		System.out.println(request.getParameter("status"));
+
+		mav = ks.dailyCheckInsert(request);
+
+		return mav;
+	}
+
 	@RequestMapping(value = "/saleshistory")
 	public ModelAndView salesHistory(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		System.out.println(id);
-		
+
 		mav = ss.getSalesHistory(id);
-		
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/workingattitude", produces = "application/text; charset=utf8")
+	public @ResponseBody String workingAttitude(HttpServletRequest request) {
+
+		System.out.println("workingAttitude tid =" + request.getParameter("tid"));
+		System.out.println("workingAttitude cid =" + request.getParameter("cid"));
+
+		String gson = ks.getworkingAttitude(request);
+		System.out.println(gson);
+		System.out.println("여기까지");
+
+		return gson;
+	}
+
+	@RequestMapping(value = "/programmember", produces = "application/text; charset=utf8")
+	public @ResponseBody String programMember(HttpServletRequest request) {
+
+		String gson = ks.getProgramMember(request);
+		System.out.println(gson);
+
+		return gson;
+	}
+
+	@RequestMapping(value = "/programcheck")
+	public ModelAndView programCheckInsert(HttpServletRequest request) {
+
+		mav = ks.programCheckInsert(request);
+
 		return mav;
 	}
 
 	// mailSending 코드
-	@RequestMapping(value = "/sendEmail")
+	@RequestMapping(value="/sendEmail")
+
 	public String mailSending(HttpServletRequest request) {
 
 		String setfrom = "soonchul88@gmail.com";

@@ -7,16 +7,30 @@
 	<select id="mainList" resultType="HashMap">
 		SELECT DISTINCT * FROM MAINLIST
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-		ORDER BY AD_CODE
+		ORDER BY
+		AD_CODE
 	</select>
-	<select id="opCateListAll" resultType="opCategory" >
-		SELECT * FROM CATEGORY
+	<select id="opCateListAll" resultMap="OpCategory">
+		SELECT * FROM
+		CATEGORY
 	</select>
-	
-	<!-- <resultMap type="String" id="dibsId">
-		<result property="d_id" column="D_ID" jdbcType="NVARCHAR2" javaType="String" />
-	</resultMap> -->
+
+	<!-- <resultMap type="String" id="dibsId"> <result property="d_id" column="D_ID" 
+		jdbcType="NVARCHAR2" javaType="String" /> </resultMap> -->
 	<select id="dibsN" parameterType="String">
-		SELECT * FROM D WHERE D_ID=#{d_id}
+		SELECT * FROM D WHERE
+		D_ID=#{d_id}
 	</select>
+
+	<resultMap type="OpCategory" id="OpCategory">
+		<result property="op_adcode" column="OP_ADCODE" />
+		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER" />
+		<result property="op_name" column="OP_NAME" />
+		<result property="op_price" column="OP_PRICE" />
+		<result property="op_category" column="OP_CATEGORY" />
+		<result property="m_name" column="M_NAME" />
+		<result property="m_addr" column="M_ADDR" />
+	</resultMap>
 </mapper>
+
