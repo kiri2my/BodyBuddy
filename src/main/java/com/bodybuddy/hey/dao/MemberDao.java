@@ -70,6 +70,10 @@ public interface MemberDao {
 
 	public boolean memberDeleteReal(String m_id);
 
+	public void DeleteRealId(String m_id);
+
+	public String deleteRealIdCheck(String m_id);
+
 
 
 }
