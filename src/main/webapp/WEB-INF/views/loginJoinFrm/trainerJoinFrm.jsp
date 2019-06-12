@@ -170,7 +170,7 @@
 									<div class="input-group">
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력"> <input type="hidden" value="k"
+											placeholder="상세주소 입력"> <input type="hidden" value="t"
 											id="m_kind" name="m_kind" />
 									</div>
 
@@ -296,6 +296,7 @@
 					maxlength : 20
 				},
 				m_addr : "required",
+				m_exaddr : "required",
 				agree : "required"
 			//email: true	
 			},//end rules
@@ -330,6 +331,7 @@
 					digits : "숫자입력만 가능합니다.",
 				},
 				m_addr : "주소를 입력 해주세요",
+				m_exaddr : "상세주소를 입력 해주세요",
 				agree : "개인정보 보호 동의해 체크해주세요"
 
 			}
