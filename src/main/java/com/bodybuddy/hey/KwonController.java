@@ -28,9 +28,6 @@ public class KwonController {
 
 	private static final Logger logger = LoggerFactory.getLogger(KwonController.class);
 	@Autowired
-	MemberManagemant mm;
-
-	@Autowired
 	SalesService ss;
 
 	@Autowired
@@ -38,12 +35,11 @@ public class KwonController {
 
 	@Autowired
 	HttpSession session;
-	
-	@Autowired
-	private JavaMailSender mailSender;
 
+	/*
+	 * @Autowired private JavaMailSender mailSender;
+	 */
 	ModelAndView mav;
-
 
 	@RequestMapping(value = "/email")
 	public String email(Locale locale, Model model) {
@@ -68,7 +64,7 @@ public class KwonController {
 		String id = request.getParameter("id");
 		System.out.println(id);
 
-		mav = mm.getMemberList(id);
+		mav = ks.getMemberList(id);
 
 		return mav;
 	}
@@ -80,7 +76,7 @@ public class KwonController {
 		System.out.println(name);
 		System.out.println(id);
 
-		mav = mm.getMemberSearch(name, id);
+		mav = ks.getMemberSearch(name, id);
 
 		return mav;
 	}
@@ -90,7 +86,7 @@ public class KwonController {
 		String id = request.getParameter("id");
 		System.out.println(id);
 
-		mav = mm.getTrainerList(id);
+		mav = ks.getTrainerList(id);
 
 		return mav;
 	}
@@ -102,7 +98,7 @@ public class KwonController {
 		System.out.println(name);
 		System.out.println(id);
 
-		mav = mm.getTrainerSearch(name, id);
+		mav = ks.getTrainerSearch(name, id);
 
 		return mav;
 	}
@@ -112,7 +108,7 @@ public class KwonController {
 		String id = request.getParameter("id");
 		System.out.println(id);
 
-		mav = mm.getNormalMemberList(id);
+		mav = ks.getNormalMemberList(id);
 
 		return mav;
 	}
@@ -122,7 +118,7 @@ public class KwonController {
 		String id = request.getParameter("id");
 		System.out.println(id);
 
-		mav = mm.getProgramMemberList(id);
+		mav = ks.getProgramMemberList(id);
 
 		return mav;
 	}
@@ -132,7 +128,7 @@ public class KwonController {
 		String id = request.getParameter("id");
 		System.out.println(id);
 
-		mav = mm.getTrainerMemberList(id);
+		mav = ks.getTrainerMemberList(id);
 
 		return mav;
 	}
@@ -213,37 +209,8 @@ public class KwonController {
 		mav = new ModelAndView();
 		mav.setViewName("infoModifyC");
 		String id = request.getParameter("id");
-		mav = ks.getInfomodifyC(id);
+		/* mav = ks.getInfomodifyC(id); */
 		return mav;
 	}
 
-	// mailSending 코드
-
-
-		@RequestMapping(value="/sendEmail1")
-		public String mailSending() {
-			System.out.println("메일 보내기");
-			String setfrom = "soonchul88@gmail.com"; //보내는 아이디
-			String title = "BodyBuddy 인증번호"; // 제목
-			Member mb = (Member) session.getAttribute("mb"); //세션 가져오자
-			String m_id = mb.getM_id(); // 받는사람 아이디
-			String certification = mm.getRamdomPassword(10);//내용 인증번호 디비에 저장
-			
-			try {
-				MimeMessage message = mailSender.createMimeMessage();
-				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-
-				messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
-				messageHelper.setTo(m_id); // 받는사람 이메일
-				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
-				messageHelper.setText("인증번호 : "+certification); // 메일 내용,인증번호
-
-				mailSender.send(message);
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-
-			return "redirect:/";
-
-		}
 }

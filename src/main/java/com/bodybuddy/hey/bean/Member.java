@@ -57,10 +57,4 @@ public class Member {
 	
 	private String ad_title;
 	
-	
-	
-	
-	
-	
-	
 }

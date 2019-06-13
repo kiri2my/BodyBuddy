@@ -8,4 +8,5 @@ import lombok.Setter;
 @Alias("company")
 @Setter @Getter
 public class Company {
+	private String aaaaa;
 }
