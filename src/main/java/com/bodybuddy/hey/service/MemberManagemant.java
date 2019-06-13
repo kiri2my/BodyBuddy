@@ -15,9 +15,9 @@ import com.bodybuddy.hey.dao.MemberDao;
 @Service
 public class MemberManagemant {
 	@Autowired
-	private MemberDao mDao;
-
-	private HttpSession session; // request는 권장하지 않음
+	MemberDao mDao;
+	@Autowired
+	HttpSession session; // request는 권장하지 않음
 
 	Member m;
 
@@ -200,6 +200,7 @@ public class MemberManagemant {
 		int check = 0;
 		String s = m_id;
 		System.out.println(s + "                                   123");
+		session.setAttribute("m_id", m_id);
 		check = mDao.checkId(m_id);
 
 		return check;
@@ -231,6 +232,7 @@ public class MemberManagemant {
 	}
 
 	public int checkCompanyNum(String c_num) {
+		System.out.println("asdasd");
 		int cnum = 0;
 		cnum = mDao.checkCompanyNum(c_num);
 		return cnum;
@@ -309,7 +311,7 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	public static String getRamdomPassword(int len) {
+	public String getRamdomPassword(int len) {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 		int idx = 0;
@@ -346,6 +348,27 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	
+	public ModelAndView memberDeleteReal() {
+		mav = new ModelAndView();
+		System.out.println("맴매트 라규!");
+		Member mb = (Member) session.getAttribute("mb");
+		String m_id = mb.getM_id();
+		System.out.println("mb.getM_id()mb.getM_id()  " +mb.getM_id());
+		System.out.println("m_id   " + m_id);
+		if (mDao.memberDeleteReal(m_id)) {
+			System.out.println("m_idm_idm_idm_id  = "+m_id);
+			mDao.DeleteRealId(m_id);
+			System.out.println("성공이라규!");
+			session.invalidate();
+			view = "main";
+
+		} else {
+			mav.addObject("msg", "회원탈퇴에 실패 했습니다  다시시도해주세요");
+			view = "main";
+		}
+		mav.setViewName(view);
+		return mav;
+	}
+
 
 }

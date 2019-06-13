@@ -110,5 +110,20 @@
   <!-- endinject -->
 
 </body>
+<script>
+//아이디오류 비번오류 탈퇴회원
+var loginCheck = "${loginCheck}";
+console.log(loginCheck);
+if(loginCheck=="아이디오류"){
+	alert("ID가 일치하지 않습니다.");
+}else if(loginCheck=="비번오류"){
+	alert("패스워드가 일치하지 않습니다.");
+}else if(loginCheck=="탈퇴회원"){
+	alert("해당 아이디를 사용하실 수 없습니다.");
+}
+
+
+
+</script>
 
 </html>

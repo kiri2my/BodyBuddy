@@ -49,11 +49,24 @@
 		#{m_phone} AND
 		M_BIRTH = #{m_birth}
 	</select>
+	<update id="memberDeleteReal" parameterType="String">
+		UPDATE M SET M_PW =
+		'탈퇴회원',M_NAME = '탈퇴회원',M_PHONE = '탈퇴회원',M_BIRTH = SYSDATE,M_ADDR =
+		'탈퇴회원',M_EXADDR = '탈퇴회원',M_KIND = 'D'
+		WHERE M_ID = #{m_id}
+	</update>
+	<insert id="DeleteRealId" parameterType="String">
+		INSERT INTO DELETEREALID VALUES(#{m_id},'탈퇴회원')
+	</insert>
 
 	<update id="temporaryPw" parameterType="String">
 		UPDATE M SET M_PW =
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
+	<select id="deleteRealIdCheck" parameterType="String" resultType="member">
+	SELECT M_ID FROM DELETEREALID 
+	WHERE M_ID = #{m_id} 
+	</select>
 
 	<select id="getMemberList" resultType="member">
 		<![CDATA[

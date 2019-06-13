@@ -102,9 +102,26 @@
 											class="form-control form-control-lg border-left-0"
 											placeholder="이메일을 입력해주세요" />
 										<button type="button" id="idCheck"
-											class="btn btn-outline-secondary btn-md">중복 확인</button>
+											class="btn btn-outline-secondary btn-md" disabled="disabled">중복 확인</button>
 									</div>
 								</div>
+									<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend bg-transparent">
+											<span class="input-group-text bg-transparent border-right-0">
+												<i class="mdi mdi-email-outline text-primary"></i>
+											</span>
+										</div>
+										<input type="text" name="emailNum" id="emailNum"
+											class="form-control form-control-lg border-left-0"
+											placeholder="인증번호" /> <input type="button"
+											class="btn btn-outline-secondary btn-md" id="sendRndNum"
+											value="인증번호발송" disabled="disabled"/> <input type="hidden"
+											class="btn btn-outline-secondary btn-md" id="sendRndNumCheck"
+											name="mailenum" value="인증번호확인" /> <br />
+									</div>
+								</div>
+								
 
 								<div class="form-group">
 
@@ -215,9 +232,9 @@
 								</div>
 								<div class="mt-3">
 
-									<input
+									<input id="joinbtn"
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										type="submit" value="회원가입">
+										type="submit" value="회원가입" disabled="disabled">
 								</div>
 								<div class="text-center mt-4 font-weight-light">
 									이미 회원가입 하셨나요?<a href="login.html" class="text-primary"> 로그인</a>
@@ -255,9 +272,74 @@
 <script src="../majestic-master/dist/jquery.validate.min.js"></script>-->
 <script>
 	console.log($('#joinbtn'));
+	//인증메일전송
+	var mail = null;
+	var oldid= null;
+	var oldnum= null;
+	$("#m_id").on("propertychange change keyup paste input", function() {
+	    var currentVal = $(this).val();
+	    if(currentVal == oldid) {
+	        return;
+	    }
+	 
+	    oldid = currentVal;
+	    $('#sendRndNumCheck').prop("type", "hidden");
+		$('#sendRndNum').prop("type", "button");
+		$('#joinbtn').prop("disabled", true);
+		$('#sendRndNum').prop("disabled", true);
+	});
+	$("#c_num").on("propertychange change keyup paste input", function() {
+	    var currentVal = $(this).val();
+	    if(currentVal == oldid) {
+	        return;
+	    }
+	 
+	    oldid = currentVal;
+	    $('#sendRndNumCheck').prop("type", "hidden");
+		$('#sendRndNum').prop("type", "button");
+		$('#idCheck').prop("disabled", true);
+		$('#joinbtn').prop("disabled", true);
+		$('#sendRndNum').prop("disabled", true);
+	});
+	 
 
+	$('#sendRndNum').click(function() {
+		$.ajax({
+			url : "sendrndnum",
+			type : "post",
+			dataType : "html",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				$('#sendRndNumCheck').prop("type", "button");
+				$('#sendRndNum').prop("type", "hidden");
+				mail = data;
+				console.log("data" + data);
+				console.log("mail" + mail);
+				alert("인증번호를  발송하였습니다")
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		});//end ajax
+
+	});//end click
+	//인증번호 체크
+	$("#sendRndNumCheck").click(function() {
+		console.log(mail);
+		if ($("#emailNum").val() == mail) {
+			$('#joinbtn').prop("disabled", false);
+			alert("인증되었습니다")
+		} else {
+			alert("인증번호를 다시 확인해주세요")
+		}
+	})
+
+	//중복아이디 체크
 	$('#idCheck').click(function() {
 		console.log($('#m_id').val());
+		oldid = $('#m_id').val();
 		$.ajax({
 			url : "checkid",
 			type : "post",
@@ -270,11 +352,12 @@
 				if (data < 1) {
 					alert(" 사용가능한 아이디입니다  ");
 					console.log(data);
-					$('#joinbtn').prop("disabled", false);
 					console.log(m_id);
+					$('#sendRndNum').prop("disabled", false);
 				} else {
 					alert(" 중복된 아이디입니다 ");
 					$('#joinbtn').prop("disabled", true);
+					
 				}
 			},
 			error : function(error) {
@@ -283,6 +366,7 @@
 
 			}
 		});//end ajax
+
 	});//end click
 
 	$('#numCheck').click(function() {
@@ -298,6 +382,7 @@
 			success : function(data) {
 				if (data < 1) {
 					alert(" 가입가능한 업체 입니다  ");
+					$("#idCheck").prop("disabled", false);
 					console.log(data);
 					console.log(m_id);
 				} else {
@@ -350,7 +435,8 @@
 					maxlength : 20
 				},
 				m_addr : "required",
-				agree : "required"
+				agree : "required",
+				m_exaddr : "required"
 			//email: true	
 			},//end rules
 
@@ -388,6 +474,7 @@
 
 				},
 				m_addr : "주소를 입력 해주세요",
+				m_exaddr : "상세주소를 입력 해주세요",
 				agree : "개인정보 보호 동의해 체크해주세요"
 
 			}

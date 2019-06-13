@@ -15,7 +15,7 @@ public class Question {
 	private String ad_kind;
 	private String ad_category;
 	private String ad_status;
-	private String ad_date;
+	private String ad_date;	
 	
 	private String qa_adcode;	
 	private String qa_writer;	
@@ -25,5 +25,12 @@ public class Question {
 	private String qa_adate;
 	private String qa_answer;
 	private String qa_num;
-	/* 얍얍 */
+
+	private String op_adcode; 
+	private String op_code;
+	private String op_trainer;
+	private String op_name;
+	private int op_price;  
+	private String op_category;
+	
 }

@@ -26,8 +26,8 @@
 		
 		INSERT INTO YESORNO VALUES(#{c_bname},#{id},'진행',SYSDATE)
 	</insert>
-	<update id="acceptrequestupdate">
-		UPDATE YESORNO SET YN_STATE= '진행' WHERE YN_TRAINER=#{id} 
+	<update id="acceptrequestupdate" parameterType="member">
+		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_bname} WHERE YN_TRAINER= #{m_id} 
 	</update>
 	
 </mapper>
