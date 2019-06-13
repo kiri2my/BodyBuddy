@@ -288,7 +288,7 @@
 	$('#numCheck').click(function() {
 		console.log($('#c_num').val());
 		$.ajax({
-			url : "checkcnum",
+			url : "checkcompanynum",
 			type : "post",
 			data : {
 				"c_num" : $('#c_num').val()

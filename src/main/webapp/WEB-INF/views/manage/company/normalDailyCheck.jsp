@@ -40,7 +40,8 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch" placeholder="일반회원 검색">
+					<input type="text" class="span2" id="memsearch"
+						placeholder="일반회원 검색">
 					<button type="button" onclick="memberSearch()" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
@@ -67,11 +68,13 @@
 										<tr>
 											<td><a href="#">${member.m_name }(${member.m_id })</a></td>
 											<td>${member.ps_date }~${member.ps_date1 }</td>
-											<td>${member.ps_date2 }</td>
+											<td>${member.ps_day }</td>
 											<td>${member.m_phone }</td>
 											<td>이용중</td>
-											<th><a href="#" onclick="ndc()">출석</a></th>
-											<th><a href="#" >보기</a></th>
+											<th><button class="btn btn-danger"
+													onclick="normalCheck('${member.m_id}','${member.ps_code}')">출석</button></th>
+											<th><button class="btn btn-danger"
+													onclick="Attended('${member.m_id}','${member.ps_code}')">보기</button></th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -81,6 +84,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<div class="modal" id="modal"
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3 id="">트레이너 근태</h3>
+		</div>
+		<div class="modal-body" id="modalBody"></div>
 	</div>
 
 	<!-- plugins:js -->
@@ -112,22 +126,52 @@
 </body>
 
 <script type="text/javascript">
-	function memberSearch() {
-		var name = $('#memsearch').val();
+	function normalCheck(id,code) {
+		var id = id;
+		var code = code;
 		$.ajax({
-			type : "get",
-			url : "normalmembersearch",
+			type : "POST",
+			url : "normalcheck",
 			data : {
-				name : name,
-				id : '3333'
+				code : code
 			},
-			dataType : "html",
+			dataType : 'html',
 			success : function(data) {
-				alert(data);
-				$('#main').html(data);
+				alert("일반회원 입력 성공");
 			},
 			error : function() {
-				alert('일반회원 검색 실패');
+				alert('일반회원 입력 실패');
+			}
+		});
+
+	}
+	
+	function Attended(id,code) {
+		var id = id;
+		var code = code;
+		$.ajax({
+			type : "post",
+			url : "attended",
+			data : {
+				id : id,
+				code : code
+			},
+			dataType : 'json',
+			success : function(data) {
+				console.log(data);
+				var str = "";
+				str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+				for (var i = 0; i < data.length; i++) {
+					str += "<tr><td>" + data[i].dn_date + "</td><td>"
+							+ "출석" + "</td></tr>";
+				}
+				str += "</tbody></table>";
+				$('#modalBody').html(str);
+				$('#modal').modal('toggle');
+			},
+			error : function(error) {
+				alert('현황 목록 로드 실패');
+				console.log(error);
 			}
 		});
 	}

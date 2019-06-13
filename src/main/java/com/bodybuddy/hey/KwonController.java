@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.MemberManagemant;
 import com.bodybuddy.hey.service.SalesService;
@@ -38,14 +40,20 @@ public class KwonController {
 
 	ModelAndView mav;
 
+	@Autowired
+	HttpSession session;
+
 	@RequestMapping(value = "/email")
 	public String email(Locale locale, Model model) {
 		return "email/emailCheckFrm";
 	}
 
 	@RequestMapping(value = "/company")
-	public String company(Locale locale, Model model) {
-		return "manage/company/companyMain";
+	public ModelAndView company(HttpServletRequest request) {
+		mav = new ModelAndView();
+		mav.setViewName("manage/company/companyMain");
+		mav.addObject("m_id", request.getParameter("m_id"));
+		return mav;
 	}
 
 	@RequestMapping(value = "/question")
@@ -178,8 +186,37 @@ public class KwonController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/normalcheck")
+	public ModelAndView normalCheckInsert(HttpServletRequest request) {
+
+		mav = ks.normalCheckInsert(request);
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/attended", produces = "application/text; charset=utf8")
+	public @ResponseBody String attended(HttpServletRequest request) {
+
+		System.out.println("workingAttitude tid =" + request.getParameter("id"));
+		System.out.println("workingAttitude cid =" + request.getParameter("code"));
+
+		String gson = ks.getAttended(request);
+		System.out.println(gson);
+
+		return gson;
+	}
+
+	@RequestMapping(value = "/infomodifyc")
+	public ModelAndView infoModifyC(HttpServletRequest request) {
+		mav = new ModelAndView();
+		mav.setViewName("infoModifyC");
+		String id = request.getParameter("id");
+		mav = ks.getInfomodifyC(id);
+		return mav;
+	}
+
 	// mailSending 코드
-	@RequestMapping(value="/sendEmail")
+	@RequestMapping(value = "/sendEmail")
 
 	public String mailSending(HttpServletRequest request) {
 

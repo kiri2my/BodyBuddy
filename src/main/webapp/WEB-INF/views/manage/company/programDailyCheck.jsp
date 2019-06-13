@@ -124,25 +124,6 @@
 </body>
 
 <script type="text/javascript">
-	function memberSearch() {
-		var name = $('#memsearch').val();
-		$.ajax({
-			type : "get",
-			url : "normalmembersearch",
-			data : {
-				name : name,
-				id : '3333'
-			},
-			dataType : "html",
-			success : function(data) {
-				alert(data);
-				$('#main').html(data);
-			},
-			error : function() {
-				alert('일반회원 검색 실패');
-			}
-		});
-	}
 	
 	function programMember(adcode) {
 		var adCode = adcode;
@@ -177,8 +158,6 @@
 	
 	function programCheck(psCode) {
 		var code = psCode;
-		alert(code);
-		
 		$.ajax({
 			type : "POST",
 			url : "programcheck",

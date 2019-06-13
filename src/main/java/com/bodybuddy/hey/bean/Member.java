@@ -25,19 +25,19 @@ public class Member {
 	private String c_bphone;
 	 
 	private String pf_image;
-	
 
 	private String ps_date;
 	private String ps_date1;
 	private String ps_date2;
 	private String ps_code;
+	private String ps_adcode;
+	private String ps_opcode;
+	private String ps_day;
 
 	private String yn_code;
 	private String yn_company;
 	private String yn_trainer;
 	private String yn_state;
-	
-
 	 
 	private String dt_tid;
 	private String dt_cid;
@@ -48,7 +48,19 @@ public class Member {
 	private String op_period;
 	private String op_code;
 	private String op_adcode;
+
+	private String dn_dacode;
+	private String dn_date;
+	private String da_code;
+	private String da_pscode;
+	private String da_status;
+	
 	private String ad_title;
+	
+	
+	
+	
+	
 	
 	
 }

@@ -82,8 +82,6 @@ public class KwonService {
 			System.out.println("getworkingAttitude success");
 		} else {
 			System.out.println("ggetworkingAttitude error");
-			view = "manage/company/company";
-			mav.setViewName(view);
 		}
 
 		return reuslt;
@@ -123,7 +121,9 @@ public class KwonService {
 			dci = mDao.programcheckInsert2(da_code);
 			mav.addObject("msg", "insert");
 		} catch (Exception e) {
-			System.out.println("programCheckInsert fail");
+			String da_code = mDao.programCheckSelect(code);
+			dci = mDao.programcheckInsert2(da_code);
+			mav.addObject("msg", "insert");
 		}
 
 		if (dci) {
@@ -135,11 +135,83 @@ public class KwonService {
 			System.out.println("programCheckInsert fail");
 			view = "manage/company/programDailyCheck";
 			mav.setViewName(view);
-
 		}
 
 		return mav;
 
 	}
+
+	public String getAttended(HttpServletRequest request) {
+		mav = new ModelAndView();
+		String view = null;
+		
+		String code = request.getParameter("code");
+
+		List<Member> mList = null;
+		System.out.println("getAttended mDao in");
+		mList = mDao.getAttended(code);
+
+		Gson gson = new Gson();
+		String reuslt = gson.toJson(mList);
+
+		if (0 != mList.size()) {
+			System.out.println("getAttended success");
+		} else {
+			System.out.println("getAttended error");
+		}
+
+		return reuslt;
+	}
+
+	public ModelAndView normalCheckInsert(HttpServletRequest request) {
+		mav = new ModelAndView();
+
+		String code = request.getParameter("code");
+		boolean dci = false;
+
+		try {
+			dci = mDao.programCheckInsert(code);
+			String da_code = mDao.programCheckSelect(code);
+			dci = mDao.programcheckInsert2(da_code);
+			mav.addObject("msg", "insert");
+		} catch (Exception e) {
+			String da_code = mDao.programCheckSelect(code);
+			dci = mDao.programcheckInsert2(da_code);
+			mav.addObject("msg", "insert");
+		}
+
+		if (dci) {
+			System.out.println("normalCheckInsert success");
+			view = "manage/company/normalDailyCheck";
+			mav.setViewName(view);
+
+		} else {
+			System.out.println("normalCheckInsert fail");
+			view = "manage/company/normalDailyCheck";
+			mav.setViewName(view);
+		}
+
+		return mav;
+	}
+
+	public ModelAndView getInfomodifyC(String id) {
+			mav = new ModelAndView();
+			String view = null;
+
+			List<Member> mList = null;
+			System.out.println("getAttended mDao in");
+			mList = mDao.getAttended(id);
+
+			Gson gson = new Gson();
+			String reuslt = gson.toJson(mList);
+
+			if (0 != mList.size()) {
+				System.out.println("getAttended success");
+			} else {
+				System.out.println("getAttended error");
+			}
+
+			return mav;
+		}
 
 }

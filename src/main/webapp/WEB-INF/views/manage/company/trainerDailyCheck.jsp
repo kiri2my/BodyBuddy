@@ -72,9 +72,9 @@
 												<button class="btn btn-danger"
 													onclick="dailyCheck('결근','${trainer.m_id }')">결근</button>
 												<button class="btn btn-danger"
-													onclick="dailyCheck('휴가','${trainer.m_id }')">휴가</button>${msg}</td>
-											<td><a href="#"
-												onclick="workingAttitude('${trainer.m_id }')">근태보기</a></td>
+													onclick="dailyCheck('휴가','${trainer.m_id }')">휴가</button></td>
+											<td><button class="btn btn-danger"
+													onclick="workingAttitude('${trainer.m_id }')">근태보기</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -167,7 +167,6 @@
 		});
 	}
 
-	
 	function workingAttitude(id) {
 		var tid = id;
 		var cid = 'company1';

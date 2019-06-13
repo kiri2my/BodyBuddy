@@ -67,5 +67,7 @@ public interface MemberDao {
 
 	public boolean programcheckInsert2(String da_code);
 
+	public List<Member> getAttended(String code);
+
 
 }

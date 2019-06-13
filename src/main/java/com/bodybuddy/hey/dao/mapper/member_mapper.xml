@@ -31,7 +31,7 @@
 		COUNT(*) FROM M
 		WHERE M_ID = #{m_id}
 	</select>
-	<select id="checkCnum" parameterType="String"
+	<select id="checkCompanyNum" parameterType="String"
 		resultType="Integer">
 		SELECT COUNT(*) FROM C
 		WHERE C_NUM = #{c_num}
@@ -84,10 +84,18 @@ from ad,ps where  ad_code = ps_adcode and ad_name = 'company1' group by ps.ps_mi
 		]]>
 	</select>
 	<select id="getNormalMemberList" resultType="member">
-		<![CDATA[
-			select m_id,m_name,m_phone,TO_CHAR(ps_date, 'YYYY.MM.DD') as ps_date,TO_CHAR(ps_date+30, 'YYYY.MM.DD') as ps_date1, trunc (ps_date+30-sysdate) as ps_date2 from ps left join m on ps_mid = m_id  where ps.ps_opcode is null and m_id in( select ps.ps_mid 
-			from ad,ps where  ad_code = ps_adcode and ad_name = #{id} group by ps.ps_mid)
-		]]>
+
+		select
+		m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as
+		m_birth,ps_code,ps_adcode,ps_opcode,to_char(ps_date,'YYYYMMDD') as
+		ps_date,to_char(ps_date+30,'YYYYMMDD') as
+		ps_date1,trunc
+		(ps_date+30-sysdate) as ps_day,ad_title from m left join
+		ps on
+		ps_mid=m_id left join ad on ps_adcode = ad_code where ps_opcode
+		is null
+		and ad_name = #{id}
+
 	</select>
 	<select id="getProgramMemberList" resultType="member">
 		select
@@ -136,14 +144,21 @@ from ad,ps where  ad_code = ps_adcode and ad_name = 'company1' group by ps.ps_mi
 		insert into daily
 		values(DA_SEQ.nextval,#{code},'이용중')
 	</insert>
-	<select id="programCheckSelect" resultType="String"
-		parameterType="String">
-		select da_code from daily da_pscode = #{code}
+	<select id="programCheckSelect" resultType="String">
+		select da_code from
+		daily where da_pscode = #{code}
 	</select>
 	<insert id="programcheckInsert2" parameterType="String">
 		insert into
 		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
 	</insert>
+
+	<select id="getAttended" resultType="member">
+		select to_char(dn_date,'YYYY.MM.DD') as dn_date from dailycheckn
+		where dn_dacode =(select da_code from daily where da_pscode = #{code})
+	</select>
+
+
 	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
 		</insert> <select id="getSecurityPwd" parameterType="String" resultType="String"> 
 		SELECT M_PWD FROM M WHERE M_ID = #{m_id} </select> <select id="getMemberInfo" 

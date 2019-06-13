@@ -238,6 +238,28 @@
 		});
 	}
 	
+	function infoModify() {
+		var id = '${m_id}';
+		alert(id);
+		
+		$.ajax({
+			type : "get",
+			url : "infomodifyc",
+			data : {
+				id : id
+				},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('정보 수정 로드 실패');
+			}
+
+		});
+		
+	}
+	
 	
 </script>
 
