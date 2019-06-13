@@ -3,6 +3,7 @@ package com.bodybuddy.hey.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.bodybuddy.hey.bean.Counsel;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
@@ -38,5 +39,8 @@ public interface YoonDao {
 
 	List<Map<String, String>> getCounsel(String cs_opcode, String cs_mid);
 
+	Counsel getcounselN(Counsel cs);
+
+	
 	
 }

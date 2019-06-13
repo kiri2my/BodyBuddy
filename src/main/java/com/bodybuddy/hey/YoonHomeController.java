@@ -2,6 +2,7 @@
 package com.bodybuddy.hey;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -91,9 +92,13 @@ public class YoonHomeController {
 		return mav;
 	}
 	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
-	 public ModelAndView counselList(String cs_opcode,String cs_mid) {
-		 mav=ys.counselListn(cs_opcode,cs_mid);
+	public ModelAndView counselList(String cs_opcode,String cs_mid) {
+		mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
 	  }
-
+	@RequestMapping(value = "/counseln") 
+	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
+		mav=ys.counseln(cs_opcode,cs_date);
+		return mav;
+		}
 }

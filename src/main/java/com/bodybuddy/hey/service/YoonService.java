@@ -1,7 +1,9 @@
 package com.bodybuddy.hey.service;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Counsel;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
@@ -389,11 +392,36 @@ StringBuilder sb = new StringBuilder();
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td>자세히보기</td>\r\n" + 
+				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 
 				"												</tr>");
 		}
 		return sb.toString();
+	}
+	
+	public ModelAndView counseln(String cs_opcode, String cs_date) throws ParseException {
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String view=null;
+		String cs_mid=sessionMb.getM_id();
+
+
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date to = transFormat.parse(cs_date);
+
+
+		
+		
+		
+		Counsel cs=new Counsel();
+		cs.setCs_opcode(cs_opcode);
+		cs.setCs_mid(cs_mid);
+		cs.setCs_date(to);
+		Counsel cs1=yDao.getcounselN(cs);
+		mav.addObject("cs", cs1);
+		view = "manage/counselN";
+		mav.setViewName(view);
+		return mav;
 	}
 	
 	
