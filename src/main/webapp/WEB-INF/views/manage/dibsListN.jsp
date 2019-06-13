@@ -166,4 +166,29 @@ to {
 
 
 </body>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script>
+$(".deliteButton").click(function(){
+	var adnum=$(".deliteButton").parent().children().eq(1).val();
+	console.log(adnum);
+	$.ajax({
+		type:'post', 
+		url:'dibsdelete',
+		data:{d_adcode:adnum},
+		dataType:'html',
+		success:function(data){
+			if(data=="success"){
+				alert("선택된 찜 삭제 완료")
+				location.href="dibsn?m_id=${mb.m_id}";
+			}else{
+				alert("선택된 찜 삭제 실패")
+			}
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+});
+</script>
 </html>

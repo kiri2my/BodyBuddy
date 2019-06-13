@@ -336,7 +336,8 @@ StringBuilder sb = new StringBuilder();
 			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td class=\"sorting_1\">"
 					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
-					+ "													<td><button>삭제</button></td>\r\n"
+					+ "													<td><button class='deliteButton'>삭제</button>"
+					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();

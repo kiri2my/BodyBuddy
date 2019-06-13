@@ -149,12 +149,12 @@ public class KirimService {
 		} else if (sessionMb != null) {// 회원 찜 제거
 			String sessionId = sessionMb.getM_id();
 			Map<String, String> dibs = new HashMap<>();
-			dibs.put("D_ADCODE", d_adcode);
-			dibs.put("D_ID", sessionId);
+			dibs.put("d_adcode", d_adcode);
+			dibs.put("d_id", sessionId);
 			if (kDao.dibsDelete(dibs)) {
-				html = suc;// "님의 찜 목록에서 제거되었습니다";
+				html="success";
+				
 			}
-			html = err;// "님의 찜 목록에서 제거실패";
 		}
 		System.out.println("222비회원장바구니 세션등록키===" + session.getAttribute("tempDibs" + d_adcode));
 		Enumeration<String> names = session.getAttributeNames();

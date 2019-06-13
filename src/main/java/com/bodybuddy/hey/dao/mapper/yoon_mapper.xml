@@ -86,7 +86,7 @@
 	SELECT * FROM PF WHERE PF_ID=#{m_id}
 	</select> 
 	<select id="getdibs" resultType="HashMap">
-	SELECT AD_TITLE
+	SELECT AD_TITLE,AD_CODE
 	FROM AD
 	JOIN DIBS
 	ON AD_CODE=D_ADCODE
