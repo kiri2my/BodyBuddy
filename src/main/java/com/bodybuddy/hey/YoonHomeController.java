@@ -83,8 +83,9 @@ public class YoonHomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/memberdelten")
-	public String login4(Model model) {
-		return "manage/payHistoryN.";
+	public ModelAndView memberdelten() {
+		mav=ys.memberdelten();
+		return mav;
 	}
 	@RequestMapping(value = "/payhistoryn") 
 	public ModelAndView payList(String m_id) {

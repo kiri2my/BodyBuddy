@@ -80,7 +80,7 @@ public class HanHomeController {
 		return "loginJoinFrm/forgetpw";
 	}
 
-	@RequestMapping(value = "/DE", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberdeletereal", method = RequestMethod.GET)
 	public ModelAndView memberDeleteReal(Model model) {
 		System.out.println("탈퇴를 시작했다규!");
 		mav = mm.memberDeleteReal();

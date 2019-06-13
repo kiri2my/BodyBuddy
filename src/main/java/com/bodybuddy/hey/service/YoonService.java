@@ -423,6 +423,11 @@ StringBuilder sb = new StringBuilder();
 		mav.setViewName(view);
 		return mav;
 	}
+	public ModelAndView memberdelten() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("manage/memberDeleteN");
+		return mav;
+	}
 	
 	
 

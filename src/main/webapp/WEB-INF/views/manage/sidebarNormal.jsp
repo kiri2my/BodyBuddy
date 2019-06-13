@@ -62,7 +62,7 @@
 	
 
 					<li class="nav-item"><a class="nav-link"
-						href="memberdeletereal"> <i
+						href="memberdelten"> <i
 							class="mdi mdi-walk menu-icon"></i> <span class="menu-title">회원
 								탈퇴하기</span>
 					</a></li>

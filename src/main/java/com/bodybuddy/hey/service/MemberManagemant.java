@@ -179,6 +179,7 @@ public class MemberManagemant {
 
 	public ModelAndView memberDeleteReal() {
 		mav = new ModelAndView();
+		String view=null;
 		System.out.println("맴매트 라규!");
 		Member mb = (Member) session.getAttribute("mb");
 		String m_id = mb.getM_id();
@@ -193,7 +194,7 @@ public class MemberManagemant {
 
 		} else {
 			mav.addObject("msg", "회원탈퇴에 실패 했습니다  다시시도해주세요");
-			view = "main";
+			view = "/hey";
 		}
 		mav.setViewName(view);
 		return mav;
