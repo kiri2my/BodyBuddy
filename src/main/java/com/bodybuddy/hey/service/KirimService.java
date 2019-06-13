@@ -37,29 +37,27 @@ public class KirimService {
 	@Autowired
 	YoonDao yDao;
 	@Autowired
-	MemberDao mDao;
-	@Autowired
 	HttpSession session;
 
 	ModelAndView mav;
 
 	public ModelAndView access(Member mb) {
-		
 		mav = new ModelAndView();
 		String view = null;
+		System.out.println("사부작");
+		String checkId =  kDao.deleteRealIdCheck(mb.getM_id());
+		System.out.println("aa" + checkId);
+		if (checkId != null)  {
+			mav.setViewName("loginJoinFrm/loginFrm");
+			mav.addObject("loginCheck", "이미탈퇴한아이디입니다");
+			return mav;
+		}
+
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		// 해당 아이디의 암호화된 비번을 가져옴
-		
-		
-		/*
-		 * if(mb.getM_id()==kDao.deleteRealIdCheck(mb.getM_id())){
-		 * mav.setViewName("loginJoinFrm/loginFrm"); mav.addObject("loginCheck",
-		 * "탈퇴회원"); return mav; }
-		 */
-		
-		String pwdEncode = kDao.getSecurityPwd(mb.getM_pw());
-		System.out.println("access패스워드="+pwdEncode);
+		String pwdEncode = kDao.getSecurityPwd(mb.getM_id());
 		if (pwdEncode != null) { // 암호화된 비번이 존재한다면:아이디가 존재
+			mav = new ModelAndView();
 			if (pwdEncoder.matches(mb.getM_pw(), pwdEncode)) {
 				// 로그인 후 회원정보를 3종류로 나눠 화면에 출력하기 위해
 				String kind = kDao.getMemberKind(mb.getM_id());
@@ -80,26 +78,19 @@ public class KirimService {
 					break;
 				}
 				session.setAttribute("mb", mb);
-				
-				//mav.addObject("mb", mb);// @SessionAttributes때문에 세션영역에 mb저장됨
-				// forward:url, POST-POST, GET-GET끼리만 가능
-				// view="forward:/board";
-				// redirect:url, POST-GET 둘다 GET방식만 가능
 				view = "forward:/";
-			}else {// 비번오류
+			} else {// 비번오류
 				System.out.println("5252 비번이 틀렸다고");
 				view = "loginJoinFrm/loginFrm";
 				mav.addObject("loginCheck", "비번오류");
-				
+
 			}
 		} else {// 아이디오류
 			System.out.println("5252 아이디가 틀렸다고");
 			view = "loginJoinFrm/loginFrm";
 			mav.addObject("loginCheck", "아이디오류");
 		}
-		//System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_id());
-		//System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_name());
-		//System.out.println("로그인 세션 mb.get M_id 확인이라고!! "+((Member) session.getAttribute("mb")).getM_kind());
+		System.out.println("로그인 성공");
 		mav.setViewName(view);
 		return mav;
 

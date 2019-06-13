@@ -45,6 +45,9 @@ public interface KirimDao {
 
 	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
 
+	public String deleteRealIdCheck(String m_id);
+	
+
 	
 	
 

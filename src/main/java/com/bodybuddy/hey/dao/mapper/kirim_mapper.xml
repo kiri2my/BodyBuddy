@@ -4,96 +4,126 @@
 
 <mapper namespace="com.bodybuddy.hey.dao.KirimDao">
 
-	<select id="getSecurityPwd" parameterType="String" resultType="String">
-	SELECT M_PW FROM M WHERE M_ID = #{m_id}
+	<select id="getSecurityPwd" parameterType="String"
+		resultType="String">
+		SELECT M_PW FROM M WHERE M_ID = #{m_id}
 	</select>
 
-	<select parameterType="String" id="getMemberKind" resultType="String"> 
-	SELECT M_KIND FROM M WHERE M_ID = #{m_id} 
+	<select parameterType="String" id="getMemberKind"
+		resultType="String">
+		SELECT M_KIND FROM M WHERE M_ID = #{m_id}
 	</select>
 
-	<select parameterType="String" id="getNormalInfo" resultType="member"> 
-	SELECT * FROM NINFO WHERE M_ID = #{m_id} 
+	<select parameterType="String" id="getNormalInfo"
+		resultType="member">
+		SELECT * FROM NINFO WHERE M_ID = #{m_id}
 	</select>
 
-	<select parameterType="String" id="getTrainerInfo" resultType="member"> 
-	SELECT * FROM TINFO WHERE M_ID = #{m_id} 
+	<select parameterType="String" id="getTrainerInfo"
+		resultType="member">
+		SELECT * FROM TINFO WHERE M_ID = #{m_id}
 	</select>
-	
 
-	<select parameterType="String" id="getCompanyInfo" resultType="member"> 
-	SELECT * FROM CINFO WHERE M_ID = #{m_id} 
+
+	<select parameterType="String" id="getCompanyInfo"
+		resultType="member">
+		SELECT * FROM CINFO WHERE M_ID = #{m_id}
 	</select>
-	
-	
-		
+
+
+
 	<resultMap type="HashMap" id="detailPageResultMap">
-		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
+		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String" />
 	</resultMap>
-	
-	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
-	SELECT * FROM DETAILPAGE WHERE AD_CODE = #{ad_code} 
+
+	<select parameterType="String" id="detailPage"
+		resultType="HashMap" resultMap="detailPageResultMap">
+		SELECT * FROM DETAILPAGE WHERE AD_CODE = #{ad_code}
 	</select>
-	
+
 	<resultMap type="OpCategory" id="opCategory">
-  		<result property="op_adcode" column="OP_ADCODE" />
- 		<result property="op_code" column="OP_CODE" />
-		<result property="op_trainer" column="OP_TRAINER"/> 
-  		<result property="op_name" column="OP_NAME"  />
-  		<result property="op_price" column="OP_PRICE" />
-  		<result property="op_category" column="OP_CATEGORY"/>
-  		<result property="m_name" column="M_NAME" />
-  		<result property="m_addr" column="M_ADDR"/>
-  	</resultMap>			
-	<select id="opCateList" parameterType="String" resultType="opCategory" resultMap="opCategory">
-		SELECT * FROM CATEGORY WHERE OP_ADCODE = #{ad_code}
+		<result property="op_adcode" column="OP_ADCODE" />
+		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER" />
+		<result property="op_name" column="OP_NAME" />
+		<result property="op_price" column="OP_PRICE" />
+		<result property="op_category" column="OP_CATEGORY" />
+		<result property="m_name" column="M_NAME" />
+		<result property="m_addr" column="M_ADDR" />
+	</resultMap>
+	<select id="opCateList" parameterType="String"
+		resultType="opCategory" resultMap="opCategory">
+		SELECT * FROM CATEGORY WHERE
+		OP_ADCODE = #{ad_code}
 	</select>
 
 
 	<insert id="dibsAdd" parameterType="HashMap">
-		INSERT INTO D VALUES(#{d_adcode},#{d_id})
+		INSERT INTO D
+		VALUES(#{d_adcode},#{d_id})
 	</insert>
-	
+
 	<delete id="dibsDelete" parameterType="HashMap">
-		DELETE FROM D WHERE D_ADCODE=#{d_adcode} AND D_ID=#{d_id}
+		DELETE FROM D WHERE
+		D_ADCODE=#{d_adcode} AND D_ID=#{d_id}
 	</delete>
-	
+
 	<insert id="purchSingle" parameterType="Payment">
-		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
+		INSERT INTO PS
+		VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
 	</insert>
-	
-	
-	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
-		SELECT M.M_ID, M.M_NAME, M.M_KIND, T.T_CID, T.T_CAREER, C.C_BNAME, PF.PF_IMAGE 
+
+
+	<select parameterType="String" id="getTrainerProfile"
+		resultType="HashMap">
+		SELECT M.M_ID, M.M_NAME, M.M_KIND, T.T_CID, T.T_CAREER, C.C_BNAME,
+		PF.PF_IMAGE
 		FROM M
 		LEFT JOIN T ON M.M_ID=T.T_ID
 		LEFT JOIN C ON T.T_CID=C.C_ID
-		LEFT JOIN PF ON M.M_ID=PF_ID
+		LEFT JOIN
+		PF ON M.M_ID=PF_ID
 		WHERE M.M_ID=#{m_id} AND M.M_KIND='t'
 	</select>
-	
-	<select parameterType="String" id="getTrainerProfileOption" resultType="HashMap"> 
-		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CATEGORY, OP_NAME, OP_PERIOD, AD_TITLE, AD_STATUS, AD_DATE, AD_KIND, 
+
+	<select parameterType="String" id="getTrainerProfileOption"
+		resultType="HashMap">
+		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CATEGORY, OP_NAME, OP_PERIOD,
+		AD_TITLE, AD_STATUS, AD_DATE, AD_KIND,
 		AD_NAME, MT.M_ADDR AS T_ADDR, MC.M_ADDR AS AD_ADDR, C_BNAME
 		FROM OP
-		LEFT JOIN AD ON OP_ADCODE = AD_CODE
+		LEFT JOIN AD
+		ON OP_ADCODE = AD_CODE
 		LEFT JOIN M MT ON OP_TRAINER=MT.M_ID
-		LEFT JOIN M MC ON AD_NAME=MC.M_ID
+		LEFT JOIN M
+		MC ON AD_NAME=MC.M_ID
 		LEFT JOIN C ON AD_NAME=C_ID
-		WHERE OP_TRAINER=#{m_id} 
+		WHERE
+		OP_TRAINER=#{m_id}
 	</select>
-	
-	<select parameterType="String" id="getCompanyProfile" resultType="HashMap"> 
-		SELECT M_ID, M_NAME, M_PHONE, M_ADDR, C_NUM, C_BNAME, C_BPHONE ,PF_IMAGE FROM CINFO
-		WHERE M_ID=#{m_id} 
+
+	<select parameterType="String" id="getCompanyProfile"
+		resultType="HashMap">
+		SELECT M_ID, M_NAME, M_PHONE, M_ADDR, C_NUM, C_BNAME, C_BPHONE ,PF_IMAGE
+		FROM CINFO
+		WHERE M_ID=#{m_id}
 	</select>
-	
-	<select parameterType="String" id="getCompanyProfileOption" resultType="HashMap"> 
+
+	<select parameterType="String" id="getCompanyProfileOption"
+		resultType="HashMap">
 		SELECT AD_CODE, AD_TITLE, AD_DATE, AD_STATUS, AD_KIND FROM AD
-		WHERE AD_NAME=#{m_id} 
+		WHERE
+		AD_NAME=#{m_id}
 	</select>
-	
-	
-	
-	
+
+	<select id="deleteRealIdCheck" parameterType="String"
+		resultType="String">
+		SELECT m_id FROM DELETEREALID
+		WHERE M_ID = #{m_id}
+	</select>
+
+
+
+
+
 </mapper>

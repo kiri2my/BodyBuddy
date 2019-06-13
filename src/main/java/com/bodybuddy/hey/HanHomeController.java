@@ -20,10 +20,8 @@ import com.bodybuddy.hey.service.MemberManagemant;
 public class HanHomeController {
 	@Autowired
 	MemberManagemant mm;
-	
 	@Autowired
 	HttpSession session;
-	
 	@Autowired
 	private JavaMailSender mailSender;
 
