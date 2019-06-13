@@ -51,11 +51,11 @@ public class KirimService {
 		// 해당 아이디의 암호화된 비번을 가져옴
 		
 		
-		if(mb.getM_id()==mDao.deleteRealIdCheck(mb.getM_id())){
-			mav.setViewName("loginJoinFrm/loginFrm");
-			mav.addObject("loginCheck", "탈퇴회원");
-			return mav;
-		}
+		/*
+		 * if(mb.getM_id()==kDao.deleteRealIdCheck(mb.getM_id())){
+		 * mav.setViewName("loginJoinFrm/loginFrm"); mav.addObject("loginCheck",
+		 * "탈퇴회원"); return mav; }
+		 */
 		
 		String pwdEncode = kDao.getSecurityPwd(mb.getM_pw());
 		System.out.println("access패스워드="+pwdEncode);

@@ -3,8 +3,6 @@ package com.bodybuddy.hey;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,16 +18,16 @@ import com.bodybuddy.hey.service.MemberManagemant;
 
 @Controller
 public class HanHomeController {
-	
 	@Autowired
 	MemberManagemant mm;
+	
 	@Autowired
 	HttpSession session;
+	
 	@Autowired
 	private JavaMailSender mailSender;
 
 	ModelAndView mav;
-	
 
 	@ResponseBody
 	@RequestMapping(value = "/checkid", method = RequestMethod.POST)
@@ -61,11 +59,12 @@ public class HanHomeController {
 
 		return mav;
 	}
+
 	@RequestMapping(value = "/forgetpwsearch", method = RequestMethod.POST)
 	public ModelAndView forgetPwSearch(Member mb) {
 		System.out.println(" 잊은아이디찾는다! ");
 		mav = mm.forgetPw(mb);
-		
+
 		return mav;
 	}
 
@@ -75,7 +74,6 @@ public class HanHomeController {
 
 		return "loginJoinFrm/forget";
 	}
-	
 
 	@RequestMapping(value = "/forgetpw", method = RequestMethod.GET)
 	public String forgetpw(Model model) {
@@ -83,42 +81,41 @@ public class HanHomeController {
 
 		return "loginJoinFrm/forgetpw";
 	}
+
 	@RequestMapping(value = "/memberdeletereal", method = RequestMethod.GET)
 	public ModelAndView memberDeleteReal(Model model) {
 		System.out.println("탈퇴를 시작했다규!");
 		mav = mm.memberDeleteReal();
 		return mav;
 	}
+
 	// mailSending 코드
-		@ResponseBody
-		@RequestMapping(value="/sendrndnum")
-		public String sendRndNum() {
-			
-			System.out.println("메일 보내기");
-			String setfrom = "soonchul88@gmail.com"; //보내는 아이디
-			String title = "BodyBuddy 인증번호"; // 제목
-			
-			String m_id = (String) session.getAttribute("m_id"); //세션 가져오자 받는사람아이디
-			String certification = mm.getRamdomPassword(10);//내용 인증번호 디비에 저장
-			System.out.println(m_id);
-			try {
-				MimeMessage message = mailSender.createMimeMessage();
-				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+	@ResponseBody
+	@RequestMapping(value = "/sendrndnum")
+	public String sendRndNum() {
 
-				messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
-				messageHelper.setTo(m_id); // 받는사람 이메일
-				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
-				messageHelper.setText("인증번호 : "+certification); // 메일 내용,인증번호
+		System.out.println("메일 보내기");
+		String setfrom = "soonchul88@gmail.com"; // 보내는 아이디
+		String title = "BodyBuddy 인증번호"; // 제목
 
-				mailSender.send(message);
-			} catch (Exception e) {
-				System.out.println(e);
-			}
+		String m_id = (String) session.getAttribute("m_id"); // 세션 가져오자 받는사람아이디
+		String certification = mm.getRamdomPassword(10);// 내용 인증번호 디비에 저장
+		System.out.println(m_id);
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
-			return certification;
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
+			messageHelper.setTo(m_id); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			messageHelper.setText("인증번호 : " + certification); // 메일 내용,인증번호
+
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 
-
-
+		return certification;
+	}
 
 }

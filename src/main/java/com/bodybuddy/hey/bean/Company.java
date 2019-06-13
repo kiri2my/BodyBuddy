@@ -5,7 +5,8 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 
-@Alias("member")
+@Alias("company")
 @Setter @Getter
 public class Company {
+	private String aaaaa;
 }
