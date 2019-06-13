@@ -199,7 +199,7 @@
 					<textarea id="context" name="rv_content" rows="11" cols="187"></textarea>
 					
 				</div>
-				<input type="hidden" name="rv_adcode" value="${ad_code}"/>
+				<input type="hidden" name="rv_pscode" value="${ps_code}"/>
 				<input type="hidden" name="rv_name" value="${m_id}"/>
 				<button class="btn btn-dark btn-lg btn-block" onclick="insert()">후기글쓰기</button>
 

@@ -37,26 +37,26 @@
 
 				<ul class="nav" >
 
-					<li class="nav-item"><a class="nav-link" href="infoprogramn?m_id=${id}"
+					<li class="nav-item"><a class="nav-link" href="infoprogramn?m_id=${mb.m_id}"
 						onclick="normalMemList()"><!-- onclick="location.href='/memberlist'" --> <i
 							class="mdi mdi-dumbbell menu-icon"></i> <span
 							class="menu-title">내 프로그램 가기</span>
 					</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="infomodifyfrmn?m_id=${id}"
+					<li class="nav-item"><a class="nav-link" href="infomodifyfrmn?m_id=${mb.m_id}"
 						onclick="trainerMemList()"> <i
 							class="mdi mdi-file-document-box-outline menu-icon"></i> <span
 							class="menu-title">내 정보 수정</span>
 					</a></li>
 
 						<li class="nav-item"><a class="nav-link"
-						href="dibsn?m_id=${id}"> <i
+						href="dibsn?m_id=${mb.m_id}"> <i
 							class="mdi mdi-heart-box-outline menu-icon"></i> <span class="menu-title">찜내역보기</span>
 					</a></li>
 
 
 					<li class="nav-item"><a class="nav-link"
-						href="payhistoryn?m_id=${id}"> <i
+						href="payhistoryn?m_id=${mb.m_id}"> <i
 							class="mdi mdi-square-inc-cash menu-icon"></i> <span class="menu-title">결제 내역</span>
 					</a></li>
 	

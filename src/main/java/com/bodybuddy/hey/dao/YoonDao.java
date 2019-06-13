@@ -36,7 +36,7 @@ public interface YoonDao {
 
 	boolean reviewOverlap(Review rv);
 
-	List<Map<String, String>> getCounsel(String cs_adcode, String cs_mid);
+	List<Map<String, String>> getCounsel(String cs_opcode, String cs_mid);
 
 	
 }

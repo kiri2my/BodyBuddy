@@ -498,11 +498,33 @@ public class KirimService {
 	public String purchSingle(Payment ph) {
 		String text = null;
 		Member sessionMb = (Member) session.getAttribute("mb");
-		if (sessionMb != null) {
+		if(sessionMb == null) {
+			 text = "login";
+			 return text;
+		}
+		Map<String,String> cs = new HashMap<>();
+		String ps_mid=sessionMb.getM_id();
+		String ps_adcode=ph.getPs_adcode();
+		cs.put("ps_mid", ps_mid);
+		cs.put("ps_adcode", ps_adcode);
+		
+		
+		int i=kDao.selectOverlap(cs);
+		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
 			ph.setPs_mid(sessionMb.getM_id());
-			if (kDao.purchSingle(ph)) text = "success";
-			else  text = "failed";
-		} else  text = "login";
+			kDao.purchSingle(ph);
+			Payment ph1=kDao.selectPscode(cs);
+		 boolean insertDaliy=kDao.insertDaliy(ph1.getPs_code());
+		 text = "success";
+		 return text;
+			}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
+		 text ="notn";
+		 return text;
+		 }else if(i!=0) {
+		 text ="overlap";
+		 return text;
+		 }
+		 
 		return text;
 	}
 

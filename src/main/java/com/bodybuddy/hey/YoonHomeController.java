@@ -60,8 +60,8 @@ public class YoonHomeController {
 	}
 
 	@RequestMapping(value = "/reviewwritefrm")
-	public ModelAndView reviewWriteFrm(String m_id, String ad_code)  {	
-		mav=ys.reviewWriteFrm(m_id, ad_code);
+	public ModelAndView reviewWriteFrm(String m_id, String ps_code)  {	
+		mav=ys.reviewWriteFrm(m_id, ps_code);
 		return mav;
 	}
 	@RequestMapping(value = "/reviewwriteinsert")
@@ -91,8 +91,8 @@ public class YoonHomeController {
 		return mav;
 	}
 	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
-	 public ModelAndView counselList(String cs_adcode,String cs_mid) {
-		 mav=ys.counselListn(cs_adcode,cs_mid);
+	 public ModelAndView counselList(String cs_opcode,String cs_mid) {
+		 mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
 	  }
 

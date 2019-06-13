@@ -47,8 +47,11 @@ public interface KirimDao {
 
 	public String deleteRealIdCheck(String m_id);
 	
+	public boolean insertDaliy(String ps_code);
 
-	
+	public Payment selectPscode(Map<String, String> cs);
+
+	public int selectOverlap(Map<String, String> cs);	
 	
 
 

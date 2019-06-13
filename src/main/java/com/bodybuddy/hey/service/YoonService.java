@@ -239,18 +239,18 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>\r\n"
-					+ "													<td>" + getprogramListN.get(i).get("OP_NAME")
+					+ "													<td>" + getprogramListN.get(i).get("OP_CONTENT")
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("OP_PERIOD") + "</td>\r\n"
 					+ "													<td>"
-					+ getprogramListN.get(i).get("OP_CATEGORY") + "</td>\r\n"
+					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='showCounsel'>상담내역보기</button>"
-							+ "<input type='hidden' value='"+getprogramListN.get(i).get("AD_CODE")+"'/>"
+					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
+							+ "<input type='hidden' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
 					+ "		<td>출결현황보기</td>\r\n"
-					+ "													<td><a href='" + "reviewwritefrm?ad_code="
-					+ getprogramListN.get(i).get("AD_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
+					+ "													<td><a href='" + "reviewwritefrm?ps_code="
+					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
 		}
 		return sb.toString();
@@ -266,7 +266,7 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>" + getnormalListN.get(i).get("OP_PERIOD")
 					+ "</td>\r\n" + "													<td>출결현황보기</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ad_code="+getnormalListN.get(i).get("AD_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
+					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -294,8 +294,8 @@ StringBuilder sb = new StringBuilder();
 			System.out.println("price========" + price);
 			sb.append("                      <tr role=\"row\" class=\"odd\">\r\n"
 					+ "                            <td class=\"sorting_1\">" + getPayListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CATEGORY")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_NAME") + "</td>\r\n"
+					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
+					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>\r\n"
 					+ "                            <td>" + getPayListN.get(i).get("OP_PERIOD") + "</td>\r\n"
 					+ "                            <td>" + price + "</td>\r\n" + "                            <td>"
 					+ Date + "</td>\r\n" + "                       </tr>");
@@ -343,11 +343,11 @@ StringBuilder sb = new StringBuilder();
 		return sb.toString();
 	}
 	
-	public ModelAndView reviewWriteFrm(String m_id, String ad_code) {
+	public ModelAndView reviewWriteFrm(String m_id, String ps_code) {
 		ModelAndView mav = new ModelAndView();
 		Review rv = new Review();
 		rv.setRv_name(m_id);
-		rv.setRv_adcode(ad_code);
+		rv.setRv_pscode(ps_code);
 		if (yDao.reviewOverlap(rv)) {// true
 			String alert = "alert('이미 해당 광고글에 후기등록을 하셨습니다');";
 			mav.addObject("alert", alert);
@@ -355,7 +355,7 @@ StringBuilder sb = new StringBuilder();
 			mav.setViewName("forward:/infoprogramn");
 		} else {// false
 			mav.addObject("m_id", m_id);
-			mav.addObject("ad_code", ad_code);
+			mav.addObject("ps_code", ps_code);
 			mav.setViewName("manage/review");
 		}
 		return mav;
@@ -369,13 +369,13 @@ StringBuilder sb = new StringBuilder();
 		return mav;
 	}
 	
-	public ModelAndView counselListn(String cs_adcode, String cs_mid) {
+	public ModelAndView counselListn(String cs_opcode, String cs_mid) {
 		List<Map<String, String>> getCounselListN = null;
 		String view=null;
 		Map<String,String> cs = new HashMap<>();
-		cs.put("CS_ADCODE", cs_adcode);
+		cs.put("CS_ADCODE", cs_opcode);
 		cs.put("CS_MID", cs_mid);
-		getCounselListN=yDao.getCounsel(cs_adcode,cs_mid);
+		getCounselListN=yDao.getCounsel(cs_opcode,cs_mid);
 		String html = makeHTMLCounselPage(getCounselListN);
 		mav.addObject("counselList", html);
 		view="manage/counselNList";

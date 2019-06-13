@@ -122,7 +122,18 @@
 		WHERE M_ID = #{m_id}
 	</select>
 
-
+	<select id="selectPscode" parameterType="HashMap" resultType="Payment">
+		SELECT PS_CODE FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+	</select>
+	
+	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+	</select>
+	
+	<insert id="insertDaliy" parameterType="Payment">
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중')
+	</insert>
+	
 
 
 

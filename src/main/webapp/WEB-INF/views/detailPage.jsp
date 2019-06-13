@@ -142,7 +142,7 @@ $("#purchase").click(function(){
 			if(data=='success'){
 				var sucConf = confirm("구매에 성공하셨습니다. 내 프로그램 보기로 이동하시겠습니까?");
 				if(sucConf == true){
-					location.href="infoprogramn";
+					location.href="infoprogramn?m_id=${mb.m_id}";
 				}else if(sucConf == false){
 					location.href="#";
 				}
@@ -157,6 +157,14 @@ $("#purchase").click(function(){
 				}else if(logConf == false){
 					location.href="#";
 				}
+			}
+			if(data=='notn'){
+				
+				alert("일반회원만 결제 가능합니다.")
+				
+			}
+			if(data=='overlap'){
+				alert("이미 구매한 상품입니다.");
 			}
 		},
 		error:function(err){

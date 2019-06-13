@@ -48,30 +48,31 @@
 		]]>
 	</select>
 	
-	<select id="getproListN" resultType="HashMap">
-	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	<select id="getproListN" parameterType="String" resultType="HashMap">
+    SELECT OP_CODE,OP_CONTENT,PS_CODE ,AD_CODE, AD_TITLE, AD_CATEGORY, OP_TRAINER, OP_PERIOD, AD_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
 	JOIN AD on PS_ADCODE = AD_CODE
 	JOIN OP on PS_OPCODE = OP_CODE
 	JOIN C ON AD_NAME=C_ID
 	JOIN DA ON PS_CODE=DA_PSCODE
-	WHERE PS_MID= #{m_id} AND AD_KIND='p'
+	WHERE PS_MID= #{m_id} AND AD_CATEGORY NOT IN '일반'
 	</select>
 
 	<select id="getnormalListN" parameterType="String" resultType="HashMap">
 	<![CDATA[
-	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	SELECT OP_CODE,PS_CODE,AD_CODE, AD_TITLE, AD_STATUS, OP_PERIOD, AD_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
 	JOIN AD on PS_ADCODE = AD_CODE
 	JOIN OP on PS_OPCODE = OP_CODE
 	JOIN C ON AD_NAME=C_ID
 	JOIN DA ON PS_CODE=DA_PSCODE
-	WHERE PS_MID=#{m_id} AND AD_KIND='mo'
+	WHERE PS_MID=#{m_id} AND AD_CATEGORY='일반'
 		]]>
 	</select>
+
 	<select id="getpayListN" parameterType="String" resultType="HashMap">
 		SELECT AD_TITLE,
-		OP_CATEGORY, PS_PRICE, PS_DATE, OP_NAME, OP_PERIOD
+		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
 		FROM PS
 		JOIN AD on
 		PS_ADCODE = AD_CODE
@@ -93,12 +94,12 @@
 	WHERE D_ID=#{m_id}
 	</select>
 	<insert id="reviewInsert" parameterType="review">
-	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_adcode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
+	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_pscode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
 	</insert>
 	<select id="reviewOverlap" parameterType="review" resultType="boolean">
-	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_ADCODE=#{rv_adcode}
+	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_PSCODE=#{rv_pscode}
 	</select>
 		<select id="getCounsel" parameterType="String" resultType="HashMap">
-	SELECT * FROM COUNSEL WHERE CS_ADCODE=#{param1} AND CS_MID=#{param2}
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{param1} AND CS_MID=#{param2}
 	</select>
 </mapper>
