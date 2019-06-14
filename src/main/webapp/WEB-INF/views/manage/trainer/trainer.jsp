@@ -162,9 +162,6 @@
 		$.ajax({
 			type : "get",
 			url : "memberlistc",
-			data : {
-				id : "3333"
-			},
 			dataType : "html",
 			success : function(data) {
 				$('#main').html(data);
@@ -179,9 +176,6 @@
 		$.ajax({
 			type : "GET",
 			url : "profileModifyT",
-			data : {
-				id:"3333	"
-			},
 			dataType : "html",
 			error : function() {
 				alert('통신실패!!');
@@ -197,9 +191,6 @@
 		$.ajax({
 			type : "GET",
 			url : "questionlist",
-			data : {
-				id:"5555"
-			},
 			dataType : "html",
 			error : function() {
 				alert('통신실패!!');

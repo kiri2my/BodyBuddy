@@ -61,21 +61,21 @@
 				class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 				<ul class="navbar-nav mr-lg-8 w-100">
 					<li>
-						<button type="button"
-							class="btn btn-outline-dark btn-fw navbar-btn">전체보기</button>
+						<button id="cateAll" type="button"
+							class="btn btn-outline-dark btn-fw navbar-btn cate">전체보기</button>
 					</li>&nbsp;&nbsp;&nbsp;&nbsp;
 					<li>
-						<button type="button" class="btn btn-outline-success navbar-btn">피트니스
+						<button  id="cateFitness" type="button" class="btn btn-outline-success navbar-btn cate">피트니스
 							센터</button>
 					</li>&nbsp;&nbsp;&nbsp;&nbsp;
 					<li>
-						<button type="button" class="btn btn-outline-success navbar-btn">홈트레이닝</button>
+						<button  id="cateHomeTraining" type="button" class="btn btn-outline-success navbar-btn cate">홈트레이닝</button>
 					</li>&nbsp;&nbsp;
 					<li>
-						<button type="button" class="btn btn-outline-success navbar-btn">필라테스</button>
+						<button  id="catePilates" type="button" class="btn btn-outline-success navbar-btn cate">필라테스</button>
 					</li>&nbsp;&nbsp;
 					<li>
-						<button type="button" class="btn btn-outline-success navbar-btn">요가</button>
+						<button  id="cateYoga" type="button" class="btn btn-outline-success navbar-btn cate">요가</button>
 					</li>&nbsp;&nbsp;
 
 				</ul>
@@ -107,9 +107,14 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
 
+
+
+
+
+
 var kind="${mb.m_kind}";
 
-console.log("2",kind);
+console.log("headerConsoleKind",kind);
 
 if(kind=='n'||kind=='t'||kind=='c'){
 	

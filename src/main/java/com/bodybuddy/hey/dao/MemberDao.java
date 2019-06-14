@@ -39,4 +39,7 @@ public interface MemberDao {
 
 	public void DeleteRealId(String m_id);
 
+	public Question qaNum(String qa_num);
+
+
 }

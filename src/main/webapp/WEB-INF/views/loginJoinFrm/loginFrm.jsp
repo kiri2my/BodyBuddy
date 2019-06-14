@@ -70,10 +70,10 @@
               </div>
               <form action="access" name="loginFrm" class="pt-3" method="post">
       			<div class="form-group"><h3>${loginCheck}</h3><br/>
-                  <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
+                  <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요" value="123456@123456">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
+                  <input type="password" class="form-control form-control-lg" id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요" value="123456">
                 </div>
                 <div class="mt-3">
                   <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"

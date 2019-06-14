@@ -63,6 +63,9 @@
 		UPDATE M SET M_PW =
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
+	<select id="qaNum" parameterType="String" resultType="question">
+	SELECT * FROM QA WHERE QA_NUM = #{qa_num}
+	</select>
 
 
 	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
