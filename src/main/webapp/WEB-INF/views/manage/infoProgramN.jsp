@@ -272,12 +272,25 @@ to {
 
 </body>
 <script>
-${alert}
+
 
 $(".btn.btn-dark.btn-lg.btn-block").click(function(){
-
-	var adnum=$(".btn.btn-dark.btn-lg.btn-block").parent().children().eq(1).val();
-	var mid=$(".btn.btn-dark.btn-lg.btn-block").parent().children().eq(2).val();
+	
+	var list = new Array();
+	
+	/* var adnum1=$("#op_code").val(); */
+	
+	var adnum=$(this).parent().children().eq(1).val();
+	var mid=$(this).parent().children().eq(2).val();
+	
+/* 	$(document).ready(function() {
+		   var list = new Array();
+		   $("input[name=testInput]").each(function(index, item){
+			   list.push($(item).val());
+		   });
+		   alert(list);
+		}); */
+	
 	console.log(adnum);
 	console.log(mid);
  	$('#articleView_layer').addClass('open');
@@ -287,7 +300,6 @@ $(".btn.btn-dark.btn-lg.btn-block").click(function(){
 		data:{cs_opcode:adnum,cs_mid:mid},
 		dataType:'html',
 		success:function(data){
-			console.log(data);
 			$('#contents_layer').html(data);
 		},
 		error:function(error){

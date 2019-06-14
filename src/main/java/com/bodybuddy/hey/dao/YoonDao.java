@@ -41,6 +41,8 @@ public interface YoonDao {
 
 	Counsel getcounselN(Counsel cs);
 
+	List<Map<String, String>> getCounsel(Map<String, String> cs);
+
 	
 	
 }

@@ -249,9 +249,9 @@ StringBuilder sb = new StringBuilder();
 					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
-							+ "<input type='hidden' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
+							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td>출결현황보기</td>\r\n"
+					+ "		<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
 					+ "													<td><a href='" + "reviewwritefrm?ps_code="
 					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
@@ -267,7 +267,7 @@ StringBuilder sb = new StringBuilder();
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("OP_PERIOD")
-					+ "</td>\r\n" + "													<td>출결현황보기</td>\r\n"
+					+ "</td>\r\n" + "													<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
 					+ "												</tr>");
@@ -339,7 +339,7 @@ StringBuilder sb = new StringBuilder();
 			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td class=\"sorting_1\">"
 					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
-					+ "													<td><button class='deliteButton'>삭제</button>"
+					+ "													<td><button class='btn btn-dark'>삭제</button>"
 					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>\r\n"
 					+ "												</tr>");
 		}
@@ -376,9 +376,9 @@ StringBuilder sb = new StringBuilder();
 		List<Map<String, String>> getCounselListN = null;
 		String view=null;
 		Map<String,String> cs = new HashMap<>();
-		cs.put("CS_ADCODE", cs_opcode);
-		cs.put("CS_MID", cs_mid);
-		getCounselListN=yDao.getCounsel(cs_opcode,cs_mid);
+		cs.put("cs_opcode", cs_opcode);
+		cs.put("cs_mid", cs_mid);
+		getCounselListN=yDao.getCounsel(cs);
 		String html = makeHTMLCounselPage(getCounselListN);
 		mav.addObject("counselList", html);
 		view="manage/counselNList";

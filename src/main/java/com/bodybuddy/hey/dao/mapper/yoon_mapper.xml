@@ -99,8 +99,8 @@
 	<select id="reviewOverlap" parameterType="review" resultType="boolean">
 	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_PSCODE=#{rv_pscode}
 	</select>
-	<select id="getCounsel" parameterType="String" resultType="HashMap">
-	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{param1} AND CS_MID=#{param2}
+	<select id="getCounsel" parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid}
 	</select>
 	<select id="getcounselN"  resultType="Counsel">
 	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
