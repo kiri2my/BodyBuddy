@@ -82,7 +82,9 @@ public class JungController {
 	public ModelAndView profileModifyT() {
 		System.out.println("/profileModifyT 시작");
 		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("찍기전");
 		System.out.println(mb.getM_id());
+		System.out.println("찍기후");
 		String m_id = mb.getM_id();
 		
 
@@ -96,25 +98,23 @@ public class JungController {
 	@RequestMapping(value = "/TfindC",produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String TfindC(HttpServletRequest request) {
-		String name = request.getParameter("name");
+		String cName =request.getParameter("cName");
+		System.out.println("cName : "+cName);
 		
-		System.out.println(name);
 		
 		
-		String html = js.getTfindC(name);
+		String html = js.getTfindC(cName);
 		
 		return html;
 	}
 	
 	
 	@RequestMapping(value = "/cancel",produces = "application/json; charset=utf8")
-	@ResponseBody
-	public String cancel(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println("id="+id);
+	public @ResponseBody String cancel(HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
+		/* String cName =request.getParameter("cName"); */
 		
-		
-		String html = js.cancel(id);
+		String html = js.cancel(mb);
 		
 		return html;
 	}
@@ -122,12 +122,11 @@ public class JungController {
 	@RequestMapping(value = "/acceptrequest",produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String acceptrequest(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println("id="+id);
-		String name = request.getParameter("name");
-		System.out.println("name="+name);
+		Member mb = (Member) session.getAttribute("mb");
+		String cName =request.getParameter("cName");
+		System.out.println("cName : "+cName);
 		
-		String html = js.acceptrequest(id,name);
+		String html = js.acceptrequest(mb,cName);
 		
 		return html;
 	}
@@ -138,6 +137,18 @@ public class JungController {
 		String[] day = request.getParameterValues("day");
 		String[] op_content = request.getParameterValues("op_content");
 		mav=js.adinsert(adadd,day,op_content);
+		
+		return mav;
+	}
+	
+
+	
+	@RequestMapping(value = "/profileComplete")
+	public ModelAndView profileComplete(HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
+		String name = request.getParameter("name");
+		
+		//mav = js.profileComplete(MB);
 		
 		return mav;
 	}

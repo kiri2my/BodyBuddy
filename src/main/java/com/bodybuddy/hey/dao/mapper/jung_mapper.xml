@@ -18,16 +18,19 @@
 		SELECT ADVERTISE.AD_TITLE, QNA.QA_WCONTENT, QNA.QA_WRITER, QA_WDATE, QA_ADATE FROM ADVERTISE INNER JOIN QNA ON ADVERTISE.AD_CODE = QNA.QA_ADCODE WHERE ADVERTISE.AD_NAME = #{id}
 	</select>
 		
-	<update id="cancel" >
-		UPDATE YESORNO SET YN_STATE= '취소' WHERE YN_TRAINER=#{id} 
+	<update id="cancel" parameterType="String" >
+		UPDATE YESORNO SET YN_STATE= '취소' WHERE YN_TRAINER = #{id} 
 	</update>
 	
 	<insert id="acceptrequestInsert"  >
-		
-		INSERT INTO YESORNO VALUES(#{c_bname},#{id},'진행',SYSDATE)
+		INSERT INTO YESORNO VALUES(#{c_bname},#{m_id},'진행',SYSDATE)
 	</insert>
 	<update id="acceptrequestupdate" parameterType="member">
 		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_bname} WHERE YN_TRAINER= #{m_id} 
 	</update>
+	
+	<!-- <update id="profileComplete" parameterType="member">
+		UPDATE TRAINER SET T_CID = '테스트업체명132',T_CAREER='여기서일함 저기서일함 요기소속팀' WHERE T_ID= '123456@123456';
+	</update> -->
 	
 </mapper>

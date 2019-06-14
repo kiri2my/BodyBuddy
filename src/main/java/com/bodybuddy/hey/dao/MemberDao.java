@@ -41,15 +41,15 @@ public interface MemberDao {
 	public boolean cancel(String id);
 
 
-	public boolean acceptrequestInsert(String id, String name);
+	
 
-
+	public boolean acceptrequestupdate(Member m);
 
 	public List<Member> getNormalMemberList(String id);
 
 	public List<Member> getProgramMemberList(String id);
 
-	public boolean acceptrequestupdate(Member m);
+	
 
 
 	public List<Member> getTrainerMemberList(String id);
@@ -69,6 +69,10 @@ public interface MemberDao {
 	public boolean programcheckInsert2(String da_code);
 
 	public boolean memberDeleteReal(String m_id);
+
+	public void profileComplete(String id);
+
+	public boolean acceptrequestInsert(Member m);
 
 
 

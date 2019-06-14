@@ -31,10 +31,20 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
 	type="text/css" />
+<link rel="stylesheet" href="/path/to/jquery.timeselector.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+	crossorigin="anonymous">
+	
+</script>
+<script src="/path/to/jquery.timeselector.js"></script>
 
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
+
 <style>
 body {
 	text-align: center;
@@ -130,22 +140,30 @@ body {
 						<td><input type="checkbox" id="chk">상시
 							<div class="box on">
 								<input type="text" id="testDatepicker" name="op_period">까지
-							</div> </td>
+							</div></td>
 					</tr>
 					<tr id="time" style="display: none">
 						<th>시간/횟수</th>
 						<td style="vert ical-align: middle">
 							<div class="radio">
-								<label class="radio-inline"> <input type="radio"
-									name="op_content" id="" value="am">
-									오전
-								</label> <label class="radio-inline"> <input type="radio"
-									name="op_content" id="" value="pm">
-									오후
-								</label> <input name="op_content" type="text" placeholder="시작시간" style="width: 80px">
-								<input name="op_content" type="text" placeholder="종료시간" style="width: 80px">
-								<br> <input name="op_content" type="text" placeholder="횟수"
-									style="width: 160px">
+								<div id="pre_set" style="display: none">
+									<input type="text" name="op_content3" value=""
+										style="width: 100px" placeholder="시작시간"> <input
+										type="text" name="op_content4" value="" style="width: 100px"
+										placeholder="종료시간"> <input type="text"
+										name="op_content5" value="" style="width: 50px"
+										placeholder="횟수"> <input type="button" value="삭제"
+										onclick="remove_item(this)">
+								</div>
+
+								<div id="field"></div>
+								<input type="button" value=" 추가 " onclick="add_item()"><br>
+
+								<!-- <input name="op_content" type="text" placeholder="시작시간"
+									style="width: 80px"> 
+								<input name="op_content" type="text" placeholder="종료시간" style="width: 80px"> <br>
+								<input name="op_content" type="text" placeholder="횟수"
+									style="width: 160px"> -->
 							</div>
 						</td>
 					</tr>
@@ -176,13 +194,6 @@ body {
 	</form>
 
 
-
-
-
-
-
-
-
 	<!-- plugins:js -->
 	<script src="vendors/base/vendor.bundle.base.js"></script>
 	<!-- endinject -->
@@ -208,23 +219,36 @@ body {
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
 </body>
+
 <script>
+	//TIMEPICKER
+	
+	//
+	function add_item() {
+		var i = 0;
+		var div = document.createElement('div');
+		div.innerHTML = document.getElementById('pre_set').innerHTML;
+		document.getElementById('field').appendChild(div);
+	}
+	function remove_item(obj) {
+		// obj.parentNode 를 이용하여 삭제
+		document.getElementById('field').removeChild(obj.parentNode);
+	}
 	$(".box input").attr("abled", true);
 	$("#chk").on('click', function() {
-		
+
 		var chk = $('input:checkbox[id="chk"]').is(":checked");
 		if (chk == true) {
 			$(".box input").attr("disabled", true);
 			$(".box").addClass("on");
 			$("#testDatepicker").val("");
-			
+
 		} else {
 			$(".box input").removeAttr('disabled');
 			$(".box").removeClass("on");
-			
-			
+
 		}
-		
+
 	});
 	$(function() {
 		$("#testDatepicker").datepicker({
@@ -242,7 +266,7 @@ body {
 
 		// select element에서 선택된 option의 text가 저장된다.
 		var selectText = exSelect.options[exSelect.selectedIndex].text;
-		
+
 		if (selectValue == "fitness") {
 			$("#frm")[0].reset();
 			$("#closed").show();
