@@ -43,17 +43,14 @@
 									style="color: #71c016;">트레이너 프로필 수정</a>
 							</div>
 							<br>
-							<form action="profileinsert" class="pt-3" name="profileinsert"
-								id="profileinsert" method="post">
+							<form action="profileinsert" onsubmit="return profilemodify()" class="pt-3"
+								name="profileinsert" id="profileinsert" method="post">
 
 								<div class="form-group">
 									<div class="input-group">
 
 										<textarea rows="8" cols="8" name="t_career"
-											class="form-control form-control-lg border-left-0">
-												
-														${m.t_career}
-											
+											class="form-control form-control-lg border-left-0">${m.t_career}
 											</textarea>
 
 
@@ -65,12 +62,12 @@
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
 											id="sample6_address" placeholder="현재나의소속업체 : ${m.t_cid}">
-										<button type="button" onclick="TfindC()"
+										<button type="button" id = "aa"
 											class="btn btn-outline-secondary btn-md">업체 검색</button>
 									</div>
 								</div>
+								
 								<div id="test">
-									 ${update}
 								</div>
 
 								<div class="mb-4">
@@ -82,11 +79,13 @@
 									</div>
 								</div>
 								<div class="mt-3">
+									<!-- <a
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										href="main.jsp">프로필등록하기</a>  -->
+									<input
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										type='submit' onclick = "profileComplete()" value='프로필수정하기'>
 									<a
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">프로필등록하기</a> <a
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">프로필수정하기</a> <a
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
 										href="main.jsp">프로필삭제하기</a>
 								</div>
@@ -116,20 +115,23 @@
 	
 </script>
 <script type="text/javascript">
-	function TfindC() {
-		var name = $('#sample6_address').val();
+ var a = false;
+
+
+ $("#aa").click(function(){
+	 var cName = $("#sample6_address").val();
+	 console.log("cName:"+cName);
 		$.ajax({
 			type : "get",
 			url : "TfindC",
 			data : {
-				name : name
+				cName : cName
 			},
 			dataType : "html",
-
 			success : function(data) {
 				console.log(data);
 				/* $('#TfindC').html(); */
-				 $("#test").html(data); 
+				$("#test").html(data);
 				/* $("#TfindC").show(); */
 			},
 			error : function(er) {
@@ -137,35 +139,42 @@
 				alert('업체 검색 실패');
 			}
 		});
-	}
-	function cancel() {
+ });
+
+	
+	 function TfindC(cName) {
+		
+	} 
+	function cancel(cName) {
+		alert("cancel ajax 들어옴")
 		$.ajax({
 			type : "GET",
 			url : "cancel",
 			data : {
-				id:"5555"
+				name : cName
 			},
-			dataType : "html",
+			dataType : "text",
 			error : function() {
 				alert('취소 실패');
-				location.href="manage/profileModify"
 			},
 			success : function(data) {
-				/* $('#main').hide(); */
-				location.href="manage/profileModify";
-				$('#main').html(data);
-				
+				alert(data);
+				$('#state').val(can);
 				alert('취소완료');
 			}
 		});
 	}
-	function acceptrequest() {
+	
+	
+	function acceptrequest(cName) {
+		 var cName = $("#sample6_address").val();
+		console.log("cName:"+cName);
+		alert("요청ajax");
 		$.ajax({
 			type : "GET",
 			url : "acceptrequest",
 			data : {
-				id:"5555",
-				name: "테스트업체명"
+				cName : cName
 			},
 			dataType : "html",
 			error : function() {
@@ -173,10 +182,38 @@
 			},
 			success : function(data) {
 				$('#main').html(data);
-				
+
 				alert('요청완료');
 			}
 		});
+	}
+	function profileModifyComplete() {
+		$.ajax({
+			type : "GET",
+			url : "acceptrequest",
+			data : {
+				id : "5555",
+				name : "테스트업체명"
+			},
+			dataType : "html",
+			error : function() {
+				alert('요청 실패');
+			},
+			success : function(data) {
+				$('#main').html(data);
+
+				alert('요청완료');
+			}
+		});
+	}
+	function profileComplete() {
+		a = true;
+		alert("수정완료");
+	}
+	
+
+	function profilemodify(){
+		return a;
 	}
 </script>
 
