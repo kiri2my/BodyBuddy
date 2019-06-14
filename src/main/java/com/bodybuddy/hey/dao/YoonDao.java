@@ -43,7 +43,11 @@ public interface YoonDao {
 
 	int imgOverlap(String m_id);
 
-	
+	boolean fileInsert(Map<String, String> fMap);
+
+	boolean fileUpdate(Map<String, String> fMap);
+
+	void updateNorMb(Member mb);
 
 	
 }

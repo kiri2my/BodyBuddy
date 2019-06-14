@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Review;
@@ -105,8 +106,8 @@ public class YoonHomeController {
 		}
 	
 	@RequestMapping(value = "/infomodifyn") 
-	public ModelAndView infomodifyn() {
-		mav=ys.infomodifyn();
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		mav=ys.infomodifyn(multi);
 		return mav;
 		}
 

@@ -98,7 +98,22 @@
 	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
 	</select>
 	<select id="imgOverlap" parameterType="String" resultType="Integer">
-	SELECT COUNT(*) FROM PF WHERE PF_ID=#{cs_opcode};    
+	SELECT COUNT(*) FROM PF WHERE PF_ID=#{m_id}
 	</select>
-
+	<insert id="fileInsert" parameterType="String">
+		INSERT INTO PROFILEPHOTO VALUES(#{m_id},#{pf_image})
+	</insert>
+	<update id="updateNorMb" parameterType="Member">
+	UPDATE MEMBER
+		SET M_PW = #{m_pw},
+    	M_PHONE = #{m_phone},
+    	M_ADDR = #{m_addr},
+    	M_EXADDR= #{m_exaddr}   
+		WHERE M_ID=#{m_id}
+	</update>
+	<update id="fileUpdate" parameterType="String">
+	UPDATE PROFILEPHOTO
+		SET PF_IMAGE = #{pf_image} 
+		WHERE PF_ID=#{m_id}
+	</update>
 </mapper>

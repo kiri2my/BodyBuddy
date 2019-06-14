@@ -129,6 +129,8 @@
 								<a class="navbar-brand brand-logo" href="main.jsp"
 									style="color: #71c016;">일반회원 내 정보수정</a>
 							</div>
+							
+						
 							<form action="infomodifyn" class="pt-3" name="infomodifyn"
 								id="infomodifyn" method="post" enctype="multipart/form-data">
 								<div>
@@ -137,8 +139,9 @@
 								</div>
 								<div>
 									<div class="img_wrap">
-										<img id="img" value="${mbPhoto.pf_image}" />
+										<img id="img" name="pf_image2" src="resources/upload/${mbPhoto.pf_image}"/>
 									</div>
+								<input type="hidden" id="fileCheck" value="0" name="fileCheck"> 
 								</div>
 								<br>
 								<div class="form-group">
@@ -233,19 +236,15 @@
 									</div>
 								</div>
 
-
-								<div class="mb-4">
-									<div class="form-check">
-										<i class="input-helper"></i>
-									</div>
-								</div>
 								<div class="mt-3">
-									<button
+								<button id="joinbtn"
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										>정보수정하기</button>
+										 value="정보수정하기" >정보수정하기</button>
+								</div>
+								</form>
 								</div>
 
-							</form>
+							
 						</div>
 					</div>
 				</div>
@@ -430,5 +429,28 @@
 			}
 		}).open();
 	} //다음주소api End
+	
+	function fileChk(elem) {
+		console.dir(elem);
+		if(elem.value==""){
+			console.log("empty");
+			$("#fileCheck").val(0); //파일 첨부 안했음
+		}else{
+			
+			var str="";
+			console.log("not Empty");
+			for(var idx=0; idx<elem['files'].length;idx++){
+				str+=elem['files'][idx].name+",";
+			}
+			console.log(str);
+			$("#fileCheck").val(1); //파일첨부 했음
+		}
+		
+	}
+	
+	$("#joinbtn").click(function(){
+			alert("정보수정이 성공했습니다")	
+	});//click End
+
 </script>
 </html>
