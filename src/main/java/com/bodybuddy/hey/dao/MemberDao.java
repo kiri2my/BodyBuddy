@@ -25,16 +25,11 @@ public interface MemberDao {
 	
 	public Member getProfileList(String m_id);
 
-	public Member getProfileList(String id);
-
 	public List<Member> getTfindC(Member m);
 
 	public List<Question> getQuestionList(String id);
 
 	public boolean cancel(String id);
-
-
-	
 
 	public boolean acceptrequestupdate(Member m);
 
@@ -42,17 +37,13 @@ public interface MemberDao {
 
 	public List<Member> getProgramMemberList(String id);
 
-	
 	public boolean acceptrequestInsert(String id, String name);
-
-	public boolean acceptrequestupdate(Member m);
-
+	
 	public boolean memberDeleteReal(String m_id);
 
 	public void profileComplete(String id);
 
 	public boolean acceptrequestInsert(Member m);
-
 
 	public void DeleteRealId(String m_id);
 
