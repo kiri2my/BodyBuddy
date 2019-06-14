@@ -9,14 +9,6 @@ public interface MemberDao {
 
 	public boolean normalMemberJoin(Member mb);
 
-	public List<Member> getMemberList(String id);
-
-	public List<Member> getMemberSearch(Member m);
-
-	public List<Member> getTrainerList(String id);
-
-	public List<Member> getTrainerSearch(Member m);
-
 	public boolean trainerMemberJoin(Member mb);
 
 	public boolean companyMemberJoin(Member mb);
@@ -33,8 +25,9 @@ public interface MemberDao {
 	
 	public Member getProfileList(String m_id);
 
-	public List<Member> getTfindC(Member m);
+	public Member getProfileList(String id);
 
+	public List<Member> getTfindC(Member m);
 
 	public List<Question> getQuestionList(String id);
 
@@ -50,23 +43,9 @@ public interface MemberDao {
 	public List<Member> getProgramMemberList(String id);
 
 	
+	public boolean acceptrequestInsert(String id, String name);
 
-
-	public List<Member> getTrainerMemberList(String id);
-
-	public boolean dailyCheckInsert(Member m);
-
-	public boolean dailyCheckUpdate(Member m);
-
-	public List<Member> getworkingAttitude(Member m);
-
-	public List<Member> getProgramMember(String id);
-
-	public boolean programCheckInsert(String code);
-
-	public String programCheckSelect(String code);
-
-	public boolean programcheckInsert2(String da_code);
+	public boolean acceptrequestupdate(Member m);
 
 	public boolean memberDeleteReal(String m_id);
 
@@ -75,5 +54,6 @@ public interface MemberDao {
 	public boolean acceptrequestInsert(Member m);
 
 
+	public void DeleteRealId(String m_id);
 
 }

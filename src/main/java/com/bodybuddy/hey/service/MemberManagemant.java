@@ -55,105 +55,6 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	public ModelAndView getMemberList(String id) {
-		mav = new ModelAndView();
-
-		List<Member> mList = null;
-		System.out.println("getMemberList mDao in");
-		mList = mDao.getMemberList(id);
-		System.out.println("mList = " + mList.get(0).getM_name());
-		System.out.println("mList size = " + mList.size());
-
-		if (0 != mList.size()) {
-			System.out.println("member list select success");
-			view = "manage/memberListC";
-			mav.setViewName(view);
-			mav.addObject("mList", mList);
-		} else {
-			System.out.println("member list select error");
-			view = "redirect:memberListC.jsp";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
-	public ModelAndView getMemberSearch(String name, String id) {
-		mav = new ModelAndView();
-
-		m = new Member();
-
-		m.setM_name(name);
-		m.setM_id(id);
-
-		List<Member> mList = null;
-		mList = mDao.getMemberSearch(m);
-		System.out.println("mList = " + mList.get(0).getM_name());
-		System.out.println("mList size = " + mList.size());
-
-		if (0 != mList.size()) {
-			System.out.println("member search select success");
-			view = "manage/memberListC";
-			mav.setViewName(view);
-			mav.addObject("mList", mList);
-		} else {
-			System.out.println("member search select error");
-			view = "redirect:memberListC.jsp";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
-	public ModelAndView getTrainerList(String id) {
-		mav = new ModelAndView();
-
-		List<Member> tList = null;
-		System.out.println("Trainer select in");
-		tList = mDao.getTrainerList(id);
-		System.out.println("tList = " + tList.get(0).getM_name());
-		System.out.println("tList size = " + tList.size());
-
-		if (0 != tList.size()) {
-			System.out.println("trainer list select success");
-			view = "manage/trainerListC";
-			mav.setViewName(view);
-			mav.addObject("tList", tList);
-		} else {
-			System.out.println("trainer list select error");
-			view = "manage/trainerListC";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
-	public ModelAndView getTrainerSearch(String name, String id) {
-		mav = new ModelAndView();
-
-		m = new Member();
-		m.setM_name(name);
-		m.setM_id(id);
-
-		List<Member> tList = null;
-		tList = mDao.getTrainerSearch(m);
-		System.out.println("tList = " + tList.get(0).getM_name());
-		System.out.println("tList size = " + tList.size());
-
-		if (0 != tList.size()) {
-			System.out.println("tainer search success");
-			view = "manage/trainerListC";
-			mav.setViewName(view);
-			mav.addObject("tList", tList);
-		} else {
-			System.out.println("tainer search error");
-			view = "manage/trainerListC";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
 	public ModelAndView trainerMemberJoin(Member mb) {
 		System.out.println("맴버 매니지맨트 시작");
 		mav = new ModelAndView();
@@ -263,54 +164,6 @@ public class MemberManagemant {
 
 	}
 
-	public ModelAndView getNormalMemberList(String id) {
-		mav = new ModelAndView();
-		String view = null;
-
-		List<Member> mList = null;
-		System.out.println("getNormalMemberList mDao in");
-		mList = mDao.getNormalMemberList(id);
-		System.out.println("mList = " + mList.get(0).getM_name());
-		System.out.println("mList size = " + mList.size());
-
-		if (0 != mList.size()) {
-			System.out.println("getNormalMemberList select success");
-			view = "manage/company/normalDailyCheck";
-			mav.setViewName(view);
-			mav.addObject("mList", mList);
-		} else {
-			System.out.println("member list select error");
-			view = "redirect:memberListC.jsp";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
-	public ModelAndView getProgramMemberList(String id) {
-		mav = new ModelAndView();
-		String view = null;
-
-		List<Member> pList = null;
-		System.out.println("getProgramMemberList mDao in");
-		pList = mDao.getProgramMemberList(id);
-		System.out.println("pList = " + pList.get(0).getM_name());
-		System.out.println("pList size = " + pList.size());
-
-		if (0 != pList.size()) {
-			System.out.println("getProgramMemberList select success");
-			view = "manage/company/programDailyCheck";
-			mav.setViewName(view);
-			mav.addObject("pList", pList);
-		} else {
-			System.out.println("getProgramMemberList select error");
-			view = "manage/company/programDailyCheck";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
 	public String getRamdomPassword(int len) {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -324,49 +177,27 @@ public class MemberManagemant {
 		return sb.toString();
 	}
 
-	public ModelAndView getTrainerMemberList(String id) {
-		mav = new ModelAndView();
-		String view = null;
-
-		List<Member> tList = null;
-		System.out.println("getTrainerMemberList mDao in");
-		tList = mDao.getTrainerMemberList(id);
-		System.out.println("tList = " + tList.get(0).getM_name());
-		System.out.println("tList size = " + tList.size());
-
-		if (0 != tList.size()) {
-			System.out.println("getTrainerMemberList select success");
-			view = "manage/company/trainerDailyCheck";
-			mav.setViewName(view);
-			mav.addObject("tList", tList);
-		} else {
-			System.out.println("getTrainerMemberList select error");
-			view = "manage/company/trainerDailyCheck";
-			mav.setViewName(view);
-		}
-
-		return mav;
-	}
-
 	public ModelAndView memberDeleteReal() {
 		mav = new ModelAndView();
+		String view=null;
 		System.out.println("맴매트 라규!");
 		Member mb = (Member) session.getAttribute("mb");
 		String m_id = mb.getM_id();
-		System.out.println("mb.getM_id()mb.getM_id()  " +mb.getM_id());
+		System.out.println("mb.getM_id()mb.getM_id()  " + mb.getM_id());
 		System.out.println("m_id   " + m_id);
 		if (mDao.memberDeleteReal(m_id)) {
+			System.out.println("m_idm_idm_idm_id  = " + m_id);
+			mDao.DeleteRealId(m_id);
 			System.out.println("성공이라규!");
 			session.invalidate();
 			view = "main";
 
 		} else {
 			mav.addObject("msg", "회원탈퇴에 실패 했습니다  다시시도해주세요");
-			view = "main";
+			view = "/hey";
 		}
 		mav.setViewName(view);
 		return mav;
 	}
-
 
 }

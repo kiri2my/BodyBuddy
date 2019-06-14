@@ -2,6 +2,7 @@
 package com.bodybuddy.hey;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -60,8 +61,8 @@ public class YoonHomeController {
 	}
 
 	@RequestMapping(value = "/reviewwritefrm")
-	public ModelAndView reviewWriteFrm(String m_id, String ad_code)  {	
-		mav=ys.reviewWriteFrm(m_id, ad_code);
+	public ModelAndView reviewWriteFrm(String m_id, String ps_code)  {	
+		mav=ys.reviewWriteFrm(m_id, ps_code);
 		return mav;
 	}
 	@RequestMapping(value = "/reviewwriteinsert")
@@ -82,8 +83,9 @@ public class YoonHomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/memberdelten")
-	public String login4(Model model) {
-		return "manage/payHistoryN.";
+	public ModelAndView memberdelten() {
+		mav=ys.memberdelten();
+		return mav;
 	}
 	@RequestMapping(value = "/payhistoryn") 
 	public ModelAndView payList(String m_id) {
@@ -91,9 +93,13 @@ public class YoonHomeController {
 		return mav;
 	}
 	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
-	 public ModelAndView counselList(String cs_adcode,String cs_mid) {
-		 mav=ys.counselListn(cs_adcode,cs_mid);
+	public ModelAndView counselList(String cs_opcode,String cs_mid) {
+		mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
 	  }
-
+	@RequestMapping(value = "/counseln") 
+	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
+		mav=ys.counseln(cs_opcode,cs_date);
+		return mav;
+		}
 }

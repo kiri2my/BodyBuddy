@@ -11,10 +11,10 @@ import lombok.Setter;
 
 public class Review {
 	 private String rv_num;
-	 private String rv_adcode;
+	 private String rv_pscode;
 	 private String rv_name;
 	 private String rv_content;
 	 private String rv_date;
-	 private int rv_stPoint;
+	 private int rv_stpoint;
 
 }

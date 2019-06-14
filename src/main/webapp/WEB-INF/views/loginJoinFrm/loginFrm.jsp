@@ -69,7 +69,7 @@
                   <a class="navbar-brand brand-logo" href="/" style="color: #71c016;">BODY BUDDY</a>
               </div>
               <form action="access" name="loginFrm" class="pt-3" method="post">
-                <div class="form-group">
+      			<div class="form-group"><h3>${loginCheck}</h3><br/>
                   <input type="email" class="form-control form-control-lg" id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
                 </div>
                 <div class="form-group">
@@ -110,5 +110,20 @@
   <!-- endinject -->
 
 </body>
+<script>
+//아이디오류 비번오류 탈퇴회원
+var loginCheck = "${loginCheck}";
+console.log(loginCheck);
+if(loginCheck=="아이디오류"){
+	alert("ID가 일치하지 않습니다.");
+}else if(loginCheck=="비번오류"){
+	alert("패스워드가 일치하지 않습니다.");
+}else if(loginCheck=="탈퇴회원"){
+	alert("해당 아이디를 사용하실 수 없습니다.");
+}
+
+
+
+</script>
 
 </html>

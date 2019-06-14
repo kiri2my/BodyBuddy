@@ -45,7 +45,13 @@ public interface KirimDao {
 
 	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
 
+	public String deleteRealIdCheck(String m_id);
 	
+	public boolean insertDaliy(String ps_code);
+
+	public Payment selectPscode(Map<String, String> cs);
+
+	public int selectOverlap(Map<String, String> cs);	
 	
 
 

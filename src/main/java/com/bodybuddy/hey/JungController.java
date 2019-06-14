@@ -49,7 +49,10 @@ public class JungController {
 	
 	@RequestMapping(value = "/trainer", method = RequestMethod.GET)
 	public String trainer(Locale locale, Model model) {
-		
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("mb.getM_id() = "+mb.getM_id());
+		System.out.println("mb.getM_kind() = "+mb.getM_kind());
+		System.out.println("mb.getM_name() = "+mb.getM_name());
 		System.out.println("good");
 		return "manage/trainer/trainer";
 	}
