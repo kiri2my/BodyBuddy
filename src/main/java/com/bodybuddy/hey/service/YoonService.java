@@ -447,7 +447,7 @@ public class YoonService {
 		return mav;
 	}
 	
-<<<<<<< HEAD
+
 	
 	public ModelAndView infomodifyn() {
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -463,7 +463,5 @@ public class YoonService {
 	
 	
 
-	
-=======
->>>>>>> e3b6523058dbb7c55ad68d610eb4c2e90e1f4f95
+
 }

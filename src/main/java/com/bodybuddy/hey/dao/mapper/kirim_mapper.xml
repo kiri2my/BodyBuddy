@@ -35,7 +35,7 @@
 		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
 				 PF_IMAGE, M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
       			 FROM DETAILPAGE DP
-      			 JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
+      			 LEFT JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
 		LEFT JOIN AD ON DC.AD_CODE=AD.AD_CODE
 		WHERE DC.AD_CODE= #{ad_code} 
 	</select>
@@ -116,6 +116,11 @@
 		LEFT JOIN OP ON PS.PS_OPCODE=OP.OP_CODE
 		WHERE AD.AD_CODE = #{ad_code}
 	</select>
+	
+		<select id="selectPscode" parameterType="HashMap" resultType="Payment">
+		SELECT PS_CODE FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+	</select>
+	
 	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
 		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
 	</select>

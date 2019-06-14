@@ -101,7 +101,7 @@ public class YoonHomeController {
 	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
 		mav=ys.counseln(cs_opcode,cs_date);
 		return mav;
-<<<<<<< HEAD
+
 		}
 	
 	@RequestMapping(value = "/infomodifyn") 
@@ -109,8 +109,5 @@ public class YoonHomeController {
 		mav=ys.infomodifyn();
 		return mav;
 		}
-=======
-	}
 
->>>>>>> e3b6523058dbb7c55ad68d610eb4c2e90e1f4f95
 }
