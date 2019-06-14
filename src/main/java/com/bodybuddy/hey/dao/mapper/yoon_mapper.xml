@@ -3,75 +3,69 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bodybuddy.hey.dao.YoonDao">
-	
-	<select id="mainList" resultType="HashMap" >
+
+	<select id="mainList" resultType="HashMap">
 		SELECT DISTINCT * FROM MAINLIST
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
 		ORDER BY AD_CODE DESC
 	</select>
-	<resultMap type="OpCategory" id="opCategory">
-  		<result property="op_adcode" column="OP_ADCODE" />
- 		<result property="op_code" column="OP_CODE" />
-		<result property="op_trainer" column="OP_TRAINER"/> 
-  		<result property="op_name" column="OP_NAME"  />
-  		<result property="op_price" column="OP_PRICE" />
-  		<result property="op_category" column="OP_CATEGORY"/>
-  		<result property="m_name" column="M_NAME" />
-  		<result property="m_addr" column="M_ADDR"/>
-  	</resultMap>
+	<select id="mainListCate" parameterType="String" resultType="HashMap">
+		SELECT DISTINCT *
+		FROM MAINLIST 
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE AD_CATEGORY= #{cate}
+		ORDER BY AD_CODE DESC
+	</select>
+	<select id="mainListMap" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE]]>
+		
+		<if test="cate!=null">
+			<![CDATA[AD_CATEGORY= #{cate} AND]]>
+		</if> 
+		<if test="extra1!=null or extra2!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%'))]]> 
+        </if>
+        <if test="extra!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%'))]]> 
+        </if>
+        ORDER BY AD_CODE DESC
+	</select>
 	
-	<select id="opCateListAll" resultMap="opCategory" >
-		SELECT * FROM CATEGORY
-	</select> 
-	
-	<select id="dibsN" parameterType="String" resultType="HashMap" >
+	<select id="dibsN" parameterType="String" resultType="HashMap">
 		SELECT * FROM D WHERE D_ID=#{d_id}
 	</select>
 	
-	<select id="mainMapList2" parameterType="HashMap" resultType="HashMap">
-		<![CDATA[
-		SELECT DISTINCT * FROM MAINLIST
-		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
-        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%')
-		ORDER BY AD_CODE DESC
-		]]>
-	</select>
-	
-	<select id="mainMapList1" parameterType="HashMap" resultType="HashMap">
-		<![CDATA[
-		SELECT DISTINCT * FROM MAINLIST
-		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
-        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%')
-		ORDER BY AD_CODE DESC
-		]]>
-	</select>
-	
-	<select id="getproListN" resultType="HashMap">
-	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_TRAINER, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	<select id="getproListN" parameterType="String" resultType="HashMap">
+    SELECT OP_CODE,OP_CONTENT,PS_CODE ,AD_CODE, AD_TITLE, AD_CATEGORY, OP_TRAINER, OP_PERIOD, AD_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
 	JOIN AD on PS_ADCODE = AD_CODE
 	JOIN OP on PS_OPCODE = OP_CODE
 	JOIN C ON AD_NAME=C_ID
 	JOIN DA ON PS_CODE=DA_PSCODE
-	WHERE PS_MID= #{m_id} AND AD_KIND='p'
+	WHERE PS_MID= #{m_id} AND AD_CATEGORY NOT IN '일반'
 	</select>
 
 	<select id="getnormalListN" parameterType="String" resultType="HashMap">
 	<![CDATA[
-	SELECT AD_CODE, AD_TITLE, AD_KIND, AD_STATUS, OP_NAME, OP_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	SELECT OP_CODE,PS_CODE,AD_CODE, AD_TITLE, AD_STATUS, OP_PERIOD, AD_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
 	FROM PS
 	JOIN AD on PS_ADCODE = AD_CODE
 	JOIN OP on PS_OPCODE = OP_CODE
 	JOIN C ON AD_NAME=C_ID
 	JOIN DA ON PS_CODE=DA_PSCODE
-	WHERE PS_MID=#{m_id} AND AD_KIND='mo'
+	WHERE PS_MID=#{m_id} AND AD_CATEGORY='일반'
 		]]>
 	</select>
 	<select id="getpayListN" parameterType="String" resultType="HashMap">
 		SELECT AD_TITLE,
-		OP_CATEGORY, PS_PRICE, PS_DATE, OP_NAME, OP_PERIOD
+		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
 		FROM PS
 		JOIN AD on
 		PS_ADCODE = AD_CODE
@@ -81,24 +75,30 @@
 	<select id="getModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM M WHERE M_ID=#{m_id}
 	</select>
-	
 	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM PF WHERE PF_ID=#{m_id}
-	</select> 
+	</select>
 	<select id="getdibs" resultType="HashMap">
-	SELECT AD_TITLE
+	SELECT AD_TITLE,AD_CODE
 	FROM AD
 	JOIN DIBS
 	ON AD_CODE=D_ADCODE
 	WHERE D_ID=#{m_id}
 	</select>
 	<insert id="reviewInsert" parameterType="review">
-	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_adcode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
+	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_pscode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
 	</insert>
 	<select id="reviewOverlap" parameterType="review" resultType="boolean">
-	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_ADCODE=#{rv_adcode}
+	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_PSCODE=#{rv_pscode}
 	</select>
-		<select id="getCounsel" parameterType="String" resultType="HashMap">
-	SELECT * FROM COUNSEL WHERE CS_ADCODE=#{param1} AND CS_MID=#{param2}
+	<select id="getCounsel" parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid}
 	</select>
+	<select id="getcounselN"  resultType="Counsel">
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
+	</select>
+	<select id="imgOverlap" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM PF WHERE PF_ID=#{cs_opcode};    
+	</select>
+
 </mapper>

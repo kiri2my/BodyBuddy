@@ -134,6 +134,23 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f321e26e149ff9c8fec71aba7e8aa47c&libraries=services,clusterer,drawing"></script>
 <script type="text/javascript">
 
+//헤더 메뉴 카테고리버튼 /categoryselect id=cateAll cateFitness cateHomeTraining catePilates cateYoga
+$(".cate").click(function(){
+	var sido = $("#sample5_address").val();
+	var sigungu = $("#sample6_address").val();
+	var extra = $("#sample7_address").val();
+	var cate = $(this).prop("id");
+	console.log(cate);
+
+	if(sido!="" && sigungu!="" && extra!=""){
+		location.href="${pageContext.request.contextPath}/?sido="+sido+"&sigungu="+sigungu+"&extra="+extra+"&cate="+cate;
+	}else{
+		location.href="${pageContext.request.contextPath}/?cate="+cate;	
+	}
+	
+});
+
+
 
 
 var mapContainer = document.getElementById('mapCard'); // 지도를 표시할 div
@@ -156,7 +173,8 @@ function sample5_execDaumPostcode() {
 /* $(document).ready(function(){ 	
 $("#addrInput").validate();//end Validate
 }); */
-$("#localSearch").click(function(){
+
+$("#localSearch").click(function(){//주소검색버튼 클릭
 var sido = $("#sample5_address").val();
 var sigungu = $("#sample6_address").val();
 var extra = $("#sample7_address").val(); 
