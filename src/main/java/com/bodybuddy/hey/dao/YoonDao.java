@@ -43,6 +43,8 @@ public interface YoonDao {
 
 	List<Map<String, String>> getCounsel(Map<String, String> cs);
 
+	int imgOverlap(String m_id);
+
 	
 	
 }

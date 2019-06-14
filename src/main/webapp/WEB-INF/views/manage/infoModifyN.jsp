@@ -130,7 +130,7 @@
 									style="color: #71c016;">일반회원 내 정보수정</a>
 							</div>
 							<form action="infomodifyn" class="pt-3" name="infomodifyn"
-								id="infomodifyn" method="post">
+								id="infomodifyn" method="post" enctype="multipart/form-data">
 								<div>
 									<p class="title">프로필사진</p>
 									<input type="file" id="input_img" name="pf_image" />
@@ -164,7 +164,7 @@
 										</div>
 										<input type="password" name="m_pw"
 											class="form-control form-control-lg border-left-0"
-											id="exampleInputPassword" placeholder="패스워드를 입력해주세요">
+											id="m_pw" placeholder="패스워드를 입력해주세요">
 									</div>
 								</div>
 								<div class="form-group">
@@ -240,9 +240,9 @@
 									</div>
 								</div>
 								<div class="mt-3">
-									<a
+									<button
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">정보수정하기</a>
+										>정보수정하기</button>
 								</div>
 
 							</form>

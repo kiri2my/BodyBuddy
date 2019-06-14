@@ -105,4 +105,8 @@
 	<select id="getcounselN"  resultType="Counsel">
 	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
 	</select>
+	<select id="imgOverlap" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM PF WHERE PF_ID=#{cs_opcode};    
+	</select>
+
 </mapper>

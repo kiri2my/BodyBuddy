@@ -430,6 +430,19 @@ StringBuilder sb = new StringBuilder();
 	}
 	
 	
+	public ModelAndView infomodifyn() {
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		int i=yDao.imgOverlap(m_id);
+		if(i==0) {
+			
+		}else if(i>=1) {
+			
+		}
+		return null;
+	}
+	
+	
 
 	
 }

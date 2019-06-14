@@ -102,4 +102,10 @@ public class YoonHomeController {
 		mav=ys.counseln(cs_opcode,cs_date);
 		return mav;
 		}
+	
+	@RequestMapping(value = "/infomodifyn") 
+	public ModelAndView infomodifyn() {
+		mav=ys.infomodifyn();
+		return mav;
+		}
 }
