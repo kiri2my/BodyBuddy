@@ -90,7 +90,8 @@
 					class="menu-title">매출/실적 관리</span>
 			</a></li>
 
-			<li class="nav-item"><a class="nav-link" href="index.html">
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="infoModify()">
 					<i class="mdi mdi-home-modern menu-icon"></i> <span
 					class="menu-title">업체 정보 수정</span>
 			</a></li>
@@ -128,4 +129,9 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
 </body>
+
+<script type="text/javascript">
+	
+
+</script>
 </html>

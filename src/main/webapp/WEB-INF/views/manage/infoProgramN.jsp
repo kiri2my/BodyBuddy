@@ -272,22 +272,34 @@ to {
 
 </body>
 <script>
-${alert}
 
-$(".showCounsel").click(function(){
 
-	var adnum=$(".showCounsel").parent().children().eq(1).val();
-	var mid=$(".showCounsel").parent().children().eq(2).val();
+$(".btn.btn-dark.btn-lg.btn-block").click(function(){
+	
+	var list = new Array();
+	
+	/* var adnum1=$("#op_code").val(); */
+	
+	var adnum=$(this).parent().children().eq(1).val();
+	var mid=$(this).parent().children().eq(2).val();
+	
+/* 	$(document).ready(function() {
+		   var list = new Array();
+		   $("input[name=testInput]").each(function(index, item){
+			   list.push($(item).val());
+		   });
+		   alert(list);
+		}); */
+	
 	console.log(adnum);
 	console.log(mid);
  	$('#articleView_layer').addClass('open');
 	$.ajax({
 		type:'post', 
 		url:'counsellistn',
-		data:{cs_adcode:adnum,cs_mid:mid},
+		data:{cs_opcode:adnum,cs_mid:mid},
 		dataType:'html',
 		success:function(data){
-			console.log(data);
 			$('#contents_layer').html(data);
 		},
 		error:function(error){

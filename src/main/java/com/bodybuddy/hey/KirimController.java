@@ -70,9 +70,9 @@ public class KirimController {
 		return html;
 	}
 	
-	@RequestMapping(value = "/dibsdelete", method = RequestMethod.GET)
+	@RequestMapping(value = "/dibsdelete", method = RequestMethod.POST)
 	@ResponseBody
-	public String dibsDelete(@RequestParam("d_adcode") String d_adcode) {
+	public String dibsDelete(String d_adcode) {
 		html = ks.dibsDelete(d_adcode);
 		return html;
 	}
