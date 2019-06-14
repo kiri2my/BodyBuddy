@@ -12,14 +12,12 @@ import com.bodybuddy.hey.bean.Review;
 public interface YoonDao {
 
 	List<Map<String, String>> mainList();
-
-	 List<OpCategory> opCateListAll(); 
+	
+	List<Map<String, String>> mainListCate(String cate);
 
 	List<Map<String, String>> dibsN(String d_id);
 
-	List<Map<String, String>> mainMapList2(Map<String, String> local);
-
-	List<Map<String, String>> mainMapList1(Map<String, String> local);
+	List<Map<String, String>> mainListMap(Map<String, String> local);
 
 	List<Map<String, String>> getproListN(String m_id);
 
@@ -36,7 +34,7 @@ public interface YoonDao {
 	boolean reviewInsert(Review rv);
 
 	boolean reviewOverlap(Review rv);
-
+	
 	List<Map<String, String>> getCounsel(String cs_opcode, String cs_mid);
 
 	Counsel getcounselN(Counsel cs);
@@ -46,5 +44,6 @@ public interface YoonDao {
 	int imgOverlap(String m_id);
 
 	
+
 	
 }

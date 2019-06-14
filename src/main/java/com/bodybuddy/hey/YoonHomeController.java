@@ -48,8 +48,8 @@ public class YoonHomeController {
 	
 	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList(String sido, String sigungu, String extra) { //int pageNum 게시판페이징
-		mav=ys.mainList(sido, sigungu, extra);
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 게시판페이징
+		mav=ys.mainList(sido, sigungu, extra, cate);
 		return mav;
 	}
 	
@@ -92,15 +92,16 @@ public class YoonHomeController {
 		mav=ys.payListN(m_id);
 		return mav;
 	}
-	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
+	@RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
 	public ModelAndView counselList(String cs_opcode,String cs_mid) {
 		mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
-	  }
+	}
 	@RequestMapping(value = "/counseln") 
 	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
 		mav=ys.counseln(cs_opcode,cs_date);
 		return mav;
+<<<<<<< HEAD
 		}
 	
 	@RequestMapping(value = "/infomodifyn") 
@@ -108,4 +109,8 @@ public class YoonHomeController {
 		mav=ys.infomodifyn();
 		return mav;
 		}
+=======
+	}
+
+>>>>>>> e3b6523058dbb7c55ad68d610eb4c2e90e1f4f95
 }
