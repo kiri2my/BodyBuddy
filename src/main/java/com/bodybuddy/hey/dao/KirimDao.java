@@ -33,7 +33,7 @@ public interface KirimDao {
 
 	public boolean dibsDelete(Map<String, String> dibs);
 
-	public List<Review> detailReview(String ad_code);
+	public List<Map<String, String>> detailReview(String ad_code);
 	
 	public List<Qna> detailQa(String ad_code);
 
@@ -45,6 +45,13 @@ public interface KirimDao {
 
 	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
 
+	public String deleteRealIdCheck(String m_id);
+
+	public boolean insertDaliy(String ps_code);
+
+	public Payment selectPscode(Map<String, String> cs);
+
+	public int selectOverlap(Map<String, String> cs);	
 	
 	
 

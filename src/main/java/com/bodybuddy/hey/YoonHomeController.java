@@ -47,8 +47,8 @@ public class YoonHomeController {
 	
 	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList(String sido, String sigungu, String extra) { //int pageNum 게시판페이징
-		mav=ys.mainList(sido, sigungu, extra);
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 게시판페이징
+		mav=ys.mainList(sido, sigungu, extra, cate);
 		return mav;
 	}
 	
@@ -60,8 +60,8 @@ public class YoonHomeController {
 	}
 
 	@RequestMapping(value = "/reviewwritefrm")
-	public ModelAndView reviewWriteFrm(String m_id, String ad_code)  {	
-		mav=ys.reviewWriteFrm(m_id, ad_code);
+	public ModelAndView reviewWriteFrm(String m_id, String ps_code)  {	
+		mav=ys.reviewWriteFrm(m_id, ps_code);
 		return mav;
 	}
 	@RequestMapping(value = "/reviewwriteinsert")
@@ -82,18 +82,24 @@ public class YoonHomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/memberdelten")
-	public String login4(Model model) {
-		return "manage/payHistoryN.";
+	public ModelAndView memberdelten() {
+		mav=ys.memberdelten();
+		return mav;
 	}
 	@RequestMapping(value = "/payhistoryn") 
 	public ModelAndView payList(String m_id) {
 		mav=ys.payListN(m_id);
 		return mav;
 	}
-	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
-	 public ModelAndView counselList(String cs_adcode,String cs_mid) {
-		 mav=ys.counselListn(cs_adcode,cs_mid);
+	@RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
+	public ModelAndView counselList(String cs_opcode,String cs_mid) {
+		mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
-	  }
+	}
+	@RequestMapping(value = "/counseln") 
+	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
+		mav=ys.counseln(cs_opcode,cs_date);
+		return mav;
+	}
 
 }

@@ -25,25 +25,35 @@
 	SELECT * FROM CINFO WHERE M_ID = #{m_id} 
 	</select>
 	
-	
 		
 	<resultMap type="HashMap" id="detailPageResultMap">
 		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
 	</resultMap>
 	
 	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
-	SELECT * FROM DETAILPAGE WHERE AD_CODE = #{ad_code} 
+		SELECT DC.*, AD.AD_CONTENT 
+		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
+				 PF_IMAGE, M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
+      			 FROM DETAILPAGE DP
+      			 JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
+		LEFT JOIN AD ON DC.AD_CODE=AD.AD_CODE
+		WHERE DC.AD_CODE= #{ad_code} 
 	</select>
 	
 	<resultMap type="OpCategory" id="opCategory">
   		<result property="op_adcode" column="OP_ADCODE" />
  		<result property="op_code" column="OP_CODE" />
 		<result property="op_trainer" column="OP_TRAINER"/> 
-  		<result property="op_name" column="OP_NAME"  />
+  		<result property="op_content" column="OP_CONTENT"  />
   		<result property="op_price" column="OP_PRICE" />
-  		<result property="op_category" column="OP_CATEGORY"/>
+  		<result property="op_period" column="OP_PERIOD"/>
+  		<result property="op_times" column="OP_TIMES"/>
+  		<result property="op_day" column="OP_DAY"/>
+  		<result property="op_clock" column="OP_CLOCK"/>
+  		<result property="op_personnel" column="OP_PERSONNEL"/>
   		<result property="m_name" column="M_NAME" />
   		<result property="m_addr" column="M_ADDR"/>
+  		<result property="m_exaddr" column="M_EXADDR"/>
   	</resultMap>			
 	<select id="opCateList" parameterType="String" resultType="opCategory" resultMap="opCategory">
 		SELECT * FROM CATEGORY WHERE OP_ADCODE = #{ad_code}
@@ -97,10 +107,23 @@
 		SELECT * FROM QA
 		WHERE QA_ADCODE=#{ad_code} 
 	</select>
-	<select parameterType="String" id="detailReview" resultType="review"> 
-		SELECT * FROM RV
-		WHERE RV_ADCODE=#{ad_code} 
+	<select parameterType="String" id="detailReview" resultType="HashMap"> 
+		SELECT RV_NUM, RV_PSCODE, RV_NAME, RV_CONTENT, RV_DATE, RV_STPOINT, 
+		AD_CODE, PS_DATE, OP_CODE, OP_CONTENT, OP_PERIOD, OP_TIMES, OP_DAY, OP_CLOCK 
+		FROM RV
+		LEFT JOIN PS ON RV.RV_PSCODE=PS.PS_CODE
+		LEFT JOIN AD ON PS.PS_ADCODE=AD.AD_CODE
+		LEFT JOIN OP ON PS.PS_OPCODE=OP.OP_CODE
+		WHERE AD.AD_CODE = #{ad_code}
 	</select>
+	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+	</select>
+	
+	<insert id="insertDaliy" parameterType="Payment">
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중')
+	</insert>
+	
 	
 	
 	
