@@ -125,6 +125,12 @@
 	</insert>
 	
 	
+	 <select id="deleteRealIdCheck" parameterType="String" resultType="String">
+  		SELECT m_id FROM DELETEREALID
+  		WHERE M_ID = #{m_id}
+ 	</select>
+	
+	
 	
 	
 	

@@ -46,12 +46,11 @@ public class KirimService {
 	public ModelAndView access(Member mb) {
 		mav = new ModelAndView();
 		String view = null;
-		System.out.println("사부작");
 		String checkId =  kDao.deleteRealIdCheck(mb.getM_id());
 		System.out.println("aa" + checkId);
 		if (checkId != null)  {
 			mav.setViewName("loginJoinFrm/loginFrm");
-			mav.addObject("loginCheck", "이미탈퇴한아이디입니다");
+			mav.addObject("loginCheck", "이미 탈퇴 처리된 계정입니다");
 			return mav;
 		}
 
@@ -85,18 +84,15 @@ public class KirimService {
 				// redirect:url, POST-GET 둘다 GET방식만 가능
 				view = "forward:/";
 			}else {// 비번오류
-				System.out.println("5252 비번이 틀렸다고");
 				view = "loginJoinFrm/loginFrm";
-				mav.addObject("loginCheck", "비번오류");
+				mav.addObject("loginCheck", "다시 입력해주세요(Password Error)");
 			}
 		}else {// 아이디오류
-			System.out.println("5252 아이디가 틀렸다고");
 			view = "loginJoinFrm/loginFrm";
-			mav.addObject("loginCheck", "아이디오류");
+			mav.addObject("loginCheck", "다시 입력해주세요(Email Error)");
 		}
 		mav.setViewName(view);
 		return mav;
-
 	}
 
 	public String dibsAdd(String d_adcode) {
