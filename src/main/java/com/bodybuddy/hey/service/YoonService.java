@@ -3,11 +3,14 @@ package com.bodybuddy.hey.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -98,7 +101,7 @@ public class YoonService {
 			System.out.println("sessionMb.getM_id();sessionMb.getM_id();" + sessionMb.getM_id());
 			dibsList = yDao.dibsN(d_id);
 		}	
-		String html = makeHTMLMainList(mainList, dibsList, sessionMb);
+		String html = makeHTMLMainList(mainList, dibsList, sessionMb, mav);
 		mav.addObject("mainListHTML",html);
 		String jsonMainList = new Gson().toJson(mainList);
 		mav.addObject("jsonMainList", jsonMainList);
@@ -107,7 +110,8 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
-	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, Member sessionMb) {
+	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, 
+			Member sessionMb, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
 				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
@@ -115,7 +119,11 @@ public class YoonService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
 				"                                    <div class=\"row\">\r\n");
-				for(int i=0; i<mainList.size();i++) {
+		Set<String> addBtnSet = new HashSet<>();
+		Set<String> delBtnSet = new HashSet<>();		
+		String addBtn=null;
+		String delBtn=null;
+		for(int i=0; i<mainList.size();i++) {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
 					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
 					
@@ -153,56 +161,33 @@ public class YoonService {
 				  
 				  
 				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
-							"<p><a href='"+"detailpage?ad_code="+ad_code+"' class=\"btn btn-primary\" role=\"button\">상세보기</a> ");
-							
+							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
 				// 찜버튼 위치 시작
-
-					if (sessionMb == null) {
-						System.out.println("sessionMb는 null" + i);
-					} else if (sessionMb != null) {
-						System.out.println("sessionMb는 있음" + i);
-					}
-					if (dibsList == null) {
-						System.out.println("dibsList는 null" + i);
-					} else if (dibsList != null) {
-						System.out.println("dibsList는 있음" + i);
-						System.out.println("dibsList 사이즈" + dibsList.size());
-					}
-
-					String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+				  delBtn = "<button id='" + "dibsDelete" + ad_code
+							+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
+							+ "<i class=\"mdi mdi-heart\"></i></button>";
+				  addBtn = "<button id='" + "dibsAdd" + ad_code
 							+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
-
-					String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
-							+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-							+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
-
+							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+				  
+				  
+					
+					
 					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 						// StringBuilder sb2=null;
 						for (int j = 0; j < dibsList.size(); j++) {
-							if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(addBtn);
-							// 회원 : 찜한상품 찜 취소버튼
-							}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(delBtn);
+							if(dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								delBtnSet.add(ad_code);
 							}
-							
+								
+							// 회원 : 찜한상품 찜 취소버튼
+							//else if (!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								//addBtnSet.add(ad_code);
+							//}
 						}
-						//중복버튼 제거
-						/*
-						StringBuilder sb2 = null;
-						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
-							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
-						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
-							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
-							sb2.append(addBtn);
-						}
-						sb=sb2;
-						*/
-						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
-					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-						sb.append(addBtn);
+					//} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
+						//addBtnMap.put(ad_code,addBtn);
 					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 						// 비회원 세션에 찜한상품 아니면 찜하기버튼
 						Enumeration<String> names = session.getAttributeNames();
@@ -220,7 +205,9 @@ public class YoonService {
 						} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
 							sb.append(delBtn);
 						}
-					} // 찜버튼 끝
+					} 
+					
+					// 찜버튼 끝
 				  
 								
 						sb.append("</p>\r\n" + 
@@ -229,6 +216,8 @@ public class YoonService {
 								  "                                        </div>\r\n"
 						);
 				}//end For
+		String delBtnSetJson = new Gson().toJson(delBtnSet);
+		mav.addObject("delBtnSet",delBtnSetJson);
 				
 	  sb.append("            	                    </div>\r\n" + 
 				"                                </div>\r\n" + 

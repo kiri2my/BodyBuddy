@@ -35,7 +35,7 @@
 		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
 				 PF_IMAGE, M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
       			 FROM DETAILPAGE DP
-      			 JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
+      			 LEFT JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
 		LEFT JOIN AD ON DC.AD_CODE=AD.AD_CODE
 		WHERE DC.AD_CODE= #{ad_code} 
 	</select>
@@ -72,26 +72,44 @@
 		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
 	</insert>
 	
+	<!-- <resultMap type="HashMap" id="getTrainerPf">
+  		<result property="m_id" column="M_ID" />
+ 		<result property="m_name" column="M_NAME" />
+		<result property="m_kind" column="M_KIND"/> 
+  		<result property="t_cid" column="T_CID"  />
+  		<result property="t_career" column="T_CAREER" />
+  		<result property="c_bname" column="C_BNAME"/>
+  		<result property="pf_image" column="PF_IMAGE"/>
+  	</resultMap> -->
 	
-	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
-		SELECT M.M_ID, M.M_NAME, M.M_KIND, T.T_CID, T.T_CAREER, C.C_BNAME, PF.PF_IMAGE 
+	<select parameterType="String" id="getTrainerProfile" resultType="tprofile"> 
+		
+		SELECT M_ID, M_NAME, M_KIND, T_CID, T_CAREER, C_BNAME 
 		FROM M
-		LEFT JOIN T ON M.M_ID=T.T_ID
-		LEFT JOIN C ON T.T_CID=C.C_ID
-		LEFT JOIN PF ON M.M_ID=PF_ID
-		WHERE M.M_ID=#{m_id} AND M.M_KIND='t'
+		LEFT JOIN T ON M_ID=T_ID
+		LEFT JOIN C ON T_CID=C_ID
+		LEFT JOIN PF ON M_ID=PF_ID
+		WHERE M_ID=#{m_id}
 	</select>
 	
-	<select parameterType="String" id="getTrainerProfileOption" resultType="HashMap"> 
-		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CATEGORY, OP_NAME, OP_PERIOD, AD_TITLE, AD_STATUS, AD_DATE, AD_KIND, 
-		AD_NAME, MT.M_ADDR AS T_ADDR, MC.M_ADDR AS AD_ADDR, C_BNAME
-		FROM OP
-		LEFT JOIN AD ON OP_ADCODE = AD_CODE
-		LEFT JOIN M MT ON OP_TRAINER=MT.M_ID
-		LEFT JOIN M MC ON AD_NAME=MC.M_ID
-		LEFT JOIN C ON AD_NAME=C_ID
+	<select parameterType="String" id="getTrainerPOption" resultType="HashMap"> 
+		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CONTENT, OP_PERIOD, OP_TIMES, OP_DAY, OP_CLOCK, OP_PERSONNEL,
+		AD_TITLE, AD_STATUS, AD_DATE, MC.M_ADDR AS AD_ADDR, MT.M_ADDR AS T_ADDR
+		FROM OP   
+		LEFT JOIN AD ON OP_ADCODE = AD_CODE   
+		LEFT JOIN M MT ON OP_TRAINER=MT.M_ID   
+		LEFT JOIN M MC ON AD_NAME=MC.M_ID   
+		LEFT JOIN C ON AD_NAME=C_ID  
 		WHERE OP_TRAINER=#{m_id} 
 	</select>
+	
+	<select parameterType="String" id="getTrainerPCategory" resultType="HashMap"> 
+		SELECT DISTINCT AD_CATEGORY 
+		FROM OP   
+		LEFT JOIN AD ON OP_ADCODE = AD_CODE   
+		WHERE OP_TRAINER=#{m_id} 
+	</select>
+
 	
 	<select parameterType="String" id="getCompanyProfile" resultType="HashMap"> 
 		SELECT M_ID, M_NAME, M_PHONE, M_ADDR, C_NUM, C_BNAME, C_BPHONE ,PF_IMAGE FROM CINFO
@@ -116,10 +134,19 @@
 		LEFT JOIN OP ON PS.PS_OPCODE=OP.OP_CODE
 		WHERE AD.AD_CODE = #{ad_code}
 	</select>
+	
+	<select parameterType="String" id="detailPsCount" resultType="HashMap"> 
+		SELECT PS_OPCODE FROM PS WHERE PS_ADCODE=#{ad_code}
+	</select>
+	
+	
 	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
 		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
 	</select>
-	
+	 <select id="selectPscode" parameterType="HashMap" resultType="Payment">
+  		SELECT PS_CODE FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+ 	</select>
+		
 	<insert id="insertDaliy" parameterType="Payment">
 		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중')
 	</insert>
@@ -129,6 +156,40 @@
   		SELECT m_id FROM DELETEREALID
   		WHERE M_ID = #{m_id}
  	</select>
+ 	
+ 	<select id="personnelCalc" parameterType="String" resultType="HashMap">
+		SELECT PS_OPCODE, PURCHCOUNT, OP_PERSONNEL
+		FROM (SELECT PS_OPCODE, COUNT(PS_OPCODE) PURCHCOUNT  
+			  FROM PS	GROUP BY PS_OPCODE)
+		LEFT JOIN OP ON PS_OPCODE=OP_CODE
+		WHERE PS_OPCODE= #{PS_OPCODE}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	<select id="getOpPeriodList" resultType="HashMap">
+  		SELECT OP_CODE, OP_ADCODE, OP_PERIOD FROM OP
+ 	</select>
+ 	
+ 	<update id="expireOption" parameterType="String">
+ 		<![CDATA[UPDATE OP SET OP_EXPIRE=1 WHERE OP_CODE=#{op_code}]]>
+ 	</update>
+ 	
+ 	<select id="getAdExpireList" resultType="HashMap">
+  		SELECT AD_CODE, OP_EXPIRE FROM AD
+		JOIN OP ON AD_CODE=OP_ADCODE
+ 	</select>
+ 	
+ 	<update id="expireAd" parameterType="String">
+ 	<![CDATA[
+ 		UPDATE AD SET AD_STATUS='만료됨' WHERE AD_CODE=#{ad_code}
+ 	]]>
+ 	</update>
+ 	
+ 	
+ 	
+ 	
 	
 	
 	

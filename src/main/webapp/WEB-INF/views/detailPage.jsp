@@ -64,6 +64,24 @@
 </head>
 
 <body>
+<!-- Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 46em">
+      <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div id="profileArea" class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL END -->
 	
 				<!-- partial -->
 				<div id="wrap">
@@ -91,6 +109,45 @@
 </body>
 
 <script>
+	    
+
+
+$(".profilePage").click(function(){
+	var m_id = $(this).prop("id").replace("profilePage","");
+	console.log(m_id);
+	$.ajax({
+		url: "profilepage",
+		type: "get",
+		data:{m_id:m_id},
+		dataType: "html",
+		success:(function(data){
+			console.log(data);
+			$("#profileArea").html(data);
+		   
+			
+		}),
+		error:(function(err){
+			console.log(err);
+		})
+	});
+});
+
+
+
+$(".text-success.showHiddenReview").click(function(){
+	$(this).parents().find(".hiddenReview").eq(0).prop("hidden",false);
+	$(this).parents().find(".text-success.foldHiddenReview").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+$(".text-success.foldHiddenReview").click(function(){
+	$(this).parents().find(".hiddenReview").eq(0).prop("hidden",true);
+	$(this).parents().find(".text-success.showHiddenReview").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+
+
+
+
 $("#optionSelect").change(function(){
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
 	var $op_code = "#"+op_code;
@@ -147,8 +204,11 @@ $("#purchase").click(function(){
 					location.href="#";
 				}
 			}
+			if(data=='full'){
+				alert("해당 상품의 정원이 가득찼습니다.");
+			}
 			if(data=='failed'){
-				alert("구매에 실패하였습니다. 다시 시도해주세요.")	
+				alert("구매에 실패하였습니다. 다시 시도해주세요.");
 			}
 			if(data=='login'){
 				var logConf = confirm("로그인을 해야 구매가 가능합니다. 로그인창으로 이동하시겠습니까?");

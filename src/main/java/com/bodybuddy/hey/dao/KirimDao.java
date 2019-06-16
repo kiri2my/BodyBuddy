@@ -9,6 +9,7 @@ import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.bean.Qna;
 import com.bodybuddy.hey.bean.Review;
+import com.bodybuddy.hey.bean.Tprofile;
 
 
 public interface KirimDao {
@@ -37,13 +38,13 @@ public interface KirimDao {
 	
 	public List<Qna> detailQa(String ad_code);
 
-	public HashMap<String, String> getTrainerProfile(String m_id);
+	public Tprofile getTrainerProfile(String m_id);
 
-	public List<HashMap<String, String>> getTrainerProfileOption(String m_id);
+	public List<Map<String, String>> getTrainerPOption(String m_id);
 
-	public HashMap<String, String> getCompanyProfile(String m_id);
+	public Map<String, String> getCompanyProfile(String m_id);
 
-	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
+	public List<Map<String, String>> getCompanyProfileOption(String m_id);
 
 	public String deleteRealIdCheck(String m_id);
 
@@ -51,8 +52,22 @@ public interface KirimDao {
 
 	public Payment selectPscode(Map<String, String> cs);
 
-	public int selectOverlap(Map<String, String> cs);	
-	
+	public int selectOverlap(Map<String, String> cs);
+
+	public List<Map<String, String>> detailPsCount(String ad_code);
+
+	public List<Map<String, String>> getTrainerPCategory(String m_id);
+
+	public List<Map<String, String>> getOpPeriodList();
+
+	public int expireOption(String op_code);
+
+	public List<Map<String, String>> getAdExpireList();
+
+	public int expireAd(String ad_code);
+
+	public Map<String, Integer> personnelCalc(String ps_opcode);
+
 	
 
 
