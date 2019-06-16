@@ -272,7 +272,7 @@ to {
 
 </body>
 <script>
-
+${alert}
 
 $(".btn.btn-dark.btn-lg.btn-block").click(function(){
 	

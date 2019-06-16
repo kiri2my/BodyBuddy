@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.dao.MemberDao;
 
 @Service
@@ -199,5 +200,17 @@ public class MemberManagemant {
 		mav.setViewName(view);
 		return mav;
 	}
+
+	public String questionReplyFrm(String qa_acontent) {
+		
+		return null;
+	}
+
+	public Question qaNum(String qa_num) {
+		Question qa = mDao.qaNum(qa_num);
+		
+		return qa;
+	}
+
 
 }

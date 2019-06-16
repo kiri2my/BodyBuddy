@@ -17,7 +17,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Counsel;
@@ -25,6 +27,7 @@ import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.dao.YoonDao;
+import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
 
 @Service
@@ -35,7 +38,9 @@ public class YoonService {
 	ModelAndView mav;
 	@Autowired
 	HttpSession session;
-
+	@Autowired
+	private UploadFile upload;
+	
 	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;
@@ -436,4 +441,64 @@ public class YoonService {
 		return mav;
 	}
 	
+
+	
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		String view=null;
+		Member mb=new Member();
+
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		String m_birth=sessionMb.getM_birth();
+		String m_name=sessionMb.getM_name();
+		String m_pw=multi.getParameter("m_pw");
+		String m_phone=multi.getParameter("m_phone");
+		String m_addr=multi.getParameter("m_addr");
+		String m_exaddr=multi.getParameter("m_exaddr");
+		String pf_image=multi.getParameter("pf_image");
+
+		
+		 int i=yDao.imgOverlap(m_id);
+		 if(i==0) {
+			upload.fileUp(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }else if(i>=1) {
+			upload.fileUp2(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }
+		 
+		return mav;
+	}
+	
+	
+
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Review;
@@ -101,6 +102,13 @@ public class YoonHomeController {
 	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
 		mav=ys.counseln(cs_opcode,cs_date);
 		return mav;
-	}
+
+		}
+	
+	@RequestMapping(value = "/infomodifyn") 
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		mav=ys.infomodifyn(multi);
+		return mav;
+		}
 
 }

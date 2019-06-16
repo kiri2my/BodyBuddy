@@ -432,7 +432,6 @@
 		}).open();
 	} //다음주소api End
 </script>
-</script>
 
 </html>
 

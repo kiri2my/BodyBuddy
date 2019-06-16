@@ -41,7 +41,13 @@ public interface YoonDao {
 
 	List<Map<String, String>> getCounsel(Map<String, String> cs);
 
-	
+	int imgOverlap(String m_id);
+
+	boolean fileInsert(Map<String, String> fMap);
+
+	boolean fileUpdate(Map<String, String> fMap);
+
+	void updateNorMb(Member mb);
 
 	
 }

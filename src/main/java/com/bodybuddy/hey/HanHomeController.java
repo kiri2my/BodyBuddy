@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.MemberManagemant;
 
 @Controller
@@ -35,6 +36,28 @@ public class HanHomeController {
 
 		System.out.println();
 		return checkcon;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/qa_num", method = RequestMethod.POST)
+	public Question qaNum(String qa_num) {
+		System.out.println("나만믿으라고!! ");
+
+		Question qa = mm.qaNum(qa_num);
+		session.setAttribute("qa", qa);
+		System.out.println(qa.getQa_acontent());
+		
+		return qa;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/questionreplyfrm", method = RequestMethod.POST)
+	public String questionReplyFrm(String qa_acontent) {
+		System.out.println("나만믿으라고!! ");
+		session.getAttribute("questiin");
+		String answer = mm.questionReplyFrm(qa_acontent);
+		
+		
+		System.out.println();
+		return answer;
 	}
 
 	@ResponseBody
@@ -115,5 +138,6 @@ public class HanHomeController {
 
 		return certification;
 	}
+
 
 }
