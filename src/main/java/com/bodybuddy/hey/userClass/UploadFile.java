@@ -39,10 +39,11 @@ public class UploadFile {
 		//2.폴더 생성을 꼭 할것...
 		File dir=new File(path);
 		
-		/*
-		 * if(!dir.isDirectory()){ //upload폴더 없다면 dir.mkdir(); //upload폴더 생성
-		 * dir.mkdirs(); //s 안ㅇ붙이면 딱 그폴더만 생성되고 s붙ㄹ이면 경로 상 상위폴더까지 같이만들어줌 }
-		 */
+		
+		  if(!dir.isDirectory()){ //upload폴더 없다면 dir.mkdir(); //upload폴더 생성
+		  dir.mkdirs(); //s 안ㅇ붙이면 딱 그폴더만 생성되고 s붙ㄹ이면 경로 상 상위폴더까지 같이만들어줌
+		  }
+		 
 		
 		//3.파일을 가져오기-파일태그 이름들 반환
 		Iterator<String> files=multi.getFileNames(); //파일업로드 2개이상일때
@@ -85,10 +86,9 @@ public class UploadFile {
 		String path=root+"resources/upload/";
 		//2.폴더 생성을 꼭 할것...
 		File dir=new File(path);
-		/*
-		 * if(!dir.isDirectory()){ //upload폴더 없다면 dir.mkdir(); //upload폴더 생성
-		 * //dir.mkdirs(); }
-		 */
+		 if(!dir.isDirectory()){ //upload폴더 없다면 dir.mkdir(); //upload폴더 생성
+		  dir.mkdirs(); }
+		 
 		//3.파일을 가져오기-파일태그 이름들 반환
 		Iterator<String> files=multi.getFileNames(); //파일업로드 2개이상일때
 		
