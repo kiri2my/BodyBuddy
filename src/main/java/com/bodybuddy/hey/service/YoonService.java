@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Counsel;
@@ -22,6 +24,7 @@ import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.dao.YoonDao;
+import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
 
 @Service
@@ -32,33 +35,65 @@ public class YoonService {
 	ModelAndView mav;
 	@Autowired
 	HttpSession session;
-
-	public ModelAndView mainList(String sido, String sigungu, String extra) {
+	@Autowired
+	private UploadFile upload;
+	
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;
 		List<Map<String, String>> mainList=null;
-		List<OpCategory> opCateListAll=null;
 		List<Map<String, String>> dibsList=null;
 		mav.addObject("showMap",false);
-		if(sido!=null) {
+		if(cate!=null) {
+			switch(cate) {
+				case "cateAll":
+					cate=null;
+					break;
+				case "cateNormal":
+					cate="일반";
+					break;
+				case "cateFitness":
+					cate="피트니스";
+					break;
+				case "cateHomeTraining":
+					cate="홈트레이닝";
+					break;
+				case "catePilates":
+					cate="필라테스";
+					break;
+				case "cateYoga":
+					cate="요가";
+					break;
+			}
+		}
+		
+		if(sido!=null) {//주소지가 있다면
 			Map<String,String> local = new HashMap<>();
 			local.put("sido", sido);
 			local.put("sigungu", sigungu);
+			System.out.println("cateGORY====================="+cate);
+			if(cate!=null) { //주소지 있는경우 cate있는경우
+				local.put("cate", cate);
+			}
 			if(extra.contains("/")){
 		    	String[] extraSplit = extra.split("/");
 				local.put("extra1", extraSplit[0]);
 				local.put("extra2", extraSplit[1]);
-				mainList = yDao.mainMapList2(local);
+				mainList = yDao.mainListMap(local);
 			}else {
 				local.put("extra", extra);
-				mainList = yDao.mainMapList1(local);
+				mainList = yDao.mainListMap(local);
 			}
 			mav.addObject("showMap",true);
 			mav.addAllObjects(local);
-		}else {
-			mainList = yDao.mainList();
+		}else {//주소지가 없다면
+			System.out.println("cateGORY====================="+cate);
+			if(cate!=null) {//주소지 없는경우 cate있는경우
+				mainList = yDao.mainListCate(cate);
+			}else {
+				mainList = yDao.mainList();
+			}
 		}
-		opCateListAll  = yDao.opCateListAll();
 		
 		// 로그인 되어있을 시
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -68,7 +103,7 @@ public class YoonService {
 			System.out.println("sessionMb.getM_id();sessionMb.getM_id();" + sessionMb.getM_id());
 			dibsList = yDao.dibsN(d_id);
 		}	
-		String html = makeHTMLMainList(mainList, opCateListAll, dibsList, sessionMb);
+		String html = makeHTMLMainList(mainList, dibsList, sessionMb);
 		mav.addObject("mainListHTML",html);
 		String jsonMainList = new Gson().toJson(mainList);
 		mav.addObject("jsonMainList", jsonMainList);
@@ -77,19 +112,18 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
-	private String makeHTMLMainList(List<Map<String, String>> mainList, List<OpCategory> opCateListAll,
-			List<Map<String, String>> dibsList, Member sessionMb) {
-StringBuilder sb = new StringBuilder();
-		
+	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, Member sessionMb) {
+		StringBuilder sb = new StringBuilder();
 		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
 				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
 				"                                    <div class=\"row\">\r\n");
-		
 				for(int i=0; i<mainList.size();i++) {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
+					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
+					
 				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
 							"                                        <div class=\"thumbnail\">\r\n" + 
 							"                                            <img alt=\"100%x200\" src='"+mainList.get(i).get("PF_IMAGE")+"'"+
@@ -97,43 +131,36 @@ StringBuilder sb = new StringBuilder();
 							"                                            <div class=\"caption\">\r\n" + 
 							"                                                <br>\r\n" + 
 							"                                                <h3 id=\"thumbnail-label\">");
-							if(mainList.get(i).get("AD_KIND")=="mo") {
-								sb.append("일반 회원 모집 : ");
-							}
-							if(mainList.get(i).get("AD_KIND")=="p") {
-								sb.append("프로그램 : ");
-							}
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
 							
-							//일반 회원 모집일 경우 :자기주소
-							if(mainList.get(i).get("AD_KIND")=="mo") {
+							//주소 시작위치
+							//트레이너던 업체던 소속업체가 없는경우
+							if(mainList.get(i).get("T_CID")==null) {
 								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
+							}else {//소속업체 있는경우
+								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
 							}
-							//프로그램일 경우 
-							if(mainList.get(i).get("AD_KIND")=="p") {
-								//개인 트레인경우 : 자기주소
-								if(mainList.get(i).get("T_CID")==null) {
-									sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
-								}
-								//소속 트레이너인경우 : 소속업체주소
-								if(mainList.get(i).get("T_CID")!=null) {
-									sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
-								}
-							}
+							//주소 끝위치
 							 
 				  sb.append("<p>");
-				  for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
+				  /*for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
 					  if(opCateListAll.get(j).getOp_adcode().equals(ad_code)) {
 						  sb.append(opCateListAll.get(j).getOp_category()+"/");
 					  }
+				  }*/ //'AD'_CATEGORY로 옮겨오면서 취소
+				  if(ad_category.equals("일반")) {
+					  sb.append("일반 정기 회원 모집");
+				  }else {
+					  sb.append(ad_category);
 				  }
+				  
 				  
 				  
 				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='"+"detailpage?ad_code="+ad_code+"' class=\"btn btn-primary\" role=\"button\">상세보기</a> ");
 							
-				// 찜버튼 위치
+				// 찜버튼 위치 시작
 
 					if (sessionMb == null) {
 						System.out.println("sessionMb는 null" + i);
@@ -167,15 +194,16 @@ StringBuilder sb = new StringBuilder();
 							
 						}
 						//중복버튼 제거
+						/*
 						StringBuilder sb2 = null;
 						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
 							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
 						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
 							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
-							sb.append(addBtn);
+							sb2.append(addBtn);
 						}
 						sb=sb2;
-						
+						*/
 						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
 					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
@@ -304,7 +332,6 @@ StringBuilder sb = new StringBuilder();
 					+ Date + "</td>\r\n" + "                       </tr>");
 
 		}
-
 		return sb.toString();
 	}
 
@@ -404,13 +431,9 @@ StringBuilder sb = new StringBuilder();
 		String view=null;
 		String cs_mid=sessionMb.getM_id();
 
-
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		Date to = transFormat.parse(cs_date);
-
-
-		
 		
 		
 		Counsel cs=new Counsel();
@@ -429,7 +452,64 @@ StringBuilder sb = new StringBuilder();
 		return mav;
 	}
 	
-	
 
 	
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		String view=null;
+		Member mb=new Member();
+
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		String m_birth=sessionMb.getM_birth();
+		String m_name=sessionMb.getM_name();
+		String m_pw=multi.getParameter("m_pw");
+		String m_phone=multi.getParameter("m_phone");
+		String m_addr=multi.getParameter("m_addr");
+		String m_exaddr=multi.getParameter("m_exaddr");
+		String pf_image=multi.getParameter("pf_image");
+
+		
+		 int i=yDao.imgOverlap(m_id);
+		 if(i==0) {
+			upload.fileUp(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }else if(i>=1) {
+			upload.fileUp2(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }
+		 
+		return mav;
+	}
+	
+	
+
+
 }

@@ -139,6 +139,8 @@ public class JungService {
 			view = "manage/question/questionList";
 			mav.setViewName(view);
 			mav.addObject("qList", qList);
+			//session.setAttribute("qLists", qList);
+			//qList.get(0).
 		} else {
 			System.out.println("없어");
 			view = "manage/question/questionList";

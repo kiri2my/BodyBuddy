@@ -38,8 +38,9 @@ public class JungController {
 	ModelAndView mav;
 	
 	@RequestMapping(value = "/questionlist")
-	public ModelAndView trainerListC(HttpServletRequest request) {
-		String id = request.getParameter("id");
+	public ModelAndView trainerListC(String id) {
+		Member mb = (Member)session.getAttribute("mb");
+		id = mb.getM_id();
 		System.out.println(id);
 		
 		mav = js.getQuestionList(id);

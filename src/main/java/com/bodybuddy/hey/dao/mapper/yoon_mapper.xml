@@ -3,49 +3,43 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bodybuddy.hey.dao.YoonDao">
-	
-	<select id="mainList" resultType="HashMap" >
+
+	<select id="mainList" resultType="HashMap">
 		SELECT DISTINCT * FROM MAINLIST
 		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
 		ORDER BY AD_CODE DESC
 	</select>
-	<resultMap type="OpCategory" id="opCategory">
-  		<result property="op_adcode" column="OP_ADCODE" />
- 		<result property="op_code" column="OP_CODE" />
-		<result property="op_trainer" column="OP_TRAINER"/> 
-  		<result property="op_name" column="OP_NAME"  />
-  		<result property="op_price" column="OP_PRICE" />
-  		<result property="op_category" column="OP_CATEGORY"/>
-  		<result property="m_name" column="M_NAME" />
-  		<result property="m_addr" column="M_ADDR"/>
-  	</resultMap>
+	<select id="mainListCate" parameterType="String" resultType="HashMap">
+		SELECT DISTINCT *
+		FROM MAINLIST 
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE AD_CATEGORY= #{cate}
+		ORDER BY AD_CODE DESC
+	</select>
+	<select id="mainListMap" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE]]>
+		
+		<if test="cate!=null">
+			<![CDATA[AD_CATEGORY= #{cate} AND]]>
+		</if> 
+		<if test="extra1!=null or extra2!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%'))]]> 
+        </if>
+        <if test="extra!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%'))]]> 
+        </if>
+        ORDER BY AD_CODE DESC
+	</select>
 	
-	<select id="opCateListAll" resultMap="opCategory" >
-		SELECT * FROM CATEGORY
-	</select> 
-	
-	<select id="dibsN" parameterType="String" resultType="HashMap" >
+	<select id="dibsN" parameterType="String" resultType="HashMap">
 		SELECT * FROM D WHERE D_ID=#{d_id}
-	</select>
-	
-	<select id="mainMapList2" parameterType="HashMap" resultType="HashMap">
-		<![CDATA[
-		SELECT DISTINCT * FROM MAINLIST
-		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
-        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%')
-		ORDER BY AD_CODE DESC
-		]]>
-	</select>
-	
-	<select id="mainMapList1" parameterType="HashMap" resultType="HashMap">
-		<![CDATA[
-		SELECT DISTINCT * FROM MAINLIST
-		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
-        WHERE (M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
-        OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%')
-		ORDER BY AD_CODE DESC
-		]]>
 	</select>
 	
 	<select id="getproListN" parameterType="String" resultType="HashMap">
@@ -69,7 +63,6 @@
 	WHERE PS_MID=#{m_id} AND AD_CATEGORY='일반'
 		]]>
 	</select>
-
 	<select id="getpayListN" parameterType="String" resultType="HashMap">
 		SELECT AD_TITLE,
 		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
@@ -82,10 +75,9 @@
 	<select id="getModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM M WHERE M_ID=#{m_id}
 	</select>
-	
 	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM PF WHERE PF_ID=#{m_id}
-	</select> 
+	</select>
 	<select id="getdibs" resultType="HashMap">
 	SELECT AD_TITLE,AD_CODE
 	FROM AD
@@ -105,4 +97,23 @@
 	<select id="getcounselN"  resultType="Counsel">
 	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
 	</select>
+	<select id="imgOverlap" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM PF WHERE PF_ID=#{m_id}
+	</select>
+	<insert id="fileInsert" parameterType="String">
+		INSERT INTO PROFILEPHOTO VALUES(#{m_id},#{pf_image})
+	</insert>
+	<update id="updateNorMb" parameterType="Member">
+	UPDATE MEMBER
+		SET M_PW = #{m_pw},
+    	M_PHONE = #{m_phone},
+    	M_ADDR = #{m_addr},
+    	M_EXADDR= #{m_exaddr}   
+		WHERE M_ID=#{m_id}
+	</update>
+	<update id="fileUpdate" parameterType="String">
+	UPDATE PROFILEPHOTO
+		SET PF_IMAGE = #{pf_image} 
+		WHERE PF_ID=#{m_id}
+	</update>
 </mapper>

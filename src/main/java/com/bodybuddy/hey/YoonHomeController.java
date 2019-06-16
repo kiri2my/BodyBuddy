@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Review;
@@ -48,8 +49,8 @@ public class YoonHomeController {
 	
 	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList(String sido, String sigungu, String extra) { //int pageNum 게시판페이징
-		mav=ys.mainList(sido, sigungu, extra);
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 게시판페이징
+		mav=ys.mainList(sido, sigungu, extra, cate);
 		return mav;
 	}
 	
@@ -92,14 +93,22 @@ public class YoonHomeController {
 		mav=ys.payListN(m_id);
 		return mav;
 	}
-	 @RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
+	@RequestMapping(value = "/counsellistn", method = {RequestMethod.POST,RequestMethod.GET}) 
 	public ModelAndView counselList(String cs_opcode,String cs_mid) {
 		mav=ys.counselListn(cs_opcode,cs_mid);
 		return mav;
-	  }
+	}
 	@RequestMapping(value = "/counseln") 
 	public ModelAndView counseln(String cs_opcode,String cs_date) throws ParseException {
 		mav=ys.counseln(cs_opcode,cs_date);
 		return mav;
+
 		}
+	
+	@RequestMapping(value = "/infomodifyn") 
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		mav=ys.infomodifyn(multi);
+		return mav;
+		}
+
 }

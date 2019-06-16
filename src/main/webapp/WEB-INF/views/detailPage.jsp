@@ -159,9 +159,7 @@ $("#purchase").click(function(){
 				}
 			}
 			if(data=='notn'){
-				
 				alert("일반회원만 결제 가능합니다.")
-				
 			}
 			if(data=='overlap'){
 				alert("이미 구매한 상품입니다.");
@@ -219,7 +217,7 @@ function dibsDelete() {
 		}); //ajax End
 	});//click danger
 }//end dibsDelete
-
+/*
 $("#review-tab").click(function(){
 		//var obj=$("#rFrm").serializeObject(); //{속성:값,속성:값}
 		var ad_code = $("#ad_code").val();
@@ -271,6 +269,7 @@ $("#qa-tab").click(function(){
 	}); //ajax End
 
 });//qna click End
+*/
 
 </script>
 
