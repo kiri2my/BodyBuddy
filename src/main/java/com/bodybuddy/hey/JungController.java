@@ -66,16 +66,15 @@ public class JungController {
 	
 	@RequestMapping(value = "/advertisewritefrm", method = RequestMethod.GET)
 	public String advertisewirtefrm(Locale locale, Model model) {
-		
-
 		System.out.println("advertisewritefrm controller");
+		Member mb = (Member) session.getAttribute("mb");
+		mav=js.advertisewriterfrm(mb);
+		
 		return "manage/advertisewritefrm";
 	}
 	
 	@RequestMapping(value = "/advertisemodifyfrm", method = RequestMethod.GET)
 	public String advertisemodifyfrm(Locale locale, Model model) {
-		
-
 		System.out.println("advertisemodifyfrm controller");
 		return "manage/advertisemodifyfrm";
 	}

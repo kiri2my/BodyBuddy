@@ -48,7 +48,7 @@
 				<div
 					class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
 					<a class="navbar-brand brand-logo" href="/hey?m_id=${mb.m_id}"
-						style="color: #71c016;">BODY BUDDY</a> <a
+						style="color: #71c016;"><img src="logo.jpg"></a> <a
 						class="navbar-brand brand-logo-mini" href="/?m_id=${mb.m_id}"
 						style="color: #71c016;">BODY BUDDY</a>
 					<button class="navbar-toggler navbar-toggler align-self-center"

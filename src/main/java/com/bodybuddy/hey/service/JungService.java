@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.dao.KirimDao;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.google.gson.Gson;
 
@@ -20,7 +22,9 @@ import com.google.gson.Gson;
 public class JungService {
 	@Autowired
 	private MemberDao mDao;
-
+	
+	
+	
 	private HttpSession session;
 
 	Member m;
@@ -229,6 +233,14 @@ public class JungService {
 	public ModelAndView profileComplete(String id) {
 		mDao.profileComplete(id);
 		return null;
+	}
+
+	public ModelAndView advertisewriterfrm(Member mb) {
+		System.out.println("광고입력폼");
+		String view="manage/advertisewritefrm";
+		System.out.println("viewName:"+view);
+		mav.setViewName(view);
+		return mav;
 	}
 
 }
