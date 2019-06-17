@@ -139,7 +139,7 @@ public class KirimService {
 		int i=kDao.selectOverlap(cs);
 		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
 			text = opExpirePersonnel(ph);
-			if(text.equals("full")) {
+			if(text!=null && text.equals("full")) {
 				return text;
 			}
 			ph.setPs_mid(sessionMb.getM_id());
@@ -168,10 +168,14 @@ public class KirimService {
 	
 	private String opExpirePersonnel(Payment ph) {
 		String text=null;
-		Map<String,Integer> purByPer = kDao.personnelCalc(ph.getPs_opcode());
-		System.out.println("SEX="+Integer.toString(purByPer.get("PS_OPCODE")));
-		if(purByPer.get("PURCHCOUNT") >= purByPer.get("OP_PERSONNEL")){
-			text="full";
+		Map<String,Integer> purByPer=null;
+		purByPer = kDao.personnelCalc(ph.getPs_opcode());
+		if(purByPer!=null) {
+			System.out.println("SEX="+purByPer.size());
+			System.out.println("SEX="+Integer.toString(purByPer.get("PS_OPCODE")));
+			if(purByPer.get("PURCHCOUNT") >= purByPer.get("OP_PERSONNEL")){
+				text="full";
+			}
 		}
 		return text;
 		
@@ -765,16 +769,23 @@ public class KirimService {
 						sb.append("요일 : "+opCateList.get(i).getOp_day()+"-");
 					if(opCateList.get(i).getOp_clock()!=null)
 						sb.append("시간 : "+opCateList.get(i).getOp_clock()+"-");
+					
+					
+					
 					if(opCateList.get(i).getOp_personnel()!=-100) {//정원이 무제한이 아닌경우
 						sb.append("남은 인원/정원 : ");
 						//남은 자리/정원 뽑아내기
 						int cnt=0;
 						int leftCnt=0;
+						if(psList.size()!=0) {
 						for(int j=0; j<psList.size();j++) {
 							if(opCateList.get(i).getOp_code().equals(psList.get(j).get("PS_OPCODE"))) {
 								cnt++;
 							}
 							leftCnt = opCateList.get(i).getOp_personnel()-cnt;
+						}
+						}else if(psList.size()==0){
+							leftCnt=opCateList.get(i).getOp_personnel();
 						}
 						sb.append(leftCnt+"/"+opCateList.get(i).getOp_personnel()+"</option>");
 					}else if(opCateList.get(i).getOp_personnel()==-100){//정원이 무제한일경우
