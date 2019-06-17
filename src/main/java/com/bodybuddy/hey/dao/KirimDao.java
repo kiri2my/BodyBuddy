@@ -47,11 +47,13 @@ public interface KirimDao {
 
 	public String deleteRealIdCheck(String m_id);
 
-	public boolean insertDaliy(String ps_code);
+	public boolean insertDaliy(Map<String, String> cs2);
 
 	public Payment selectPscode(Map<String, String> cs);
 
-	public int selectOverlap(Map<String, String> cs);	
+	public int selectOverlap(Map<String, String> cs);
+
+	public String selectPeriod(String da_period);	
 	
 	
 

@@ -125,14 +125,19 @@
 		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
 	</select>
 	
-	<insert id="insertDaliy" parameterType="Payment">
-		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중')
+	<insert id="insertDaliy" parameterType="HashMap">
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중',#{da_period})
 	</insert>
 	
 	
 	 <select id="deleteRealIdCheck" parameterType="String" resultType="String">
   		SELECT m_id FROM DELETEREALID
   		WHERE M_ID = #{m_id}
+ 	</select>
+ 	
+ 	<select id="selectPeriod" parameterType="String" resultType="String">
+  		SELECT OP_PERIOD FROM OP
+		WHERE OP_CODE=#{da_period}
  	</select>
 	
 	

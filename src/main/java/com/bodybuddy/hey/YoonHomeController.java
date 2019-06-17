@@ -39,6 +39,14 @@ public class YoonHomeController {
 	ModelAndView mav;
 	
 	
+	@RequestMapping(value = "/calenderN", method = RequestMethod.GET)
+	public String calenderN(Model model) {
+		System.out.println("트레이너조인이라구");
+
+		return "manage/calenderN";
+	}
+	
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout() {
 		session.invalidate();
