@@ -38,8 +38,14 @@ public class YoonHomeController {
 	
 	ModelAndView mav;
 	
+	@RequestMapping(value = "/dailyCheck", method = RequestMethod.POST)
+	public String dailyCheck(String ps_code, String m_id) {
+		String html=null;
+		html=ys.dailyCheck(ps_code,m_id);
+		return html;
+	}
 	
-	@RequestMapping(value = "/calenderN", method = RequestMethod.GET)
+	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code, String m_id) {
 		mav=ys.calender(ps_code,m_id);
 		return mav;
@@ -78,7 +84,6 @@ public class YoonHomeController {
 		mav=ys.insertReview(rv);
 		return mav;
 	}
-
 	@RequestMapping(value = "/infomodifyfrmn")
 	public ModelAndView modifyN(String m_id) {
 		mav=ys.modifyN(m_id);
@@ -117,5 +122,4 @@ public class YoonHomeController {
 		mav=ys.infomodifyn(multi);
 		return mav;
 		}
-
 }

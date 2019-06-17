@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -26,6 +27,9 @@
 		location="/WEB-INF/views/js/" mapping="/js/**" /> -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
+	
+	<task:annotation-driven/>
+	
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -97,6 +101,15 @@
 		<!-- 필요한 정보 -->
 		<beans:property name="dataSource" ref="dataSource" />
 	</beans:bean>
+	
+	<!-- 일정시간마다 작동하는 스케쥴러 -->
+	<!-- <beans:bean id="kirimDailyWork"
+		class="com.bodybuddy.hey.userClass.KirimDailyWork">
+		필요한 정보
+		<beans:property name="daemon" ref="kirimDailyWork" />
+	</beans:bean> -->
+	
+	
 	<!-- @Transactional 어노테이션 사용을 위한 설정 : 반드시 servlet-context에 설정할것 -->
 	<!-- <tx:annotation-driven  transaction-manager="transactionManager" />  -->
 	
@@ -117,7 +130,11 @@
 		 	<beans:bean class="com.bodybuddy.hey.userClass.SessionInterceptor"/>
 		</interceptor>
 	</interceptors>-->
-
+	
+	
+	
+	
+	
 
 
 

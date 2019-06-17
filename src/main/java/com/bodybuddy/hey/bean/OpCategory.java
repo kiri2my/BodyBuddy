@@ -18,7 +18,7 @@ public class OpCategory {
 	private String op_times;
 	private String op_day;
 	private String op_clock;
-	private String op_personnel;
+	private int op_personnel;
 	
 
 	private String m_name;//

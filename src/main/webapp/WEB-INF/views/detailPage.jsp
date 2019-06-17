@@ -64,6 +64,24 @@
 </head>
 
 <body>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 46em">
+      <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closer" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL END -->
 	
 				<!-- partial -->
 				<div id="wrap">
@@ -91,6 +109,47 @@
 </body>
 
 <script>
+
+$('.carousel').carousel();
+
+
+$(".profilePage").click(function(){
+	var m_id = $(this).prop("id").replace("profilePage","");
+	console.log(m_id);
+	$.ajax({
+		url: "profilepage",
+		type: "get",
+		data:{m_id:m_id},
+		dataType: "html",
+		success:(function(data){
+			console.log(data);
+			$(".modal-body").html(data);
+		   
+			
+		}),
+		error:(function(err){
+			console.log(err);
+		})
+	});
+});
+
+
+
+$(".text-success.showHiddenReview").click(function(){
+	$(this).parents().find(".hiddenReview").eq(0).prop("hidden",false);
+	$(this).parents().find(".text-success.foldHiddenReview").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+$(".text-success.foldHiddenReview").click(function(){
+	$(this).parents().find(".hiddenReview").eq(0).prop("hidden",true);
+	$(this).parents().find(".text-success.showHiddenReview").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+
+
+
+
+
 $("#optionSelect").change(function(){
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
 	var $op_code = "#"+op_code;
@@ -106,18 +165,92 @@ $("#optionSelect").change(function(){
 	console.log($op_priceValue);
 });
 
+
+
+
+
+//메인찜복사
+var delBtnSet = ${delBtnSet}
+console.log(delBtnSet);
+
 var kind="${mb.m_kind}";
 console.log(kind);
 
 if(kind!='n'){
+	//구매버튼 통제
 	$("#purchase").prop("disabled",true);
 	$("#purchase").attr("data-toggle","tooltip");
 	$("#purchase").attr("data-placement","bottom");
 	$("#purchase").attr("title","일반 회원만 구매가 가능합니다");
 	$("#purchase").after("<br><br><p class='text-light bg-dark pl-1 '>일반 회원만 구매가 가능합니다</p>");
-	console.dir($("#purchase"));
 	console.log($("#purchase"));
+}else{
+	//n일때 찜버튼
+	var ad_code = $("#ad_code").val();
+	var addBtn = "<button id='dibsAdd" +ad_code
+	+ "' type='button' class='btn btn-outline-secondary btn-rounded btn-icon'>"
+	+ "<i class='mdi mdi-heart-outline text-danger'></i></button>";
+	$("#purchase").before(addBtn);
+	for(var i=0;i<delBtnSet.length;i++){
+		if(delBtnSet[i]==ad_code){
+			var targetAddBtn = "#dibsAdd"+delBtnSet[i];
+			console.log("del",$(targetAddBtn));
+			
+			var delBtn = "<button id='dibsDelete"+delBtnSet[i]
+			+ "' type='button' class='btn btn-outline-danger btn-rounded btn-icon'>"
+			+ "<i class='mdi mdi-heart'></i></button>";
+		
+			$(targetAddBtn).prop("outerHTML",delBtn);
+		}
+	}
+	//메인찜복사
+	//n일때 문의하기 버튼 보여주기
+	$(".qFrm").prop("hidden",false);
 }
+//문의하기 폼
+$(".qFrm").click(function(){
+	var qFrm = "<div class='form-group' id='form-group'>"+
+    		"<textarea placeholder='광고주에게 문의할 내용을 입력해주세요' class='form-control' id='exampleTextarea1' rows='4'></textarea></div>";
+    var btns = "<button id='qaWrite' type='button' class='btn btn-primary mr-2'>문의 등록</button>"+
+    		"<button type='button' class='btn btn-default closer' data-dismiss='modal'>닫기</button>";
+    
+    $(".modal-footer").html(btns);
+    $(".modal-body").html(qFrm);
+  //문의등록    
+    $("#qaWrite").click(function(){
+    	var ad_name = $("#ad_name").val();
+    	var ad_code = $("#ad_code").val();
+    	console.log(ad_code);
+    	var qa_wContent = $("#exampleTextarea1").val();
+    	console.log(qa_wcontent);
+    	$.ajax({
+    		url:"detailqawriteinsert",
+    		type:"post",
+    		data:{qa_adcode:ad_code, qa_wContent:qa_wContent, qa_answer:qa_answer},	
+			dataType:"html",
+			success:function(data){
+				console.log(data);
+				if(data!=null){
+					$("#question").html(data);	
+				}
+				
+			},
+			error:function(err){
+				console.log(err);
+			}
+    		
+    	});//ajax END
+    });//qaWrite click END
+});//qFrm click END
+
+
+
+//
+
+
+
+
+
 
 $("#purchase").click(function(){
 	var ad_code = $("#ad_code").val();
@@ -147,8 +280,11 @@ $("#purchase").click(function(){
 					location.href="#";
 				}
 			}
+			if(data=='full'){
+				alert("해당 상품의 정원이 가득찼습니다.");
+			}
 			if(data=='failed'){
-				alert("구매에 실패하였습니다. 다시 시도해주세요.")	
+				alert("구매에 실패하였습니다. 다시 시도해주세요.");
 			}
 			if(data=='login'){
 				var logConf = confirm("로그인을 해야 구매가 가능합니다. 로그인창으로 이동하시겠습니까?");

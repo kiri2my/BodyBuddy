@@ -176,16 +176,17 @@ $(".btn.btn-dark").click(function(){
 	var adnum=$(".btn.btn-dark").parent().children().eq(1).val();
 	console.log(adnum);
 	$.ajax({
-		type:'post', 
+		type:'get', 
 		url:'dibsdelete',
 		data:{d_adcode:adnum},
 		dataType:'html',
 		success:function(data){
-			if(data=="success"){
-				alert("선택된 찜 삭제 완료")
+			console.log(data);
+			if(data.includes("dibsAdd")){
+				alert("선택된 찜 삭제 완료");
 				location.href="dibsn?m_id=${mb.m_id}";
-			}else{
-				alert("선택된 찜 삭제 실패")
+			}else if(data.includes("dibsDelete")){
+				alert("선택된 찜 삭제 실패");
 			}
 		},
 		error:function(error){
