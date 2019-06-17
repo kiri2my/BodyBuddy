@@ -1,6 +1,5 @@
 package com.bodybuddy.hey.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.bean.Qna;
 import com.bodybuddy.hey.bean.Review;
-import com.bodybuddy.hey.bean.Tprofile;
 
 
 public interface KirimDao {

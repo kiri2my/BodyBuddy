@@ -66,8 +66,8 @@
 <body>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="width: 46em">
+  <div class="modal-dialog" style="margin-left: 20%;">
+    <div class="modal-content" style="width: 60em">
       <div class="modal-header">
       <h4 class="modal-title" id="myModalLabel"></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -146,6 +146,17 @@ $(".text-success.foldHiddenReview").click(function(){
 	$(this).prop("hidden",true);
 });
 
+$(".text-success.showHiddenQna").click(function(){
+	$(this).parents().find(".hiddenQna").eq(0).prop("hidden",false);
+	$(this).parents().find(".text-success.foldHiddenQna").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+$(".text-success.foldHiddenQna").click(function(){
+	$(this).parents().find(".hiddenQna").eq(0).prop("hidden",true);
+	$(this).parents().find(".text-success.showHiddenQna").eq(0).prop("hidden",false);
+	$(this).prop("hidden",true);
+});
+
 
 
 
@@ -211,7 +222,7 @@ if(kind!='n'){
 $(".qFrm").click(function(){
 	var qFrm = "<div class='form-group' id='form-group'>"+
     		"<textarea placeholder='광고주에게 문의할 내용을 입력해주세요' class='form-control' id='exampleTextarea1' rows='4'></textarea></div>";
-    var btns = "<button id='qaWrite' type='button' class='btn btn-primary mr-2'>문의 등록</button>"+
+    var btns = "<button id='qaWrite' type='button' class='btn btn-primary mr-2' data-dismiss='modal'>문의 등록</button>"+
     		"<button type='button' class='btn btn-default closer' data-dismiss='modal'>닫기</button>";
     
     $(".modal-footer").html(btns);
@@ -222,11 +233,11 @@ $(".qFrm").click(function(){
     	var ad_code = $("#ad_code").val();
     	console.log(ad_code);
     	var qa_wContent = $("#exampleTextarea1").val();
-    	console.log(qa_wcontent);
+    	console.log(qa_wContent);
     	$.ajax({
     		url:"detailqawriteinsert",
     		type:"post",
-    		data:{qa_adcode:ad_code, qa_wContent:qa_wContent, qa_answer:qa_answer},	
+    		data:{qa_adcode:ad_code, qa_wContent:qa_wContent, qa_answer:ad_name},	
 			dataType:"html",
 			success:function(data){
 				console.log(data);

@@ -23,7 +23,6 @@ import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.bean.Qna;
-import com.bodybuddy.hey.bean.Tprofile;
 import com.bodybuddy.hey.dao.KirimDao;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.dao.YoonDao;
@@ -193,11 +192,11 @@ public class KirimService {
 
 	public String dibsAdd(String d_adcode) {
 		String del = "<button id='" + "dibsDelete" + d_adcode
-				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart\"></i></button>";
+				+ "' type='button' class='btn btn-outline-danger btn-rounded btn-icon'>"
+				+ "<i class='mdi mdi-heart'></i></button>";
 		String add = "<button id='" + "dibsAdd" + d_adcode
-				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+				+ "'type='button' class='btn btn-outline-secondary btn-rounded btn-icon'>"
+				+ "<i class='mdi mdi-heart-outline text-danger'></i></button>";
 		String html = null;
 
 		System.out.println("dibsAdd:d_adcode=============" + d_adcode);
@@ -228,11 +227,11 @@ public class KirimService {
 
 	public String dibsDelete(String d_adcode) {
 		String del = "<button id='" + "dibsDelete" + d_adcode
-				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart\"></i></button>";
+				+ "' type='button' class='btn btn-outline-danger btn-rounded btn-icon'>"
+				+ "<i class='mdi mdi-heart'></i></button>";
 		String add = "<button id='" + "dibsAdd" + d_adcode
-				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+				+ "'type='button' class='btn btn-outline-secondary btn-rounded btn-icon'>"
+				+ "<i class='mdi mdi-heart-outline text-danger'></i></button>";
 		String html = null;
 		System.out.println("dibsDelete:d_adcode=============" + d_adcode);
 		System.out.println(session.getId());
@@ -261,6 +260,13 @@ public class KirimService {
 	public String profilePage(String m_id) {
 		Member mb=null;
 		String html = null;
+		Map<String,String> tp=null;
+		List<Map<String, String>> tpo=null;
+		List<Map<String, String>> tpc=null;
+		Map<String, String> cp=null;
+		List<Map<String, String>> cpo=null;
+		
+		
 		String kind = kDao.getMemberKind(m_id);
 		System.out.println("kind============="+kind);
 		System.out.println("m_id============="+m_id);
@@ -269,13 +275,13 @@ public class KirimService {
 			mb=kDao.getNormalInfo(m_id);
 			html = makeHTMLNormalProfile(mb);
 		}else if(kind.equals("t")) {
-			Map<String,String> tp=kDao.getTrainerProfile(m_id);
-			List<Map<String, String>> tpo=kDao.getTrainerPOption(m_id);
-			List<Map<String, String>> tpc=kDao.getTrainerPCategory(m_id);
+			tp=kDao.getTrainerProfile(m_id);
+			tpo=kDao.getTrainerPOption(m_id);
+			tpc=kDao.getTrainerPCategory(m_id);
 			html = makeHTMLTrainerProfile(tp, tpo, tpc);
 		}else if(kind.equals("c")) {
-			Map<String, String> cp=kDao.getCompanyProfile(m_id);
-			List<Map<String, String>> cpo=kDao.getCompanyProfileOption(m_id);
+			cp=kDao.getCompanyProfile(m_id);
+			cpo=kDao.getCompanyProfileOption(m_id);
 			html = makeHTMLCompanyProfile(cp,cpo);
 		}
 		return html;
@@ -366,15 +372,15 @@ public class KirimService {
 	}//adExpirePeriod 끝 http://www.urbanui.com/majestic/template/pages/ui-features/typography.html
 
 	public String detailQaWriteInsert(Qna qna) {
-		String json=null;
+		String html=null;
 		Member sessionMb = (Member) session.getAttribute("mb");
 		qna.setQa_writer(sessionMb.getM_id());
 		if(kDao.detailQaWriteInsert(qna)) {//성공시
 			List<Qna> qaList = kDao.detailQa(qna.getQa_adcode());
-			String html=makeHtmlQna(qaList);
-			json = new Gson().toJson(html);
+			html=makeHtmlQna(qaList);
+			//json = new Gson().toJson(html);
 		}		
-		return json;
+		return html;
 	}
 	
 	
@@ -388,66 +394,66 @@ public class KirimService {
 	//MAKEHTML
 	private String makeHTMLCompanyProfile(Map<String, String> pc, List<Map<String, String>> pco) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"main-panel\">\r\n" + 
-				"                <div class=\"content-wrapper\" style='width:43.86em' >\r\n" + 
-				"                    <div class=\"row\"  style='width:60.1em'>" + 
-				"                        <div class=\"col-md-4 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
-				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='resources/upload/"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
-				"                                        </a>\r\n" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                        <div class=\"col-md-5 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"caption\">\r\n" + 
-				"                                        <h2 class=\"text-primary\" style=\"text-align: center\">"+pc.get("C_BNAME")+"</h2>\r\n" + 
-				"                                        <h3><small class=\"text-muted\" >"+pc.get("M_ADDR")+"</small></h3>\r\n" + 
-				"                                        <br>\r\n" + 
-				"                                        <h4 class=\"display-4\">Phone : "+pc.get("C_BPHONE")+"</h4>\r\n" + 
-				"                                        <h4 class=\"display-4\">Representative : "+pc.get("M_NAME")+"</h4>\r\n" + 
-				"                                        <h4 class=\"display-4\">Business Number : "+pc.get("C_NUM")+"</h4>\r\n" + 
-				"                                        <br>\r\n" + 
-				"                                        <address class=\"text-primary\">\r\n" + 
+		sb.append("<div class='main-panel'>" + 
+				"                <div class='content-wrapper' style='width:57.7em' >" + 
+				"                    <div class=\"row\"  style='width:78.6em'>" + 
+				"                        <div class=\"col-md-4 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">" + 
+				"                                        <a href=\"#\" class=\"thumbnail\">" + 
+				"                                            <img src='resources/upload/"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />" + 
+				"                                        </a>" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                        <div class=\"col-md-5 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <div class=\"caption\">" + 
+				"                                        <h2 class=\"text-primary\" style=\"text-align: center\">"+pc.get("C_BNAME")+"</h2>" + 
+				"                                        <h3><small class=\"text-muted\" >"+pc.get("M_ADDR")+"</small></h3>" + 
+				"                                        <br>" + 
+				"                                        <h4 class=\"display-4\">Phone : "+pc.get("C_BPHONE")+"</h4>" + 
+				"                                        <h4 class=\"display-4\">Representative : "+pc.get("M_NAME")+"</h4>" + 
+				"                                        <h4 class=\"display-4\">Business Number : "+pc.get("C_NUM")+"</h4>" + 
+				"                                        <br>" + 
+				"                                        <address class=\"text-primary\">" + 
 				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">"+pc.get("M_ID")+"</p>"+ 
 				"                                            <p class=\"font-weight-bold\">Personal-phone</p><p class=\"mb-2\">"+pc.get("M_PHONE")+"</p>"+ 
-				"                                        </address>\r\n" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <div class=\"row\"  style='width:60.1em' >\r\n" + 
-				"                        <div class=\"col-md-9 stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">업체 등록 광고 보기</p>\r\n" + 
-				"                                    <div class=\"table-responsive\">\r\n" + 
-				"                                        <div id=\"company-advertise-listing_wrapper\" class=\"dataTables_wrapper container-fluid dt-bootstrap4 no-footer\">\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-6\"></div>\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-6\"></div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12\">\r\n" + 
-				"                                                    <table id=\"company-advertise-listing\" class=\"table dataTable no-footer\" role=\"grid\">\r\n" + 
-				"                                                        <thead>\r\n" + 
-				"                                                            <tr role=\"row\">\r\n" + 
-				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Gross amount: activate to sort column ascending\" style=\"width: 101.364px;\">광고명</th>\r\n" + 
-				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Date: activate to sort column ascending\" style=\"width: 67.7273px;\">등록 날짜</th>\r\n" + 
-				"                                                                <th class=\"sorting_asc\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-sort=\"ascending\" aria-label=\"Name: activate to sort column descending\" style=\"width: 105px;\">진행 상태</th>\r\n" + 
-				"                                                            </tr>\r\n" + 
-				"                                                        </thead>\r\n" + 
-				"                                                        <tbody>\r\n");
+				"                                        </address>" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"                    <div class=\"row\"  style='width:78.6em' >" + 
+				"                        <div class=\"col-md-9 stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <p class=\"card-title\">업체 등록 광고 보기</p>" + 
+				"                                    <div class=\"table-responsive\">" + 
+				"                                        <div id=\"company-advertise-listing_wrapper\" class=\"dataTables_wrapper container-fluid dt-bootstrap4 no-footer\">" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12 col-md-6\"></div>" + 
+				"                                                <div class=\"col-sm-12 col-md-6\"></div>" + 
+				"                                            </div>" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12\">" + 
+				"                                                    <table id=\"company-advertise-listing\" class=\"table dataTable no-footer\" role=\"grid\">" + 
+				"                                                        <thead>" + 
+				"                                                            <tr role=\"row\">" + 
+				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Gross amount: activate to sort column ascending\" style=\"width: 101.364px;\">광고명</th>" + 
+				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Date: activate to sort column ascending\" style=\"width: 67.7273px;\">등록 날짜</th>" + 
+				"                                                                <th class=\"sorting_asc\" tabindex=\"0\" aria-controls=\"company-advertise-listing\" rowspan=\"1\" colspan=\"1\" aria-sort=\"ascending\" aria-label=\"Name: activate to sort column descending\" style=\"width: 105px;\">진행 상태</th>" + 
+				"                                                            </tr>" + 
+				"                                                        </thead>" + 
+				"                                                        <tbody>");
 		
 				for(int i=0;i<pco.size();i++) {
-					sb.append("                                                     <tr role=\"row\" class=\"odd\">\r\n" + 
-							"                                                         <td class=\"sorting_1\">"+pco.get(i).get("AD_TITLE")+"</td>\r\n" + 
+					sb.append("                                                     <tr role=\"row\" class=\"odd\">" + 
+							"                                                         <td class=\"sorting_1\">"+pco.get(i).get("AD_TITLE")+"</td>" + 
 							"                                                         <td>"+pco.get(i).get("AD_DATE")+"</td>");
 							//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
 							if(pco.get(i).get("AD_STATUS").equals("진행중")) {
@@ -459,25 +465,25 @@ public class KirimService {
 							}else if(pco.get(i).get("AD_STATUS").equals("만료됨")) {
 								sb.append("<td><label class=\"badge badge-danger\">");
 							} 
-							sb.append(pco.get(i).get("AD_STATUS")+"</label></td>\r\n"+ 
+							sb.append(pco.get(i).get("AD_STATUS")+"</label></td>"+ 
 							"                                                       </tr>" );
 				}
 				
-	  sb.append("                                                        </tbody>\r\n" + 
-				"                                                    </table>\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-5\"></div>\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-7\"></div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>\r\n" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"                </div>\r\n" + 
+	  sb.append("                                                        </tbody>" + 
+				"                                                    </table>" + 
+				"                                                </div>" + 
+				"                                            </div>" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12 col-md-5\"></div>" + 
+				"                                                <div class=\"col-sm-12 col-md-7\"></div>" + 
+				"                                            </div>" + 
+				"                                        </div>" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"                </div>" + 
 				
 				"            </div>");		
 		return sb.toString();
@@ -485,82 +491,98 @@ public class KirimService {
 
 	private String makeHTMLTrainerProfile(Map<String, String> tp, List<Map<String, String>> tpo, List<Map<String, String>> tpc) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"main-panel\">\r\n" + 
-				"                <div class=\"content-wrapper\" style='width:43.86em' >\r\n" + 
-				"                    <div class=\"row\" style=\"width:60.1em\">\r\n" + 
-				"                        <div class=\"col-md-4 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
-				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='resources/upload/"+tp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
-				"                                        </a>\r\n" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                        <div class=\"col-md-5 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"caption\">\r\n" + 
-				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+tp.getM_name()+" 트레이너 프로필<br><br>\r\n" + 
+		sb.append("<div class=\"main-panel\">" + 
+				"                <div class=\"content-wrapper\" style='width:57.7em' >" + 
+				"                    <div class=\"row\" style=\"width:78.6em\">" + 
+				"                        <div class=\"col-md-4 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">" + 
+				"                                        <a href=\"#\" class=\"thumbnail\">" + 
+				"                                            <img src='resources/upload/"+tp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />" + 
+				"                                        </a>" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                        <div class=\"col-md-5 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <div class=\"caption\">" + 
+				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+tp.get("M_NAME")+" 트레이너 프로필<br><br>" + 
 				"                                            <small class=\"text-muted\" style=\"text-align: right\">소속업체 : ");
 		if(tp.get("C_BNAME")!="" ||tp.get("C_BNAME")!=null) {
-			sb.append(tp.getC_bname());
+			sb.append(tp.get("C_BNAME"));
 		}else {
 			sb.append("없음");
 		}
 		
 		sb.append("</small>" + 
-				"                                        </h3>\r\n" + 
-				"                                        <br>\r\n" + 
+				"                                        </h3>" + 
+				"                                        <br>" + 
 				"                                        <h4>");
 		
 		for(int i=0;i<tpc.size();i++) {
 				sb.append(tpc.get(i).get("AD_CATEGORY")+"/");
 		}
-	  sb.append("										 </h4><br>\r\n" + 
+	  sb.append("										 </h4><br>" + 
 				"                                        <h4>주요 이력: <p class=\"display-4\">");
-	  	String[] career = tp.getT_career().split(" ");//,쉼표로 자를것
-	  	for(int i=0;i<career.length;i++) {
-	  		sb.append(career[i]+"<br>");
-	  	}
-	  sb.append("										 </h4>\r\n" + 
-				"                                        <br>\r\n" + 
+	  if(!tp.get("T_CAREER").equals("none")) {
+		  String[] career = tp.get("T_CAREER").split(" ");//,쉼표로 자를것
+		  	for(int i=0;i<career.length;i++) {
+		  		sb.append(career[i]+"<br>");
+		  	}
+	  }
+	  
+	  
+	  sb.append("										 </h4>" + 
+				"                                        <br>" + 
 				"                                        <address class=\"text-primary\">" + 
-				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +tp.getM_id()+"</p>" + 
+				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +tp.get("M_ID")+"</p>" + 
 				"                                        </address>" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <div class=\"row\" style='width:60.1em'>"+ 
-				"                        <div class=\"col-md-9 stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">이 트레이너의 프로그램 히스토리</p>\r\n" + 
-				"                                    <div class=\"table-responsive\">\r\n" + 
-				"                                        <div id=\"trainer-program-listing_wrapper\" class=\"dataTables_wrapper container-fluid dt-bootstrap4 no-footer\">\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-6\"></div>\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-6\"></div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12\">\r\n" + 
-				"                                                    <table id=\"trainer-program-listing\" class=\"table dataTable no-footer\" role=\"grid\">\r\n" + 
-				"                                                        <thead>\r\n" + 
-				"                                                            <tr role=\"row\">\r\n" + 
-				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Gross amount: activate to sort column ascending\" style=\"width: 101.364px;\">프로그램명(옵션)</th>\r\n" + 
-				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Status report: activate to sort column ascending\" style=\"width: 144.091px;\">진행 장소</th>\r\n" + 
-				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Date: activate to sort column ascending\" style=\"width: 67.7273px;\">진행 기간</th>\r\n" + 
-				"                                                                <th class=\"sorting_asc\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-sort=\"ascending\" aria-label=\"Name: activate to sort column descending\" style=\"width: 105px;\">프로그램 상태</th>\r\n" + 
-				"                                                                \r\n" + 
-				"                                                            </tr>\r\n" + 
-				"                                                        </thead>\r\n" + 
-				"                                                        <tbody>\r\n");
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"                    <div class=\"row\" style='width:78.6em'>"+ 
+				"                        <div class=\"col-md-9 stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <p class=\"card-title\">이 트레이너의 프로그램 히스토리</p>" + 
+				"                                    <div class=\"table-responsive\">" + 
+				"                                        <div id=\"trainer-program-listing_wrapper\" class=\"dataTables_wrapper container-fluid dt-bootstrap4 no-footer\">" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12 col-md-6\"></div>" + 
+				"                                                <div class=\"col-sm-12 col-md-6\"></div>" + 
+				"                                            </div>" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12\">" + 
+				"                                                    <table id=\"trainer-program-listing\" class=\"table dataTable no-footer\" role=\"grid\">" + 
+				"                                                        <thead>" + 
+				"                                                            <tr role=\"row\">" + 
+				"                                                                <th class=\"sorting_asc\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-sort=\"ascending\" aria-label=\"Name: activate to sort column descending\" style=\"width: 105px;\">프로그램 상태</th>" +
+				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Gross amount: activate to sort column ascending\" style=\"width: 101.364px;\">프로그램명(옵션)</th>" + 
+				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Status report: activate to sort column ascending\" style=\"width: 144.091px;\">진행 장소</th>" + 
+				"                                                                <th class=\"sorting\" tabindex=\"0\" aria-controls=\"trainer-program-listing\" rowspan=\"1\" colspan=\"1\" aria-label=\"Date: activate to sort column ascending\" style=\"width: 67.7273px;\">진행 기간</th>" + 
+				"                                                                " + 
+				"                                                            </tr>" + 
+				"                                                        </thead>" + 
+				"                                                        <tbody>");
 		for(int i=0;i<tpo.size();i++) {
-			sb.append("                                                            <tr role=\"row\"  class=\"odd\">" + 
+			sb.append("                                                            <tr role=\"row\"  class=\"odd\">");
+					//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
+					if(tpo.get(i).get("AD_STATUS").equals("진행중")) {
+						sb.append("<td><label class=\"badge badge-warning\">");
+					}else if(tpo.get(i).get("AD_STATUS").equals("완료")) {
+						sb.append("<td><label class=\"badge badge-success\">");
+					}else if(tpo.get(i).get("AD_STATUS").equals("모집중")) {
+						sb.append("<td><label class=\"badge badge-info\">");
+					}else if(tpo.get(i).get("AD_STATUS").equals("만료됨")) {
+						sb.append("<td><label class=\"badge badge-danger\">");
+					} 
+					sb.append(tpo.get(i).get("AD_STATUS")+"</label></td>"+ 
+					
 					"                                                                <td class=\"sorting_1\">"+tpo.get(i).get("AD_TITLE")+"("+tpo.get(i).get("OP_CONTENT")+"-");
 			
 			if(tpo.get(i).get("OP_TIMES")!=null || String.valueOf(tpo.get(i).get("OP_TIMES"))!="") sb.append("횟수:"+String.valueOf(tpo.get(i).get("OP_TIMES"))+"/"); else sb.append("");
@@ -568,106 +590,96 @@ public class KirimService {
 			if(tpo.get(i).get("OP_CLOCK")!=null || tpo.get(i).get("OP_CLOCK")!="") sb.append(tpo.get(i).get("OP_CLOCK")+"/"); else sb.append("");
 			if(tpo.get(i).get("OP_PERSONNEL")!=null || String.valueOf(tpo.get(i).get("OP_PERSONNEL"))!="") sb.append("인원"+String.valueOf(tpo.get(i).get("OP_PERSONNEL"))); else sb.append("");
 			sb.append(")</td><td>"+tpo.get(i).get("AD_ADDR")+" ");
-			if(tpo.get(i).get("C_BNAME")!=null || tpo.get(i).get("C_BNAME")!="") sb.append(tpo.get(i).get("C_BNAME")); else sb.append("");
+			if(tp.get("C_BNAME")!=null || tp.get("C_BNAME")!="") sb.append(tp.get("C_BNAME")); else sb.append("");
 			sb.append("</td><td>");
 			if(tpo.get(i).get("OP_PERIOD")!=null || tpo.get(i).get("OP_PERIOD")!="") sb.append(tpo.get(i).get("OP_PERIOD")); else sb.append("");
 			sb.append("</td>");
-			//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
-			if(tpo.get(i).get("AD_STATUS").equals("진행중")) {
-				sb.append("<td><label class=\"badge badge-warning\">");
-			}else if(tpo.get(i).get("AD_STATUS").equals("완료")) {
-				sb.append("<td><label class=\"badge badge-success\">");
-			}else if(tpo.get(i).get("AD_STATUS").equals("모집중")) {
-				sb.append("<td><label class=\"badge badge-info\">");
-			}else if(tpo.get(i).get("AD_STATUS").equals("만료됨")) {
-				sb.append("<td><label class=\"badge badge-danger\">");
-			} 
-			sb.append(tpo.get(i).get("AD_STATUS")+"</label></td>\r\n" + 
-					"                                                            </tr>");
+			
+					sb.append("</tr>");
 		}//for END
 	  sb.append(
-				"                                                        </tbody>\r\n" + 
-				"                                                    </table>\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                            <div class=\"row\">\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-5\"></div>\r\n" + 
-				"                                                <div class=\"col-sm-12 col-md-7\"></div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>\r\n" + 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"                </div>\r\n"+
+				"                                                        </tbody>" + 
+				"                                                    </table>" + 
+				"                                                </div>" + 
+				"                                            </div>" + 
+				"                                            <div class=\"row\">" + 
+				"                                                <div class=\"col-sm-12 col-md-5\"></div>" + 
+				"                                                <div class=\"col-sm-12 col-md-7\"></div>" + 
+				"                                            </div>" + 
+				"                                        </div>" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"                </div>"+
   			
-			  	"			</div>\r\n");
+			  	"			</div>");
 		return sb.toString();
 	}
 
 	private String makeHTMLNormalProfile(Member mb) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"row w-100 mx-0\">\r\n" + 
-				"          <div class=\"col-lg-4 mx-auto\">\r\n" + 
-				"            <div class=\"auth-form-light text-left py-5 px-4 px-sm-5\">\r\n" + 
-				"              <div class=\"brand-logo\">\r\n" + 
-				"                <a class=\"navbar-brand brand-logo\" href=\"/\" style=\"color: #71c016;\">일반회원 프로필</a>\r\n" + 
+		sb.append("<div class=\"row w-100 mx-0\">" + 
+				"          <div class=\"col-lg-4 mx-auto\">" + 
+				"            <div class=\"auth-form-light text-left py-5 px-4 px-sm-5\">" + 
+				"              <div class=\"brand-logo\">" + 
+				"                <a class=\"navbar-brand brand-logo\" href=\"/\" style=\"color: #71c016;\">일반회원 프로필</a>" + 
 				"              </div><br>" + 
-				"    <div>\r\n" + 
-				"        <div class=\"img_wrap\">\r\n" + 
-				"            <img id=\"img\" src='resources/upload/"+mb.getPf_image()+"' />\r\n" + 
-				"        </div>\r\n" + 
-				"    </div>\r\n" + 
-				"              <form class=\"pt-3\">\r\n" + 
-				"                <div class=\"form-group\">\r\n" + 
-				"                  <div class=\"input-group\">\r\n" + 
-				"                    <div class=\"input-group-prepend bg-transparent\">\r\n" + 
-				"                      <span class=\"input-group-text bg-transparent border-right-0\">\r\n" + 
-				"                        <i class=\"mdi mdi-email-outline text-primary\"></i>\r\n" + 
-				"                      </span>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <input type=\"email\" name=\"m_id\" class=\"form-control form-control-lg border-left-0\" value='"+mb.getM_id()+"' disabled>\r\n" +
-				"                  </div>\r\n" + 
-				"                </div>\r\n" + 
-				"                <div class=\"form-group\">\r\n" + 
-				"                </div>\r\n" + 
-				"                <div class=\"form-group\">\r\n" + 
-				"                    <div class=\"input-group\">\r\n" + 
-				"                    <div class=\"input-group-prepend bg-transparent\">\r\n" + 
-				"                      <span class=\"input-group-text bg-transparent border-right-0\">\r\n" + 
-				"                        <i class=\"mdi mdi-account-outline text-primary\"></i>\r\n" + 
-				"                      </span>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <input type=\"text\"  name=\"m_name\" class=\"form-control form-control-lg border-left-0\"value='"+mb.getM_name()+"' disabled>\r\n" + 
-				"                  </div>\r\n" + 
-				"                </div>\r\n" + 
-				"                <div class=\"form-group\">\r\n" + 
-				"                  <div class=\"input-group\">\r\n" + 
-				"                    <div class=\"input-group-prepend bg-transparent\">\r\n" + 
-				"                      <span class=\"input-group-text bg-transparent border-right-0\">\r\n" + 
-				"                        <i class=\"mdi mdi-cellphone text-primary\"></i>\r\n" + 
-				"                      </span>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <input type=\"tel\"  name=\"m_phone\" class=\"form-control form-control-lg border-left-0\" value=\"전화번호: "+mb.getM_phone()+"\">\r\n" + 
-				"                  </div>\r\n" + 
-				"                </div> \r\n" + 
-				"                <div class=\"form-group\">\r\n" + 
-				"                  <div class=\"input-group\">\r\n" + 
-				"                    <input type=\"text\"  name=\"m_birth\" class=\"form-control form-control-lg border-left-0\" value=\"생년월일 :"+mb.getM_birth()+"\"  disabled>\r\n" + 
-				"                  </div>\r\n" + 
-				"                </div> \r\n" + 
-				"                <div class=\"mb-4\">\r\n" + 
-				"                  <div class=\"form-check\">\r\n" + 
-				"                    <i class=\"input-helper\"></i>\r\n" + 
-				"                  </div>\r\n" + 
-				"                </div>\r\n" + 
-				"                <div class=\"mt-3\">\r\n" + 
-				"                  <a class=\"btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn\" href=\"main.jsp\">닫기</a>\r\n" + 
-				"                </div>\r\n" + 
-				"              </form>\r\n" + 
-				"            </div>\r\n" + 
-				"          </div>\r\n" + 
+				"    <div>" + 
+				"        <div class=\"img_wrap\">" + 
+				"            <img id=\"img\" src='resources/upload/"+mb.getPf_image()+"' />" + 
+				"        </div>" + 
+				"    </div>" + 
+				"              <form class=\"pt-3\">" + 
+				"                <div class=\"form-group\">" + 
+				"                  <div class=\"input-group\">" + 
+				"                    <div class=\"input-group-prepend bg-transparent\">" + 
+				"                      <span class=\"input-group-text bg-transparent border-right-0\">" + 
+				"                        <i class=\"mdi mdi-email-outline text-primary\"></i>" + 
+				"                      </span>" + 
+				"                    </div>" + 
+				"                    <input type=\"email\" name=\"m_id\" class=\"form-control form-control-lg border-left-0\" value='"+mb.getM_id()+"' disabled>" +
+				"                  </div>" + 
+				"                </div>" + 
+				"                <div class=\"form-group\">" + 
+				"                </div>" + 
+				"                <div class=\"form-group\">" + 
+				"                    <div class=\"input-group\">" + 
+				"                    <div class=\"input-group-prepend bg-transparent\">" + 
+				"                      <span class=\"input-group-text bg-transparent border-right-0\">" + 
+				"                        <i class=\"mdi mdi-account-outline text-primary\"></i>" + 
+				"                      </span>" + 
+				"                    </div>" + 
+				"                    <input type=\"text\"  name=\"m_name\" class=\"form-control form-control-lg border-left-0\"value='"+mb.getM_name()+"' disabled>" + 
+				"                  </div>" + 
+				"                </div>" + 
+				"                <div class=\"form-group\">" + 
+				"                  <div class=\"input-group\">" + 
+				"                    <div class=\"input-group-prepend bg-transparent\">" + 
+				"                      <span class=\"input-group-text bg-transparent border-right-0\">" + 
+				"                        <i class=\"mdi mdi-cellphone text-primary\"></i>" + 
+				"                      </span>" + 
+				"                    </div>" + 
+				"                    <input type=\"tel\"  name=\"m_phone\" class=\"form-control form-control-lg border-left-0\" value=\"전화번호: "+mb.getM_phone()+"\">" + 
+				"                  </div>" + 
+				"                </div> " + 
+				"                <div class=\"form-group\">" + 
+				"                  <div class=\"input-group\">" + 
+				"                    <input type=\"text\"  name=\"m_birth\" class=\"form-control form-control-lg border-left-0\" value=\"생년월일 :"+mb.getM_birth()+"\"  disabled>" + 
+				"                  </div>" + 
+				"                </div> " + 
+				"                <div class=\"mb-4\">" + 
+				"                  <div class=\"form-check\">" + 
+				"                    <i class=\"input-helper\"></i>" + 
+				"                  </div>" + 
+				"                </div>" + 
+				"                <div class=\"mt-3\">" + 
+				"                  <a class=\"btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn\" href=\"main.jsp\">닫기</a>" + 
+				"                </div>" + 
+				"              </form>" + 
+				"            </div>" + 
+				"          </div>" + 
 				"        </div>");
 		return sb.toString();
 	}
@@ -677,56 +689,56 @@ public class KirimService {
 		StringBuilder sb = new StringBuilder();
 		String ad_code = dp.get("AD_CODE").toString();
 		System.out.println("HTMLad_code===="+ad_code);
-		sb.append("<div class=\"content-wrapper\">\r\n" + 
-				"<br><br><br><br><br><br><br><br><br>                    <div class=\"row\">\r\n" + 
+		sb.append("<div class=\"content-wrapper\">" + 
+				"<br><br><br><br><br><br><br><br><br>                    <div class=\"row\">" + 
 				
-				"                        <div class=\"col-md-4 grid-margin stretch-card\">\r\n" + 
-				"\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">\r\n" + 
+				"                        <div class=\"col-md-4 grid-margin stretch-card\">" + 
+				"" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">" + 
 //광고사진 캐러셀 시작
-			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\">\r\n" + 
-			"  <!-- Indicators -->\r\n" + 
-			"  <ol class=\"carousel-indicators\">\r\n" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"0\" class=\"active\"></li>\r\n" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"1\"></li>\r\n" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"2\"></li>\r\n" + 
-			"  </ol>\r\n" + 
-			"\r\n" + 
-			"  <!-- Wrapper for slides -->\r\n" + 
-			"  <div class=\"carousel-inner\" role=\"listbox\">\r\n");
+			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\">" + 
+			"  <!-- Indicators -->" + 
+			"  <ol class=\"carousel-indicators\">" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"0\" class=\"active\"></li>" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"1\"></li>" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"2\"></li>" + 
+			"  </ol>" + 
+			"" + 
+			"  <!-- Wrapper for slides -->" + 
+			"  <div class=\"carousel-inner\" role=\"listbox\">");
 			
 			for(int i=0;i<apList.size();i++) {
-				sb.append("    <div class=\"item active\">\r\n" + 
-						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>\r\n" + 
-						"      <div class=\"carousel-caption\">\r\n" + 
+				sb.append("    <div class=\"item active\">" + 
+						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>" + 
+						"      <div class=\"carousel-caption\">" + 
 						i+"번째사진" + 
 						"      </div>" + 
 						"    </div>");
 			}
 			
-	sb.append("    <div class=\"item active\">\r\n" + 
-			"      <img src='' alt='advertisePhoto'>\r\n" + 
-			"      <div class=\"carousel-caption\">\r\n" + 
-			"        1번째사진\r\n" + 
-			"      </div>\r\n" + 
-			"    </div>\r\n" + 
+	sb.append("    <div class=\"item active\">" + 
+			"      <img src='' alt='advertisePhoto'>" + 
+			"      <div class=\"carousel-caption\">" + 
+			"        1번째사진" + 
+			"      </div>" + 
+			"    </div>" + 
 			
 			
 			
-			"    qwerqwer\r\n" + 
-			"  </div>\r\n" + 
-			"\r\n" + 
-			"  <!-- Controls -->\r\n" + 
-			"  <a class=\"left carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"prev\">\r\n" + 
-			"    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>\r\n" + 
-			"    <span class=\"sr-only\">Previous</span>\r\n" + 
-			"  </a>\r\n" + 
-			"  <a class=\"right carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"next\">\r\n" + 
-			"    <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>\r\n" + 
-			"    <span class=\"sr-only\">Next</span>\r\n" + 
-			"  </a>\r\n" + 
+			"    qwerqwer" + 
+			"  </div>" + 
+			"" + 
+			"  <!-- Controls -->" + 
+			"  <a class=\"left carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"prev\">" + 
+			"    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>" + 
+			"    <span class=\"sr-only\">Previous</span>" + 
+			"  </a>" + 
+			"  <a class=\"right carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"next\">" + 
+			"    <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>" + 
+			"    <span class=\"sr-only\">Next</span>" + 
+			"  </a>" + 
 			"</div>"+	
 
 				
@@ -735,23 +747,23 @@ public class KirimService {
 				
 //프로필 캐러셀 끝				
 				
-				/*"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='resources/upload/"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
-				"                                        </a>\r\n" +*/ 
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"\r\n" + 
-				"                        <div class=\"col-md-5 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"\r\n" + 
+				/*"                                        <a href=\"#\" class=\"thumbnail\">" + 
+				"                                            <img src='resources/upload/"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />" + 
+				"                                        </a>" +*/ 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"" + 
+				"                        <div class=\"col-md-5 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"" + 
 				//"<form name='detailPageInfo'>"+
 				"<input type=\"hidden\" id=\"ad_code\" name=\"ad_code\" value='"+ad_code+"'>"+
 				"<input type=\"hidden\" id=\"ad_name\" name=\"ad_name\" value='"+dp.get("AD_NAME")+"'>"+
-				"                                    <div class=\"caption\">\r\n" + 
-				"                                        <h3 class=\"display-4\" style=\"text-align: center\">"+dp.get("AD_TITLE")+"<br><br>\r\n" + 
+				"                                    <div class=\"caption\">" + 
+				"                                        <h3 class=\"display-4\" style=\"text-align: center\">"+dp.get("AD_TITLE")+"<br><br>" + 
 				"                                            <small class=\"text-muted\">");
 		//주소 시작위치
 		//트레이너던 업체던 소속업체가 없는경우
@@ -765,8 +777,8 @@ public class KirimService {
 		sb.append("											 </small></h3><br>" + 
 				"                                        <h5>"+dp.get("AD_CATEGORY")+"</h5><br>" + 
 				//옵션출력 시작
-				"                                            <p><select id='optionSelect' class=\"form-control\">\r\n" + 
-				"	                                            <option id='opSelPlz'>상세 옵션을 선택해주세요</option>\r\n");
+				"                                            <p><select id='optionSelect' class=\"form-control\">" + 
+				"	                                            <option id='opSelPlz'>상세 옵션을 선택해주세요</option>");
 		for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 옵션명 찍어주기
 			sb.append("<option id='op"+opCateList.get(i).getOp_code()+"'>"+opCateList.get(i).getOp_content()+" - ");
 					if(opCateList.get(i).getOp_period()!=null)
@@ -808,19 +820,19 @@ public class KirimService {
 					sb.append("<input type=\"hidden\" id='"+opCateList.get(i).getOp_code()+"' value='"+opCateList.get(i).getOp_price()+"'/>");
 				}
 				
-		sb.append("                                        <div class=\"row\">\r\n" + 
-				"                                            <div class=\"col-md-7\">\r\n" + 
-				"                                                <blockquote class=\"blockquote blockquote-primary\">\r\n" + 
-				"                                                    <footer class=\"blockquote-footer\">프로모션 및 가격 할인행사</footer>\r\n" + 
-				"                                                    <p>PT100회 한정수량 골라잡기 이벤트</p>\r\n" + 
-				"                                                </blockquote>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                            <div class=\"col-md-4\">\r\n" + 
+		sb.append("                                        <div class=\"row\">" + 
+				"                                            <div class=\"col-md-7\">" + 
+				"                                                <blockquote class=\"blockquote blockquote-primary\">" + 
+				"                                                    <footer class=\"blockquote-footer\">프로모션 및 가격 할인행사</footer>" + 
+				"                                                    <p>PT100회 한정수량 골라잡기 이벤트</p>" + 
+				"                                                </blockquote>" + 
+				"                                            </div>" + 
+				"                                            <div class=\"col-md-4\">" + 
 				"                                                <blockquote  id='priceShow' class=\"blockquote blockquote-primary\">" + 
 				"                                                    <h3><small class=\"text-muted\">가격: </small>0원</h3>" +
-				"                                                </blockquote>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>\r\n"+
+				"                                                </blockquote>" + 
+				"                                            </div>" + 
+				"                                        </div>"+
 				"                          				<div style=\"text-align: center\">");//버튼단DIV 시작
 		
 				//옵션 담당 트레이너 보기버튼 시작				
@@ -873,53 +885,53 @@ public class KirimService {
 		mav.addObject("delBtnSet",delBtnSetJson);
 	  	
 				
-				sb.append("<button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>\r\n" + 
+				sb.append("<button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>" + 
 				//"</form>"+
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"                    <div class=\"row\">\r\n" + 
-				"                        <div class=\"col-md-9 grid-margin stretch-card\">\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body dashboard-tabs p-0\">\r\n" + 
-				"									<ul class=\"nav nav-tabs px-4 nav-justified\" role=\"tablist\">\r\n" + 
-				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link active\" id=\"detailInfo-tab\" data-toggle=\"tab\" href=\"#detailInfo\" role=\"tab\" aria-controls=\"detailInfo\" aria-selected=\"true\" style=\"border-bottom-color : #71c016; color: #71c016\">상세 정보 보기</a>\r\n" + 
-				"                                        </li>\r\n" + 
-				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link\" id=\"review-tab\" data-toggle=\"tab\" href=\"#review\" role=\"tab\" aria-controls=\"review\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">별점 및 후기 보기</a>\r\n" + 
-				"                                        </li>\r\n" + 
-				"                                        <li class=\"nav-item\">\r\n" + 
-				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" href=\"#question\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
-				"                                        </li>\r\n" + 
-				"\r\n" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"                    <div class=\"row\">" + 
+				"                        <div class=\"col-md-9 grid-margin stretch-card\">" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body dashboard-tabs p-0\">" + 
+				"									<ul class=\"nav nav-tabs px-4 nav-justified\" role=\"tablist\">" + 
+				"                                        <li class=\"nav-item\">" + 
+				"                                            <a class=\"nav-link active\" id=\"detailInfo-tab\" data-toggle=\"tab\" href=\"#detailInfo\" role=\"tab\" aria-controls=\"detailInfo\" aria-selected=\"true\" style=\"border-bottom-color : #71c016; color: #71c016\">상세 정보 보기</a>" + 
+				"                                        </li>" + 
+				"                                        <li class=\"nav-item\">" + 
+				"                                            <a class=\"nav-link\" id=\"review-tab\" data-toggle=\"tab\" href=\"#review\" role=\"tab\" aria-controls=\"review\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">별점 및 후기 보기</a>" + 
+				"                                        </li>" + 
+				"                                        <li class=\"nav-item\">" + 
+				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" href=\"#question\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>" + 
+				"                                        </li>" + 
+				"" + 
 				"                                    </ul>"+
-				"                                    <div class=\"tab-content py-0 px-0\">\r\n" + 
+				"                                    <div class=\"tab-content py-0 px-0\">" + 
 				
 				//상세정보 시작
 				
-				"                                        <div class=\"tab-pane fade\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">\r\n" + 
-				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
-				"\r\n" + 
-				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
-				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
+				"                                        <div class=\"tab-pane fade\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">" + 
+				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">" + 
+				"" + 
+				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">" + 
+				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">" + 
 				dp.get("AD_CONTENT")+
 				//"광고 작성일 : " + dp.get("AD_DATE").toString()+
 			
-				"                                                        \r\n" + 
-				"\r\n" + 
-				"                                                    </li>\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>\r\n" + 
+				"                                                        " + 
+				"" + 
+				"                                                    </li>" + 
+				"                                                </div>" + 
+				"                                            </div>" + 
+				"                                        </div>" + 
 				//상세정보끝, 후기시작
 				
-				"											<div class=\"tab-pane fade\" id=\"review\" role=\"tabpanel\" aria-labelledby=\"review-tab\">\r\n"
-				+ "                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n"
-				+ "                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n"
-				+ "                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n"
+				"											<div class=\"tab-pane fade\" id=\"review\" role=\"tabpanel\" aria-labelledby=\"review-tab\">"
+				+ "                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">"
+				+ "                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">"
+				+ "                                                    <li class=\"nav-item d-none d-lg-block w-100\">"
 				+ "                                                        <p>총 "+rvList.size()+"건의 후기가 있습니다.</p> 평점:");
 				//평점 계산
 			if(rvList.size()!=0) {
@@ -948,19 +960,19 @@ public class KirimService {
 				sb.append(pAvg+". 1점인원:"+oneStarCnt+"명. 2점인원:"+twoStarCnt+"명. 3점인원:"+threeStarCnt+"명. 4점인원:"+fourStarCnt+"명. 5점인원:"+fiveStarCnt);
 			}				
 			//평점 끝
-		sb.append("                                                        <div class=\"table-responsive\">\r\n"
-				+ "                                                            <table class=\"table table-hover table-condensed\">\r\n"
-				+ "                                                                <thead>\r\n"
-				+ "                                                                    <tr>\r\n"
-				+ "                                                                        <th>별점</th>\r\n"
-				+ "                                                                        <th>구매옵션</th>\r\n"
-				+ "                                                                        <th>구매일</th>\r\n"
-				+ "                                                                        <th>내용</th>\r\n"
-				+ "                                                                        <th>작성자</th>\r\n"
-				+ "                                                                        <th>작성일</th>\r\n"
-				+ "                                                                    </tr>\r\n"
-				+ "                                                                </thead>\r\n"
-				+ "                                                                <tbody>\r\n");
+		sb.append("                                                        <div class=\"table-responsive\">"
+				+ "                                                            <table class=\"table table-hover table-condensed\">"
+				+ "                                                                <thead>"
+				+ "                                                                    <tr>"
+				+ "                                                                        <th>별점</th>"
+				+ "                                                                        <th>구매옵션</th>"
+				+ "                                                                        <th>구매일</th>"
+				+ "                                                                        <th>내용</th>"
+				+ "                                                                        <th>작성자</th>"
+				+ "                                                                        <th>작성일</th>"
+				+ "                                                                    </tr>"
+				+ "                                                                </thead>"
+				+ "                                                                <tbody>");
 				for(int i=0; i<rvList.size();i++) {
 					sb.append("                                                       <tr>"
 							+ "                                                           <td>"+String.valueOf(rvList.get(i).get("RV_STPOINT"))+"</td>"
@@ -994,31 +1006,31 @@ public class KirimService {
 							+ "                                                       </tr>");
 				}
 				
-		sb.append("                                                                </tbody>\r\n"
-				+ "                                                            </table>\r\n"
-				+ "                                                        </div>\r\n"+
+		sb.append("                                                                </tbody>"
+				+ "                                                            </table>"
+				+ "                                                        </div>"+
 				//페이징시작
-				"                                                        <ul class=\"pagination pagination-sm\" style=\"padding-left:  \">\r\n" + 
-				"                                                            <li>\r\n" + 
-				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n" + 
-				"                                                                    <div class=\"btn-group\" role=\"group\">\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">◀◀</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Previous\">◀</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">1</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">2</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">3</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">4</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">5</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Next\">▶</button>\r\n" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">▶▶</button>\r\n" + 
-				"                                                                    </div>\r\n" + 
-				"                                                                </div>\r\n" + 
-				"                                                            </li>\r\n" + 
+				"                                                        <ul class=\"pagination pagination-sm\" style=\"padding-left:  \">" + 
+				"                                                            <li>" + 
+				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">" + 
+				"                                                                    <div class=\"btn-group\" role=\"group\">" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">◀◀</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Previous\">◀</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">1</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">2</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">3</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">4</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">5</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Next\">▶</button>" + 
+				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">▶▶</button>" + 
+				"                                                                    </div>" + 
+				"                                                                </div>" + 
+				"                                                            </li>" + 
 				"                                                        </ul>"
 				//페이징 끝
-				+ "                                                    </li>\r\n"
-				+ "                                                </div>\r\n"
-				+ "                                            </div>\r\n"
+				+ "                                                    </li>"
+				+ "                                                </div>"
+				+ "                                            </div>"
 				+ "                                        </div>"+
 				//후기 끝
 				//문의시작
@@ -1026,47 +1038,47 @@ public class KirimService {
 				makeHtmlQna(qaList)+
 				"                                        </div>"+//id='question'
 				//문의 끝
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"\r\n" + 
+				"                                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
+				"                        </div>" + 
+				"                    </div>" + 
+				"" + 
 				"                </div>");
 		return sb.toString();
 	}
 
 	private String makeHtmlQna(List<Qna> qaList) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
-				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
-				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
+		sb.append("                                            <div class='d-flex flex-wrap justify-content-xl-between'>" +
+				"                                                <div class='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>" + 
+				"                                                    <li class='nav-item d-none d-lg-block w-100'>" + 
 				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다."+
-				"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-primary btn-sm qFrm\" data-toggle=\"modal\" data-target=\"#myModal\" hidden>문의하기</button></p>"+
+				"<button type='button' class='btn btn-primary btn-sm qFrm' data-toggle='modal' data-target='#myModal' hidden>문의하기</button></p>"+
 				
-				"                                                        <div class=\"table-responsive\">\r\n" + 
-				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
-				"                                                                <thead>\r\n" + 
-				"                                                                    <tr>\r\n" + 
-				"                                                                        <th>번호</th>\r\n" + 
-				"                                                                        <th>문의 상태</th>\r\n" + 
-				"                                                                        <th>문의 내용</th>\r\n" + 
-				"                                                                        <th>작성자</th>\r\n" + 
-				"                                                                        <th>작성일</th>\r\n" + 
-				"                                                                    </tr>\r\n" + 
-				"                                                                </thead>\r\n" + 
-				"                                                                <tbody>\r\n");
+				"                                                        <div class=\"table-responsive\">" + 
+				"                                                            <table class='table table-hover table-condensed'>" + 
+				"                                                                <thead>" + 
+				"                                                                    <tr>" + 
+				"                                                                        <th>번호</th>" + 
+				"                                                                        <th>문의 상태</th>" + 
+				"                                                                        <th>문의 내용</th>" + 
+				"                                                                        <th>작성자</th>" + 
+				"                                                                        <th>작성일</th>" + 
+				"                                                                    </tr>" + 
+				"                                                                </thead>" + 
+				"                                                                <tbody>");
 				for(int i=0; i<qaList.size();i++) {
 					sb.append("<tr><td>"+qaList.get(i).getQa_num()+"</td>"); 
-					if(qaList.get(i).getQa_answer()!=null) {
+					if(qaList.get(i).getQa_aContent()!=null) {
 						sb.append("<td>답변 완료</td>");
 					}else {sb.append("<td>답변 대기중</td>");}
 					sb.append("<td>");
 					//문의내용이 길다면 더보기 버튼 넣어주기
 					if(qaList.get(i).getQa_wContent().length()>20) {
-						sb.append("<p>"+qaList.get(i).getQa_wContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+						sb.append("<p>"+qaList.get(i).getQa_wContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class='mdi mdi-arrow-down'></i></p>"
 								+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_wContent().substring(20)+"</p>"
-								+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+								+"<p class='text-success foldHiddenQna' hidden> 접기<i class='mdi mdi-arrow-up'></i></p>"
 								);
 					}else {//20글자보다 짧다면 그냥 넣어주기
 						sb.append("<p>"+qaList.get(i).getQa_wContent()+"</p>");
@@ -1075,14 +1087,14 @@ public class KirimService {
 							  "<td>"+qaList.get(i).getQa_writer()+"</td>" + 
 							  "<td>"+qaList.get(i).getQa_wdate()+"</td>" + 
 							  "</tr>");
-				  	if(qaList.get(i).getQa_answer()!=null) {
-				  		sb.append("<tr><td></td><td><i class=\"mdi mdi-arrow-right-bold\"></i></td>" + 
+				  	if(qaList.get(i).getQa_aContent()!=null) {
+				  		sb.append("<tr><td></td><td><i class='mdi mdi-arrow-right-bold'></i></td>" + 
 				  				  "														      <td>");
 						//문의답변내용이 길다면 더보기 버튼 넣어주기
 						if(qaList.get(i).getQa_aContent().length()>20) {
-							sb.append("<p>"+qaList.get(i).getQa_aContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+							sb.append("<p>"+qaList.get(i).getQa_aContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class='mdi mdi-arrow-down'></i></p>"
 									+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_aContent().substring(20)+"</p>"
-									+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+									+"<p class='text-success foldHiddenQna' hidden> 접기<i class='mdi mdi-arrow-up'></i></p>"
 									);
 						}else {//20글자보다 짧다면 그냥 넣어주기
 							sb.append("<p>"+qaList.get(i).getQa_aContent()+"</p>");
@@ -1093,36 +1105,36 @@ public class KirimService {
 				  					"</tr>");
 				  	}
 				}
-	  sb.append("                                                                </tbody>\r\n" + 
-				"                                                            </table>\r\n" + 
+	  sb.append("                                                                </tbody>" + 
+				"                                                            </table>" + 
 			  
-				"                                                        </div>\r\n" + 
-				"                                                            <ul class=\"pagination pagination-lg\">\r\n" + 
-				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n" + 
-				"                                                                    <div class=\"btn-group\" role=\"group\" aria-label=\"First group\">\r\n" + 
-				"                                                                        <li>\r\n" + 
-				"                                                                            <a href=\"#\" aria-label=\"Previous\">\r\n" + 
-				"                                                                                <span aria-hidden=\"true\" class=\"disabled\"><button type=\"button\" class=\"btn btn-outline-secondary\">«</button></span>\r\n" + 
-				"                                                                            </a>\r\n" + 
-				"                                                                        </li>\r\n" + 
-				"                                                                        <li><a href=\"#\" ><button type=\"button\" class=\"btn btn-outline-secondary\">1</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" ><button type=\"button\" class=\"btn btn-outline-secondary\">2</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" ><button type=\"button\" class=\"btn btn-outline-secondary\">3</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" ><button type=\"button\" class=\"btn btn-outline-secondary\">4</button></a></li>\r\n" + 
-				"                                                                        <li><a href=\"#\" ><button type=\"button\" class=\"btn btn-outline-secondary\">5</button></a></li>\r\n" + 
-				"                                                                        <li>\r\n" + 
-				"                                                                            <a href=\"#\" aria-label=\"Next\">\r\n" + 
-				"                                                                                <span aria-hidden=\"true\"><button type=\"button\" class=\"btn btn-outline-secondary\">»</button></span>\r\n" + 
-				"                                                                            </a>\r\n" + 
-				"                                                                        </li>\r\n" + 
-				"                                                                    </div>\r\n" + 
-				"                                                                </div>\r\n" + 
-				"                                                            </ul>\r\n" + 
-				"\r\n" + 
-				"                                                    </li>\r\n" + 
-				"\r\n" + 
-				"                                                </div>\r\n" + //d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item
-				"                                            </div>\r\n"); //d-flex flex-wrap justify-content-xl-between
+				"                                                        </div>" + 
+				"                                                            <ul class='pagination pagination-lg'>" + 
+				"                                                                <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>" + 
+				"                                                                    <div class='btn-group' role='group' aria-label='First group'>" + 
+				"                                                                        <li>" + 
+				"                                                                            <a href='#' aria-label='Previous'>" + 
+				"                                                                                <span aria-hidden='true' class='disabled'><button type='button' class='btn btn-outline-secondary'>«</button></span>" + 
+				"                                                                            </a>" + 
+				"                                                                        </li>" + 
+				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>1</button></a></li>" + 
+				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>2</button></a></li>" + 
+				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>3</button></a></li>" + 
+				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>4</button></a></li>" + 
+				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>5</button></a></li>" + 
+				"                                                                        <li>" + 
+				"                                                                            <a href='#' aria-label='Next'>" + 
+				"                                                                                <span aria-hidden='true'><button type='button' class='btn btn-outline-secondary'>»</button></span>" + 
+				"                                                                            </a>" + 
+				"                                                                        </li>" + 
+				"                                                                    </div>" + 
+				"                                                                </div>" + 
+				"                                                            </ul>" + 
+				"" + 
+				"                                                    </li>" + 
+				"" + 
+				"                                                </div>" + //d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item
+				"                                            </div>"); //d-flex flex-wrap justify-content-xl-between
 				
 		return sb.toString();
 	}
