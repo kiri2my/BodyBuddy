@@ -65,18 +65,18 @@
 
 <body>
 <!-- Modal -->
-<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content" style="width: 46em">
       <div class="modal-header">
       <h4 class="modal-title" id="myModalLabel"></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
-      <div id="profileArea" class="modal-body">
+      <div class="modal-body">
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-default closer" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
@@ -109,7 +109,8 @@
 </body>
 
 <script>
-	    
+
+
 
 
 $(".profilePage").click(function(){
@@ -122,7 +123,7 @@ $(".profilePage").click(function(){
 		dataType: "html",
 		success:(function(data){
 			console.log(data);
-			$("#profileArea").html(data);
+			$(".modal-body").html(data);
 		   
 			
 		}),
@@ -148,6 +149,7 @@ $(".text-success.foldHiddenReview").click(function(){
 
 
 
+
 $("#optionSelect").change(function(){
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
 	var $op_code = "#"+op_code;
@@ -163,18 +165,73 @@ $("#optionSelect").change(function(){
 	console.log($op_priceValue);
 });
 
+
+
+
+
+//메인찜복사
+var delBtnSet = ${delBtnSet}
+console.log(delBtnSet);
+
 var kind="${mb.m_kind}";
 console.log(kind);
 
 if(kind!='n'){
+	//구매버튼 통제
 	$("#purchase").prop("disabled",true);
 	$("#purchase").attr("data-toggle","tooltip");
 	$("#purchase").attr("data-placement","bottom");
 	$("#purchase").attr("title","일반 회원만 구매가 가능합니다");
 	$("#purchase").after("<br><br><p class='text-light bg-dark pl-1 '>일반 회원만 구매가 가능합니다</p>");
-	console.dir($("#purchase"));
 	console.log($("#purchase"));
+}else{
+	//n일때 찜버튼
+	var ad_code = $("#ad_code").val();
+	var addBtn = "<button id='dibsAdd" +ad_code
+	+ "' type='button' class='btn btn-outline-secondary btn-rounded btn-icon'>"
+	+ "<i class='mdi mdi-heart-outline text-danger'></i></button>";
+	$("#purchase").before(addBtn);
+	for(var i=0;i<delBtnSet.length;i++){
+		if(delBtnSet[i]==ad_code){
+			var targetAddBtn = "#dibsAdd"+delBtnSet[i];
+			console.log("del",$(targetAddBtn));
+			
+			var delBtn = "<button id='dibsDelete"+delBtnSet[i]
+			+ "' type='button' class='btn btn-outline-danger btn-rounded btn-icon'>"
+			+ "<i class='mdi mdi-heart'></i></button>";
+		
+			$(targetAddBtn).prop("outerHTML",delBtn);
+		}
+	}
+	//메인찜복사
+	//n일때 문의하기 버튼 보여주기
+	$(".qFrm").prop("hidden",false);
 }
+//문의하기 폼
+$(".qFrm").click(function(){
+	var qFrm = "<div class='form-group' id='form-group'>"+
+    		"<textarea placeholder='광고주에게 문의할 내용을 입력해주세요' class='form-control' id='exampleTextarea1' rows='4'></textarea></div>";
+    var btns = "<button id='qaWrite' type='button' class='btn btn-primary mr-2'>문의 등록</button>"+
+    		"<button type='button' class='btn btn-default closer' data-dismiss='modal'>닫기</button>";
+    
+    $(".modal-footer").html(btns);
+    $(".modal-body").html(qFrm);
+  //문의등록    
+    $("#qaWrite").click(function(){
+    	console.log(ad_code);
+    	//ajax
+    });
+
+});
+
+
+
+//url:"detailqawriteinsert",
+
+
+
+
+
 
 $("#purchase").click(function(){
 	var ad_code = $("#ad_code").val();

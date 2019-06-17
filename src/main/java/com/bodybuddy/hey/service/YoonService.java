@@ -124,7 +124,6 @@ public class YoonService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
 				"                                    <div class=\"row\">\r\n");
-		Set<String> addBtnSet = new HashSet<>();
 		Set<String> delBtnSet = new HashSet<>();		
 		String addBtn=null;
 		String delBtn=null;

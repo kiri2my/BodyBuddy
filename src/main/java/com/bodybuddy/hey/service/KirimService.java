@@ -116,7 +116,7 @@ public class KirimService {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);
 		}
-		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList, psList);
+		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList, psList, mav);
 		
 		view = "detailPage";
 		mav.addObject("detailPageHTML", html);
@@ -301,6 +301,7 @@ public class KirimService {
 				result = kDao.expireOption(op_code);
 			}
 		}
+		
 		//해당 광고의 모든 옵션이 만료되었다면 광고를 만료
 		List<Map<String,String>> aeList =kDao.getAdExpireList();
 		Set<String> ex1CodeSet = new HashSet<>();
@@ -645,7 +646,7 @@ public class KirimService {
 	}
 
 	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList,List<Map<String, String>> dibsList, 
-			Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList, List<Map<String, String>> psList) {
+			Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList, List<Map<String, String>> psList, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
 		String ad_code = dp.get("AD_CODE").toString();
 		System.out.println("HTMLad_code===="+ad_code);
@@ -748,7 +749,7 @@ public class KirimService {
 					}else if(dp.get("M_KIND").toString().equals("c")) {
 						for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 트레이너 + 담당 옵션 찍어주기
 							//if(!opCateList.get(i).getOp_trainer().equals(opCateList.get(i+1).getOp_trainer())) {
-								sb.append("<a href='#' id='profilePage"+opCateList.get(i).getOp_trainer()+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#profileModal\">"+opCateList.get(i).getM_name()+"</a>");
+								sb.append("<a href='#' id='profilePage"+opCateList.get(i).getOp_trainer()+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+opCateList.get(i).getM_name()+"</a>");
 							//}
 						}
 					}
@@ -757,41 +758,34 @@ public class KirimService {
 				//옵션 담당 트레이너 보기버튼 끝
 	  
 		//찜버튼 위치
+		Set<String> delBtnSet = new HashSet<>();		
+		String addBtn=null;
+		String delBtn=null;
 	
-	  	String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+	  	addBtn = "<button id='" + "dibsAdd" + ad_code
 				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
+				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		
-	  	String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
-				+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
+	  	delBtn = "<button id='" + "dibsDelete" + ad_code
+				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
+				+ "<i class=\"mdi mdi-heart\"></i></button>";
 		
-	  	if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { 
-	  		if(sessionMb.getM_kind().equals("n")) {
-	  			for (int j = 0; j < dibsList.size(); j++) {
-	  				if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜하지 않은 상품은 찜하기버튼
-	  					sb.append(addBtn);
-	  				}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜한상품 찜 취소버튼
-	  					sb.append(delBtn);
-	  				}
-	  			}
-	  		}
-			// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
-		} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-			if(sessionMb.getM_kind().equals("n")) {
-				sb.append(addBtn);
+	  	if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
+			for (int j = 0; j < dibsList.size(); j++) {
+				if(dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+					delBtnSet.add(ad_code);
+				}
 			}
-			
-		} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
-			// 비회원 세션에 찜한상품 아니면 찜하기버튼
+	  	} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 			if (session.getAttribute("tempDibs" + ad_code) == null
 					|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
 				sb.append(addBtn);
-				// 비회원 세션에 찜한 상품 찜취소버튼 :
 			} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
 				sb.append(delBtn);
 			}
-		} // 찜버튼 끝
+		}  // 찜버튼 끝
+	  	String delBtnSetJson = new Gson().toJson(delBtnSet);
+		mav.addObject("delBtnSet",delBtnSetJson);
 	  	
 				
 				sb.append("<button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>\r\n" + 
@@ -947,7 +941,9 @@ public class KirimService {
 				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
 				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
 				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
-				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다.<button type=\"button\" class=\"btn btn-primary btn-sm\">문의하기</button></p>\r\n" + 
+				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다."+
+				"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-primary btn-sm qFrm\" data-toggle=\"modal\" data-target=\"#myModal\" hidden>문의하기</button></p>"+
+				
 				"                                                        <div class=\"table-responsive\">\r\n" + 
 				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
 				"                                                                <thead>\r\n" + 
@@ -965,13 +961,33 @@ public class KirimService {
 					if(qaList.get(i).getQa_answer()!=null) {
 						sb.append("<td>답변 완료</td>");
 					}else {sb.append("<td>답변 대기중</td>");}
-					sb.append("<td>"+qaList.get(i).getQa_wContent()+"</td>" + 
+					sb.append("<td>");
+					//문의내용이 길다면 더보기 버튼 넣어주기
+					if(qaList.get(i).getQa_wContent().length()>20) {
+						sb.append("<p>"+qaList.get(i).getQa_wContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+								+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_wContent().substring(20)+"</p>"
+								+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+								);
+					}else {//20글자보다 짧다면 그냥 넣어주기
+						sb.append("<p>"+qaList.get(i).getQa_wContent()+"</p>");
+					}
+					sb.append("                                                   </td>"+ 
 							  "<td>"+qaList.get(i).getQa_writer()+"</td>" + 
 							  "<td>"+qaList.get(i).getQa_wdate()+"</td>" + 
 							  "</tr>");
 				  	if(qaList.get(i).getQa_answer()!=null) {
-				  		sb.append("<tr><td></td><td></td><td><i class=\"mdi mdi-arrow-right-bold\"></i></td>" + 
-				  					"<td>"+qaList.get(i).getQa_aContent()+"<p class='foldHiddenReview'> 접기<i class=\"mdi mdi-arrow-up\"></i></p></td>" + 
+				  		sb.append("<tr><td></td><td><i class=\"mdi mdi-arrow-right-bold\"></i></td>" + 
+				  				  "														      <td>");
+						//문의답변내용이 길다면 더보기 버튼 넣어주기
+						if(qaList.get(i).getQa_aContent().length()>20) {
+							sb.append("<p>"+qaList.get(i).getQa_aContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+									+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_aContent().substring(20)+"</p>"
+									+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+									);
+						}else {//20글자보다 짧다면 그냥 넣어주기
+							sb.append("<p>"+qaList.get(i).getQa_aContent()+"</p>");
+						}
+						sb.append("                                                   </td>"+ 
 				  					"<td>"+qaList.get(i).getQa_answer()+"</td>" + 
 				  					"<td>"+qaList.get(i).getQa_adate()+"</td>" + 
 				  					"</tr>");
