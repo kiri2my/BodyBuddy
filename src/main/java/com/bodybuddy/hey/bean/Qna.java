@@ -16,5 +16,6 @@ public class Qna {
 	 private String qa_answer;
 	 private String qa_aContent;
 	 private String qa_adate;
+	 private String qa_true;
 	
 }

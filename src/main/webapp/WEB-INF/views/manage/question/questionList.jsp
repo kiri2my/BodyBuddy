@@ -69,16 +69,17 @@
 								<tbody>
 									<c:forEach var="question" items="${qList }">
 										<tr>
-											<td><a href="#">${question.ad_title }</a></td>
-											<td><a href="#">${question.qa_wcontent }</a></td>
-											<td><a href="#">${question.qa_writer }</a></td>
+											<td><a href="#">${question.ad_title}</a></td>
+											<td><a href="#">${question.qa_wcontent}</a></td>
+											<td><a href="#">${question.qa_writer}</a></td>
 											<td>${question.qa_wdate }</td>
-											<input type="hidden" class="mm" value="${question.qa_num}">
-											<c:if test="${empty question.qa_adate}">
+											<c:set var="name" value="t" />
+											<input type="hidden" class="mm" value="${question.qa_num}" />
+											<c:if test="${name ne question.qa_true}">
 												<td><a href="#myModal" role="button" class="abtn"
 													data-toggle="modal" id="mm">답변하기</a></td>
 											</c:if>
-											<c:if test="${!empty question.qa_adate}">
+											<c:if test="${name eq question.qa_true}">
 												<td><input type="button" id="qa_answercheck"
 													name="qa_answercheck" value="답변확인하기" /></td>
 											</c:if>
@@ -109,12 +110,9 @@
 				</div>
 
 				<div class="modal-body">
-					<tr>
-						<td>${question.qa_wdate}</td>
-					</tr>
-					<input type="text" disabled="disabled"
-						value="{question.qa_wcontent}"
-						style="text-align: center; width: 750px; height: 150px;" />
+				
+				<div id="qa_num" style="display: none;"></div>
+					<div id="qa_wcontent" style="text-align: center;margin: 50px;"></div>
 					<%-- $ --%>
 				</div>
 
@@ -156,22 +154,56 @@
 	<!-- End custom js for this page-->
 </body>
 <script>
+	//모달박스 답변 작성
+	var qajax = null;
+	var qajaxnum = null;
+
+	$("#aSave").click(function() {
+		$.ajax({
+			url : "questionreply",
+			type : "post",
+			data : {
+				"qa_acontent" : $('#qa_acontent').val()
+			},
+			dataType : "html",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				alert("오~~! 케이!")
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		});//end ajax
+
+	});//end click
+
+	//답변하기 + 질문내용 가져오기
+
 	$(".abtn").each(function() {
 		$(this).click(function() {
-			var as = $(this).parents().eq(1).children().eq(4).val();
-			alert("성공!!" + as + "아아아");
-			console.log(as);
+			var num = $(this).parents().eq(1).children().eq(4).val();
+			alert("성공!!" + num + "아아아");
+			console.log(num);
 
 			$.ajax({
 				url : "qaNum",
 				type : "post",
 				data : {
-					"qa_num" : as
+					"qa_num" : num
 				},
-				dataType : "html",
+				dataType : "json",
 				/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 				success : function(data) {
-					alert("얍얍얍");
+					qajax = data;
+					qajaxnum = data[0].qa_num;
+					qajaxwcon = data[0].qa_wcontent;
+					console.log("1 = ", qajaxnum)
+					console.log("2 = ", qajaxwcon)
+					$('#qa_wcontent').html(qajaxwcon);
+					$('#qa_num').html(qajaxnum);
+
 				},
 				error : function(error) {
 					console.log(error);
@@ -182,12 +214,6 @@
 		});//end ajax
 
 	});//end click
-
-	//$(".abtn").each(function() {
-
-	//var ab = $(".mm").val();
-
-	//})
 </script>
 
 

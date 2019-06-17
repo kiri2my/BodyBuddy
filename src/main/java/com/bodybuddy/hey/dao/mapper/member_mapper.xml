@@ -15,7 +15,7 @@
 
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M
-		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind},#{m_exaddr})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
 		INSERT INTO T
@@ -56,7 +56,7 @@
 		WHERE M_ID = #{m_id}
 	</update>
 	<insert id="DeleteRealId" parameterType="String">
-		INSERT INTO DELETEREALID
+		INSERT INTO DELETEREALID	
 		VALUES(#{m_id},'탈퇴회원')
 	</insert>
 
@@ -65,9 +65,15 @@
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
 
+
 	<select id="qaNum" parameterType="String" resultType="question">
-		SELECT * FROM QA WHERE QA_NUM = #{qa_num}
-	</select>
+		SELECT qa_num,qa_wcontent FROM QA WHERE QA_NUM = #{qa_num}
+	</select>	
+	
+	<update id="questionReply" parameterType="hashmap">
+	UPDATE QA SET QA_ACONTENT = #{qa_acontent}, QA_ADTAE = SYSDATE , QA_TRUE='t'
+	WHERE QA_NUM = #{qa_num}
+	</update>	
 
 
 </mapper>

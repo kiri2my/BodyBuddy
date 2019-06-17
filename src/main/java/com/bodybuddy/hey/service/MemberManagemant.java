@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,18 +33,6 @@ public class MemberManagemant {
 		// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
-		System.out.println("암호화");
-		System.out.println("id = " + mb.getM_id());
-		System.out.println("pw = " + mb.getM_pw());
-		System.out.println("name = " + mb.getM_name());
-		System.out.println("phone = " + mb.getM_phone());
-		System.out.println("birth = " + mb.getM_birth());
-		System.out.println("addr = " + mb.getM_addr());
-		System.out.println("addr2 = " + mb.getM_exaddr());
-		System.out.println("kind = " + mb.getM_kind());
-
-		mb.setM_addr(mb.getM_addr() + " " + mb.getM_exaddr());
-		System.out.println("addr = " + mb.getM_addr());
 
 		if (mDao.normalMemberJoin(mb)) {
 			view = "loginJoinFrm/loginFrm";
@@ -180,7 +169,7 @@ public class MemberManagemant {
 
 	public ModelAndView memberDeleteReal() {
 		mav = new ModelAndView();
-		String view=null;
+		String view = null;
 		System.out.println("맴매트 라규!");
 		Member mb = (Member) session.getAttribute("mb");
 		String m_id = mb.getM_id();
@@ -201,16 +190,21 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	public String questionReplyFrm(String qa_acontent) {
-		
-		return null;
-	}
 
 	public Question qaNum(String qa_num) {
+		System.out.println("맴버 매니지맨트");
 		Question qa = mDao.qaNum(qa_num);
-		
+		session.setAttribute("qa", qa);
+
 		return qa;
 	}
-
+	public String questionReply(String qa_acontent,String qa_num) {
+		
+		System.out.println("qa 번호"+qa_num);
+		String answer = mDao.questionReply(qa_acontent, qa_num);
+		System.out.println("성공");
+		
+		return answer;
+	}
 
 }
