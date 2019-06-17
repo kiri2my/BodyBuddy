@@ -25,6 +25,7 @@ public class Question {
 	private String qa_adate;
 	private String qa_answer;
 	private String qa_num;
+	private String qa_true;
 
 	private String op_adcode; 
 	private String op_code;

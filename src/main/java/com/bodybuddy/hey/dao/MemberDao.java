@@ -49,5 +49,7 @@ public interface MemberDao {
 
 	public Question qaNum(String qa_num);
 
+	public String questionReply(String qa_acontent, String qa_num);
+
 
 }
