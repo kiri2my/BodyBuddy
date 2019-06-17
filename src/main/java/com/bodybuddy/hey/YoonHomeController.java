@@ -84,7 +84,6 @@ public class YoonHomeController {
 		mav=ys.insertReview(rv);
 		return mav;
 	}
-
 	@RequestMapping(value = "/infomodifyfrmn")
 	public ModelAndView modifyN(String m_id) {
 		mav=ys.modifyN(m_id);
@@ -123,5 +122,4 @@ public class YoonHomeController {
 		mav=ys.infomodifyn(multi);
 		return mav;
 		}
-
 }

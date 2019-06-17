@@ -65,10 +65,9 @@
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
 
-
 	<select id="qaNum" parameterType="String" resultType="question">
-		SELECT qa_num,qa_wcontent FROM QA WHERE QA_NUM = #{qa_num}
-	</select>	
+		SELECT * FROM QA WHERE QA_NUM = #{qa_num}
+	</select>
 	
 	<update id="questionReply" parameterType="hashmap">
 	UPDATE QA SET QA_ACONTENT = #{qa_acontent}, QA_ADTAE = SYSDATE , QA_TRUE='t'

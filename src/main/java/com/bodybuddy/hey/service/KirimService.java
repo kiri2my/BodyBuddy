@@ -1,16 +1,18 @@
 package com.bodybuddy.hey.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
 import com.bodybuddy.hey.bean.Qna;
-import com.bodybuddy.hey.bean.Review;
+import com.bodybuddy.hey.bean.Tprofile;
 import com.bodybuddy.hey.dao.KirimDao;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.dao.YoonDao;
@@ -94,22 +96,104 @@ public class KirimService {
 		mav.setViewName(view);
 		return mav;
 	}
+	
+	public ModelAndView detailPage(String ad_code) {
+		mav = new ModelAndView();
+		String view = null;
+		Member sessionMb=null;
+		List<Map<String, String>> dibsList=null;
+		
+		System.out.println("aaaad_code=" + ad_code);
+		Map<String, String> dp = kDao.detailPage(ad_code);
+		List<OpCategory> opCateList = kDao.opCateList(ad_code);
+		List<Map<String,String>> apList =kDao.adPhotoList(ad_code);
+		List<Qna> qaList = kDao.detailQa(ad_code);
+		List<Map<String,String>> rvList = kDao.detailReview(ad_code);
+		List<Map<String,String>> psList = kDao.detailPsCount(ad_code);
+		
+		sessionMb = (Member) session.getAttribute("mb");
+		if(sessionMb!=null) {
+			String d_id = sessionMb.getM_id();
+			dibsList = yDao.dibsN(d_id);
+		}
+		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList, psList, mav, apList);
+		view = "detailPage";
+		mav.addObject("detailPageHTML", html);
+		mav.setViewName(view);
+		return mav;
+	}
+
+	public String purchSingle(Payment ph) {
+		String text = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		if(sessionMb == null) {
+			 text = "login";
+			 return text;
+		}
+		Map<String,String> cs = new HashMap<>();
+		String ps_mid=sessionMb.getM_id();
+		String ps_adcode=ph.getPs_adcode();
+		cs.put("ps_mid", ps_mid);
+		cs.put("ps_adcode", ps_adcode);
+		
+		int i=kDao.selectOverlap(cs);
+		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
+			text = opExpirePersonnel(ph);
+			if(text.equals("full")) {
+				return text;
+			}
+			ph.setPs_mid(sessionMb.getM_id());
+			kDao.purchSingle(ph);
+			String da_opperiod=ph.getPs_opcode();
+			Payment ph1=kDao.selectPscode(cs);
+			String ph2=kDao.selectPeriod(da_opperiod);
+			Map<String,String> cs2 = new HashMap<>();
+			String ps_code=ph1.getPs_code();
+			cs2.put("da_period", ph2);
+			cs2.put("ps_code", ps_code);
+		 boolean insertDaily=kDao.insertDaliy(cs2);
+		 	if(insertDaily==true) {
+		 		text = "success";
+			 	return text;
+		 	}
+		}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
+				text ="notn";
+				return text;
+		}else if(i!=0) {
+				text ="overlap";
+				return text;
+		}
+		return text;
+	}
+	
+	private String opExpirePersonnel(Payment ph) {
+		String text=null;
+		Map<String,Integer> purByPer = kDao.personnelCalc(ph.getPs_opcode());
+		System.out.println("SEX="+Integer.toString(purByPer.get("PS_OPCODE")));
+		if(purByPer.get("PURCHCOUNT") >= purByPer.get("OP_PERSONNEL")){
+			text="full";
+		}
+		return text;
+		
+	}
+
+	
 
 	public String dibsAdd(String d_adcode) {
-		String suc = "<button id='" + "dibsDelete" + d_adcode
+		String del = "<button id='" + "dibsDelete" + d_adcode
 				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart\"></i></button>";
-		String err = "<button id='" + "dibsAdd" + d_adcode
+		String add = "<button id='" + "dibsAdd" + d_adcode
 				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		String html = null;
 
-		System.out.println("d_adcode=============" + d_adcode);
+		System.out.println("dibsAdd:d_adcode=============" + d_adcode);
 		System.out.println(session.getId());
 		Member sessionMb = (Member) session.getAttribute("mb");
 		if (sessionMb == null) {// 비회원 찜 추가
 			session.setAttribute("tempDibs" + d_adcode, "dibs");
-			html = suc;// "일시적으로 찜 목록에 추가되었습니다.";
+			html = del;// "일시적으로 찜 목록에 추가되었습니다.";
 
 		} else if (sessionMb != null) {// 회원 찜 추가
 			String sessionId = sessionMb.getM_id();
@@ -117,9 +201,10 @@ public class KirimService {
 			dibs.put("d_adcode", d_adcode);
 			dibs.put("d_id", sessionId);
 			if (kDao.dibsAdd(dibs)) {
-				html = suc; // sessionId+"님의 찜 목록에 추가되었습니다";
+				html = del; // sessionId+"님의 찜 목록에 추가되었습니다";
+				return html;
 			}
-			html = err; // sessionId+"님의 찜 목록에 추가실패";
+			html = add; // sessionId+"님의 찜 목록에 추가실패";
 		}
 		System.out.println("비회원장바구니 세션등록키===" + session.getAttribute("tempDibs" + d_adcode));
 		Enumeration<String> names = session.getAttributeNames();
@@ -130,31 +215,29 @@ public class KirimService {
 	}
 
 	public String dibsDelete(String d_adcode) {
-		String err = "<button id='" + "dibsDelete" + d_adcode
+		String del = "<button id='" + "dibsDelete" + d_adcode
 				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart\"></i></button>";
-		String suc = "<button id='" + "dibsAdd" + d_adcode
+		String add = "<button id='" + "dibsAdd" + d_adcode
 				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
 				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		String html = null;
-
-		
-		System.out.println("2d_adcode=============" + d_adcode);
+		System.out.println("dibsDelete:d_adcode=============" + d_adcode);
 		System.out.println(session.getId());
 		Member sessionMb = (Member) session.getAttribute("mb");
 		if (sessionMb == null) {// 비회원 찜 제거
 			session.setAttribute("tempDibs" + d_adcode, null);
-			html = suc;// "해당 광고가 찜 목록에서 제거되었습니다.";
+			html = add;// "해당 광고가 찜 목록에서 제거되었습니다.";
 		} else if (sessionMb != null) {// 회원 찜 제거
 			String sessionId = sessionMb.getM_id();
 			Map<String, String> dibs = new HashMap<>();
 			dibs.put("d_adcode", d_adcode);
 			dibs.put("d_id", sessionId);
 			if (kDao.dibsDelete(dibs)) {
-				html="success";
-				//html = suc;// "님의 찜 목록에서 제거되었습니다";
+				html = add;// "님의 찜 목록에서 제거되었습니다";
+				return html;
 			}
-			//html = err;// "님의 찜 목록에서 제거실패";
+			html = del;// "님의 찜 목록에서 제거실패";
 		}
 		System.out.println("222비회원장바구니 세션등록키===" + session.getAttribute("tempDibs" + d_adcode));
 		Enumeration<String> names = session.getAttributeNames();
@@ -163,51 +246,145 @@ public class KirimService {
 		}
 		return html;
 	}
-	public ModelAndView profilePage(String m_id) {
-		mav = new ModelAndView();
+	public String profilePage(String m_id) {
 		Member mb=null;
 		String html = null;
-		String view = null;
 		String kind = kDao.getMemberKind(m_id);
+		System.out.println("kind============="+kind);
+		System.out.println("m_id============="+m_id);
+		
 		if(kind.equals("n")) {
 			mb=kDao.getNormalInfo(m_id);
 			html = makeHTMLNormalProfile(mb);
 		}else if(kind.equals("t")) {
-			HashMap<String,String> pt=kDao.getTrainerProfile(m_id);
-			List<HashMap<String, String>> pto=kDao.getTrainerProfileOption(m_id);
-			html = makeHTMLTrainerProfile(pt, pto);
+			Tprofile tp=kDao.getTrainerProfile(m_id);
+			List<Map<String, String>> tpo=kDao.getTrainerPOption(m_id);
+			List<Map<String, String>> tpc=kDao.getTrainerPCategory(m_id);
+			html = makeHTMLTrainerProfile(tp, tpo, tpc);
 		}else if(kind.equals("c")) {
-			HashMap<String,String> pc=kDao.getCompanyProfile(m_id);
-			List<HashMap<String, String>> pco=kDao.getCompanyProfileOption(m_id);
-			html = makeHTMLCompanyProfile(pc,pco);
+			Map<String, String> cp=kDao.getCompanyProfile(m_id);
+			List<Map<String, String>> cpo=kDao.getCompanyProfileOption(m_id);
+			html = makeHTMLCompanyProfile(cp,cpo);
 		}
-		mav.addObject("profileHtml", html);
-		mav.setViewName(view);
-		return mav;
+		return html;
 	}
+	
+	
+	
+	public void adExpirePeriod() {
+		//매일 자정 지날때 실행할 내용:
+		String period=null;
+		String periodStartStr=null;
+		LocalDate periodStart=null;
+		String op_code;
+		String ad_code;
+		String ad_code0;
+		String ad_code1;
+		int result=0;
+		//DAO에서 옵션 기간(OP_PERIOD) 얻어오기
+		List<Map<String,String>> opl = kDao.getOpPeriodList();
+		//현재 날짜 얻어오기
+		LocalDate today = LocalDate.now();
+		//혹은 today.toString();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		/*Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //출력 형태 지정
+		String todayStr = sdf.format(cal.getTime()); //출력형태의 문자열*/
+		
+		//해당 옵션레코드의 시작날짜가 오늘보다 많다면(after라면)
+		for(int i=0;i<opl.size();i++) {
+			if(opl.get(i).get("OP_PERIOD").toString().contains("~")) {
+				period = opl.get(i).get("OP_PERIOD").toString();
+				periodStartStr =period.split("~")[0];//시작날짜 문자열
+				//기본 날짜포맷 사용 : LocalDate periodStart = LocalDate.parse(periodStartStr, DateTimeFormatter.ISO_DATE); 
+				periodStart = LocalDate.parse(periodStartStr, formatter);//내가 지정한 날짜포맷 사용
+		        //periodStart.format(formatter);
+				if(periodStart.isBefore(today)) { //isBefore:a<b   isAfter:a>b //시작날짜>현재 날짜라면  
+					//해당 옵션 만료
+					op_code = opl.get(i).get("OP_CODE").toString();
+					result = kDao.expireOption(op_code);
+				}
+			}
+		}
+		
+		//해당 광고의 모든 옵션이 만료되었다면 광고를 만료
+		List<Map<String,String>> aeList =kDao.getAdExpireList();
+		Set<String> ex1CodeSet = new HashSet<>();
+		Set<String> ex0CodeSet = new HashSet<>();
+		for(int i=0;i<aeList.size();i++) {
+			if(String.valueOf(aeList.get(i).get("OP_EXPIRE")).equals("1")) {
+				ex1CodeSet.add(aeList.get(i).get("AD_CODE"));
+			}else if(String.valueOf(aeList.get(i).get("OP_EXPIRE")).equals("0")) {
+				ex0CodeSet.add((String) aeList.get(i).get("AD_CODE"));
+			}
+		}
+		//1셋에는 있고 0셋에는 없으면 만료시킴
+		Iterator<String> itr1 = ex1CodeSet.iterator();
+		Iterator<String> itr0 = ex0CodeSet.iterator();
+		List<String> delCode = new ArrayList<>();
+		System.out.println("ex0CodeSet======="+ex0CodeSet);
+		System.out.println("ex1CodeSet======="+ex1CodeSet);
+		while(itr0.hasNext()) {
+			ad_code0 = itr0.next();
+			System.out.println("0코드======="+ad_code0);
+			while(itr1.hasNext()) {
+				ad_code1 = itr1.next();
+				System.out.println("1코드======="+ad_code1);
+				 if(ad_code0.equals(ad_code1)) {
+					 System.out.println("교집합!!!!!"+ad_code1);
+					 delCode.add(ad_code1);
+				 }
+			}
+		}
+		for(int i=0;i<delCode.size();i++) {
+			ex1CodeSet.remove(delCode.get(i).toString());
+		}
+		Iterator<String> comp = ex1CodeSet.iterator();
+		while(comp.hasNext()) {
+			ad_code = comp.next();
+			result = kDao.expireAd(ad_code);
+			System.out.println("RESULT2"+result);
+			if(result!=0) {
+				System.out.println("만료된광고"+result+"건");
+			}else {
+				System.out.println("만료시킬 광고 없음");
+			}
+		}
+		System.out.println("정상완료");
+	}//adExpirePeriod 끝 http://www.urbanui.com/majestic/template/pages/ui-features/typography.html
 
+	public String detailQaWriteInsert(Qna qna) {
+		String json=null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		qna.setQa_writer(sessionMb.getM_id());
+		if(kDao.detailQaWriteInsert(qna)) {//성공시
+			List<Qna> qaList = kDao.detailQa(qna.getQa_adcode());
+			String html=makeHtmlQna(qaList);
+			json = new Gson().toJson(html);
+		}		
+		return json;
+	}
 	
 	
 	
 	
-	
 	//MAKEHTML
 	//MAKEHTML
 	//MAKEHTML
 	//MAKEHTML
 	//MAKEHTML
 	//MAKEHTML
-	private String makeHTMLCompanyProfile(HashMap<String, String> pc, List<HashMap<String, String>> pco) {
+	private String makeHTMLCompanyProfile(Map<String, String> pc, List<Map<String, String>> pco) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"main-panel\" style=\"width: 100%\">\r\n" + 
-				"                <div class=\"content-wrapper\">\r\n" + 
-				"                    <div class=\"row\">\r\n" + 
+		sb.append("<div class=\"main-panel\">\r\n" + 
+				"                <div class=\"content-wrapper\" style='width:43.86em' >\r\n" + 
+				"                    <div class=\"row\"  style='width:60.1em'>" + 
 				"                        <div class=\"col-md-4 grid-margin stretch-card\">\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">\r\n" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
 				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                            <img src='resources/upload/"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
 				"                                        </a>\r\n" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -233,7 +410,7 @@ public class KirimService {
 				"                            </div>\r\n" + 
 				"                        </div>\r\n" + 
 				"                    </div>\r\n" + 
-				"                    <div class=\"row\">\r\n" + 
+				"                    <div class=\"row\"  style='width:60.1em' >\r\n" + 
 				"                        <div class=\"col-md-9 stretch-card\">\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
@@ -294,17 +471,17 @@ public class KirimService {
 		return sb.toString();
 	}
 
-	private String makeHTMLTrainerProfile(HashMap<String,String> pt, List<HashMap<String, String>> pto) {
+	private String makeHTMLTrainerProfile(Tprofile pt, List<Map<String, String>> tpo, List<Map<String, String>> tpc) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"main-panel\" style=\"width: 100%\">\r\n" + 
-				"                <div class=\"content-wrapper\">\r\n" + 
-				"                    <div class=\"row\">\r\n" + 
+		sb.append("<div class=\"main-panel\">\r\n" + 
+				"                <div class=\"content-wrapper\" style='width:43.86em' >\r\n" + 
+				"                    <div class=\"row\" style=\"width:60.1em\">\r\n" + 
 				"                        <div class=\"col-md-4 grid-margin stretch-card\">\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">\r\n" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
 				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+pt.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                            <img src='resources/upload/"+pt.getPf_image()+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
 				"                                        </a>\r\n" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -314,31 +491,39 @@ public class KirimService {
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"caption\">\r\n" + 
-				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+pt.get("M_NAME")+" 트레이너 프로필<br><br>\r\n" + 
-				"                                            <small class=\"text-muted\" style=\"text-align: right\">소속업체 : "+pt.get("C_BNAME")+"</small>\r\n" + 
+				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+pt.getM_name()+" 트레이너 프로필<br><br>\r\n" + 
+				"                                            <small class=\"text-muted\" style=\"text-align: right\">소속업체 : ");
+		if(pt.getC_bname()!="" ||pt.getC_bname()!=null) {
+			sb.append(pt.getC_bname());
+		}else {
+			sb.append("없음");
+		}
+		
+		sb.append("</small>" + 
 				"                                        </h3>\r\n" + 
 				"                                        <br>\r\n" + 
 				"                                        <h4>");
-		for(int i=0;i<pto.size();i++) {
-			sb.append(pto.get(i).get("OP_CATEGORY")+"/");
+		
+		for(int i=0;i<tpc.size();i++) {
+				sb.append(tpc.get(i).get("AD_CATEGORY")+"/");
 		}
 	  sb.append("										 </h4><br>\r\n" + 
 				"                                        <h4>주요 이력: <p class=\"display-4\">");
-	  	String[] career = pt.get("T_CAREER").split(" ");//,쉼표로 자를것
+	  	String[] career = pt.getT_career().split(" ");//,쉼표로 자를것
 	  	for(int i=0;i<career.length;i++) {
 	  		sb.append(career[i]+"<br>");
 	  	}
 	  sb.append("										 </h4>\r\n" + 
 				"                                        <br>\r\n" + 
 				"                                        <address class=\"text-primary\">" + 
-				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +pt.get("M_ID")+"</p>" + 
+				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +pt.getM_id()+"</p>" + 
 				"                                        </address>" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
 				"                            </div>\r\n" + 
 				"                        </div>\r\n" + 
 				"                    </div>\r\n" + 
-				"                    <div class=\"row\">\r\n" + 
+				"                    <div class=\"row\" style='width:60.1em'>"+ 
 				"                        <div class=\"col-md-9 stretch-card\">\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
@@ -362,22 +547,30 @@ public class KirimService {
 				"                                                            </tr>\r\n" + 
 				"                                                        </thead>\r\n" + 
 				"                                                        <tbody>\r\n");
-		for(int i=0;i<pto.size();i++) {
+		for(int i=0;i<tpo.size();i++) {
 			sb.append("                                                            <tr role=\"row\"  class=\"odd\">" + 
-					"                                                                <td class=\"sorting_1\">"+pto.get(i).get("AD_TITLE")+"("+pto.get(i).get("OP_NAME")+")"+"</td>"+
-					"																 <td>"+pto.get(i).get("AD_ADDR")+" "+pto.get(i).get("C_BNAME")+"</td>"+	
-					"                                                                <td>"+pto.get(i).get("OP_PERIOD")+"</td>");
+					"                                                                <td class=\"sorting_1\">"+tpo.get(i).get("AD_TITLE")+"("+tpo.get(i).get("OP_CONTENT")+"-");
+			
+			if(tpo.get(i).get("OP_TIMES")!=null || String.valueOf(tpo.get(i).get("OP_TIMES"))!="") sb.append("횟수:"+String.valueOf(tpo.get(i).get("OP_TIMES"))+"/"); else sb.append("");
+			if(tpo.get(i).get("OP_DAY")!=null || tpo.get(i).get("OP_DAY")!="") sb.append(tpo.get(i).get("OP_DAY")+"/"); else sb.append("");
+			if(tpo.get(i).get("OP_CLOCK")!=null || tpo.get(i).get("OP_CLOCK")!="") sb.append(tpo.get(i).get("OP_CLOCK")+"/"); else sb.append("");
+			if(tpo.get(i).get("OP_PERSONNEL")!=null || String.valueOf(tpo.get(i).get("OP_PERSONNEL"))!="") sb.append("인원"+String.valueOf(tpo.get(i).get("OP_PERSONNEL"))); else sb.append("");
+			sb.append(")</td><td>"+tpo.get(i).get("AD_ADDR")+" ");
+			if(tpo.get(i).get("C_BNAME")!=null || tpo.get(i).get("C_BNAME")!="") sb.append(tpo.get(i).get("C_BNAME")); else sb.append("");
+			sb.append("</td><td>");
+			if(tpo.get(i).get("OP_PERIOD")!=null || tpo.get(i).get("OP_PERIOD")!="") sb.append(tpo.get(i).get("OP_PERIOD")); else sb.append("");
+			sb.append("</td>");
 			//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
-			if(pto.get(i).get("AD_STATUS").equals("진행중")) {
+			if(tpo.get(i).get("AD_STATUS").equals("진행중")) {
 				sb.append("<td><label class=\"badge badge-warning\">");
-			}else if(pto.get(i).get("AD_STATUS").equals("완료")) {
+			}else if(tpo.get(i).get("AD_STATUS").equals("완료")) {
 				sb.append("<td><label class=\"badge badge-success\">");
-			}else if(pto.get(i).get("AD_STATUS").equals("모집중")) {
+			}else if(tpo.get(i).get("AD_STATUS").equals("모집중")) {
 				sb.append("<td><label class=\"badge badge-info\">");
-			}else if(pto.get(i).get("AD_STATUS").equals("만료됨")) {
+			}else if(tpo.get(i).get("AD_STATUS").equals("만료됨")) {
 				sb.append("<td><label class=\"badge badge-danger\">");
 			} 
-			sb.append(pto.get(i).get("AD_STATUS")+"</label></td>\r\n" + 
+			sb.append(tpo.get(i).get("AD_STATUS")+"</label></td>\r\n" + 
 					"                                                            </tr>");
 		}//for END
 	  sb.append(
@@ -411,7 +604,7 @@ public class KirimService {
 				"              </div><br>" + 
 				"    <div>\r\n" + 
 				"        <div class=\"img_wrap\">\r\n" + 
-				"            <img id=\"img\" src='"+mb.getPf_image()+"' />\r\n" + 
+				"            <img id=\"img\" src='resources/upload/"+mb.getPf_image()+"' />\r\n" + 
 				"        </div>\r\n" + 
 				"    </div>\r\n" + 
 				"              <form class=\"pt-3\">\r\n" + 
@@ -467,72 +660,8 @@ public class KirimService {
 		return sb.toString();
 	}
 
-	public ModelAndView detailPage(String ad_code) {
-		mav = new ModelAndView();
-		String view = null;
-		Member sessionMb=null;
-		List<Map<String, String>> dibsList=null;
-		List<Qna> qaList = null;
-		List<Map<String,String>> rvList = null;
-		System.out.println("aaaad_code=" + ad_code);
-		Map<String, String> dp = kDao.detailPage(ad_code);
-		
-		List<OpCategory> opCateList = kDao.opCateList(ad_code);
-		
-		qaList = kDao.detailQa(ad_code);
-		rvList = kDao.detailReview(ad_code);
-		sessionMb = (Member) session.getAttribute("mb");
-		if(sessionMb!=null) {
-			String d_id = sessionMb.getM_id();
-			dibsList = yDao.dibsN(d_id);
-		}
-		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList);
-		
-		view = "detailPage";
-		mav.addObject("detailPageHTML", html);
-		mav.setViewName(view);
-		return mav;
-	}
-
-	public String purchSingle(Payment ph) {
-		String text = null;
-		Member sessionMb = (Member) session.getAttribute("mb");
-		if(sessionMb == null) {
-			 text = "login";
-			 return text;
-		}
-		Map<String,String> cs = new HashMap<>();
-		String ps_mid=sessionMb.getM_id();
-		String ps_adcode=ph.getPs_adcode();
-		cs.put("ps_mid", ps_mid);
-		cs.put("ps_adcode", ps_adcode);
-		
-		int i=kDao.selectOverlap(cs);
-		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
-			ph.setPs_mid(sessionMb.getM_id());
-			kDao.purchSingle(ph);
-			String da_opperiod=ph.getPs_opcode();
-			Payment ph1=kDao.selectPscode(cs);
-			String ph2=kDao.selectPeriod(da_opperiod);
-			Map<String,String> cs2 = new HashMap<>();
-			String ps_code=ph1.getPs_code();
-			cs2.put("da_period", ph2);
-			cs2.put("ps_code", ps_code);
-		 boolean insertDaliy=kDao.insertDaliy(cs2);
-		 text = "success";
-		 return text;
-			}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
-		 text ="notn";
-		 return text;
-		 }else if(i!=0) {
-		 text ="overlap";
-		 return text;
-		 }
-		return text;
-	}
-
-	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList, 
-			List<Map<String, String>> dibsList, Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList) {
+	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList,List<Map<String, String>> dibsList, 
+			Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList, List<Map<String, String>> psList, ModelAndView mav, List<Map<String, String>> apList) {
 		StringBuilder sb = new StringBuilder();
 		String ad_code = dp.get("AD_CODE").toString();
 		System.out.println("HTMLad_code===="+ad_code);
@@ -544,9 +673,59 @@ public class KirimService {
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">\r\n" + 
-				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
-				"                                        </a>\r\n" + 
+//광고사진 캐러셀 시작
+			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\">\r\n" + 
+			"  <!-- Indicators -->\r\n" + 
+			"  <ol class=\"carousel-indicators\">\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"0\" class=\"active\"></li>\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"1\"></li>\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"2\"></li>\r\n" + 
+			"  </ol>\r\n" + 
+			"\r\n" + 
+			"  <!-- Wrapper for slides -->\r\n" + 
+			"  <div class=\"carousel-inner\" role=\"listbox\">\r\n");
+			
+			for(int i=0;i<apList.size();i++) {
+				sb.append("    <div class=\"item active\">\r\n" + 
+						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>\r\n" + 
+						"      <div class=\"carousel-caption\">\r\n" + 
+						i+"번째사진" + 
+						"      </div>" + 
+						"    </div>");
+			}
+			
+	sb.append("    <div class=\"item active\">\r\n" + 
+			"      <img src='' alt='advertisePhoto'>\r\n" + 
+			"      <div class=\"carousel-caption\">\r\n" + 
+			"        1번째사진\r\n" + 
+			"      </div>\r\n" + 
+			"    </div>\r\n" + 
+			
+			
+			
+			"    qwerqwer\r\n" + 
+			"  </div>\r\n" + 
+			"\r\n" + 
+			"  <!-- Controls -->\r\n" + 
+			"  <a class=\"left carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"prev\">\r\n" + 
+			"    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>\r\n" + 
+			"    <span class=\"sr-only\">Previous</span>\r\n" + 
+			"  </a>\r\n" + 
+			"  <a class=\"right carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"next\">\r\n" + 
+			"    <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>\r\n" + 
+			"    <span class=\"sr-only\">Next</span>\r\n" + 
+			"  </a>\r\n" + 
+			"</div>"+	
+
+				
+			
+				
+				
+//프로필 캐러셀 끝				
+				
+				/*"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
+				"                                            <img src='resources/upload/"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                        </a>\r\n" +*/ 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
 				"                            </div>\r\n" + 
@@ -558,6 +737,7 @@ public class KirimService {
 				"\r\n" + 
 				//"<form name='detailPageInfo'>"+
 				"<input type=\"hidden\" id=\"ad_code\" name=\"ad_code\" value='"+ad_code+"'>"+
+				"<input type=\"hidden\" id=\"ad_name\" name=\"ad_name\" value='"+dp.get("AD_NAME")+"'>"+
 				"                                    <div class=\"caption\">\r\n" + 
 				"                                        <h3 class=\"display-4\" style=\"text-align: center\">"+dp.get("AD_TITLE")+"<br><br>\r\n" + 
 				"                                            <small class=\"text-muted\">");
@@ -569,25 +749,47 @@ public class KirimService {
 			sb.append(dp.get("T_CID_ADDR"));
 		}
 		//주소 끝위치
-		
+		//블루비
 		sb.append("											 </small></h3><br>" + 
 				"                                        <h5>"+dp.get("AD_CATEGORY")+"</h5><br>" + 
 				//옵션출력 시작
 				"                                            <p><select id='optionSelect' class=\"form-control\">\r\n" + 
-				"                                                <option id='opSelPlz'>상세 옵션을 선택해주세요</option>\r\n");
+				"	                                            <option id='opSelPlz'>상세 옵션을 선택해주세요</option>\r\n");
 		for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 옵션명 찍어주기
-			sb.append("<option id='op"+opCateList.get(i).getOp_code()+"'>"+opCateList.get(i).getOp_content()+" - "+
-					"기간 : "+opCateList.get(i).getOp_period()+
-					"횟수 : "+opCateList.get(i).getOp_times()+
-					"요일 : "+opCateList.get(i).getOp_day()+
-					"시간 : "+opCateList.get(i).getOp_clock()+
-					"정원 : "+opCateList.get(i).getOp_personnel()+"</option>"+
-					//옵션코드 리스트, 옵션가격 리스트 뽑아내기
-					"<input type=\"hidden\" id='"+opCateList.get(i).getOp_code()+"' value='"+opCateList.get(i).getOp_price()+"'/>");
+			sb.append("<option id='op"+opCateList.get(i).getOp_code()+"'>"+opCateList.get(i).getOp_content()+" - ");
+					if(opCateList.get(i).getOp_period()!=null)
+						sb.append("기간 : "+opCateList.get(i).getOp_period()+"-");
+					if(opCateList.get(i).getOp_times()!=null)
+						sb.append("횟수 : "+opCateList.get(i).getOp_times()+"-");
+					if(opCateList.get(i).getOp_day()!=null)
+						sb.append("요일 : "+opCateList.get(i).getOp_day()+"-");
+					if(opCateList.get(i).getOp_clock()!=null)
+						sb.append("시간 : "+opCateList.get(i).getOp_clock()+"-");
+					if(opCateList.get(i).getOp_personnel()!=-100) {//정원이 무제한이 아닌경우
+						sb.append("남은 인원/정원 : ");
+						//남은 자리/정원 뽑아내기
+						int cnt=0;
+						int leftCnt=0;
+						for(int j=0; j<psList.size();j++) {
+							if(opCateList.get(i).getOp_code().equals(psList.get(j).get("PS_OPCODE"))) {
+								cnt++;
+							}
+							leftCnt = opCateList.get(i).getOp_personnel()-cnt;
+						}
+						sb.append(leftCnt+"/"+opCateList.get(i).getOp_personnel()+"</option>");
+					}else if(opCateList.get(i).getOp_personnel()==-100){//정원이 무제한일경우
+						sb.append("인원 제한 없음</option>");
+					}
 		}
-		sb.append("                                            </select></p>" +
+		sb.append("                                            </select></p>");
 				//옵션출력 끝 
-				"                                        <div class=\"row\">\r\n" + 
+				
+				//옵션코드 리스트, 옵션가격 리스트 뽑아내기
+				for(int i=0;i<opCateList.size();i++) {
+					sb.append("<input type=\"hidden\" id='"+opCateList.get(i).getOp_code()+"' value='"+opCateList.get(i).getOp_price()+"'/>");
+				}
+				
+		sb.append("                                        <div class=\"row\">\r\n" + 
 				"                                            <div class=\"col-md-7\">\r\n" + 
 				"                                                <blockquote class=\"blockquote blockquote-primary\">\r\n" + 
 				"                                                    <footer class=\"blockquote-footer\">프로모션 및 가격 할인행사</footer>\r\n" + 
@@ -608,12 +810,12 @@ public class KirimService {
 							  "                         		<div class=\"dropdown-menu\">");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
 					if(dp.get("M_KIND").toString().equals("t") && dp.get("T_CID")==null) {
-						sb.append("<a href='profilepage?m_id="+dp.get("AD_NAME")+"'class='dropdown-item'>"+dp.get("M_NAME")+"</a>");
+						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage'>"+dp.get("M_NAME")+"</a>");
 					//프로그램 광고 작성자가 업체	
 					}else if(dp.get("M_KIND").toString().equals("c")) {
 						for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 트레이너 + 담당 옵션 찍어주기
 							//if(!opCateList.get(i).getOp_trainer().equals(opCateList.get(i+1).getOp_trainer())) {
-								sb.append("<a href='profilepage?m_id="+opCateList.get(i).getOp_trainer()+"'class='dropdown-item'>"+opCateList.get(i).getM_name()+"</a>");
+								sb.append("<a href='#' id='profilePage"+opCateList.get(i).getOp_trainer()+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+opCateList.get(i).getM_name()+"</a>");
 							//}
 						}
 					}
@@ -622,44 +824,35 @@ public class KirimService {
 				//옵션 담당 트레이너 보기버튼 끝
 	  
 		//찜버튼 위치
-	  	String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+		Set<String> delBtnSet = new HashSet<>();		
+		String addBtn=null;
+		String delBtn=null;
+	
+	  	addBtn = "<button id='" + "dibsAdd" + ad_code
 				+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
+				+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
 		
-	  	String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
-				+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-				+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
+	  	delBtn = "<button id='" + "dibsDelete" + ad_code
+				+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
+				+ "<i class=\"mdi mdi-heart\"></i></button>";
 		
-	  	if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { 
+	  	if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 			for (int j = 0; j < dibsList.size(); j++) {
-				if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜하지 않은 상품은 찜하기버튼
-					sb.append(addBtn);
-				}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {// 회원:찜한상품 찜 취소버튼
-					sb.append(delBtn);
+				if(dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+					delBtnSet.add(ad_code);
 				}
 			}
-			//중복버튼 제거
-			StringBuilder sb2 = null;
-			if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
-				sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
-			}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
-				sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
-				sb2.append(addBtn);
-			}
-			sb=sb2;
-			// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
-		} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-			sb.append(addBtn);
-		} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
-			// 비회원 세션에 찜한상품 아니면 찜하기버튼
+	  	} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 			if (session.getAttribute("tempDibs" + ad_code) == null
 					|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
 				sb.append(addBtn);
-				// 비회원 세션에 찜한 상품 찜취소버튼 :
 			} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
 				sb.append(delBtn);
 			}
-		} // 찜버튼 끝
+		}  // 찜버튼 끝
+	  	String delBtnSetJson = new Gson().toJson(delBtnSet);
+		mav.addObject("delBtnSet",delBtnSetJson);
+	  	
 				
 				sb.append("<button id='purchase' class=\"btn btn-primary\" role=\"button\" disabled='true'>구매</button> </div>\r\n" + 
 				//"</form>"+
@@ -682,7 +875,6 @@ public class KirimService {
 				"                                        <li class=\"nav-item\">\r\n" + 
 				"                                            <a class=\"nav-link\" id=\"question-tab\" data-toggle=\"tab\" href=\"#question\" role=\"tab\" aria-controls=\"question\" aria-selected=\"false\" style=\"border-bottom-color : #71c016; color: #71c016\">문의 보기</a>\r\n" + 
 				"                                        </li>\r\n" + 
-				"\r\n" + 
 				"\r\n" + 
 				"                                    </ul>"+
 				"                                    <div class=\"tab-content py-0 px-0\">\r\n" + 
@@ -712,7 +904,7 @@ public class KirimService {
 				+ "                                                        <p>총 "+rvList.size()+"건의 후기가 있습니다.</p> 평점:");
 				//평점 계산
 			if(rvList.size()!=0) {
-				int pSum=0;
+				double pSum=0;
 				int oneStarCnt=0;
 				int twoStarCnt=0;
 				int threeStarCnt=0;
@@ -731,7 +923,7 @@ public class KirimService {
 				}
 				System.out.println("pSum="+pSum);
 				System.out.println("rvList.size()="+rvList.size());
-				double pAvg = Math.round((pSum/(float)rvList.size()*100)/100.00);
+				double pAvg = Math.round((pSum/(double)rvList.size()*10)/10.0);
 				System.out.println("평점="+pAvg);
 				System.out.println("3점 몇명?"+threeStarCnt);
 				sb.append(pAvg+". 1점인원:"+oneStarCnt+"명. 2점인원:"+twoStarCnt+"명. 3점인원:"+threeStarCnt+"명. 4점인원:"+fourStarCnt+"명. 5점인원:"+fiveStarCnt);
@@ -754,15 +946,31 @@ public class KirimService {
 					sb.append("                                                       <tr>"
 							+ "                                                           <td>"+String.valueOf(rvList.get(i).get("RV_STPOINT"))+"</td>"
 							
-							+ "                                                           <td>"+rvList.get(i).get("OP_CONTENT")+"/"
-							+ "                                                           기간:"+rvList.get(i).get("OP_PERIOD")+"/"
-							+ "                                                           "+String.valueOf(rvList.get(i).get("OP_TIMES"))+"회/"
-							+ "                                                           "+rvList.get(i).get("OP_DAY")+"/"
-							+ "                                                           시간:"+rvList.get(i).get("OP_CLOCK")+"</td>"
-							
+							+ "                                                           <td>");
+							if(rvList.get(i).get("OP_CONTENT")!=null)
+								sb.append(rvList.get(i).get("OP_CONTENT")+"/"); else sb.append("선택 옵션 없음");
+							if(rvList.get(i).get("OP_PERIOD")!=null)
+								sb.append("기간:"+rvList.get(i).get("OP_PERIOD")+"/"); else sb.append("");
+							if(rvList.get(i).get("OP_TIMES")!=null)
+								sb.append(""+String.valueOf(rvList.get(i).get("OP_TIMES"))+"회/"); else sb.append("");
+							if(rvList.get(i).get("OP_DAY")!=null)
+								sb.append(""+rvList.get(i).get("OP_DAY")+"/"); else sb.append("");
+							if(rvList.get(i).get("OP_CLOCK")!=null)
+								sb.append("시간:"+rvList.get(i).get("OP_CLOCK")); else sb.append("");
+							sb.append("</td>"
 							+ "                                                           <td>"+String.valueOf(rvList.get(i).get("PS_DATE"))+"</td>"
-							+ "                                                           <td>"+rvList.get(i).get("RV_CONTENT")+"<a href=\"#\"> 더보기<i class=\"mdi mdi-arrow-down\"></i></a></td>"
-							+ "                                                           <td>"+rvList.get(i).get("RV_NAME")+"</td>"
+							+ "														      <td>");
+							//후기내용이 길다면 더보기 버튼 넣어주기
+							if(rvList.get(i).get("RV_CONTENT").length()>20) {
+								sb.append("<p>"+rvList.get(i).get("RV_CONTENT").substring(0, 20)+"<p class='text-success showHiddenReview'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+										+"<p class='hiddenReview' hidden>"+rvList.get(i).get("RV_CONTENT").substring(20)+"</p>"
+										+"<p class='text-success foldHiddenReview' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+										);
+							}else {//20글자보다 짧다면 그냥 넣어주기
+								sb.append("<p>"+rvList.get(i).get("RV_CONTENT")+"</p>");
+							}
+							sb.append("                                                   </td>"
+							+ "															  <td>"+rvList.get(i).get("RV_NAME")+"</td>"
 							+ "                                                           <td>"+String.valueOf(rvList.get(i).get("RV_DATE"))+"</td>"
 							+ "                                                       </tr>");
 				}
@@ -795,11 +1003,28 @@ public class KirimService {
 				+ "                                        </div>"+
 				//후기 끝
 				//문의시작
-				"<div class=\"tab-pane fade\" id=\"question\" role=\"tabpanel\" aria-labelledby=\"question-tab\">\r\n" + 
-				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
+				"<div class=\"tab-pane fade\" id=\"question\" role=\"tabpanel\" aria-labelledby=\"question-tab\">"+
+				makeHtmlQna(qaList)+
+				"                                        </div>"+//id='question'
+				//문의 끝
+				"                                    </div>\r\n" + 
+				"                                </div>\r\n" + 
+				"                            </div>\r\n" + 
+				"                        </div>\r\n" + 
+				"                    </div>\r\n" + 
+				"\r\n" + 
+				"                </div>");
+		return sb.toString();
+	}
+
+	private String makeHtmlQna(List<Qna> qaList) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
 				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
 				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
-				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다.<button type=\"button\" class=\"btn btn-primary btn-sm\">문의하기</button></p>\r\n" + 
+				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다."+
+				"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-primary btn-sm qFrm\" data-toggle=\"modal\" data-target=\"#myModal\" hidden>문의하기</button></p>"+
+				
 				"                                                        <div class=\"table-responsive\">\r\n" + 
 				"                                                            <table class=\"table table-hover table-condensed\">\r\n" + 
 				"                                                                <thead>\r\n" + 
@@ -817,13 +1042,33 @@ public class KirimService {
 					if(qaList.get(i).getQa_answer()!=null) {
 						sb.append("<td>답변 완료</td>");
 					}else {sb.append("<td>답변 대기중</td>");}
-					sb.append("<td>"+qaList.get(i).getQa_wContent()+"</td>" + 
+					sb.append("<td>");
+					//문의내용이 길다면 더보기 버튼 넣어주기
+					if(qaList.get(i).getQa_wContent().length()>20) {
+						sb.append("<p>"+qaList.get(i).getQa_wContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+								+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_wContent().substring(20)+"</p>"
+								+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+								);
+					}else {//20글자보다 짧다면 그냥 넣어주기
+						sb.append("<p>"+qaList.get(i).getQa_wContent()+"</p>");
+					}
+					sb.append("                                                   </td>"+ 
 							  "<td>"+qaList.get(i).getQa_writer()+"</td>" + 
 							  "<td>"+qaList.get(i).getQa_wdate()+"</td>" + 
 							  "</tr>");
 				  	if(qaList.get(i).getQa_answer()!=null) {
-				  		sb.append("<tr><td></td><td></td><td><i class=\"mdi mdi-arrow-right-bold\"></i></td>" + 
-				  					"<td>"+qaList.get(i).getQa_aContent()+"<a href=\"#\"> 접기<i class=\"mdi mdi-arrow-up\"></i></a></td>" + 
+				  		sb.append("<tr><td></td><td><i class=\"mdi mdi-arrow-right-bold\"></i></td>" + 
+				  				  "														      <td>");
+						//문의답변내용이 길다면 더보기 버튼 넣어주기
+						if(qaList.get(i).getQa_aContent().length()>20) {
+							sb.append("<p>"+qaList.get(i).getQa_aContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class=\"mdi mdi-arrow-down\"></i></p>"
+									+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_aContent().substring(20)+"</p>"
+									+"<p class='text-success foldHiddenQna' hidden> 접기<i class=\"mdi mdi-arrow-up\"></i></p>"
+									);
+						}else {//20글자보다 짧다면 그냥 넣어주기
+							sb.append("<p>"+qaList.get(i).getQa_aContent()+"</p>");
+						}
+						sb.append("                                                   </td>"+ 
 				  					"<td>"+qaList.get(i).getQa_answer()+"</td>" + 
 				  					"<td>"+qaList.get(i).getQa_adate()+"</td>" + 
 				  					"</tr>");
@@ -857,18 +1102,20 @@ public class KirimService {
 				"\r\n" + 
 				"                                                    </li>\r\n" + 
 				"\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>"+
-				//문의 끝
+				"                                                </div>\r\n" + //d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item
+				"                                            </div>\r\n"); //d-flex flex-wrap justify-content-xl-between
 				
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"\r\n" + 
-				"                </div>");
 		return sb.toString();
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
