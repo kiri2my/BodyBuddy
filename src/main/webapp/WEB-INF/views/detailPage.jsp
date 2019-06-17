@@ -110,7 +110,7 @@
 
 <script>
 
-
+$('.carousel').carousel();
 
 
 $(".profilePage").click(function(){
@@ -218,15 +218,34 @@ $(".qFrm").click(function(){
     $(".modal-body").html(qFrm);
   //문의등록    
     $("#qaWrite").click(function(){
+    	var ad_name = $("#ad_name").val();
+    	var ad_code = $("#ad_code").val();
     	console.log(ad_code);
-    	//ajax
-    });
+    	var qa_wContent = $("#exampleTextarea1").val();
+    	console.log(qa_wcontent);
+    	$.ajax({
+    		url:"detailqawriteinsert",
+    		type:"post",
+    		data:{qa_adcode:ad_code, qa_wContent:qa_wContent, qa_answer:qa_answer},	
+			dataType:"html",
+			success:function(data){
+				console.log(data);
+				if(data!=null){
+					$("#question").html(data);	
+				}
+				
+			},
+			error:function(err){
+				console.log(err);
+			}
+    		
+    	});//ajax END
+    });//qaWrite click END
+});//qFrm click END
 
-});
 
 
-
-//url:"detailqawriteinsert",
+//
 
 
 

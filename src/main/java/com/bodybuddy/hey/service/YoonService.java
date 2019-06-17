@@ -133,7 +133,7 @@ public class YoonService {
 					
 				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
 							"                                        <div class=\"thumbnail\">\r\n" + 
-							"                                            <img alt=\"100%x200\" src='"+mainList.get(i).get("PF_IMAGE")+"'"+
+							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 
 							"                                            <div class=\"caption\">\r\n" + 
 							"                                                <br>\r\n" + 
@@ -234,7 +234,6 @@ public class YoonService {
 
 	public ModelAndView programListN(String m_id) {
 		System.out.println("idididididi=" + m_id);
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> getProgramListN = null;
 		List<Map<String, String>> getNormalListN = null;
@@ -292,7 +291,6 @@ public class YoonService {
 	}
 
 	public ModelAndView payListN(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> getPayListN = null;
 		getPayListN = yDao.getpayListN(m_id);
@@ -324,7 +322,6 @@ public class YoonService {
 	}
 
 	public ModelAndView modifyN(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		Member mb = yDao.getModifyN(m_id);
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
@@ -336,7 +333,6 @@ public class YoonService {
 	}
 
 	public ModelAndView dibsList(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> dibs = null;
 		dibs = yDao.getdibs(m_id);

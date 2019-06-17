@@ -54,6 +54,8 @@ public interface KirimDao {
 
 	public int selectOverlap(Map<String, String> cs);
 
+	public String selectPeriod(String da_opperiod);	
+	
 	public List<Map<String, String>> detailPsCount(String ad_code);
 
 	public List<Map<String, String>> getTrainerPCategory(String m_id);
@@ -68,8 +70,11 @@ public interface KirimDao {
 
 	public Map<String, Integer> personnelCalc(String ps_opcode);
 
+	public boolean detailQaWriteInsert(Qna qna);
 
-	public String selectPeriod(String da_period);	
+	public List<Map<String, String>> adPhotoList(String ad_code);
+
+	
 	
 
 	

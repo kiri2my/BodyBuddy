@@ -102,22 +102,21 @@ public class KirimService {
 		String view = null;
 		Member sessionMb=null;
 		List<Map<String, String>> dibsList=null;
-		List<Qna> qaList = null;
-		List<Map<String,String>> rvList = null;
-		List<Map<String,String>> psList = null;
+		
 		System.out.println("aaaad_code=" + ad_code);
 		Map<String, String> dp = kDao.detailPage(ad_code);
 		List<OpCategory> opCateList = kDao.opCateList(ad_code);
-		qaList = kDao.detailQa(ad_code);
-		rvList = kDao.detailReview(ad_code);
-		psList = kDao.detailPsCount(ad_code);
+		List<Map<String,String>> apList =kDao.adPhotoList(ad_code);
+		List<Qna> qaList = kDao.detailQa(ad_code);
+		List<Map<String,String>> rvList = kDao.detailReview(ad_code);
+		List<Map<String,String>> psList = kDao.detailPsCount(ad_code);
+		
 		sessionMb = (Member) session.getAttribute("mb");
 		if(sessionMb!=null) {
 			String d_id = sessionMb.getM_id();
 			dibsList = yDao.dibsN(d_id);
 		}
-		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList, psList, mav);
-		
+		String html = makeHTMLDetailPage(dp, opCateList, dibsList, sessionMb, qaList, rvList, psList, mav, apList);
 		view = "detailPage";
 		mav.addObject("detailPageHTML", html);
 		mav.setViewName(view);
@@ -145,9 +144,9 @@ public class KirimService {
 			}
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
-			String da_period=ph.getPs_opcode();
+			String da_opperiod=ph.getPs_opcode();
 			Payment ph1=kDao.selectPscode(cs);
-			String ph2=kDao.selectPeriod(da_period);
+			String ph2=kDao.selectPeriod(da_opperiod);
 			Map<String,String> cs2 = new HashMap<>();
 			String ps_code=ph1.getPs_code();
 			cs2.put("da_period", ph2);
@@ -294,15 +293,17 @@ public class KirimService {
 		
 		//해당 옵션레코드의 시작날짜가 오늘보다 많다면(after라면)
 		for(int i=0;i<opl.size();i++) {
-			period = opl.get(i).get("OP_PERIOD").toString();
-			periodStartStr =period.split("~")[0];//시작날짜 문자열
-			//기본 날짜포맷 사용 : LocalDate periodStart = LocalDate.parse(periodStartStr, DateTimeFormatter.ISO_DATE); 
-			periodStart = LocalDate.parse(periodStartStr, formatter);//내가 지정한 날짜포맷 사용
-	        //periodStart.format(formatter);
-			if(periodStart.isBefore(today)) { //isBefore:a<b   isAfter:a>b //시작날짜>현재 날짜라면  
-				//해당 옵션 만료
-				op_code = opl.get(i).get("OP_CODE").toString();
-				result = kDao.expireOption(op_code);
+			if(opl.get(i).get("OP_PERIOD").toString().contains("~")) {
+				period = opl.get(i).get("OP_PERIOD").toString();
+				periodStartStr =period.split("~")[0];//시작날짜 문자열
+				//기본 날짜포맷 사용 : LocalDate periodStart = LocalDate.parse(periodStartStr, DateTimeFormatter.ISO_DATE); 
+				periodStart = LocalDate.parse(periodStartStr, formatter);//내가 지정한 날짜포맷 사용
+		        //periodStart.format(formatter);
+				if(periodStart.isBefore(today)) { //isBefore:a<b   isAfter:a>b //시작날짜>현재 날짜라면  
+					//해당 옵션 만료
+					op_code = opl.get(i).get("OP_CODE").toString();
+					result = kDao.expireOption(op_code);
+				}
 			}
 		}
 		
@@ -352,7 +353,17 @@ public class KirimService {
 		System.out.println("정상완료");
 	}//adExpirePeriod 끝 http://www.urbanui.com/majestic/template/pages/ui-features/typography.html
 
-	
+	public String detailQaWriteInsert(Qna qna) {
+		String json=null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		qna.setQa_writer(sessionMb.getM_id());
+		if(kDao.detailQaWriteInsert(qna)) {//성공시
+			List<Qna> qaList = kDao.detailQa(qna.getQa_adcode());
+			String html=makeHtmlQna(qaList);
+			json = new Gson().toJson(html);
+		}		
+		return json;
+	}
 	
 	
 	
@@ -373,7 +384,7 @@ public class KirimService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
 				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                            <img src='resources/upload/"+pc.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
 				"                                        </a>\r\n" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -470,7 +481,7 @@ public class KirimService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
 				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+pt.getPf_image()+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                            <img src='resources/upload/"+pt.getPf_image()+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
 				"                                        </a>\r\n" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -593,7 +604,7 @@ public class KirimService {
 				"              </div><br>" + 
 				"    <div>\r\n" + 
 				"        <div class=\"img_wrap\">\r\n" + 
-				"            <img id=\"img\" src='"+mb.getPf_image()+"' />\r\n" + 
+				"            <img id=\"img\" src='resources/upload/"+mb.getPf_image()+"' />\r\n" + 
 				"        </div>\r\n" + 
 				"    </div>\r\n" + 
 				"              <form class=\"pt-3\">\r\n" + 
@@ -650,7 +661,7 @@ public class KirimService {
 	}
 
 	private String makeHTMLDetailPage(Map<String, String> dp, List<OpCategory> opCateList,List<Map<String, String>> dibsList, 
-			Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList, List<Map<String, String>> psList, ModelAndView mav) {
+			Member sessionMb, List<Qna> qaList, List<Map<String, String>> rvList, List<Map<String, String>> psList, ModelAndView mav, List<Map<String, String>> apList) {
 		StringBuilder sb = new StringBuilder();
 		String ad_code = dp.get("AD_CODE").toString();
 		System.out.println("HTMLad_code===="+ad_code);
@@ -662,9 +673,59 @@ public class KirimService {
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">\r\n" + 
-				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
-				"                                        </a>\r\n" + 
+//광고사진 캐러셀 시작
+			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\">\r\n" + 
+			"  <!-- Indicators -->\r\n" + 
+			"  <ol class=\"carousel-indicators\">\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"0\" class=\"active\"></li>\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"1\"></li>\r\n" + 
+			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"2\"></li>\r\n" + 
+			"  </ol>\r\n" + 
+			"\r\n" + 
+			"  <!-- Wrapper for slides -->\r\n" + 
+			"  <div class=\"carousel-inner\" role=\"listbox\">\r\n");
+			
+			for(int i=0;i<apList.size();i++) {
+				sb.append("    <div class=\"item active\">\r\n" + 
+						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>\r\n" + 
+						"      <div class=\"carousel-caption\">\r\n" + 
+						i+"번째사진" + 
+						"      </div>" + 
+						"    </div>");
+			}
+			
+	sb.append("    <div class=\"item active\">\r\n" + 
+			"      <img src='' alt='advertisePhoto'>\r\n" + 
+			"      <div class=\"carousel-caption\">\r\n" + 
+			"        1번째사진\r\n" + 
+			"      </div>\r\n" + 
+			"    </div>\r\n" + 
+			
+			
+			
+			"    qwerqwer\r\n" + 
+			"  </div>\r\n" + 
+			"\r\n" + 
+			"  <!-- Controls -->\r\n" + 
+			"  <a class=\"left carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"prev\">\r\n" + 
+			"    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>\r\n" + 
+			"    <span class=\"sr-only\">Previous</span>\r\n" + 
+			"  </a>\r\n" + 
+			"  <a class=\"right carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"next\">\r\n" + 
+			"    <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>\r\n" + 
+			"    <span class=\"sr-only\">Next</span>\r\n" + 
+			"  </a>\r\n" + 
+			"</div>"+	
+
+				
+			
+				
+				
+//프로필 캐러셀 끝				
+				
+				/*"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
+				"                                            <img src='resources/upload/"+dp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                        </a>\r\n" +*/ 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
 				"                            </div>\r\n" + 
@@ -676,6 +737,7 @@ public class KirimService {
 				"\r\n" + 
 				//"<form name='detailPageInfo'>"+
 				"<input type=\"hidden\" id=\"ad_code\" name=\"ad_code\" value='"+ad_code+"'>"+
+				"<input type=\"hidden\" id=\"ad_name\" name=\"ad_name\" value='"+dp.get("AD_NAME")+"'>"+
 				"                                    <div class=\"caption\">\r\n" + 
 				"                                        <h3 class=\"display-4\" style=\"text-align: center\">"+dp.get("AD_TITLE")+"<br><br>\r\n" + 
 				"                                            <small class=\"text-muted\">");
@@ -941,8 +1003,23 @@ public class KirimService {
 				+ "                                        </div>"+
 				//후기 끝
 				//문의시작
-				"<div class=\"tab-pane fade\" id=\"question\" role=\"tabpanel\" aria-labelledby=\"question-tab\">\r\n" + 
-				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
+				"<div class=\"tab-pane fade\" id=\"question\" role=\"tabpanel\" aria-labelledby=\"question-tab\">"+
+				makeHtmlQna(qaList)+
+				"                                        </div>"+//id='question'
+				//문의 끝
+				"                                    </div>\r\n" + 
+				"                                </div>\r\n" + 
+				"                            </div>\r\n" + 
+				"                        </div>\r\n" + 
+				"                    </div>\r\n" + 
+				"\r\n" + 
+				"                </div>");
+		return sb.toString();
+	}
+
+	private String makeHtmlQna(List<Qna> qaList) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">\r\n" + 
 				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">\r\n" + 
 				"                                                    <li class=\"nav-item d-none d-lg-block w-100\">\r\n" + 
 				"                                                        <p>총 "+qaList.size()+"건의 문의가 있습니다."+
@@ -1025,20 +1102,13 @@ public class KirimService {
 				"\r\n" + 
 				"                                                    </li>\r\n" + 
 				"\r\n" + 
-				"                                                </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                        </div>"+
-				//문의 끝
+				"                                                </div>\r\n" + //d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item
+				"                                            </div>\r\n"); //d-flex flex-wrap justify-content-xl-between
 				
-				"                                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
-				"                        </div>\r\n" + 
-				"                    </div>\r\n" + 
-				"\r\n" + 
-				"                </div>");
 		return sb.toString();
 	}
+
+	
 	
 	
 	

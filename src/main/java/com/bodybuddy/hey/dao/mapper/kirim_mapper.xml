@@ -33,7 +33,7 @@
 	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
 		SELECT DC.*, AD.AD_CONTENT 
 		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
-				 PF_IMAGE, M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
+				 M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
       			 FROM DETAILPAGE DP
       			 LEFT JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
 		LEFT JOIN AD ON DC.AD_CODE=AD.AD_CODE
@@ -139,6 +139,10 @@
 		SELECT PS_OPCODE FROM PS WHERE PS_ADCODE=#{ad_code}
 	</select>
 	
+	<select parameterType="String" id="adPhotoList" resultType="HashMap"> 
+		SELECT * FROM AP WHERE AP_ADCODE=#{ad_code}
+	</select>
+	
 	
 	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
 		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
@@ -194,8 +198,14 @@
 
  	<select id="selectPeriod" parameterType="String" resultType="String">
   		SELECT OP_PERIOD FROM OP
-		WHERE OP_CODE=#{da_period}
+		WHERE OP_CODE=#{da_opperiod}
  	</select>
+ 	
+ 	
+ 	<insert id="detailQaWriteInsert" parameterType="qna">
+		INSERT INTO QA VALUES(QA_SEQ.NEXTVAL,#{qa_adcode},#{qa_writer},#{qa_wContent},SYSDATE,#{qa_answer},'',SYSDATE,'f')
+	</insert>
+ 	
 
 	
 	

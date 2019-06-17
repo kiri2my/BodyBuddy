@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Payment;
+import com.bodybuddy.hey.bean.Qna;
 import com.bodybuddy.hey.service.KirimService;
 
 
@@ -24,6 +25,7 @@ public class KirimController {
 	KirimService ks;
 	ModelAndView mav;
 	String html;
+	String json;
 	
 	
 	//cron 표현식 보기 (시간조건) : https://aljjabaegi.tistory.com/400
@@ -82,6 +84,15 @@ public class KirimController {
 		html = ks.dibsDelete(d_adcode);
 		return html;
 	}
+	
+	@RequestMapping(value = "/detailqawriteinsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String detailQaWriteInsert(Qna qna) {
+		System.out.println("url:/dibsdelete");
+		json = ks.detailQaWriteInsert(qna);
+		return json;
+	}
+	
 	
 	
 	
