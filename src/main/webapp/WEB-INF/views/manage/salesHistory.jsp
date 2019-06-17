@@ -67,7 +67,7 @@
 										<tr>
 											<td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td>
 											<td style="text-align: center;"><a href="#" onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-											<td><a href="#" onclick="advertisedetail(${sales.ps_mid})">${sales.m_name }(${sales.ps_mid})</a></td>
+											<td><a href="#" onclick="advertisedetail(${sales.m_id})">${sales.m_name }(${sales.m_id})</a></td>
 											<td style="text-align: right;">${sales.ps_price }</td>
 											<td>결제완료</td>
 											<th>${sales.ps_date }</th>

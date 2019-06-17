@@ -15,5 +15,7 @@ public class Sales {
 	private String ps_price;
 	private String ad_title;
 	private String m_name;
+	private String m_id;
+	
 
 }
