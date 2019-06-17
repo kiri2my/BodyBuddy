@@ -38,7 +38,7 @@ public interface KirimDao {
 	
 	public List<Qna> detailQa(String ad_code);
 
-	public Tprofile getTrainerProfile(String m_id);
+	public Map<String, String> getTrainerProfile(String m_id);
 
 	public List<Map<String, String>> getTrainerPOption(String m_id);
 
@@ -68,7 +68,7 @@ public interface KirimDao {
 
 	public int expireAd(String ad_code);
 
-	public Map<String, Integer> personnelCalc(String ps_opcode);
+	public Map<String, String> personnelCalc(String ps_opcode);
 
 	public boolean detailQaWriteInsert(Qna qna);
 

@@ -82,13 +82,12 @@
   		<result property="pf_image" column="PF_IMAGE"/>
   	</resultMap> -->
 	
-	<select parameterType="String" id="getTrainerProfile" resultType="tprofile"> 
+	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
 		
 		SELECT M_ID, M_NAME, M_KIND, T_CID, T_CAREER, C_BNAME 
 		FROM M
 		LEFT JOIN T ON M_ID=T_ID
 		LEFT JOIN C ON T_CID=C_ID
-		LEFT JOIN PF ON M_ID=PF_ID
 		WHERE M_ID=#{m_id}
 	</select>
 	

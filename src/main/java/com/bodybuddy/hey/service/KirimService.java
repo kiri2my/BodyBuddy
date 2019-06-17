@@ -168,14 +168,22 @@ public class KirimService {
 	
 	private String opExpirePersonnel(Payment ph) {
 		String text=null;
-		Map<String,Integer> purByPer=null;
+		Map<String,String> purByPer=null;
 		purByPer = kDao.personnelCalc(ph.getPs_opcode());
 		if(purByPer!=null) {
 			System.out.println("SEX="+purByPer.size());
-			System.out.println("SEX="+Integer.toString(purByPer.get("PS_OPCODE")));
-			if(purByPer.get("PURCHCOUNT") >= purByPer.get("OP_PERSONNEL")){
-				text="full";
+			System.out.println("SEX="+String.valueOf(purByPer.get("PURCHCOUNT")));
+			System.out.println("SEX="+String.valueOf(purByPer.get("OP_PERSONNEL")));
+			System.out.println("SEX="+purByPer.get("PS_OPCODE"));
+			int a = Integer.valueOf(String.valueOf(purByPer.get("PURCHCOUNT"))).intValue();
+			int b = Integer.valueOf(String.valueOf(purByPer.get("OP_PERSONNEL"))).intValue();
+			if(b!=-100) {
+				if(a >= b){
+					text="full";
+				}
 			}
+			
+			
 		}
 		return text;
 		
@@ -261,7 +269,7 @@ public class KirimService {
 			mb=kDao.getNormalInfo(m_id);
 			html = makeHTMLNormalProfile(mb);
 		}else if(kind.equals("t")) {
-			Tprofile tp=kDao.getTrainerProfile(m_id);
+			Map<String,String> tp=kDao.getTrainerProfile(m_id);
 			List<Map<String, String>> tpo=kDao.getTrainerPOption(m_id);
 			List<Map<String, String>> tpc=kDao.getTrainerPCategory(m_id);
 			html = makeHTMLTrainerProfile(tp, tpo, tpc);
@@ -475,7 +483,7 @@ public class KirimService {
 		return sb.toString();
 	}
 
-	private String makeHTMLTrainerProfile(Tprofile pt, List<Map<String, String>> tpo, List<Map<String, String>> tpc) {
+	private String makeHTMLTrainerProfile(Map<String, String> tp, List<Map<String, String>> tpo, List<Map<String, String>> tpc) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"main-panel\">\r\n" + 
 				"                <div class=\"content-wrapper\" style='width:43.86em' >\r\n" + 
@@ -485,7 +493,7 @@ public class KirimService {
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">\r\n" + 
 				"                                        <a href=\"#\" class=\"thumbnail\">\r\n" + 
-				"                                            <img src='resources/upload/"+pt.getPf_image()+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
+				"                                            <img src='resources/upload/"+tp.get("PF_IMAGE")+"' alt=\"detailImage\" class=\"img-rounded\" />\r\n" + 
 				"                                        </a>\r\n" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -495,10 +503,10 @@ public class KirimService {
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <div class=\"caption\">\r\n" + 
-				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+pt.getM_name()+" 트레이너 프로필<br><br>\r\n" + 
+				"                                        <h3 class=\"text-primary\" style=\"text-align: center\">"+tp.getM_name()+" 트레이너 프로필<br><br>\r\n" + 
 				"                                            <small class=\"text-muted\" style=\"text-align: right\">소속업체 : ");
-		if(pt.getC_bname()!="" ||pt.getC_bname()!=null) {
-			sb.append(pt.getC_bname());
+		if(tp.get("C_BNAME")!="" ||tp.get("C_BNAME")!=null) {
+			sb.append(tp.getC_bname());
 		}else {
 			sb.append("없음");
 		}
@@ -513,14 +521,14 @@ public class KirimService {
 		}
 	  sb.append("										 </h4><br>\r\n" + 
 				"                                        <h4>주요 이력: <p class=\"display-4\">");
-	  	String[] career = pt.getT_career().split(" ");//,쉼표로 자를것
+	  	String[] career = tp.getT_career().split(" ");//,쉼표로 자를것
 	  	for(int i=0;i<career.length;i++) {
 	  		sb.append(career[i]+"<br>");
 	  	}
 	  sb.append("										 </h4>\r\n" + 
 				"                                        <br>\r\n" + 
 				"                                        <address class=\"text-primary\">" + 
-				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +pt.getM_id()+"</p>" + 
+				"                                            <p class=\"font-weight-bold\">E-mail</p><p class=\"mb-2\">" +tp.getM_id()+"</p>" + 
 				"                                        </address>" + 
 				"                                    </div>\r\n" + 
 				"                                </div>\r\n" + 
