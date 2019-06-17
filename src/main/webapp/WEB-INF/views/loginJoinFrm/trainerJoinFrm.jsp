@@ -187,7 +187,9 @@
 										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력"> <input type="hidden" value="t"
-											id="m_kind" name="m_kind" />
+											id="m_kind" name="m_kind" /> 
+											<input type="hidden" value="소속업체없음"id="t_cid" name="t_cid" /> 
+											<input type="hidden" value=" "	id="t_career" name="t_career" />
 									</div>
 
 								</div>
@@ -268,7 +270,7 @@
 				$('#sendRndNum').prop("type", "hidden");
 				mail = data;
 				console.log("data" + data);
-				console.log("mail" + mail);
+				console.log(mail);
 				alert("인증번호를  발송하였습니다")
 			},
 			error : function(error) {

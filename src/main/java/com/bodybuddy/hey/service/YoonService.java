@@ -1,24 +1,33 @@
 package com.bodybuddy.hey.service;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Counsel;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
 import com.bodybuddy.hey.dao.YoonDao;
+import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
 
 @Service
@@ -29,33 +38,65 @@ public class YoonService {
 	ModelAndView mav;
 	@Autowired
 	HttpSession session;
-
-	public ModelAndView mainList(String sido, String sigungu, String extra) {
+	@Autowired
+	private UploadFile upload;
+	
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;
 		List<Map<String, String>> mainList=null;
-		List<OpCategory> opCateListAll=null;
 		List<Map<String, String>> dibsList=null;
 		mav.addObject("showMap",false);
-		if(sido!=null) {
+		if(cate!=null) {
+			switch(cate) {
+				case "cateAll":
+					cate=null;
+					break;
+				case "cateNormal":
+					cate="일반";
+					break;
+				case "cateFitness":
+					cate="피트니스";
+					break;
+				case "cateHomeTraining":
+					cate="홈트레이닝";
+					break;
+				case "catePilates":
+					cate="필라테스";
+					break;
+				case "cateYoga":
+					cate="요가";
+					break;
+			}
+		}
+		
+		if(sido!=null) {//주소지가 있다면
 			Map<String,String> local = new HashMap<>();
 			local.put("sido", sido);
 			local.put("sigungu", sigungu);
+			System.out.println("cateGORY====================="+cate);
+			if(cate!=null) { //주소지 있는경우 cate있는경우
+				local.put("cate", cate);
+			}
 			if(extra.contains("/")){
 		    	String[] extraSplit = extra.split("/");
 				local.put("extra1", extraSplit[0]);
 				local.put("extra2", extraSplit[1]);
-				mainList = yDao.mainMapList2(local);
+				mainList = yDao.mainListMap(local);
 			}else {
 				local.put("extra", extra);
-				mainList = yDao.mainMapList1(local);
+				mainList = yDao.mainListMap(local);
 			}
 			mav.addObject("showMap",true);
 			mav.addAllObjects(local);
-		}else {
-			mainList = yDao.mainList();
+		}else {//주소지가 없다면
+			System.out.println("cateGORY====================="+cate);
+			if(cate!=null) {//주소지 없는경우 cate있는경우
+				mainList = yDao.mainListCate(cate);
+			}else {
+				mainList = yDao.mainList();
+			}
 		}
-		opCateListAll  = yDao.opCateListAll();
 		
 		// 로그인 되어있을 시
 		Member sessionMb = (Member) session.getAttribute("mb");
@@ -65,7 +106,7 @@ public class YoonService {
 			System.out.println("sessionMb.getM_id();sessionMb.getM_id();" + sessionMb.getM_id());
 			dibsList = yDao.dibsN(d_id);
 		}	
-		String html = makeHTMLMainList(mainList, opCateListAll, dibsList, sessionMb);
+		String html = makeHTMLMainList(mainList, dibsList, sessionMb, mav);
 		mav.addObject("mainListHTML",html);
 		String jsonMainList = new Gson().toJson(mainList);
 		mav.addObject("jsonMainList", jsonMainList);
@@ -74,109 +115,83 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
-	private String makeHTMLMainList(List<Map<String, String>> mainList, List<OpCategory> opCateListAll,
-			List<Map<String, String>> dibsList, Member sessionMb) {
-StringBuilder sb = new StringBuilder();
-		
+	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, 
+			Member sessionMb, ModelAndView mav) {
+		StringBuilder sb = new StringBuilder();
 		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
 				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
 				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
 				"                                    <div class=\"row\">\r\n");
-		
-				for(int i=0; i<mainList.size();i++) {
+		Set<String> delBtnSet = new HashSet<>();		
+		String addBtn=null;
+		String delBtn=null;
+		for(int i=0; i<mainList.size();i++) {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
+					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
+					
 				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
 							"                                        <div class=\"thumbnail\">\r\n" + 
-							"                                            <img alt=\"100%x200\" src='"+mainList.get(i).get("PF_IMAGE")+"'"+
+							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 
 							"                                            <div class=\"caption\">\r\n" + 
 							"                                                <br>\r\n" + 
 							"                                                <h3 id=\"thumbnail-label\">");
-							if(mainList.get(i).get("AD_KIND")=="mo") {
-								sb.append("일반 회원 모집 : ");
-							}
-							if(mainList.get(i).get("AD_KIND")=="p") {
-								sb.append("프로그램 : ");
-							}
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
 							
-							//일반 회원 모집일 경우 :자기주소
-							if(mainList.get(i).get("AD_KIND")=="mo") {
+							//주소 시작위치
+							//트레이너던 업체던 소속업체가 없는경우
+							if(mainList.get(i).get("T_CID")==null) {
 								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
+							}else {//소속업체 있는경우
+								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
 							}
-							//프로그램일 경우 
-							if(mainList.get(i).get("AD_KIND")=="p") {
-								//개인 트레인경우 : 자기주소
-								if(mainList.get(i).get("T_CID")==null) {
-									sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
-								}
-								//소속 트레이너인경우 : 소속업체주소
-								if(mainList.get(i).get("T_CID")!=null) {
-									sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
-								}
-							}
+							//주소 끝위치
 							 
 				  sb.append("<p>");
-				  for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
+				  /*for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
 					  if(opCateListAll.get(j).getOp_adcode().equals(ad_code)) {
 						  sb.append(opCateListAll.get(j).getOp_category()+"/");
 					  }
+				  }*/ //'AD'_CATEGORY로 옮겨오면서 취소
+				  if(ad_category.equals("일반")) {
+					  sb.append("일반 정기 회원 모집");
+				  }else {
+					  sb.append(ad_category);
 				  }
 				  
 				  
+				  
 				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
-							"<p><a href='"+"detailpage?ad_code="+ad_code+"' class=\"btn btn-primary\" role=\"button\">상세보기</a> ");
-							
-				// 찜버튼 위치
-
-					if (sessionMb == null) {
-						System.out.println("sessionMb는 null" + i);
-					} else if (sessionMb != null) {
-						System.out.println("sessionMb는 있음" + i);
-					}
-					if (dibsList == null) {
-						System.out.println("dibsList는 null" + i);
-					} else if (dibsList != null) {
-						System.out.println("dibsList는 있음" + i);
-						System.out.println("dibsList 사이즈" + dibsList.size());
-					}
-
-					String addBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsAdd" + ad_code
+							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
+				// 찜버튼 위치 시작
+				  delBtn = "<button id='" + "dibsDelete" + ad_code
+							+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
+							+ "<i class=\"mdi mdi-heart\"></i></button>";
+				  addBtn = "<button id='" + "dibsAdd" + ad_code
 							+ "'type=\"button\" class=\"btn btn-outline-secondary btn-rounded btn-icon\">"
-							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i>\r\n" + "</button></a>";
-
-					String delBtn = "<a class=\"btn btn-default\" role=\"button\">" + "<button id='" + "dibsDelete"
-							+ ad_code + "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
-							+ "<i class=\"mdi mdi-heart\"></i>\r\n" + "</button></a>";
-
+							+ "<i class=\"mdi mdi-heart-outline text-danger\"></i></button>";
+				  
+				  
+					
+					
 					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 						// StringBuilder sb2=null;
 						for (int j = 0; j < dibsList.size(); j++) {
-							if(!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(addBtn);
-							// 회원 : 찜한상품 찜 취소버튼
-							}else if (dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
-								sb.append(delBtn);
+							if(dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								delBtnSet.add(ad_code);
 							}
-							
+								
+							// 회원 : 찜한상품 찜 취소버튼
+							//else if (!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
+								//addBtnSet.add(ad_code);
+							//}
 						}
-						//중복버튼 제거
-						StringBuilder sb2 = null;
-						if (sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개라도 있다면 
-							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 모두 제거
-						}else if (!sb.toString().contains("dibsDelete")) {//찜 취소버튼이 한개도 없다면
-							sb2 = new StringBuilder(sb.toString().replace(addBtn, ""));//찜하기 버튼을 한개 빼고 모두 제거
-							sb.append(addBtn);
-						}
-						sb=sb2;
-						
-						
 						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
-					} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
-						sb.append(addBtn);
+					//} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
+						//addBtnMap.put(ad_code,addBtn);
 					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
 						// 비회원 세션에 찜한상품 아니면 찜하기버튼
 						Enumeration<String> names = session.getAttributeNames();
@@ -194,7 +209,9 @@ StringBuilder sb = new StringBuilder();
 						} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
 							sb.append(delBtn);
 						}
-					} // 찜버튼 끝
+					} 
+					
+					// 찜버튼 끝
 				  
 								
 						sb.append("</p>\r\n" + 
@@ -203,6 +220,8 @@ StringBuilder sb = new StringBuilder();
 								  "                                        </div>\r\n"
 						);
 				}//end For
+		String delBtnSetJson = new Gson().toJson(delBtnSet);
+		mav.addObject("delBtnSet",delBtnSetJson);
 				
 	  sb.append("            	                    </div>\r\n" + 
 				"                                </div>\r\n" + 
@@ -215,7 +234,6 @@ StringBuilder sb = new StringBuilder();
 
 	public ModelAndView programListN(String m_id) {
 		System.out.println("idididididi=" + m_id);
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> getProgramListN = null;
 		List<Map<String, String>> getNormalListN = null;
@@ -239,18 +257,18 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>\r\n"
-					+ "													<td>" + getprogramListN.get(i).get("OP_NAME")
+					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+getprogramListN.get(i).get("OP_TIMES")
 					+ "</td>\r\n" + "													<td>"
-					+ getprogramListN.get(i).get("OP_PERIOD") + "</td>\r\n"
+					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "													<td>"
-					+ getprogramListN.get(i).get("OP_CATEGORY") + "</td>\r\n"
+					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='showCounsel'>상담내역보기</button>"
-							+ "<input type='hidden' value='"+getprogramListN.get(i).get("AD_CODE")+"'/>"
+					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
+							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td>출결현황보기</td>\r\n"
-					+ "													<td><a href='" + "reviewwritefrm?ad_code="
-					+ getprogramListN.get(i).get("AD_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
+					+ "		<td><a href='"+"calenderN?ps_code="+getprogramListN.get(i).get("PS_CODE")+"&m_id="+getprogramListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>\r\n"
+					+ "													<td><a href='" + "reviewwritefrm?ps_code="
+					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
 		}
 		return sb.toString();
@@ -263,17 +281,16 @@ StringBuilder sb = new StringBuilder();
 					+ "													<td>" + getnormalListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
-					+ "													<td>" + getnormalListN.get(i).get("OP_PERIOD")
-					+ "</td>\r\n" + "													<td>출결현황보기</td>\r\n"
+					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
+					+ "</td>\r\n" + "													<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ad_code="+getnormalListN.get(i).get("AD_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
+					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
 	}
 
 	public ModelAndView payListN(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> getPayListN = null;
 		getPayListN = yDao.getpayListN(m_id);
@@ -294,19 +311,17 @@ StringBuilder sb = new StringBuilder();
 			System.out.println("price========" + price);
 			sb.append("                      <tr role=\"row\" class=\"odd\">\r\n"
 					+ "                            <td class=\"sorting_1\">" + getPayListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CATEGORY")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_NAME") + "</td>\r\n"
+					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
+					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>\r\n"
 					+ "                            <td>" + getPayListN.get(i).get("OP_PERIOD") + "</td>\r\n"
 					+ "                            <td>" + price + "</td>\r\n" + "                            <td>"
 					+ Date + "</td>\r\n" + "                       </tr>");
 
 		}
-
 		return sb.toString();
 	}
 
 	public ModelAndView modifyN(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		Member mb = yDao.getModifyN(m_id);
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
@@ -318,7 +333,6 @@ StringBuilder sb = new StringBuilder();
 	}
 
 	public ModelAndView dibsList(String m_id) {
-		session.setAttribute("id", m_id);
 		String view = null;
 		List<Map<String, String>> dibs = null;
 		dibs = yDao.getdibs(m_id);
@@ -336,17 +350,18 @@ StringBuilder sb = new StringBuilder();
 			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td class=\"sorting_1\">"
 					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
-					+ "													<td><button>삭제</button></td>\r\n"
+					+ "													<td><button class='btn btn-dark'>삭제</button>"
+					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
 	}
 	
-	public ModelAndView reviewWriteFrm(String m_id, String ad_code) {
+	public ModelAndView reviewWriteFrm(String m_id, String ps_code) {
 		ModelAndView mav = new ModelAndView();
 		Review rv = new Review();
 		rv.setRv_name(m_id);
-		rv.setRv_adcode(ad_code);
+		rv.setRv_pscode(ps_code);
 		if (yDao.reviewOverlap(rv)) {// true
 			String alert = "alert('이미 해당 광고글에 후기등록을 하셨습니다');";
 			mav.addObject("alert", alert);
@@ -354,7 +369,7 @@ StringBuilder sb = new StringBuilder();
 			mav.setViewName("forward:/infoprogramn");
 		} else {// false
 			mav.addObject("m_id", m_id);
-			mav.addObject("ad_code", ad_code);
+			mav.addObject("ps_code", ps_code);
 			mav.setViewName("manage/review");
 		}
 		return mav;
@@ -368,13 +383,13 @@ StringBuilder sb = new StringBuilder();
 		return mav;
 	}
 	
-	public ModelAndView counselListn(String cs_adcode, String cs_mid) {
+	public ModelAndView counselListn(String cs_opcode, String cs_mid) {
 		List<Map<String, String>> getCounselListN = null;
 		String view=null;
 		Map<String,String> cs = new HashMap<>();
-		cs.put("CS_ADCODE", cs_adcode);
-		cs.put("CS_MID", cs_mid);
-		getCounselListN=yDao.getCounsel(cs_adcode,cs_mid);
+		cs.put("cs_opcode", cs_opcode);
+		cs.put("cs_mid", cs_mid);
+		getCounselListN=yDao.getCounsel(cs);
 		String html = makeHTMLCounselPage(getCounselListN);
 		mav.addObject("counselList", html);
 		view="manage/counselNList";
@@ -388,14 +403,115 @@ StringBuilder sb = new StringBuilder();
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td>자세히보기</td>\r\n" + 
+				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 
 				"												</tr>");
 		}
 		return sb.toString();
 	}
 	
+	public ModelAndView counseln(String cs_opcode, String cs_date) throws ParseException {
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String view=null;
+		String cs_mid=sessionMb.getM_id();
+
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date to = transFormat.parse(cs_date);
+		
+		
+		Counsel cs=new Counsel();
+		cs.setCs_opcode(cs_opcode);
+		cs.setCs_mid(cs_mid);
+		cs.setCs_date(to);
+		Counsel cs1=yDao.getcounselN(cs);
+		mav.addObject("cs", cs1);
+		view = "manage/counselN";
+		mav.setViewName(view);
+		return mav;
+	}
+	public ModelAndView memberdelten() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("manage/memberDeleteN");
+		return mav;
+	}
 	
 
 	
+	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
+		String view=null;
+		Member mb=new Member();
+
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		String m_birth=sessionMb.getM_birth();
+		String m_name=sessionMb.getM_name();
+		String m_pw=multi.getParameter("m_pw");
+		String m_phone=multi.getParameter("m_phone");
+		String m_addr=multi.getParameter("m_addr");
+		String m_exaddr=multi.getParameter("m_exaddr");
+		String pf_image=multi.getParameter("pf_image");
+
+		
+		 int i=yDao.imgOverlap(m_id);
+		 if(i==0) {
+			upload.fileUp(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }else if(i>=1) {
+			upload.fileUp2(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			yDao.updateNorMb(mb);
+			Member mb1=yDao.getModifyN(m_id);
+			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+			return mav;
+		 }
+		 
+		return mav;
+	}
+	public ModelAndView calender(String ps_code, String m_id) {
+		String view= null;
+		mav.addObject("ps_code",ps_code);
+		mav.addObject("m_id", m_id);
+		view="manage/calenderN";
+		mav.setViewName(view);
+		return mav;
+	}
+	public String dailyCheck(String ps_code, String m_id) {
+		String json="";
+		List<Map<String, String>> dailyCheck1 = null;
+		Map<String,String> cs = new HashMap<>();
+		cs.put("ps_code", ps_code);
+		cs.put("ps_mid", m_id);
+		dailyCheck1=yDao.getDailyCheck(cs);
+		json=new Gson().toJson(dailyCheck1);
+		return json;
+	}
+	
+	
+
+
 }

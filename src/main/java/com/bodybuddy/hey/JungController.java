@@ -38,8 +38,9 @@ public class JungController {
 	ModelAndView mav;
 	
 	@RequestMapping(value = "/questionlist")
-	public ModelAndView trainerListC(HttpServletRequest request) {
-		String id = request.getParameter("id");
+	public ModelAndView trainerListC(String id) {
+		Member mb = (Member)session.getAttribute("mb");
+		id = mb.getM_id();
 		System.out.println(id);
 		
 		mav = js.getQuestionList(id);
@@ -66,53 +67,57 @@ public class JungController {
 	
 	@RequestMapping(value = "/advertisewritefrm", method = RequestMethod.GET)
 	public String advertisewirtefrm(Locale locale, Model model) {
-		
-
 		System.out.println("advertisewritefrm controller");
+		Member mb = (Member) session.getAttribute("mb");
+		mav=js.advertisewriterfrm(mb);
+		
 		return "manage/advertisewritefrm";
 	}
 	
 	@RequestMapping(value = "/advertisemodifyfrm", method = RequestMethod.GET)
 	public String advertisemodifyfrm(Locale locale, Model model) {
-		
-
 		System.out.println("advertisemodifyfrm controller");
 		return "manage/advertisemodifyfrm";
 	}
 	
-	
-	@RequestMapping(value = "/profileModifyT")
-	public ModelAndView profileModifyT(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
-		System.out.println("profileModifyT controller");
-		mav = js.getProfileList(id);
+	@ResponseBody
+	@RequestMapping(value = "/profileModifyT" ,method = RequestMethod.GET)
+	public ModelAndView profileModifyT() {
+		System.out.println("/profileModifyT 시작");
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("찍기전");
+		System.out.println(mb.getM_id());
+		System.out.println("찍기후");
+		String m_id = mb.getM_id();
 		
+
+		System.out.println(m_id);
+		System.out.println("profileModifyT controller");
+		mav = js.getProfileList(m_id);
+		System.out.println("끝");
 		return mav;
 	}
 	
 	@RequestMapping(value = "/TfindC",produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String TfindC(HttpServletRequest request) {
-		String name = request.getParameter("name");
+		String cName =request.getParameter("cName");
+		System.out.println("cName : "+cName);
 		
-		System.out.println(name);
 		
 		
-		String html = js.getTfindC(name);
+		String html = js.getTfindC(cName);
 		
 		return html;
 	}
 	
 	
 	@RequestMapping(value = "/cancel",produces = "application/json; charset=utf8")
-	@ResponseBody
-	public String cancel(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println("id="+id);
+	public @ResponseBody String cancel(HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
+		/* String cName =request.getParameter("cName"); */
 		
-		
-		String html = js.cancel(id);
+		String html = js.cancel(mb);
 		
 		return html;
 	}
@@ -120,12 +125,11 @@ public class JungController {
 	@RequestMapping(value = "/acceptrequest",produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String acceptrequest(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println("id="+id);
-		String name = request.getParameter("name");
-		System.out.println("name="+name);
+		Member mb = (Member) session.getAttribute("mb");
+		String cName =request.getParameter("cName");
+		System.out.println("cName : "+cName);
 		
-		String html = js.acceptrequest(id,name);
+		String html = js.acceptrequest(mb,cName);
 		
 		return html;
 	}
@@ -134,8 +138,20 @@ public class JungController {
 	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
 		
 		String[] day = request.getParameterValues("day");
+		String[] op_content = request.getParameterValues("op_content");
+		mav=js.adinsert(adadd,day,op_content);
 		
-		mav=js.adinsert(adadd,day);
+		return mav;
+	}
+	
+
+	
+	@RequestMapping(value = "/profileComplete")
+	public ModelAndView profileComplete(HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
+		String name = request.getParameter("name");
+		
+		//mav = js.profileComplete(MB);
 		
 		return mav;
 	}

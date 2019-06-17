@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bodybuddy.hey.bean.Member;
@@ -22,8 +23,8 @@ public interface MemberDao {
 	public List<Member> forgetPw(Member mb);
 
 	public void temporaryPw(Member mb);
-
-	public Member getProfileList(String id);
+	
+	public Member getProfileList(String m_id);
 
 	public List<Member> getTfindC(Member m);
 
@@ -31,12 +32,27 @@ public interface MemberDao {
 
 	public boolean cancel(String id);
 
-	public boolean acceptrequestInsert(String id, String name);
-
 	public boolean acceptrequestupdate(Member m);
 
+	public List<Member> getNormalMemberList(String id);
+
+	public List<Member> getProgramMemberList(String id);
+
+	public boolean acceptrequestInsert(String id, String name);
+	
 	public boolean memberDeleteReal(String m_id);
 
+	public void profileComplete(String id);
+
+	public boolean acceptrequestInsert(Member m);
+
 	public void DeleteRealId(String m_id);
+
+	public Question qaNum(String qa_num);
+
+	public boolean questionReply(String qa_acontent, String qa_num);
+
+	public Question qNaCheck(String qa_num);
+
 
 }

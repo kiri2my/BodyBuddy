@@ -18,8 +18,8 @@
 		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind},#{m_exaddr})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
-		INSERT INTO T(T_ID)
-		VALUES(#{m_id})
+		INSERT INTO T
+		VALUES(#{m_id},#{t_cid},#{t_career})
 	</insert>
 	<insert id="companyMemberJoin" parameterType="member">
 		INSERT INTO C
@@ -56,7 +56,8 @@
 		WHERE M_ID = #{m_id}
 	</update>
 	<insert id="DeleteRealId" parameterType="String">
-		INSERT INTO DELETEREALID VALUES(#{m_id},'탈퇴회원')
+		INSERT INTO DELETEREALID	
+		VALUES(#{m_id},'탈퇴회원')
 	</insert>
 
 	<update id="temporaryPw" parameterType="String">
@@ -64,11 +65,17 @@
 		#{m_pw} WHERE M_ID = #{m_id}
 	</update>
 
+	<select id="qaNum" parameterType="String" resultType="question">
+		SELECT * FROM QA WHERE QA_NUM = #{qa_num}
+	</select>
+	
+	<update id="questionReply" parameterType="hashmap">
+	UPDATE QA SET QA_ACONTENT = #{param1}, QA_ADATE = SYSDATE , QA_TRUE='t'
+	WHERE QA_NUM = #{param2}
+	</update>	
+	<select id="qNaCheck" parameterType="String" resultType="question">
+	SELECT * FROM QA WHERE qa_num= #{qa_num} 
+	</select>
 
-	<!-- <insert id="memberInsert" parameterType="member"> INSERT INTO M VALUES(#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT) 
-		</insert> <select id="getSecurityPwd" parameterType="String" resultType="String"> 
-		SELECT M_PWD FROM M WHERE M_ID = #{m_id} </select> <select id="getMemberInfo" 
-		parameterType="String" resultType="member"> SELECT * FROM MINFO WHERE M_ID 
-		= #{m_id} </select> <select id="mybatisTest" resultType="member"> SELECT 
-		* FROM MINFO <if test="point != null"> WHERE ${cName} = #{point} </if> </select> -->
+
 </mapper>

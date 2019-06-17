@@ -31,13 +31,24 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
 	type="text/css" />
+<link rel="stylesheet" href="/path/to/jquery.timeselector.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+	crossorigin="anonymous">
+	
+</script>
+<script src="/path/to/jquery.timeselector.js"></script>
 
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
+
 <style>
 body {
 	text-align: center;
+	
 }
 </style>
 </head>
@@ -49,7 +60,7 @@ body {
 			<table id="recent-purchases-listing" class="table">
 				<tbody>
 					<tr>
-						<th style="width: 150px">분류</th>
+						<th style="width: 200px">분류</th>
 
 						<td style="vertical-align: middle"><select id="ex-select"
 							name="ad_kind" onchange="selectExercise()" class="form-control"
@@ -71,10 +82,32 @@ body {
 						<td style="vertical-align: middle"><input type="text"
 							name="ad_content" style="height: 300px; width: 500px"></td>
 					</tr>
-					<tr id="day" style="display: none">
-						<th>요일</th>
-						<td>
-							<div class="checkbox" style="width: 400px; font-size: 20px">
+					
+					
+					
+					<tr id="time" style="display: none">
+						<th>옵션</th>
+						<td style="vert ical-align: middle">
+							<div class="radio">
+								<div id="pre_set" style="display: none">
+									<table>
+										<tr>
+											<th>옵션명</th>
+											<th>기간</th>
+											<th>시간</th>
+											<th>요일</th>
+											<th>횟수</th>
+											<th>인원</th>
+											<th>가격</th>
+											<th>담당자</th>
+											
+										</tr>
+										<tr>
+											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="옵션명"></td>
+											<td>기간입력란</td>
+											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="시작시간"> 
+											<input type="text" name="op_content4" value="" style="width: 100px"	placeholder="종료시간"></td>
+											<td><div class="checkbox" style="width: 400px; font-size: 20px">
 								<label for="foo1"> <input type="checkbox" id="foo1"
 									name="day" value="mon">월
 								</label> <label for="foo2"> <input type="checkbox" id="foo2"
@@ -90,74 +123,30 @@ body {
 								</label> <label for="foo7"> <input type="checkbox" id="foo7"
 									name="day" value="sun">일
 								</label>
-							</div>
-						</td>
-					</tr>
-					<tr id="closed" style="display: none">
-						<th>휴무날짜</th>
-						<td>
-							<div class="checkbox" style="width: 400px; font-size: 20px">
-								<label for="foo11"> <input type="checkbox" id="foo11"
-									name="day" value="mon">월
-								</label> <label for="foo12"> <input type="checkbox" id="foo12"
-									name="day" value="tue">화
-								</label> <label for="foo13"> <input type="checkbox" id="foo13"
-									name="day" value="wed">수
-								</label> <label for="foo14"> <input type="checkbox" id="foo14"
-									name="day" value="thu">목
-								</label> <label for="foo15"> <input type="checkbox" id="foo15"
-									name="day" value="fri">금
-								</label> <label for="foo16"> <input type="checkbox" id="foo16"
-									name="day" value="sat">토
-								</label> <label for="foo17"> <input type="checkbox" id="foo17"
-									name="day" value="sun">일
-								</label> <label for="foo18"> <input type="checkbox" id="foo18"
-									name="day" value="sun">24시
-								</label>
+							</div></td>
+											<td><input type="text" name="op_content5" value="" style="width: 50px"	placeholder="횟수"></td>
+											<td><input type="text" placeholder="모집인원">명</td>
+											<td><input type="text" placeholder="가격(원)"></td>
+											<td>${catelist}</td><!-- 담당자 -->
+												</tr>
+										
+											</table><input type="button" value="삭제" onclick="remove_item(this)">
+											<hr>
+								</div>
 
+								<div id="field"></div>
+								<input type="button" value=" 추가 " onclick="add_item()"><br>
 
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>가격(월)</th>
-						<td style="vertical-align: middle"><input type="text"
-							placeholder="가격" style="width: 80px;" name="op_price">원</td>
-
-					</tr>
-					<tr>
-						<th>모집기간</th>
-						<td><input type="checkbox" id="chk">상시
-							<div class="box on">
-								<input type="text" id="testDatepicker" name="op_period">까지
-							</div> </td>
-					</tr>
-					<tr id="time" style="display: none">
-						<th>시간/횟수</th>
-						<td style="vert ical-align: middle">
-							<div class="radio">
-								<label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio1" value="option1">
-									오전
-								</label> <label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio2" value="option2">
-									오후
-								</label> <input type="text" placeholder="시작시간" style="width: 80px">
-								<input type="text" placeholder="종료시간" style="width: 80px">
-								<br> <input type="text" placeholder="횟수"
-									style="width: 160px">
+								<!-- <input name="op_content" type="text" placeholder="시작시간"
+									style="width: 80px"> 
+								<input name="op_content" type="text" placeholder="종료시간" style="width: 80px"> <br>
+								<input name="op_content" type="text" placeholder="횟수"
+									style="width: 160px"> -->
 							</div>
 						</td>
 					</tr>
 
-					<tr id="damdang" style="display: none">
-						<th>담당자</th>
-						<td style="vertical-align: middle"><select
-							class="form-control" style="width: 100px">
-								<option>트레이너1</option>
-								<option>트레이너2</option>
-						</select></td>
-					</tr>
+					
 
 
 					<tr>
@@ -174,13 +163,6 @@ body {
 
 		</div>
 	</form>
-
-
-
-
-
-
-
 
 
 	<!-- plugins:js -->
@@ -208,18 +190,36 @@ body {
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
 </body>
+
 <script>
+	//TIMEPICKER
+	
+	//
+	function add_item() {
+		var i = 0;
+		var div = document.createElement('div');
+		div.innerHTML = document.getElementById('pre_set').innerHTML;
+		document.getElementById('field').appendChild(div);
+	}
+	function remove_item(obj) {
+		// obj.parentNode 를 이용하여 삭제
+		document.getElementById('field').removeChild(obj.parentNode);
+	}
 	$(".box input").attr("abled", true);
 	$("#chk").on('click', function() {
+
 		var chk = $('input:checkbox[id="chk"]').is(":checked");
 		if (chk == true) {
 			$(".box input").attr("disabled", true);
 			$(".box").addClass("on");
-			
+			$("#testDatepicker").val("");
+
 		} else {
 			$(".box input").removeAttr('disabled');
 			$(".box").removeClass("on");
+
 		}
+
 	});
 	$(function() {
 		$("#testDatepicker").datepicker({
@@ -237,7 +237,7 @@ body {
 
 		// select element에서 선택된 option의 text가 저장된다.
 		var selectText = exSelect.options[exSelect.selectedIndex].text;
-		
+
 		if (selectValue == "fitness") {
 			$("#frm")[0].reset();
 			$("#closed").show();

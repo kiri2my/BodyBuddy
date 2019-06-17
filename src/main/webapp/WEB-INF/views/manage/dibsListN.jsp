@@ -94,7 +94,11 @@ to {
 	text-align: center;
 	color: white;
 	background: gray;
-}</style>
+}
+.btn.btn-dark.btn-lg.btn-block{
+	size: 50%;
+}
+</style>
 </head>
 <body>
 	<div id="wrap">
@@ -166,4 +170,30 @@ to {
 
 
 </body>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script>
+$(".btn.btn-dark").click(function(){
+	var adnum=$(".btn.btn-dark").parent().children().eq(1).val();
+	console.log(adnum);
+	$.ajax({
+		type:'get', 
+		url:'dibsdelete',
+		data:{d_adcode:adnum},
+		dataType:'html',
+		success:function(data){
+			console.log(data);
+			if(data.includes("dibsAdd")){
+				alert("선택된 찜 삭제 완료");
+				location.href="dibsn?m_id=${mb.m_id}";
+			}else if(data.includes("dibsDelete")){
+				alert("선택된 찜 삭제 실패");
+			}
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+});
+</script>
 </html>

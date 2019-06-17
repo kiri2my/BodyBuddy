@@ -251,7 +251,7 @@
 				$('#sendRndNum').prop("type", "hidden");
 				mail = data;
 				console.log("data" + data);
-				console.log("mail" + mail);
+				console.log(mail);
 				alert("인증번호를  발송하였습니다")
 			},
 			error : function(error) {
@@ -431,7 +431,6 @@
 			}
 		}).open();
 	} //다음주소api End
-</script>
 </script>
 
 </html>

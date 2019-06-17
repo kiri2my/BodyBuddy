@@ -16,7 +16,8 @@ public class Member {
 	private String m_addr;
 	private String m_exaddr;
 	private String m_kind;
-	 
+	
+	private String t_id;
 	private String t_cid;
 	private String t_career;
 	 

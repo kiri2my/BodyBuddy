@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -107,6 +107,7 @@
 		
 		<div id="nav">
 			<jsp:include page="trainerSidebar.jsp" />
+			</div>
 		<%--</div>
 		 <div id="footer">
 			<jsp:include page="trainerFooter.jsp" />
@@ -162,9 +163,6 @@
 		$.ajax({
 			type : "get",
 			url : "memberlistc",
-			data : {
-				id : "3333"
-			},
 			dataType : "html",
 			success : function(data) {
 				$('#main').html(data);
@@ -176,12 +174,10 @@
 	}
 	
 	function profileModifyT() {
+		alert("얍야얍");
 		$.ajax({
 			type : "GET",
 			url : "profileModifyT",
-			data : {
-				id:"3333	"
-			},
 			dataType : "html",
 			error : function() {
 				alert('통신실패!!');
@@ -197,9 +193,6 @@
 		$.ajax({
 			type : "GET",
 			url : "questionlist",
-			data : {
-				id:"5555"
-			},
 			dataType : "html",
 			error : function() {
 				alert('통신실패!!');

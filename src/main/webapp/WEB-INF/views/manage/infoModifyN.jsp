@@ -129,16 +129,19 @@
 								<a class="navbar-brand brand-logo" href="main.jsp"
 									style="color: #71c016;">일반회원 내 정보수정</a>
 							</div>
+							
+						
 							<form action="infomodifyn" class="pt-3" name="infomodifyn"
-								id="infomodifyn" method="post">
+								id="infomodifyn" method="post" enctype="multipart/form-data">
 								<div>
 									<p class="title">프로필사진</p>
 									<input type="file" id="input_img" name="pf_image" />
 								</div>
 								<div>
 									<div class="img_wrap">
-										<img id="img" value="${mbPhoto.pf_image}" />
+										<img id="img" name="pf_image2" src="resources/upload/${mbPhoto.pf_image}"/>
 									</div>
+								<input type="hidden" id="fileCheck" value="0" name="fileCheck"> 
 								</div>
 								<br>
 								<div class="form-group">
@@ -164,7 +167,7 @@
 										</div>
 										<input type="password" name="m_pw"
 											class="form-control form-control-lg border-left-0"
-											id="exampleInputPassword" placeholder="패스워드를 입력해주세요">
+											id="m_pw" placeholder="패스워드를 입력해주세요">
 									</div>
 								</div>
 								<div class="form-group">
@@ -233,19 +236,15 @@
 									</div>
 								</div>
 
-
-								<div class="mb-4">
-									<div class="form-check">
-										<i class="input-helper"></i>
-									</div>
-								</div>
 								<div class="mt-3">
-									<a
+								<button id="joinbtn"
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">정보수정하기</a>
+										 value="정보수정하기" >정보수정하기</button>
+								</div>
+								</form>
 								</div>
 
-							</form>
+							
 						</div>
 					</div>
 				</div>
@@ -430,5 +429,28 @@
 			}
 		}).open();
 	} //다음주소api End
+	
+	function fileChk(elem) {
+		console.dir(elem);
+		if(elem.value==""){
+			console.log("empty");
+			$("#fileCheck").val(0); //파일 첨부 안했음
+		}else{
+			
+			var str="";
+			console.log("not Empty");
+			for(var idx=0; idx<elem['files'].length;idx++){
+				str+=elem['files'][idx].name+",";
+			}
+			console.log(str);
+			$("#fileCheck").val(1); //파일첨부 했음
+		}
+		
+	}
+	
+	$("#joinbtn").click(function(){
+			alert("정보수정이 성공했습니다")	
+	});//click End
+
 </script>
 </html>
