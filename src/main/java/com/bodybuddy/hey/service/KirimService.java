@@ -145,12 +145,16 @@ public class KirimService {
 			}
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
+			String da_period=ph.getPs_opcode();
 			Payment ph1=kDao.selectPscode(cs);
-			boolean insertDaily=kDao.insertDaliy(ph1.getPs_code());
+			String ph2=kDao.selectPeriod(da_period);
+			Map<String,String> cs2 = new HashMap<>();
+			String ps_code=ph1.getPs_code();
+			cs2.put("da_period", ph2);
+			cs2.put("ps_code", ps_code);
+		 boolean insertDaily=kDao.insertDaliy(cs2);
 		 	if(insertDaily==true) {
-		 		//SEX
 		 		text = "success";
-		 		
 			 	return text;
 		 	}
 		}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){

@@ -39,6 +39,14 @@ public class YoonHomeController {
 	ModelAndView mav;
 	
 	
+	@RequestMapping(value = "/calenderN", method = RequestMethod.GET)
+	public String calenderN(Model model) {
+		System.out.println("트레이너조인이라구");
+
+		return "manage/calenderN";
+	}
+	
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout() {
 		session.invalidate();
@@ -71,7 +79,6 @@ public class YoonHomeController {
 		mav=ys.insertReview(rv);
 		return mav;
 	}
-
 	@RequestMapping(value = "/infomodifyfrmn")
 	public ModelAndView modifyN(String m_id) {
 		mav=ys.modifyN(m_id);
@@ -110,5 +117,4 @@ public class YoonHomeController {
 		mav=ys.infomodifyn(multi);
 		return mav;
 		}
-
 }

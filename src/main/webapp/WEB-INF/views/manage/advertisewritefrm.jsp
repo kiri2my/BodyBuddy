@@ -48,6 +48,7 @@
 <style>
 body {
 	text-align: center;
+	
 }
 </style>
 </head>
@@ -59,7 +60,7 @@ body {
 			<table id="recent-purchases-listing" class="table">
 				<tbody>
 					<tr>
-						<th style="width: 150px">분류</th>
+						<th style="width: 200px">분류</th>
 
 						<td style="vertical-align: middle"><select id="ex-select"
 							name="ad_kind" onchange="selectExercise()" class="form-control"
@@ -81,10 +82,32 @@ body {
 						<td style="vertical-align: middle"><input type="text"
 							name="ad_content" style="height: 300px; width: 500px"></td>
 					</tr>
-					<tr id="day" style="display: none">
-						<th>요일</th>
-						<td>
-							<div class="checkbox" style="width: 400px; font-size: 20px">
+					
+					
+					
+					<tr id="time" style="display: none">
+						<th>옵션</th>
+						<td style="vert ical-align: middle">
+							<div class="radio">
+								<div id="pre_set" style="display: none">
+									<table>
+										<tr>
+											<th>옵션명</th>
+											<th>기간</th>
+											<th>시간</th>
+											<th>요일</th>
+											<th>횟수</th>
+											<th>인원</th>
+											<th>가격</th>
+											<th>담당자</th>
+											
+										</tr>
+										<tr>
+											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="옵션명"></td>
+											<td>기간입력란</td>
+											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="시작시간"> 
+											<input type="text" name="op_content4" value="" style="width: 100px"	placeholder="종료시간"></td>
+											<td><div class="checkbox" style="width: 400px; font-size: 20px">
 								<label for="foo1"> <input type="checkbox" id="foo1"
 									name="day" value="mon">월
 								</label> <label for="foo2"> <input type="checkbox" id="foo2"
@@ -100,60 +123,15 @@ body {
 								</label> <label for="foo7"> <input type="checkbox" id="foo7"
 									name="day" value="sun">일
 								</label>
-							</div>
-						</td>
-					</tr>
-					<tr id="closed" style="display: none">
-						<th>휴무날짜</th>
-						<td>
-							<div class="checkbox" style="width: 400px; font-size: 20px">
-								<label for="foo11"> <input type="checkbox" id="foo11"
-									name="day" value="mon">월
-								</label> <label for="foo12"> <input type="checkbox" id="foo12"
-									name="day" value="tue">화
-								</label> <label for="foo13"> <input type="checkbox" id="foo13"
-									name="day" value="wed">수
-								</label> <label for="foo14"> <input type="checkbox" id="foo14"
-									name="day" value="thu">목
-								</label> <label for="foo15"> <input type="checkbox" id="foo15"
-									name="day" value="fri">금
-								</label> <label for="foo16"> <input type="checkbox" id="foo16"
-									name="day" value="sat">토
-								</label> <label for="foo17"> <input type="checkbox" id="foo17"
-									name="day" value="sun">일
-								</label> <label for="foo18"> <input type="checkbox" id="foo18"
-									name="day" value="sun">24시
-								</label>
-
-
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>가격(월)</th>
-						<td style="vertical-align: middle"><input type="text"
-							placeholder="가격" style="width: 80px;" name="op_price">원</td>
-
-					</tr>
-					<tr>
-						<th>모집기간</th>
-						<td><input type="checkbox" id="chk">상시
-							<div class="box on">
-								<input type="text" id="testDatepicker" name="op_period">까지
 							</div></td>
-					</tr>
-					<tr id="time" style="display: none">
-						<th>시간/횟수</th>
-						<td style="vert ical-align: middle">
-							<div class="radio">
-								<div id="pre_set" style="display: none">
-									<input type="text" name="op_content3" value=""
-										style="width: 100px" placeholder="시작시간"> <input
-										type="text" name="op_content4" value="" style="width: 100px"
-										placeholder="종료시간"> <input type="text"
-										name="op_content5" value="" style="width: 50px"
-										placeholder="횟수"> <input type="button" value="삭제"
-										onclick="remove_item(this)">
+											<td><input type="text" name="op_content5" value="" style="width: 50px"	placeholder="횟수"></td>
+											<td><input type="text" placeholder="모집인원">명</td>
+											<td><input type="text" placeholder="가격(원)"></td>
+											<td>${catelist}</td><!-- 담당자 -->
+												</tr>
+										
+											</table><input type="button" value="삭제" onclick="remove_item(this)">
+											<hr>
 								</div>
 
 								<div id="field"></div>
@@ -168,14 +146,7 @@ body {
 						</td>
 					</tr>
 
-					<tr id="damdang" style="display: none">
-						<th>담당자</th>
-						<td style="vertical-align: middle"><select name="op_trainer"
-							class="form-control" style="width: 100px">
-								<option>트레이너1</option>
-								<option>트레이너2</option>
-						</select></td>
-					</tr>
+					
 
 
 					<tr>

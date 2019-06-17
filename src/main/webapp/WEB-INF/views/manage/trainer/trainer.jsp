@@ -107,6 +107,7 @@
 		
 		<div id="nav">
 			<jsp:include page="trainerSidebar.jsp" />
+			</div>
 		<%--</div>
 		 <div id="footer">
 			<jsp:include page="trainerFooter.jsp" />

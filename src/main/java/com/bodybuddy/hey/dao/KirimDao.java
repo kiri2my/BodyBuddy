@@ -48,7 +48,7 @@ public interface KirimDao {
 
 	public String deleteRealIdCheck(String m_id);
 
-	public boolean insertDaliy(String ps_code);
+	public boolean insertDaliy(Map<String, String> cs2);
 
 	public Payment selectPscode(Map<String, String> cs);
 
@@ -67,6 +67,10 @@ public interface KirimDao {
 	public int expireAd(String ad_code);
 
 	public Map<String, Integer> personnelCalc(String ps_opcode);
+
+
+	public String selectPeriod(String da_period);	
+	
 
 	
 
