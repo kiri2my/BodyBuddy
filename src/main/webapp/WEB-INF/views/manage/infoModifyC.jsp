@@ -3,21 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Majestic Admin</title>
-<!-- plugins:css -->
 <link rel="stylesheet"
 	href="vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
-<!-- End plugin css for this page -->
-<!-- inject:css -->
 <link rel="stylesheet" href="css/style.css">
-<!-- endinject -->
 <link rel="shortcut icon" href="images/favicon.png" />
 <style>
 .img_wrap {
@@ -43,12 +35,14 @@
 							</div>
 							<br>
 
-							<form action="infomodifyc" class="pt-3" name="infomodifyc"
-								id="infomodifyc" method="post">
+							<form action="infomodifyupdate" class="pt-3"
+								name="infomodifyupdate" id="infomodifyupdate" method="post"
+								enctype="multipart/form-data">
 								<div>
 
 									<p class="title">업체프로필사진</p>
-									<input type="file" id="input_img" name="pf_image" />
+									<input type="file" id="input_img" name="pf_image" onchange="fileChk(this)" />
+									<input type="hidden" id="fileCheck" value="0" name="fileCheck">
 								</div>
 
 								<div>
@@ -61,14 +55,14 @@
 									<div class="input-group">
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
-											value="ICIA피트니스" disabled>
+											value="${com.c_bname }" disabled>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="input-group">
 										<input type="text" name="c_num"
 											class="form-control form-control-lg border-left-0"
-											value="124-84-8555" disabled>
+											value="${com.c_num }" disabled>
 									</div>
 								</div>
 
@@ -81,7 +75,8 @@
 										</div>
 										<input type="email" name="m_id"
 											class="form-control form-control-lg border-left-0"
-											value="gozldsos@naver.com" disabled>
+											value="${com.c_id }" disabled> <input type="hidden"
+											name="c_id" value="${com.c_id }">
 									</div>
 								</div>
 
@@ -120,7 +115,7 @@
 										</div>
 										<input type="text" name="m_name"
 											class="form-control form-control-lg border-left-0"
-											value="윤상기" disabled>
+											value="${com.m_name }" disabled>
 									</div>
 								</div>
 
@@ -134,7 +129,7 @@
 										</div>
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
-											placeholder="전화번호를 입력해주세요">
+											placeholder="${com.m_phone }" value="${com.m_phone }">
 
 									</div>
 
@@ -149,7 +144,7 @@
 
 										<input type="tel" name="c_bphone" id="c_bphone"
 											class="form-control form-control-lg border-left-0"
-											placeholder="업체 전화 번호를 입력해주세요">
+											placeholder="${com.c_bphone }" value="${com.c_bphone }">
 									</div>
 
 								</div>
@@ -158,7 +153,7 @@
 									<div class="input-group">
 										<input type="text" name="m_birth"
 											class="form-control form-control-lg border-left-0"
-											value="1992년 11월 7일" disabled>
+											value="${com.m_birth }" disabled>
 									</div>
 								</div>
 
@@ -167,7 +162,8 @@
 
 										<input type="text" name="m_addr"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="시/도-군/구">
+											id="sample6_address" placeholder="시/도-군/구"
+											value="${com.m_addr }">
 										<button type="button" onclick="sample6_execDaumPostcode()"
 											class="btn btn-outline-secondary btn-md">주소 검색</button>
 
@@ -177,9 +173,9 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" name="m_addr"
+										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
+											placeholder="상세주소 입력" value="${com.m_exaddr }">
 									</div>
 
 								</div>
@@ -194,9 +190,8 @@
 									</div>
 								</div>
 								<div class="mt-3">
-									<a
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">정보수정하기</a>
+									<button
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="formData()" value="FormData">정보수정하기</button>
 								</div>
 
 							</form>
@@ -204,19 +199,12 @@
 					</div>
 				</div>
 			</div>
-			<!-- content-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
 	</div>
-	<!-- container-scroller -->
-	<!-- plugins:js -->
 	<script src="vendors/base/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- inject:js -->
 	<script src="js/off-canvas.js"></script>
 	<script src="js/hoverable-collapse.js"></script>
 	<script src="js/template.js"></script>
-	<!-- endinject -->
 </body>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
@@ -391,5 +379,62 @@
 			}
 		}).open();
 	} //다음주소api End
+	
+	
+	/* $('#rs').on('click', function() {
+		$('#fileCheck').val(0);
+	});
+ */
+	function fileChk(elem) {
+		console.dir(elem);
+		if (elem.value == "") {
+			console.log("empty");
+			$('#fileCheck').val(0);
+		} else {
+			console.log("not empty");
+			$('#fileCheck').val(1);
+		}
+	}
+
+	function formData() {
+		/*var $obj = $('#b_files');
+		console.log(1, $obj);
+		console.log(2, $obj[0].files);
+		console.log(3, $obj[0].files[0]);
+		console.log(4, $obj[0].files[1]); */
+
+		//multipart/form-data를 전송시 무조건 사용(파일 업로드)
+		//FormData객체는 form의 일부 데이터만 서버에 전송 가능
+		//ajax에서 사용
+		var formData = new FormData();
+		formData.append('b_title', $('#b_title').val());
+		formData.append('b_contents', $('#b_contents').val());
+		formData.append('fileCheck', $('#fileCheck').val()); // 0,1
+
+		var files = $obj[0].files; //배열로 파일정보를 반환
+
+		for (var i = 0; i < files.length; i++) {
+			formData.append('b_files', files[i]);
+		}
+
+		$.ajax({
+			url : "boardWrite",
+			type : "post",
+			data : formData,
+			dataType : "html",
+			processData : false, 
+			contentType : false, //multipart의 경우 false ,
+			//contestType : 'application/json'
+			success : function(data) {
+				alert('formData 성공');
+				location.href = './boardList';
+			},
+			error : function(error) {
+				console.log(error);
+			}
+
+		});
+
+	}//formData End
 </script>
 </html>

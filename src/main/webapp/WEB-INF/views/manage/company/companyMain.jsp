@@ -99,6 +99,12 @@
 </body>
 
 <script type="text/javascript">
+    var sessionId = '';
+    window.onload = function() {
+    	sessionId = '${session_id}';
+    }
+    
+    
 	function company() {
 		$.ajax({
 			type : "get",
@@ -106,6 +112,7 @@
 			dataType : "html",
 			success : function(data) {
 				$('#main').append(data);
+				
 			},
 			error : function() {
 				alert('일반회원 출석 로드 실패');
@@ -119,7 +126,7 @@
 			type : "get",
 			url : "normaldailycheck",
 			data : {
-				id : "company1"
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -137,7 +144,7 @@
 			type : "get",
 			url : "programdailycheck",
 			data : {
-				id : "company1"
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -155,7 +162,7 @@
 			type : "get",
 			url : "trainerdailycheck",
 			data : {
-				id : "company1"
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -173,7 +180,7 @@
 			type : "get",
 			url : "memberlistc",
 			data : {
-				id : "3333"
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -191,7 +198,7 @@
 			type : "get",
 			url : "trainerlistc",
 			data : {
-				id : 'company1'
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -210,7 +217,7 @@
 			type : "get",
 			url : "saleshistory",
 			data : {
-				id : 'company1'
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
@@ -240,13 +247,11 @@
 	
 	function infoModify() {
 		var id = '${m_id}';
-		alert(id);
-		
 		$.ajax({
 			type : "get",
 			url : "infomodifyc",
 			data : {
-				id : id
+				id : sessionId
 				},
 			dataType : "html",
 			success : function(data) {

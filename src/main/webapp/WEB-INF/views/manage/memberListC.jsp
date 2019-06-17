@@ -56,19 +56,17 @@
 									<th>이름</th>
 									<th>생년월일</th>
 									<th>연락처</th>
-									<th>이용기간</th>
-									<th>남은기간</th>
+									<th>이용상품</th>
 									<th>이용상태</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach var="member" items="${mList }">
 								<tr>
-									<td><a href="#">${member.m_name }</a></td>
+									<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+									<td><a href="#">${member.m_birth }</a></td>
 									<td><a href="#">${member.m_phone }</a></td>
-									<td><a href="#">${member.m_phone }</a></td>
-									<td>${member.ps_date }~${member.ps_date1 }</td>
-									<td>${member.ps_date2 }</td>
+									<td>${member.ad_category }</td>
 									<td>이용중</td>
 								</tr>
 								</c:forEach>

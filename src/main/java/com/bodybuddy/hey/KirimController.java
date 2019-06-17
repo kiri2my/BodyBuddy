@@ -85,12 +85,12 @@ public class KirimController {
 		return html;
 	}
 	
-	@RequestMapping(value = "/detailqawriteinsert", method = RequestMethod.POST)
+	@RequestMapping(value = "/detailqawriteinsert",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String detailQaWriteInsert(Qna qna) {
-		System.out.println("url:/dibsdelete");
-		json = ks.detailQaWriteInsert(qna);
-		return json;
+		System.out.println("url:/detailqawriteinsert");
+		html = ks.detailQaWriteInsert(qna);
+		return html;
 	}
 	
 	
