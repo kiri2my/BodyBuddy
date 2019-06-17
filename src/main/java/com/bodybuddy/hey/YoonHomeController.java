@@ -38,6 +38,12 @@ public class YoonHomeController {
 	
 	ModelAndView mav;
 	
+	@RequestMapping(value = "/dailyCheck", method = RequestMethod.POST)
+	public String dailyCheck(String ps_code, String m_id) {
+		String html=null;
+		html=ys.dailyCheck(ps_code,m_id);
+		return html;
+	}
 	
 	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code, String m_id) {
