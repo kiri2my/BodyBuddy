@@ -123,29 +123,36 @@ public class HanHomeController {
 		return certification;
 	}
 	@ResponseBody
-	@RequestMapping(value = "/qaNum", method = RequestMethod.POST)
+	@RequestMapping(value = "/qanum", method = RequestMethod.POST)
 	public List<Question> qaNum(String qa_num) {
-		//Gson gson = new Gson();
 		List<Question> qList = new ArrayList<Question>();
-		//System.out.println("QA 빈에 담아오기 ");
-		//System.out.println("잘가지고 오셨나요 ?   ="+qa_num);
 		Question qau = mm.qaNum(qa_num);
-		
 		Question qa = (Question) session.getAttribute("qa");
 		qList.add(qa);
-		//String json = new Gson().toJson(qList);
 		return qList;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/questionreply", method = RequestMethod.POST)
-	public String questionReply(String qa_acontent,String qa_num) {
+	public boolean questionReply(String qa_acontent,String qa_num) {
 		System.out.println("답변 등록 중!! ");
 		System.out.println(qa_acontent);
 		System.out.println("home,qa 번호"+qa_num);
-		String answer = mm.questionReply(qa_acontent,qa_num);
+		boolean answer = mm.questionReply(qa_acontent,qa_num);
 		
 		System.out.println("갔다오기 성공");
 		return answer;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/qnacheck", method = RequestMethod.POST)
+	public List<Question> qNaCheck(String qa_num) {
+		System.out.println("답변 확인 중!! ");
+		ArrayList<Question> qList = new ArrayList<Question>();
+		System.out.println("home,qa 번호"+qa_num);
+		Question qa = mm.qNaCheck(qa_num);
+		qList.add(qa);
+		
+		System.out.println("갔다오기 성공");
+		return qList;
 	}
 
 

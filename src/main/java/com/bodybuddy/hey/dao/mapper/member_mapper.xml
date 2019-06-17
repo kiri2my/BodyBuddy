@@ -71,9 +71,12 @@
 	</select>	
 	
 	<update id="questionReply" parameterType="hashmap">
-	UPDATE QA SET QA_ACONTENT = #{qa_acontent}, QA_ADTAE = SYSDATE , QA_TRUE='t'
-	WHERE QA_NUM = #{qa_num}
+	UPDATE QA SET QA_ACONTENT = #{param1}, QA_ADATE = SYSDATE , QA_TRUE='t'
+	WHERE QA_NUM = #{param2}
 	</update>	
+	<select id="qNaCheck" parameterType="String" resultType="question">
+	SELECT * FROM QA WHERE qa_num= #{qa_num} 
+	</select>
 
 
 </mapper>
