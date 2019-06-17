@@ -22,7 +22,31 @@
 	src="${pageContext.request.contextPath}/resources/packages/timegrid/main.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/packages/list/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 
+<style>
+
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+</style>
+</head>
+<body>
+
+  <div id='calendar'></div>
+
+<input type="text" id="mid" value="${m_id}"/>
+<input type="text" id="pscode" value="${ps_code}"/>
+</body>
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -44,54 +68,38 @@
 
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      events: [
-
-      ]
+      events: [      ]
     });
 
     calendar.render();
   }); //END
-  
-  var mid=${m_id}
-  var pscode=${ps_code}
-  function dailyCheck() {
+
+  var mid = $('#mid').val();
+  var pscode = $('#pscode').val();
+ 
+  $(document).ready(function(){
+	  console.log("상키ㅁㅁㅁㅁㅁㅁ")
 	  $.ajax({
 			type:'post', 
 			url:'dailyCheck',
-			data:{m_id:mid,ps_code:pscode},
+			data:{"m_id":$("#mid").val(),"ps_code":$("#pscode").val()},
 			dataType:'json',
 			success:function(data){
 				console.log(data)
+		 
+
+
+		
+				
+				console.log("시발럼아");
 			},
 			error:function(error){
 				console.log(error);
 			}
 		
 		});   
-	  
-}
+  });
 
 </script>
-<style>
-
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-</style>
-</head>
-<body>
-
-  <div id='calendar'></div>
-
-</body>
 	
 </html>
