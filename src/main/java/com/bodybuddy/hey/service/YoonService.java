@@ -501,8 +501,14 @@ public class YoonService {
 		return mav;
 	}
 	public String dailyCheck(String ps_code, String m_id) {
-		
-		return null;
+		String json="";
+		List<Map<String, String>> dailyCheck1 = null;
+		Map<String,String> cs = new HashMap<>();
+		cs.put("ps_code", ps_code);
+		cs.put("ps_mid", m_id);
+		dailyCheck1=yDao.getDailyCheck(cs);
+		json=new Gson().toJson(dailyCheck1);
+		return json;
 	}
 	
 	

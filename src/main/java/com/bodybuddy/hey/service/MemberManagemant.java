@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -198,13 +199,21 @@ public class MemberManagemant {
 
 		return qa;
 	}
-	public String questionReply(String qa_acontent,String qa_num) {
+	public boolean questionReply(@Param("qa_acontent")String qa_acontent,@Param("qa_num")String qa_num) {
 		
 		System.out.println("mm qa 번호"+qa_num);
-		String answer = mDao.questionReply(qa_acontent, qa_num);
+		boolean answer = mDao.questionReply(qa_acontent, qa_num);
 		System.out.println("성공");
 		
 		return answer;
+	}
+
+	public Question qNaCheck(String qa_num) {
+		System.out.println("씨발");
+		Question qa = mDao.qNaCheck(qa_num);
+		System.out.println("씨이발!!!!!!!!!!!"+qa);
+		return qa;
+		
 	}
 
 }
