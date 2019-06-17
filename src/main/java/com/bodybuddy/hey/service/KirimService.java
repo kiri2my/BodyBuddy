@@ -511,9 +511,9 @@ public class KirimService {
 		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
-			String da_period=ph.getPs_opcode();
+			String da_opperiod=ph.getPs_opcode();
 			Payment ph1=kDao.selectPscode(cs);
-			String ph2=kDao.selectPeriod(da_period);
+			String ph2=kDao.selectPeriod(da_opperiod);
 			Map<String,String> cs2 = new HashMap<>();
 			String ps_code=ph1.getPs_code();
 			cs2.put("da_period", ph2);

@@ -40,10 +40,9 @@ public class YoonHomeController {
 	
 	
 	@RequestMapping(value = "/calenderN", method = RequestMethod.GET)
-	public String calenderN(Model model) {
-		System.out.println("트레이너조인이라구");
-
-		return "manage/calenderN";
+	public ModelAndView calenderN(String ps_code, String m_id) {
+		mav=ys.calender(ps_code,m_id);
+		return mav;
 	}
 	
 	

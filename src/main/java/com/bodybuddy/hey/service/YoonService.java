@@ -272,14 +272,14 @@ public class YoonService {
 					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("OP_CONTENT")
 					+ "</td>\r\n" + "													<td>"
-					+ getprogramListN.get(i).get("OP_PERIOD") + "</td>\r\n"
+					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "													<td>"
 					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
+					+ "		<td><a href='"+"calenderN?ps_code="+getprogramListN.get(i).get("PS_CODE")+"&m_id="+getprogramListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>\r\n"
 					+ "													<td><a href='" + "reviewwritefrm?ps_code="
 					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
 					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
@@ -294,7 +294,7 @@ public class YoonService {
 					+ "													<td>" + getnormalListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
-					+ "													<td>" + getnormalListN.get(i).get("OP_PERIOD")
+					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
 					+ "</td>\r\n" + "													<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
@@ -342,6 +342,9 @@ public class YoonService {
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
 		mav.addObject("mb", mb);
 		mav.addObject("mbPhoto", mbPhoto);
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String Date = sdFormat.format(mb.getM_birth());
+		mav.addObject("date", Date);
 		view = "manage/infoModifyN";
 		mav.setViewName(view);
 		return mav;
@@ -419,7 +422,7 @@ public class YoonService {
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
+				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 
 				"												</tr>");
 		}
@@ -506,6 +509,14 @@ public class YoonService {
 			return mav;
 		 }
 		 
+		return mav;
+	}
+	public ModelAndView calender(String ps_code, String m_id) {
+		String view= null;
+		mav.addObject("ps_code",ps_code);
+		mav.addObject("m_id", m_id);
+		view="manage/calenderN";
+		mav.setViewName(view);
 		return mav;
 	}
 	

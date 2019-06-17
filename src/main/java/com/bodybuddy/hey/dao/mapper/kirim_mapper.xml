@@ -137,7 +137,7 @@
  	
  	<select id="selectPeriod" parameterType="String" resultType="String">
   		SELECT OP_PERIOD FROM OP
-		WHERE OP_CODE=#{da_period}
+		WHERE OP_CODE=#{da_opperiod}
  	</select>
 	
 	

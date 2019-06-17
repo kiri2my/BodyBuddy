@@ -53,7 +53,7 @@ public interface KirimDao {
 
 	public int selectOverlap(Map<String, String> cs);
 
-	public String selectPeriod(String da_period);	
+	public String selectPeriod(String da_opperiod);	
 	
 	
 
