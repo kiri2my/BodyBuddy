@@ -15,7 +15,7 @@
 
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M
-		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_exaddr},#{m_kind})
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind},#{m_exaddr})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
 		INSERT INTO T

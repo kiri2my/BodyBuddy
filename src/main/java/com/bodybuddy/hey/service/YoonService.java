@@ -342,9 +342,6 @@ public class YoonService {
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
 		mav.addObject("mb", mb);
 		mav.addObject("mbPhoto", mbPhoto);
-		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String Date = sdFormat.format(mb.getM_birth());
-		mav.addObject("date", Date);
 		view = "manage/infoModifyN";
 		mav.setViewName(view);
 		return mav;

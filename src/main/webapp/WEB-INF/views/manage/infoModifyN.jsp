@@ -214,7 +214,7 @@
 									<div class="input-group">
 										<input type="text" name="m_birth"
 											class="form-control form-control-lg border-left-0"
-											value="${date}" disabled>
+											value="${mb.m_birth}" disabled>
 									</div>
 								</div>
 

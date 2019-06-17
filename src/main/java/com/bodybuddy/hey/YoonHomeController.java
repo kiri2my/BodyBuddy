@@ -39,7 +39,7 @@ public class YoonHomeController {
 	ModelAndView mav;
 	
 	
-	@RequestMapping(value = "/calenderN", method = RequestMethod.GET)
+	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code, String m_id) {
 		mav=ys.calender(ps_code,m_id);
 		return mav;
