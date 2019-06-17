@@ -15,15 +15,9 @@
 
 	<select id="getSalesHistory" resultType="sales">
 		select
-		ps_code,ps_adcode,ps_mid,ps_date,ps_price, AD_TITLE, M_NAME from ps
-		LEFT JOIN AD ON PS_ADCODE=AD_CODE
-		LEFT JOIN M ON PS_MID=M_ID
-		where
-		ps_adcode
-		in(select ad_code from ad,ps where ad_code = ps_adcode and
-		ad_name = #{id}
-		group by ad_code)
-		order by ps_adcode
+		ps.ps_code,ad.ad_title,m.m_id,m.m_name,ps.ps_price,ps.ps_date,ps.ps_adcode
+		from m left join ps on ps.ps_mid= m.m_id left join ad on ps.ps_adcode
+		= ad.ad_code where ad.ad_name = #{id}
 	</select>
 	<!-- <![CDATA[ SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT DISTINCT 
 		PS.PS_MID FROM PS,AD WHERE PS_ADCODE = AD.AD_CODE AND AD.AD_NAME = #{id}) 

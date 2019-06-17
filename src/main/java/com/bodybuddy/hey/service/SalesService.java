@@ -29,7 +29,7 @@ public class SalesService {
 		System.out.println("getSalesHistory mDao in");
 		sList = sDao.getSalesHistory(id);
 		// System.out.println("mList = " + sList.get(0).getM_name());
-		System.out.println("mList size = " + sList.size());
+		System.out.println("sList size = " + sList.size());
 
 		if (0 != sList.size()) {
 			System.out.println("getSalesHistory select success");

@@ -56,5 +56,6 @@ public class Member {
 	private String da_status;
 	
 	private String ad_title;
+	private String ad_category;
 	
 }

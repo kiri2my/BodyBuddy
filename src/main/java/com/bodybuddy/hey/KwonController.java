@@ -2,25 +2,22 @@
 
 import java.util.Locale;
 
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.service.KwonService;
-import com.bodybuddy.hey.service.MemberManagemant;
 import com.bodybuddy.hey.service.SalesService;
 
 @Controller
@@ -50,7 +47,8 @@ public class KwonController {
 	public ModelAndView company(HttpServletRequest request) {
 		mav = new ModelAndView();
 		mav.setViewName("manage/company/companyMain");
-		mav.addObject("m_id", request.getParameter("m_id"));
+		mav.addObject("session_id", request.getParameter("m_id"));
+		System.out.println(request.getParameter("m_id"));
 		return mav;
 	}
 
@@ -61,10 +59,9 @@ public class KwonController {
 
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
+		
 
-		mav = ks.getMemberList(id);
+		mav = ks.getMemberList(request);
 
 		return mav;
 	}
@@ -105,10 +102,8 @@ public class KwonController {
 
 	@RequestMapping(value = "/normaldailycheck")
 	public ModelAndView normalDailyCheck(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
 
-		mav = ks.getNormalMemberList(id);
+		mav = ks.getNormalMemberList(request);
 
 		return mav;
 	}
@@ -206,34 +201,21 @@ public class KwonController {
 
 	@RequestMapping(value = "/infomodifyc")
 	public ModelAndView infoModifyC(HttpServletRequest request) {
-		mav = new ModelAndView();
-		mav.setViewName("infoModifyC");
 		String id = request.getParameter("id");
-		/* mav = ks.getInfomodifyC(id); */
+		mav = ks.getInfomodifyC(id);
+
 		return mav;
 	}
+	
+	@RequestMapping(value = "/infomodifyupdate" ,method = RequestMethod.POST)
+	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
+		
+		
+		mav = ks.infoModifyUpdate(multi);
 
-	/*
-	 * // mailSending 코드
-	 * 
-	 * @RequestMapping(value = "/sendEmail1") public String mailSending() {
-	 * System.out.println("메일 보내기"); String setfrom = "soonchul88@gmail.com"; // 보내는
-	 * 아이디 String title = "BodyBuddy 인증번호"; // 제목 Member mb = (Member)
-	 * session.getAttribute("mb"); // 세션 가져오자 String m_id = mb.getM_id(); // 받는사람
-	 * 아이디 String certification = mm.getRamdomPassword(10);// 내용 인증번호 디비에 저장
-	 * 
-	 * try { MimeMessage message = mailSender.createMimeMessage(); MimeMessageHelper
-	 * messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-	 * 
-	 * messageHelper.setFrom(setfrom); // 보내는사람 생략하거나 하면 정상작동을 안함
-	 * messageHelper.setTo(m_id); // 받는사람 이메일 messageHelper.setSubject(title); //
-	 * 메일제목은 생략이 가능하다 messageHelper.setText("인증번호 : " + certification); // 메일
-	 * 내용,인증번호
-	 * 
-	 * mailSender.send(message); } catch (Exception e) { System.out.println(e); }
-	 * 
-	 * return "redirect:/";
-	 * 
-	 * }
-	 */
+		return mav;
+	}
+	
+	
+
 }
