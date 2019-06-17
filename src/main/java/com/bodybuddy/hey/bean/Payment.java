@@ -14,4 +14,5 @@ public class Payment {
 	 private String ps_mid;
 	 private String ps_date;
 	 private int ps_price;
+	 private String da_period;
 }
