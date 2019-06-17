@@ -44,8 +44,8 @@
 
   <div id='calendar'></div>
 
-<input type="text" id="mid" value="${m_id}"/>
-<input type="text" id="pscode" value="${ps_code}"/>
+<input type="hidden" id="mid" value="${m_id}"/>
+<input type="hidden" id="pscode" value="${ps_code}"/>
 </body>
 <script>
 
@@ -86,12 +86,7 @@
 			dataType:'json',
 			success:function(data){
 				console.log(data)
-		 
-
-
-		
-				
-				console.log("시발럼아");
+	
 			},
 			error:function(error){
 				console.log(error);

@@ -283,7 +283,7 @@ public class YoonService {
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
-					+ "</td>\r\n" + "													<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>\r\n"
+					+ "</td>\r\n" + "													<td><a href='"+"calenderN?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
 					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
 					+ "												</tr>");
