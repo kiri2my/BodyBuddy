@@ -257,7 +257,7 @@ public class YoonService {
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>\r\n"
-					+ "													<td>" + getprogramListN.get(i).get("OP_CONTENT")
+					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+getprogramListN.get(i).get("OP_TIMES")
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "													<td>"
@@ -499,6 +499,10 @@ public class YoonService {
 		view="manage/calenderN";
 		mav.setViewName(view);
 		return mav;
+	}
+	public String dailyCheck(String ps_code, String m_id) {
+		
+		return null;
 	}
 	
 	

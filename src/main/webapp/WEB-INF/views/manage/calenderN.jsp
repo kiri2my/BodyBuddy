@@ -50,7 +50,26 @@
     });
 
     calendar.render();
-  });
+  }); //END
+  
+  var mid=${m_id}
+  var pscode=${ps_code}
+  function dailyCheck() {
+	  $.ajax({
+			type:'post', 
+			url:'dailyCheck',
+			data:{m_id:mid,ps_code:pscode},
+			dataType:'json',
+			success:function(data){
+				console.log(data)
+			},
+			error:function(error){
+				console.log(error);
+			}
+		
+		});   
+	  
+}
 
 </script>
 <style>
