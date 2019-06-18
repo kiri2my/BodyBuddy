@@ -67,6 +67,8 @@ public interface MemberDao {
 
 	public Question qNaCheck(String qa_num);
 
+	public List<Question> getAdvertiselist(String id);
+
 
 
 }

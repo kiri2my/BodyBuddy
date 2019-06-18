@@ -58,11 +58,16 @@ public class JungController {
 		return "manage/trainer/trainer";
 	}
 	@RequestMapping(value = "/advertisemanage", method = RequestMethod.GET)
-	public String memberList(Locale locale, Model model) {
+	public ModelAndView memberList(Locale locale, Model model) {
+		Member mb = (Member)session.getAttribute("mb");
+		String id = mb.getM_id();
+		System.out.println(id);
+		mav=js.getAdvertisemanage(id);
 		
-
 		System.out.println("advertisemanage controller");
-		return "manage/advertisemanage";
+		
+		return mav;
+		/* return "manage/advertisemanage"; */
 	}
 	
 	@RequestMapping(value = "/advertisewritefrm", method = RequestMethod.GET)
