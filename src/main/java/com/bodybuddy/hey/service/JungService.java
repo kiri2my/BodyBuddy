@@ -238,6 +238,7 @@ public class JungService {
 	}
 
 	public ModelAndView advertisewriterfrm(Member mb) {
+		mav = new ModelAndView();
 		System.out.println("광고입력폼");
 		String view="manage/advertisewritefrm";
 		System.out.println("viewName:"+view);

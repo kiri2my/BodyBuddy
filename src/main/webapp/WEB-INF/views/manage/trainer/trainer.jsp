@@ -174,7 +174,7 @@
 	}
 	
 	function profileModifyT() {
-		alert("얍야얍");
+		alert("프로필");
 		$.ajax({
 			type : "GET",
 			url : "profileModifyT",
@@ -185,6 +185,25 @@
 			success : function(data) {
 				/* $('#main').hide(); */
 				$('#main').html(data);
+			}
+		});
+	}
+	
+	function trainerModifyT() {
+		alert("내정보");
+		$.ajax({
+			type : "GET",
+			url : "trainerModifyT",
+			dataType : "html",
+			error : function() {
+				alert('통신실패!!');
+			},
+			success : function(data) {
+				/* $('#main').hide(); */
+				alert(data)
+				console.log(data)
+				$('#main').html(data);
+				
 			}
 		});
 	}
