@@ -66,12 +66,12 @@ public class JungController {
 	}
 	
 	@RequestMapping(value = "/advertisewritefrm", method = RequestMethod.GET)
-	public String advertisewirtefrm(Locale locale, Model model) {
+	public ModelAndView advertisewirtefrm() {
 		System.out.println("advertisewritefrm controller");
 		Member mb = (Member) session.getAttribute("mb");
 		mav=js.advertisewriterfrm(mb);
 		
-		return "manage/advertisewritefrm";
+		return mav;
 	}
 	
 	@RequestMapping(value = "/advertisemodifyfrm", method = RequestMethod.GET)
@@ -136,10 +136,11 @@ public class JungController {
 	
 	@RequestMapping(value = "/adinsert",produces = "application/json; charset=utf8")
 	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
+		adadd.setAd_name(mb.getM_id());
 		
 		String[] day = request.getParameterValues("day");
-		String[] op_content = request.getParameterValues("op_content");
-		mav=js.adinsert(adadd,day,op_content);
+		mav=js.adinsert(adadd,day);
 		
 		return mav;
 	}

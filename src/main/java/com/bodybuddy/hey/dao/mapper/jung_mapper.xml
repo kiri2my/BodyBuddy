@@ -33,4 +33,26 @@
 		UPDATE TRAINER SET T_CID = '테스트업체명132',T_CAREER='여기서일함 저기서일함 요기소속팀' WHERE T_ID= '123456@123456';
 	</update> -->
 	
+	<select id="trinerlist" resultType="member">
+		SELECT * FROM YESORNO where YN_COMPANY=	#{id}
+
+	</select>
+	<select id="kindkind" resultType="member">
+		SELECT M_KIND,M_NAME FROM MEMBER WHERE M_ID=#{id}
+	</select>
+	
+	<insert id="adinsert" parameterType="question" useGeneratedKeys="true" keyProperty="xxx" >
+		<selectKey keyProperty="xxx" resultType="String" order="AFTER">
+   		select ad_seq.currval from dual
+  		</selectKey>
+		INSERT INTO AD VALUES(AD_SEQ.NEXTVAL,#{ad_name},#{ad_title},#{ad_content},#{ad_category},#{ad_status},sysdate)
+	</insert>
+	<insert id="opinsert">
+		
+		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL, #{xxx}, #{ad_name}, #{op_price},#{op_period},#{op_times},#{op_day},#{op_content},'11:00:13:00',#{op_personnel},0)
+	</insert>
+	<insert id="imginsert">
+		INSERT INTO AP VALUES(#{xxx},#{ap_image})
+	</insert>
+	
 </mapper>
