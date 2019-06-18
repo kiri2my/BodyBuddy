@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -37,6 +38,21 @@ public class YoonHomeController {
 	HttpSession session;
 	
 	ModelAndView mav;
+	
+	@RequestMapping(value = "/dailyCheck", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String dailyCheck(String ps_code, String m_id) {
+
+		String html=null;
+		html=ys.dailyCheck(ps_code,m_id);
+		return html;
+	}
+	
+	@RequestMapping(value = "/calenderN")
+	public ModelAndView calenderN(String ps_code, String m_id) {
+		mav=ys.calender(ps_code,m_id);
+		return mav;
+	}
 	
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -71,7 +87,6 @@ public class YoonHomeController {
 		mav=ys.insertReview(rv);
 		return mav;
 	}
-
 	@RequestMapping(value = "/infomodifyfrmn")
 	public ModelAndView modifyN(String m_id) {
 		mav=ys.modifyN(m_id);
@@ -110,5 +125,4 @@ public class YoonHomeController {
 		mav=ys.infomodifyn(multi);
 		return mav;
 		}
-
 }

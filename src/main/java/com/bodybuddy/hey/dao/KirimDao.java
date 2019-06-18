@@ -1,6 +1,5 @@
 package com.bodybuddy.hey.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,22 +36,45 @@ public interface KirimDao {
 	
 	public List<Qna> detailQa(String ad_code);
 
-	public HashMap<String, String> getTrainerProfile(String m_id);
+	public Map<String, String> getTrainerProfile(String m_id);
 
-	public List<HashMap<String, String>> getTrainerProfileOption(String m_id);
+	public List<Map<String, String>> getTrainerPOption(String m_id);
 
-	public HashMap<String, String> getCompanyProfile(String m_id);
+	public Map<String, String> getCompanyProfile(String m_id);
 
-	public List<HashMap<String, String>> getCompanyProfileOption(String m_id);
+	public List<Map<String, String>> getCompanyProfileOption(String m_id);
 
 	public String deleteRealIdCheck(String m_id);
 
-	public boolean insertDaliy(String ps_code);
+	public boolean insertDaliy(Map<String, String> cs2);
 
 	public Payment selectPscode(Map<String, String> cs);
 
-	public int selectOverlap(Map<String, String> cs);	
+	public int selectOverlap(Map<String, String> cs);
+
+	public String selectPeriod(String da_opperiod);	
 	
+	public List<Map<String, String>> detailPsCount(String ad_code);
+
+	public List<Map<String, String>> getTrainerPCategory(String m_id);
+
+	public List<Map<String, String>> getOpPeriodList();
+
+	public int expireOption(String op_code);
+
+	public List<Map<String, String>> getAdExpireList();
+
+	public int expireAd(String ad_code);
+
+	public Map<String, String> personnelCalc(String ps_opcode);
+
+	public boolean detailQaWriteInsert(Qna qna);
+
+	public List<Map<String, String>> adPhotoList(String ad_code);
+
+	
+	
+
 	
 
 

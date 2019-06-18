@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bodybuddy.hey.bean.Member;
@@ -50,6 +51,7 @@ public interface MemberDao {
 
 	public Question qaNum(String qa_num);
 
+
 	public List<YesOrNo> trinerlist(String id);
 
 	public Member kindkind(String id);
@@ -59,6 +61,11 @@ public interface MemberDao {
 	public boolean opinsert(Question adadd);
 
 	public boolean imginsert(Question adadd);
+
+
+	public boolean questionReply(String qa_acontent, String qa_num);
+
+	public Question qNaCheck(String qa_num);
 
 
 

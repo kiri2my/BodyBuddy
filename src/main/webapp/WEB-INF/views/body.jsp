@@ -150,9 +150,7 @@ $(".cate").click(function(){
 	
 });
 
-
-
-
+//지도
 var mapContainer = document.getElementById('mapCard'); // 지도를 표시할 div
 	mapOption = {center: new daum.maps.LatLng(37.537187, 127.005476), level: 5};//(지도의 중심좌표,지도의 확대 레벨)
 var map = new daum.maps.Map(mapContainer, mapOption);//지도를 미리 생성
@@ -187,7 +185,7 @@ else alert("주소별 검색어를 모두 입력하고 검색해주세요.");
 
 //화면에 출력된 광고들의 주소리스트 뽑기
 var jsonMainList = ${jsonMainList}
-console.log(jsonMainList);
+
 var addrList = new Array();
 for(var i=0;i<jsonMainList.length; i++){
 	var addrRecord = jsonMainList[i]["M_ADDR"]+" "+jsonMainList[i]["M_EXADDR"]
@@ -237,6 +235,36 @@ if(extra=="") $("#sample7_address").val(extra1+extra2);
 
 
 
+//찜
+
+console.log(jsonMainList);
+var delBtnSet = ${delBtnSet}
+console.log(delBtnSet);
+
+var kind="${mb.m_kind}";
+if(kind=='n'){
+for(var i=0;i<jsonMainList.length; i++){
+	var addBtnBefATag = "#showdetail"+jsonMainList[i]["AD_CODE"];
+	//console.log("add",$(addBtnBefATag));
+	
+	var addBtn = "<button id='dibsAdd" +jsonMainList[i]["AD_CODE"]
+	+ "' type='button' class='btn btn-outline-secondary btn-rounded btn-icon'>"
+	+ "<i class='mdi mdi-heart-outline text-danger'></i></button>";
+	$(addBtnBefATag).after(addBtn);
+}
+
+
+for(var i=0;i<delBtnSet.length;i++){
+	var targetAddBtn = "#dibsAdd"+delBtnSet[i];
+	console.log("del",$(targetAddBtn));
+	
+	var delBtn = "<button id='dibsDelete"+delBtnSet[i]
+	+ "' type='button' class='btn btn-outline-danger btn-rounded btn-icon'>"
+	+ "<i class='mdi mdi-heart'></i></button>";
+	$(targetAddBtn).prop("outerHTML",delBtn);
+}
+}
+
 
 	dibsAdd();
 	dibsDelete();
@@ -253,8 +281,8 @@ if(extra=="") $("#sample7_address").val(extra1+extra2);
 				},
 				dataType : 'html',
 				success : function(data) {
-					console.log(data);
-					console.log(dibsAddBtn);
+					console.log("dibsadd",data);
+					//console.log(dibsAddBtn);
 					dibsAddBtn.prop("outerHTML", data);
 					dibsDelete();
 				},
@@ -277,8 +305,8 @@ if(extra=="") $("#sample7_address").val(extra1+extra2);
 				},
 				dataType : 'html',
 				success : function(data) {
-					console.log(data);
-					console.log(dibsDeleteBtn);
+					console.log("dibsdelete",data);
+					//console.log(dibsDeleteBtn);
 					dibsDeleteBtn.prop("outerHTML", data);
 					dibsAdd();
 				},

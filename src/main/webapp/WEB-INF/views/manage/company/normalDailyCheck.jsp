@@ -68,7 +68,7 @@
 										<tr>
 											<td><a href="#">${member.m_name }(${member.m_id })</a></td>
 											<td>${member.ps_date }~${member.ps_date1 }</td>
-											<td>${member.ps_day }</td>
+											<td>${member.op_period }</td>
 											<td>${member.m_phone }</td>
 											<td>이용중</td>
 											<th><button class="btn btn-danger"
@@ -85,14 +85,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal" id="modal"
 		style="width: 30%; height: inherit; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true"></button>
-			<h3 id="">트레이너 근태</h3>
+			<h3 id="">일반회원 출석 현황</h3>
 		</div>
 		<div class="modal-body" id="modalBody"></div>
 	</div>
@@ -126,7 +126,7 @@
 </body>
 
 <script type="text/javascript">
-	function normalCheck(id,code) {
+	function normalCheck(id, code) {
 		var id = id;
 		var code = code;
 		$.ajax({
@@ -135,9 +135,9 @@
 			data : {
 				code : code
 			},
-			dataType : 'html',
+			dataType : 'text',
 			success : function(data) {
-				alert("일반회원 입력 성공");
+				alert(data);
 			},
 			error : function() {
 				alert('일반회원 입력 실패');
@@ -145,35 +145,36 @@
 		});
 
 	}
-	
-	function Attended(id,code) {
+
+	function Attended(id, code) {
 		var id = id;
 		var code = code;
-		$.ajax({
-			type : "post",
-			url : "attended",
-			data : {
-				id : id,
-				code : code
-			},
-			dataType : 'json',
-			success : function(data) {
-				console.log(data);
-				var str = "";
-				str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
-				for (var i = 0; i < data.length; i++) {
-					str += "<tr><td>" + data[i].dn_date + "</td><td>"
-							+ "출석" + "</td></tr>";
-				}
-				str += "</tbody></table>";
-				$('#modalBody').html(str);
-				$('#modal').modal('toggle');
-			},
-			error : function(error) {
-				alert('현황 목록 로드 실패');
-				console.log(error);
-			}
-		});
+		$
+				.ajax({
+					type : "post",
+					url : "attended",
+					data : {
+						id : id,
+						code : code
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].dn_date + "</td><td>"
+									+ "출석" + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+					},
+					error : function(error) {
+						alert('현황 목록 로드 실패');
+						console.log(error);
+					}
+				});
 	}
 </script>
 </html>

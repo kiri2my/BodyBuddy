@@ -1,8 +1,12 @@
 package com.bodybuddy.hey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.MemberManagemant;
+import com.google.gson.Gson;
 
 @Controller
 public class HanHomeController {
@@ -37,28 +42,7 @@ public class HanHomeController {
 		System.out.println();
 		return checkcon;
 	}
-	@ResponseBody
-	@RequestMapping(value = "/qa_num", method = RequestMethod.POST)
-	public Question qaNum(String qa_num) {
-		System.out.println("나만믿으라고!! ");
-
-		Question qa = mm.qaNum(qa_num);
-		session.setAttribute("qa", qa);
-		System.out.println(qa.getQa_acontent());
-		
-		return qa;
-	}
-	@ResponseBody
-	@RequestMapping(value = "/questionreplyfrm", method = RequestMethod.POST)
-	public String questionReplyFrm(String qa_acontent) {
-		System.out.println("나만믿으라고!! ");
-		session.getAttribute("questiin");
-		String answer = mm.questionReplyFrm(qa_acontent);
-		
-		
-		System.out.println();
-		return answer;
-	}
+	
 
 	@ResponseBody
 	@RequestMapping(value = "/checkcompanynum", method = RequestMethod.POST)
@@ -137,6 +121,38 @@ public class HanHomeController {
 		}
 
 		return certification;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/qanum", method = RequestMethod.POST)
+	public List<Question> qaNum(String qa_num) {
+		List<Question> qList = new ArrayList<Question>();
+		Question qau = mm.qaNum(qa_num);
+		Question qa = (Question) session.getAttribute("qa");
+		qList.add(qa);
+		return qList;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/questionreply", method = RequestMethod.POST)
+	public boolean questionReply(String qa_acontent,String qa_num) {
+		System.out.println("답변 등록 중!! ");
+		System.out.println(qa_acontent);
+		System.out.println("home,qa 번호"+qa_num);
+		boolean answer = mm.questionReply(qa_acontent,qa_num);
+		
+		System.out.println("갔다오기 성공");
+		return answer;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/qnacheck", method = RequestMethod.POST)
+	public List<Question> qNaCheck(String qa_num) {
+		System.out.println("답변 확인 중!! ");
+		ArrayList<Question> qList = new ArrayList<Question>();
+		System.out.println("home,qa 번호"+qa_num);
+		Question qa = mm.qNaCheck(qa_num);
+		qList.add(qa);
+		
+		System.out.println("갔다오기 성공");
+		return qList;
 	}
 
 
