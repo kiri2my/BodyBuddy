@@ -116,12 +116,12 @@
 		SET PF_IMAGE = #{pf_image} 
 		WHERE PF_ID=#{m_id}
 	</update>
-	<select id="getDailyCheck" parameterType="HashMap" resultType="HashMap">
+	<select id="getDailyList" parameterType="HashMap" resultType="HashMap">
 	SELECT DN_DATE
 	FROM DN
 	JOIN DA on DN_DACODE = DA_CODE
 	JOIN PS on DA_PSCODE = PS_CODE
-	WHERE PS_MID= #{ps_mid} AND PS_CODE=#{ps_code}
+	WHERE PS_MID= #{m_id} AND PS_CODE=#{ps_code}
 	</select>
 	
 </mapper>
