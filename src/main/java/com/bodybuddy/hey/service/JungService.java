@@ -216,6 +216,7 @@ public class JungService {
 		
 		String day1 = Arrays.toString(day);
 		System.out.println("요일 "+day1);
+		day1.substring(1, day1.length()-1);
 		adadd.setOp_day(day1);
 		
 		String ad_name = adadd.getAd_name();
@@ -230,7 +231,22 @@ public class JungService {
 		String ad_content = adadd.getAd_content();
 		System.out.println("ad_content : " + ad_content);
 		
-		String op_period = adadd.getOp_period1()+"~"+adadd.getOp_period2();
+		String op_period1 = adadd.getOp_period1().replace("/", ""); //06072019 
+		String x1= op_period1.substring(4);
+		String y1= op_period1.substring(0, 4);
+		String z1= x1+y1;
+		
+		String op_period2 = adadd.getOp_period1().replace("/", ""); //06072019 
+		String x2= op_period2.substring(4);
+		String y2= op_period2.substring(0, 4);
+		String z2= x2+y2;
+		
+		
+		System.out.println(z1);
+		System.out.println(z2);
+		
+		String op_period = z1+"~"+z2;
+		/* op_period.replace("/", ""); */
 		adadd.setOp_period(op_period);
 		System.out.println("op_period : "+ op_period);
 		
@@ -254,7 +270,7 @@ public class JungService {
 			 System.out.println("xxx : "+adadd.getXxx());
 			 if(mDao.opinsert(adadd)) {
 				 System.out.println("옵션입력성공");
-				 if(adadd.getAp_image().equals(null)||adadd.getAp_image().equals(""	)) {
+				 if(!adadd.getAp_image().equals(null)||adadd.getAp_image().equals(""	)) {
 					 mDao.imginsert(adadd);
 					 System.out.println("이미지등록성공");
 				 }else System.out.println("이미지가 없음");
@@ -315,6 +331,29 @@ public class JungService {
 				 
 		}
 		return sb.toString();
+	}
+
+	public ModelAndView getAdvertisemanage(String id) {
+		mav = new ModelAndView();
+		String view = null;
+		m = new Member();
+		
+		List<Question> adList = null;
+		
+		
+		adList = mDao.getAdvertiselist(id);
+		System.out.println("이거다");
+		if (0 != adList.size()) {
+			System.out.println("advertise list select success");
+			view = "manage/advertisemanage";
+			mav.setViewName(view);
+			mav.addObject("adList", adList);
+		} else {
+			System.out.println("advertise list select error");
+			view = "redirect:advertisemanage.jsp";
+			mav.setViewName(view);
+		}
+		return mav;
 	}
 
 }

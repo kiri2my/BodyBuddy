@@ -78,6 +78,12 @@
                             <span class="menu-title">내 프로그램 광고 관리</span>
                         </a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="trainerModifyT()">
+                            <i class="mdi mdi-account-card-details menu-icon"></i>
+                            <span class="menu-title">내 정보 관리</span>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="profileModifyT()">
@@ -85,7 +91,8 @@
                             <span class="menu-title">내 프로필 관리</span>
                         </a>
                     </li>
-
+                   
+                  
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="questionList()">
                             <i class="mdi mdi-comment-question-outline menu-icon"></i>
