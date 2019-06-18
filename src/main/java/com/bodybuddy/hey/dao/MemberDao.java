@@ -3,6 +3,9 @@ package com.bodybuddy.hey.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.bean.YesOrNo;
@@ -67,7 +70,25 @@ public interface MemberDao {
 
 	public Question qNaCheck(String qa_num);
 
+
 	public List<Question> getAdvertiselist(String id);
+
+	public Member trainerModifyT(String m_id);
+
+	
+	
+	
+	public Member getPhotoModifyN(String m_id);
+
+	public Member getModifyN(String m_id);
+
+	public void updateNorMb(Member mb);
+
+	public int imgOverlap(String m_id);
+
+	public String pfimage(String m_id);
+
+
 
 
 

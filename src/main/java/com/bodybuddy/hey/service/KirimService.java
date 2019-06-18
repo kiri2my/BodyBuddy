@@ -144,18 +144,39 @@ public class KirimService {
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
 			String da_opperiod=ph.getPs_opcode();
+			String ps_date=ph.getPs_date();
 			Payment ph1=kDao.selectPscode(cs);
 			String ph2=kDao.selectPeriod(da_opperiod);
+			
+			
 			Map<String,String> cs2 = new HashMap<>();
 			String ps_code=ph1.getPs_code();
 			cs2.put("da_period", ph2);
 			cs2.put("ps_code", ps_code);
-		 boolean insertDaily=kDao.insertDaliy(cs2);
-		 	if(insertDaily==true) {
+			int ps_day=kDao.getPscode(ps_code); //시작날짜
+			
+			
+			
+			/*
+			 * Map<String,Integer> cs3 = new HashMap<>(); cs3.put("op_period",opperiod);
+			 */
+				// 종료날짜
+			
+			if(kDao.getCategory(ps_code)!=0) {//일반회원모집 체크 
+				int opperiod2=kDao.selectOpPeriod(ps_code,ph2);
+				int endDay = kDao.getEndDay(cs2.get("ps_code"),opperiod2);
+		     String str = Integer.toString(ps_day) + "~" + Integer.toString(endDay);
+		     cs2.put("str", str);
+		     kDao.norInsertDaliy(cs2);
 		 		text = "success";
+		 		return text;
+			 }else if(kDao.getCategory(ps_code)==0){		
+			 kDao.insertDaliy(cs2);
+			 text = "success";
 			 	return text;
-		 	}
-		}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
+			 
+			 }
+			}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
 				text ="notn";
 				return text;
 		}else if(i!=0) {

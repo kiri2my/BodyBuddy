@@ -76,7 +76,10 @@
 
   var mid = $('#mid').val();
   var pscode = $('#pscode').val();
- 
+  var date = new Date();
+  var currentYear = date.getFullYear();
+  var currentMonth = date.getMonth()+1;
+  var currentDay = date.getDate();
   $(document).ready(function(){
 	  console.log("상키ㅁㅁㅁㅁㅁㅁ")
 	  $.ajax({
@@ -86,7 +89,10 @@
 			dataType:'json',
 			success:function(data){
 				console.log(data)
-	
+				console.log(currentYear)
+				console.log(currentMonth)
+				console.log(currentDay)
+			
 			},
 			error:function(error){
 				console.log(error);

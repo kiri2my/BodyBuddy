@@ -507,15 +507,25 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
-	public String dailyCheck(String ps_code, String m_id) {
+	public String dailyCheck(String ps_code, String m_id) throws ParseException {
 		String json="";
-		String dailyCheck1 = null;
+		List<Map<String, String>> dailyCheck1 = null;
 		Map<String,String> cs = new HashMap<>();
 		cs.put("ps_code", ps_code);
 		cs.put("ps_mid", m_id);
 		dailyCheck1=yDao.getDailyCheck(cs);
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for(int i=0;i<dailyCheck1.size();i++) {
+			String daily=dailyCheck1.get(i).toString();
+			Date to = transFormat.parse(daily);
+			json=new Gson().toJson(to);
+			System.out.println(to);
+		}
+		
+		
 
-		json=new Gson().toJson(dailyCheck1);
+		
 		
 	
 		return json;

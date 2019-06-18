@@ -15,17 +15,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.MemberManagemant;
+import com.bodybuddy.hey.service.YoonService;
 import com.google.gson.Gson;
 
 @Controller
 public class HanHomeController {
 	@Autowired
 	MemberManagemant mm;
+	@Autowired
+	YoonService ys;
 	@Autowired
 	HttpSession session;
 	@Autowired
@@ -154,6 +158,22 @@ public class HanHomeController {
 		System.out.println("갔다오기 성공");
 		return qList;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/trainerModifyT" ,method = RequestMethod.GET)
+	public ModelAndView trainerModifyT() {
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("trainerModifyT세션 아이디"+mb.getM_id());
+		String m_id = mb.getM_id();
 
+		System.out.println("trainerModifyT세션 아이디 변수 m_id"+m_id);
+		mav = mm.trainerModifyT(m_id);
+		return mav;
+	}
+	@RequestMapping(value = "/infomodify" ,method = RequestMethod.POST)
+	public ModelAndView infoModify(MultipartHttpServletRequest multi) {
+		System.out.println("infomodify시작한다");
+		mav=mm.infomodifyn(multi);
+		return mav;
+	}
 
 }
