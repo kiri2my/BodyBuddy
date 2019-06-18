@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bodybuddy.hey.bean.Company;
+import com.bodybuddy.hey.bean.DailyCheck;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 
@@ -34,7 +35,7 @@ public interface KwonDao {
 
 	public boolean programcheckInsert2(String da_code);
 
-	public List<Member> getAttended(String code);
+	public List<DailyCheck> getAttended(String code);
 
 	public Company getInfomodifyC(String id);
 
@@ -54,14 +55,24 @@ public interface KwonDao {
 
 	public String normalDailyCheckSelect(String code);
 
-	public void normalDailyCheckInsert(String da_code);
+	public void normalDailyCheckInsert(DailyCheck dc);
 
-	public HashMap<String, String> normalDailyCheckSelect1(String code);
+	public DailyCheck normalDailyCheckSelect1(String code);
 
-	public void normalDailyCheckInsert1(HashMap<String, String> map);
+	public void normalDailyCheckInsert1(DailyCheck dc);
 
-	public void normalDailyCheckInsert2(HashMap<String, String> map);
+	public void normalDailyCheckInsert2(DailyCheck dc);
 
-	public void normalDailyCheckUpdate(HashMap<String, String> map);
+	public void normalDailyCheckUpdate(DailyCheck dc);
+
+	public DailyCheck normalDailyCheckSelect2(String code);
+
+	public int normalDailyCheckSelect3(DailyCheck dc);
+
+	public DailyCheck programDailyCheckSelect(String code);
+
+	public DailyCheck categoryCheck(String code);
+
+	public void programDailyCheckInsert(DailyCheck dc);
 
 }

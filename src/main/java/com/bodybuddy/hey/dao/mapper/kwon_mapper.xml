@@ -34,9 +34,9 @@
 	</select>
 
 	<select id="getTrainerList" resultType="member">
-		<![CDATA[
-			SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{id})
-		]]>
+		select
+		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
+		where t_cid= #{id}
 	</select>
 
 	<select id="getTrainerSearch" parameterType="member"
@@ -67,9 +67,9 @@
 
 	</select>
 	<select id="getTrainerMemberList" resultType="member">
-		SELECT
-		M_NAME,M_PHONE,M_ID FROM M WHERE M_ID IN(SELECT T_ID FROM T WHERE
-		T_CID = #{id})
+		select
+		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
+		where t_cid= #{id}
 	</select>
 
 	<insert id="trainerDailyCheckInsert" parameterType="member">
@@ -115,7 +115,7 @@
 		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
 	</insert>
 
-	<select id="getAttended" resultType="member">
+	<select id="getAttended" resultType="dc">
 		select
 		to_char(dn_date,'YYYY.MM.DD') as dn_date from dailycheckn
 		where
@@ -158,14 +158,26 @@
 		parameterType="String">
 		select da_code from daily where da_pscode = #{code}
 	</select>
+	<select id="normalDailyCheckSelect2" resultType="dc"
+		parameterType="String">
+		select
+		da_code,da_pscode,da_status,da_opperiod,to_char(sysdate,'YYYYMMDD') as
+		sd from daily where da_pscode = #{code}
+	</select>
+	<select id="normalDailyCheckSelect3" parameterType="dc"
+		resultType="int">
+		<![CDATA[
+		select count(*) from dailycheckn where dn_dacode = #{da_code} and dn_date= #{sd}
+		]]>
+	</select>
 
-	<insert id="normalDailyCheckInsert" parameterType="String">
+	<insert id="normalDailyCheckInsert" parameterType="dc">
 		insert into
-		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD')
+		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
 	</insert>
 
 	<select id="normalDailyCheckSelect1" parameterType="String"
-		resultType="HashMap">
+		resultType="dc">
 		select ad.ad_category,op.op_period,
 		to_char(ps.ps_date,'YYYYMMDD') as
 		ps_date,to_char(ps.ps_date+op.op_period,'YYYYMMDD') as
@@ -176,17 +188,34 @@
 		ps_code = #{code}
 	</select>
 
-	<insert id="normalDailyCheckInsert1" parameterType="HashMap">
+	<insert id="normalDailyCheckInsert1" parameterType="dc">
 		insert into
-		daily values(DA_SEQ.nextval,#{code},#{status},'${ps_date}~${ps_date1}')
+		daily values(DA_SEQ.nextval,${ps_code},#{status},#{date})
 	</insert>
-	
-	<insert id="normalDailyCheckInsert2" parameterType="HashMap">
-		insert into daily values(DA_SEQ.nextval,#{code},#{status},#{ps_period})
+
+	<insert id="normalDailyCheckInsert2" parameterType="dc">
+		insert into
+		daily values(DA_SEQ.nextval,#{code},#{status},#{ps_period})
 	</insert>
-	
-	<update id="normalDailyCheckUpdate" parameterType="HashMap">
-		update daily set da_status = #{status} where da_code = #{code}
+
+	<update id="normalDailyCheckUpdate" parameterType="dc">
+		update daily
+		set da_status = #{status} where da_code = #{da_code}
 	</update>
-	
+
+	<select id="programDailyCheckSelect" parameterType="String"
+		resultType="dc">
+		select op.op_period,to_char(sysdate,'YYYYMMDD') as sd from
+		op left join ps on op.op_code=ps.ps_opcode where ps.ps_code = #{code}
+	</select>
+	<select id="categoryCheck" parameterType="String"
+		resultType="dc">
+		select ad_category from ad left join ps on
+		ps_adcode=ad_code where ps_code = #{code}
+	</select>
+	<insert id="programDailyCheckInsert" parameterType="dc">
+		insert into
+		daily values(DA_SEQ.nextval,#{ps_code},#{status},#{op_period})
+	</insert>
+
 </mapper>

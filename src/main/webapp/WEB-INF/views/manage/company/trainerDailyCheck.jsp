@@ -55,7 +55,6 @@
 								<thead>
 									<tr>
 										<th style="width: 10%">이름</th>
-										<th style="width: 10%">입사일자</th>
 										<th style="width: 10%">연락처</th>
 										<th style="width: 10%">근태 입력</th>
 										<th style="width: 10%">근태 현황</th>
@@ -65,16 +64,15 @@
 									<c:forEach var="trainer" items="${tList }">
 										<tr>
 											<td><a href="#">${trainer.m_name }(${trainer.m_id })</a></td>
-											<td>2019.6.3</td>
 											<td>${trainer.m_phone }</td>
 											<td><button class="btn btn-danger"
-													onclick="dailyCheck('출근','${trainer.m_id }')">출근</button>
+													onclick="dailyCheck('출근','${trainer.m_id }','${trainer.t_cid }')">출근</button>
 												<button class="btn btn-danger"
-													onclick="dailyCheck('결근','${trainer.m_id }')">결근</button>
+													onclick="dailyCheck('결근','${trainer.m_id }','${trainer.t_cid }')">결근</button>
 												<button class="btn btn-danger"
-													onclick="dailyCheck('휴가','${trainer.m_id }')">휴가</button></td>
+													onclick="dailyCheck('휴가','${trainer.m_id }','${trainer.t_cid }')">휴가</button></td>
 											<td><button class="btn btn-danger"
-													onclick="workingAttitude('${trainer.m_id }')">근태보기</button></td>
+													onclick="workingAttitude('${trainer.m_id }','${trainer.t_cid }')">근태보기</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -126,29 +124,11 @@
 </body>
 
 <script type="text/javascript">
-	function memberSearch() {
-		var name = $('#memsearch').val();
-		$.ajax({
-			type : "get",
-			url : "membersearch",
-			data : {
-				name : name,
-				id : '3333'
-			},
-			dataType : "html",
-			success : function(data) {
-				$('#main').html(data);
-			},
-			error : function() {
-				alert('회원 검색 실패');
-			}
-		});
-	}
 
-	function dailyCheck(status, id) {
+	function dailyCheck(status, id, cid) {
 		var status = status;
 		var tid = id;
-		var cid = 'company1';
+		var cid = cid
 		$.ajax({
 			type : "POST",
 			url : "dailycheckinsert",
@@ -167,9 +147,9 @@
 		});
 	}
 
-	function workingAttitude(id) {
+	function workingAttitude(id,cid) {
 		var tid = id;
-		var cid = 'company1';
+		var cid = cid
 		$
 				.ajax({
 					type : "post",

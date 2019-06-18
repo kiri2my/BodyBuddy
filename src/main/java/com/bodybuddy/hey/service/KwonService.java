@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Company;
+import com.bodybuddy.hey.bean.DailyCheck;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.dao.KwonDao;
 import com.google.gson.Gson;
@@ -28,7 +29,7 @@ public class KwonService {
 	private HttpSession session; // request는 권장하지 않음
 
 	Member m;
-
+	DailyCheck dc;
 	Company com;
 
 	ModelAndView mav;
@@ -319,14 +320,14 @@ public class KwonService {
 
 		String code = request.getParameter("code");
 
-		List<Member> mList = null;
+		List<DailyCheck> chList = null;
 		System.out.println("getAttended mDao in");
-		mList = ksDao.getAttended(code);
+		chList = ksDao.getAttended(code);
 
 		Gson gson = new Gson();
-		String reuslt = gson.toJson(mList);
+		String reuslt = gson.toJson(chList);
 
-		if (0 != mList.size()) {
+		if (0 != chList.size()) {
 			System.out.println("getAttended success");
 		} else {
 			System.out.println("getAttended error");
@@ -336,96 +337,136 @@ public class KwonService {
 	}
 
 	public ModelAndView normalCheckInsert(HttpServletRequest request) {
-		mav = new ModelAndView();
-		HashMap<String, String> map = new HashMap<String, String>();
-
 		String code = request.getParameter("code");
+		
+		mav = new ModelAndView();
+		
+		dc = new DailyCheck();
+
 		boolean dci = false;
-		String da_code = null;
 		int ps_date = 0;
 		int ps_date1 = 0;
 		int sd = 0;
-		
+		int check = 0;
+		String da_code = null;
+		String result = null;
 
 		try {
+			System.out.println("daily에 da_code 있는지 확인");
 			da_code = ksDao.normalDailyCheckSelect(code);
+			System.out.println("da_code1 = " + da_code);
 			if (da_code != null) {
-				map = ksDao.normalDailyCheckSelect1(code);
-				map.put("code", code);
-				String str = map.get("ps_period");
-				ps_date = Integer.parseInt( str.substring(0, 8));
-				ps_date1 = Integer.parseInt( str.substring(9, 17));
-				if (ps_date <= sd || ps_date1 >= sd) {
-					map.put("status", "이용중");
-					ksDao.normalDailyCheckUpdate(map);
-					ksDao.normalDailyCheckInsert(da_code);
-				} else if (ps_date > sd) {
-					map.put("status", "대기중");
-					ksDao.normalDailyCheckUpdate(map);
-				} else if (ps_date1 < sd) {
-					map.put("status", "만료됨");
-					ksDao.normalDailyCheckUpdate(map);
+				System.out.println("da_code가 있으면 실행");
+				dc = ksDao.normalDailyCheckSelect2(code);
+
+				check = ksDao.normalDailyCheckSelect3(dc);
+				System.out.println("check num = " + check);
+				if (check >= 1) {
+					result = "이미 출석 되었습니다.";
+					mav.setViewName("manage/company/programDailyCheck");
+					mav.addObject("result", result);
+					return mav;
 				}
-				
-				
+
+				sd = Integer.parseInt(dc.getSd());
+				String str = dc.getDa_opperiod();
+				ps_date = Integer.parseInt(str.substring(0, 8));
+				ps_date1 = Integer.parseInt(str.substring(9, 17));
+
+				if (ps_date <= sd || ps_date1 >= sd) {
+					dc.setStatus("이용중");
+					ksDao.normalDailyCheckUpdate(dc);
+
+					ksDao.normalDailyCheckInsert(dc);
+				} else if (ps_date > sd) {
+					dc.setStatus("대기중");
+					ksDao.normalDailyCheckUpdate(dc);
+				} else if (ps_date1 < sd) {
+					dc.setStatus("만료됨");
+					ksDao.normalDailyCheckUpdate(dc);
+				}
+
 			} else if (da_code == null) {
-				map = ksDao.normalDailyCheckSelect1(code);
-				String category = map.get("ad_category");
-				map.put("code", code);
-				sd = Integer.parseInt(map.get("sd"));
+				System.out.println("da_code null");
+				dc = ksDao.categoryCheck(code);
+				dc.setPs_code(code);
+				
+				String category = dc.getAd_category();
+				System.out.println("da_code null_category =" + category);
+
 				if (category.equals("일반")) {
-					ps_date = Integer.parseInt(map.get("ps_date"));
-					ps_date1 = Integer.parseInt(map.get("ps_date1"));
-					if (ps_date <= sd || ps_date1 >= sd) {
-						map.put("status", "이용중");
-						ksDao.normalDailyCheckInsert1(map);
+					dc = ksDao.normalDailyCheckSelect1(code);
+					sd = Integer.parseInt(dc.getSd());
+					ps_date = Integer.parseInt(dc.getPs_date()); // 시작날짜
+					ps_date1 = Integer.parseInt(dc.getPs_date1()); // 종료날짜
+					String str1 = Integer.toString(ps_date) + "~" + Integer.toString(ps_date1);
+					System.out.println(str1);
+					if (ps_date <= sd && ps_date1 >= sd) {
+						System.out.println("이용중");
+						dc.setDate(str1);
+						dc.setStatus("이용중");
+						ksDao.normalDailyCheckInsert1(dc);
 						da_code = ksDao.normalDailyCheckSelect(code);
-						ksDao.normalDailyCheckInsert(da_code);
+						dc.setDa_code(da_code);
+						ksDao.normalDailyCheckInsert(dc);
 					} else if (ps_date > sd) {
-						map.put("status", "대기중");
-						ksDao.normalDailyCheckInsert1(map);
+						System.out.println("대기중");
+						dc.setDate(str1);
+						dc.setStatus("대기중");
+						ksDao.normalDailyCheckInsert1(dc);
 					} else if (ps_date1 < sd) {
-						map.put("status", "만료됨");
-						ksDao.normalDailyCheckInsert1(map);
+						dc.setDate(str1);
+						dc.setStatus("만료됨");
+						ksDao.normalDailyCheckInsert1(dc);
 					}
 
-					
-					
 				} else {
-					String str = map.get("ps_period");
-					ps_date = Integer.parseInt( str.substring(0, 8));
-					ps_date1 = Integer.parseInt( str.substring(9, 17));
-					if (ps_date <= sd || ps_date1 >= sd) {
-						map.put("status", "이용중");
-						ksDao.normalDailyCheckInsert2(map);
+					dc = ksDao.programDailyCheckSelect(code);
+					dc.setPs_code(code);
+					String str1 = dc.getOp_period();
+					sd = Integer.parseInt(dc.getSd());
+					ps_date = Integer.parseInt(str1.substring(0, 8));
+					ps_date1 = Integer.parseInt(str1.substring(9, 17));
+					
+					if (ps_date <= sd && ps_date1 >= sd) {
+						System.out.println("이용중");
+						dc.setStatus("이용중");
+						System.out.println(dc.getPs_code()+dc.getStatus()+dc.getOp_period());
+						ksDao.programDailyCheckInsert(dc);
 						da_code = ksDao.normalDailyCheckSelect(code);
-						ksDao.normalDailyCheckInsert(da_code);
+						dc.setDa_code(da_code);
+						ksDao.normalDailyCheckInsert(dc);
 					} else if (ps_date > sd) {
-						map.put("status", "대기중");
-						ksDao.normalDailyCheckInsert2(map);
+						System.out.println("대기중");
+						dc.setStatus("대기중");
+						ksDao.normalDailyCheckInsert1(dc);
 					} else if (ps_date1 < sd) {
-						map.put("status", "만료됨");
-						ksDao.normalDailyCheckInsert2(map);
+						dc.setStatus("만료됨");
+						ksDao.normalDailyCheckInsert1(dc);
 					}
 				}
+
 			}
+			
+			
 			dci = true;
 			System.out.println("normalDailyCheckInsert success");
 		} catch (Exception e) {
 			System.out.println("normalDailyCheckInsert fail");
 		}
+		
 
 		if (dci) {
 			System.out.println("normalCheckInsert success");
-			view = "manage/company/normalDailyCheck";
-			mav.setViewName(view);
+			result = "출석 입력 성공";
 
 		} else {
 			System.out.println("normalCheckInsert fail");
-			view = "manage/company/normalDailyCheck";
-			mav.setViewName(view);
+			result = "출석 입력 실패";
 		}
-
+		mav.setViewName("manage/company/programDailyCheck");
+		mav.addObject("result", result);
+		
 		return mav;
 	}
 

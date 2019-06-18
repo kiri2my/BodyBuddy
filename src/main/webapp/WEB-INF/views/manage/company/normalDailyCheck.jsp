@@ -126,7 +126,6 @@
 </body>
 
 <script type="text/javascript">
-
 	function normalCheck(id, code) {
 		var id = id;
 		var code = code;
@@ -136,9 +135,9 @@
 			data : {
 				code : code
 			},
-			dataType : 'html',
+			dataType : 'text',
 			success : function(data) {
-				alert("일반회원 입력 성공");
+				alert(data);
 			},
 			error : function() {
 				alert('일반회원 입력 실패');
