@@ -33,9 +33,6 @@ public class KwonController {
 	@Autowired
 	HttpSession session;
 
-	/*
-	 * @Autowired private JavaMailSender mailSender;
-	 */
 	ModelAndView mav;
 
 	@RequestMapping(value = "/email")
@@ -59,7 +56,6 @@ public class KwonController {
 
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
-		
 
 		mav = ks.getMemberList(request);
 
@@ -209,7 +205,6 @@ public class KwonController {
 	
 	@RequestMapping(value = "/infomodifyupdate" ,method = RequestMethod.POST)
 	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
-		
 		
 		mav = ks.infoModifyUpdate(multi);
 
