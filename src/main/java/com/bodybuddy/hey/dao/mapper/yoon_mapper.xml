@@ -116,7 +116,7 @@
 		SET PF_IMAGE = #{pf_image} 
 		WHERE PF_ID=#{m_id}
 	</update>
-	<select id="getDailyCheck" parameterType="HashMap">
+	<select id="getDailyCheck" parameterType="HashMap" resultType="String">
 	SELECT DN_DATE
 	FROM DN
 	JOIN DA on DN_DACODE = DA_CODE
