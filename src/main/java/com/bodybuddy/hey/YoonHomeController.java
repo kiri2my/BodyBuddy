@@ -41,7 +41,7 @@ public class YoonHomeController {
 	
 	@RequestMapping(value = "/dailyCheck", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String dailyCheck(String ps_code, String m_id) {
+	public String dailyCheck(String ps_code, String m_id) throws ParseException {
 
 		String html=null;
 		html=ys.dailyCheck(ps_code,m_id);
