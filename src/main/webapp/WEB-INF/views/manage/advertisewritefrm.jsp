@@ -62,24 +62,24 @@ body {
 					<tr>
 						<th style="width: 200px">분류</th>
 
-						<td style="vertical-align: middle"><select id="ex-select"
-							name="ad_kind" onchange="selectExercise()" class="form-control"
-							style="width: 150px;">
-								<option value="nothing" selected disabled>선택해주세요</option>
+						<td style="vertical-align: middle">
+						<select id="ex-select" name="ad_category" onchange="selectExercise()" class="form-control"	style="width: 150px;">
+								<option class="nothing" value="nothing" >선택해주세요</option> 
 								<option class="fitness" value="fitness">피트니스</option>
 								<option class="yoga" value="yoga">요가</option>
 								<option class="pt" value="pt">개인PT</option>
 								<option class="pilates" value="pilates">필라테스</option>
-						</select></td>
+						</select>
+						</td>
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td style="vertical-align: middle"><input type="text"
+						<td style="vertical-align: middle"><input type="text" 
 							name="ad_title" style="height: 50px;"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td style="vertical-align: middle"><input type="text"
+						<td style="vertical-align: middle"><input type="text" class="reset"
 							name="ad_content" style="height: 300px; width: 500px"></td>
 					</tr>
 					
@@ -87,9 +87,9 @@ body {
 					
 					<tr id="time" style="display: none">
 						<th>옵션</th>
-						<td style="vert ical-align: middle">
+						<td style="vertcal ical-align: middle">
 							<div class="radio">
-								<div id="pre_set" style="display: none">
+								<div id="pre_set" ><!-- style="display: none" -->
 									<table>
 										<tr>
 											<th>옵션명</th>
@@ -103,34 +103,38 @@ body {
 											
 										</tr>
 										<tr>
-											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="옵션명"></td>
-											<td>기간입력란</td>
-											<td><input type="text" name="op_content3" value="" style="width: 100px" placeholder="시작시간"> 
-											<input type="text" name="op_content4" value="" style="width: 100px"	placeholder="종료시간"></td>
-											<td><div class="checkbox" style="width: 400px; font-size: 20px">
+											<td><input type="text" name="op_content" value="" style="width: 100px" placeholder="옵션명" class="reset"></td>
+											<td >
+												<label for="from" >From</label><input type="text"  id="from" name="op_period1" class="reset">
+												 <label for="to">to</label><input type="text" id="to" name="op_period2" class="reset">
+											</td>
+											<td><input type="text" name="op_clock" value="" style="width: 100px" placeholder="시작시간" class="reset"> 
+											<input type="text" name="op_clock" value="" style="width: 100px"	placeholder="종료시간" class="reset"></td>
+											<td><div class="checkbox" style="width: 300px; font-size: 20px" class="reset">
 								<label for="foo1"> <input type="checkbox" id="foo1"
-									name="day" value="mon">월
+									name="day" value="월 ">월
 								</label> <label for="foo2"> <input type="checkbox" id="foo2"
-									name="day" value="tue">화
+									name="day" value="화 ">화
 								</label> <label for="foo3"> <input type="checkbox" id="foo3"
-									name="day" value="wed">수
+									name="day" value="수 ">수
 								</label> <label for="foo4"> <input type="checkbox" id="foo4"
-									name="day" value="thu">목
+									name="day" value="목 ">목
 								</label> <label for="foo5"> <input type="checkbox" id="foo5"
-									name="day" value="fri">금
+									name="day" value="금 ">금
 								</label> <label for="foo6"> <input type="checkbox" id="foo6"
-									name="day" value="sat">토
+									name="day" value="토 ">토
 								</label> <label for="foo7"> <input type="checkbox" id="foo7"
-									name="day" value="sun">일
+									name="day" value="일 ">일
 								</label>
 							</div></td>
-											<td><input type="text" name="op_content5" value="" style="width: 50px"	placeholder="횟수"></td>
-											<td><input type="text" placeholder="모집인원">명</td>
-											<td><input type="text" placeholder="가격(원)"></td>
-											<td>${catelist}</td><!-- 담당자 -->
-												</tr>
-										
+											<td><input type="text" name="op_times" value="" style="width: 50px"	placeholder="횟수" class="reset"></td>
+											<td><input type="text" name="op_personnel" placeholder="모집인원" class="reset">명</td>
+											<td><input type="text" name="op_price" placeholder="가격(원)" class="reset"></td>
+											<td>${trainerlist}</td><!-- 담당자 -->
+												
+											</tr>
 											</table><input type="button" value="삭제" onclick="remove_item(this)">
+											
 											<hr>
 								</div>
 
@@ -151,8 +155,8 @@ body {
 
 					<tr>
 						<th>사진</th>
-						<td colspan="5">사진내용</td>
-						<td><input type="file" class="btn btn-secondary">업로드</input></td>
+						<td colspan="2x">사진내용</td>
+						<td><input type="file" class="btn btn-secondary" name="ap_image">업로드</td>
 					</tr>
 				</tbody>
 
@@ -200,35 +204,17 @@ body {
 		var div = document.createElement('div');
 		div.innerHTML = document.getElementById('pre_set').innerHTML;
 		document.getElementById('field').appendChild(div);
+		/* var tmpHtml = "";
+		tmpHtml = "<input type='text' id='testDatepicker'>"
+		$("#here").append(tmpHtml); */
+		
 	}
 	function remove_item(obj) {
 		// obj.parentNode 를 이용하여 삭제
 		document.getElementById('field').removeChild(obj.parentNode);
 	}
-	$(".box input").attr("abled", true);
-	$("#chk").on('click', function() {
-
-		var chk = $('input:checkbox[id="chk"]').is(":checked");
-		if (chk == true) {
-			$(".box input").attr("disabled", true);
-			$(".box").addClass("on");
-			$("#testDatepicker").val("");
-
-		} else {
-			$(".box input").removeAttr('disabled');
-			$(".box").removeClass("on");
-
-		}
-
-	});
-	$(function() {
-		$("#testDatepicker").datepicker({
-			changeMonth : true,
-			changeYear : true,
-			nextText : '다음 달',
-			prevText : '이전 달'
-		});
-	});
+	
+	
 	function selectExercise() {
 		var exSelect = document.getElementById("ex-select");
 
@@ -239,26 +225,51 @@ body {
 		var selectText = exSelect.options[exSelect.selectedIndex].text;
 
 		if (selectValue == "fitness") {
-			$("#frm")[0].reset();
+			//$("#frm")[0].reset(); 
+			
 			$("#closed").show();
 			$("#damdang").hide();
 			$("#time").hide();
 			$("#day").hide();
 		} else {
-			$("#frm")[0].reset();
+			//$("#frm")[0].reset();
 			$("#damdang").show();
 			$("#time").show();
 			$("#day").show();
 			$("#closed").hide();
 		}
-		$(function() {
-			$("#testDatepicker").datepicker({
-				changeMonth : true,
-				changeYear : true,
-				nextText : '다음 달',
-				prevText : '이전 달'
-			});
-		});
+		$( function() {
+		    var dateFormat = "yymmdd",
+		      from = $( "#from" )
+		        .datepicker({
+		          defaultDate: "+1w",
+		          changeMonth: true,
+		          numberOfMonths: 2
+		        })
+		        .on( "change", function() {
+		          to.datepicker( "option", "minDate", getDate( this ) );
+		        }),
+		      to = $( "#to" ).datepicker({
+		        defaultDate: "+1w",
+		        changeMonth: true,
+		        numberOfMonths: 2
+		      })
+		      .on( "change", function() {
+		        from.datepicker( "option", "maxDate", getDate( this ) );
+		      });
+		 
+		    function getDate( element ) {
+		      var date;
+		      try {
+		        date = $.datepicker.parseDate( dateFormat, element.value );
+		      } catch( error ) {
+		        date = null;
+		      }
+		 
+		      return date;
+		    }
+		  } );
+		
 		alert(selectText);
 	}
 </script>

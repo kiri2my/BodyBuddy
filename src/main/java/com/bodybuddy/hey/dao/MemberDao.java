@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.YesOrNo;
 
 public interface MemberDao {
 
@@ -50,9 +51,22 @@ public interface MemberDao {
 
 	public Question qaNum(String qa_num);
 
+
+	public List<YesOrNo> trinerlist(String id);
+
+	public Member kindkind(String id);
+
+	public boolean adinsert(Question adadd);
+
+	public boolean opinsert(Question adadd);
+
+	public boolean imginsert(Question adadd);
+
+
 	public boolean questionReply(String qa_acontent, String qa_num);
 
 	public Question qNaCheck(String qa_num);
+
 
 
 }

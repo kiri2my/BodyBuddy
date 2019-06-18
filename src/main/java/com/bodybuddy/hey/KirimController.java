@@ -39,6 +39,8 @@ public class KirimController {
 	}
 	
 	
+	
+	
 	@RequestMapping(value = "/access", method = RequestMethod.POST)
 	public ModelAndView access(Member mb) {
 		System.out.println("url:/access");
