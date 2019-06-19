@@ -64,12 +64,12 @@
 		]]>
 	</select>
 	<select id="getpayListN" parameterType="String" resultType="HashMap">
-		SELECT AD_TITLE,
+		SELECT DA_OPPERIOD,AD_TITLE,
 		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
 		FROM PS
-		JOIN AD on
-		PS_ADCODE = AD_CODE
+		JOIN AD on PS_ADCODE = AD_CODE
 		JOIN OP on OP_CODE = PS_OPCODE
+		JOIN DA ON DA_PSCODE =PS_CODE
 		WHERE PS_MID=#{m_id}
 	</select>
 	<select id="getModifyN" parameterType="String" resultType="Member">
@@ -116,12 +116,12 @@
 		SET PF_IMAGE = #{pf_image} 
 		WHERE PF_ID=#{m_id}
 	</update>
-	<select id="getDailyCheck" parameterType="HashMap" resultType="HashMap">
+	<select id="getDailyList" parameterType="HashMap" resultType="HashMap">
 	SELECT DN_DATE
 	FROM DN
 	JOIN DA on DN_DACODE = DA_CODE
 	JOIN PS on DA_PSCODE = PS_CODE
-	WHERE PS_MID= #{ps_mid} AND PS_CODE=#{ps_code}
+	WHERE PS_MID= #{m_id} AND PS_CODE=#{ps_code}
 	</select>
 	
 </mapper>

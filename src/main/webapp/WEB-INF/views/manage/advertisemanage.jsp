@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -217,10 +218,52 @@
                                 </div>
                             </div>
                         </div>-->
+		<div class="row" style="height: 700px">
+		<div class="col-md-12 stretch-card">
+			<!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
+			<div class="card">
+				<div class="card-body">
+					<p class="card-title">광고 관리</p>
+					<div class="table-responsive">
+						<table id="recent-purchases-listing" class="table">
+							<c:set var="advertise" value="${adList }" />
+							<c:if test="${empty advertise }">
+									광고가 없습니다.
+								</c:if>
+							<c:if test="${!empty advertise }">
+								<thead>
+									<tr>
+										<th >카테고리</th>
+										<th>광고명</th>
+										<th>등록일</th>
+										<th>상태</th>
+										<th>담당트레이너</th>
+										<th>관리</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="advertise" items="${adList}">
+										<tr>
+											<td>${advertise.ad_category}</td>
+											<td><a href="#">${advertise.ad_title}</a></td>
+											<td><a href="#">${advertise.ad_date}</a></td>
+											<td><a href="#">${advertise.ad_status}</a></td>
+											<td>${advertise.op_trainer }</td>
+											<td><input type="button" value="수정"><input type="button" value="삭제"></td>
+											
+										</tr>
+									</c:forEach>
+								</tbody>
+							</c:if>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
-        <div class="col-md-12 stretch-card">
-            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
+       <!--  <div class="col-md-12 stretch-card">
+            md-12면 화면에 꽉 차고 md-7리스트, md-5지도
             <div class="card">
                 <div class="card-body">
                     <div class="input-group">
@@ -320,10 +363,10 @@
                                 </tr>
                                 
                             </tbody>
-                        </table>
-                        <td>
+                        </table> -->
+                        
                              <button class="btn btn-secondary" onclick="advertisewritefrm()" type="button">신규 등록</button>  
-                        </td>
+                        
                     </div>
                 </div>
             </div>

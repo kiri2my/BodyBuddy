@@ -70,6 +70,9 @@ public interface MemberDao {
 
 	public Question qNaCheck(String qa_num);
 
+
+	public List<Question> getAdvertiselist(String id);
+
 	public Member trainerModifyT(String m_id);
 
 	
@@ -84,6 +87,7 @@ public interface MemberDao {
 	public int imgOverlap(String m_id);
 
 	public String pfimage(String m_id);
+
 
 
 

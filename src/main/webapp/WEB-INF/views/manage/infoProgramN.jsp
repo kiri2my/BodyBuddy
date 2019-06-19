@@ -311,6 +311,39 @@ $(".btn.btn-dark.btn-lg.btn-block").click(function(){
 
 });
 
+
+function yyyyyy(bnum) {
+	
+	var list = new Array();
+	/* var adnum1=$("#op_code").val(); */
+	
+/* 	$(document).ready(function() {
+		   var list = new Array();
+		   $("input[name=testInput]").each(function(index, item){
+			   list.push($(item).val());
+		   });
+		   alert(list);
+		}); */
+	var bbb=bnum;
+	console.log(bbb);
+	console.log(bbb);
+ 	$('#articleView_layer').addClass('open');
+	$.ajax({
+		type:'get', 
+		url:'calenderN',
+		data:{ps_code:bbb},
+		dataType:'html',
+		success:function(data){
+			$('#contents_layer').html(data);
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+	//ajax End 
+
+}
 	
 
 	//ModalBox 해제
