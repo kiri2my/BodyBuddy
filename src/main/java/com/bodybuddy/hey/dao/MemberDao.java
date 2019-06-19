@@ -75,6 +75,7 @@ public interface MemberDao {
 
 	public Member trainerModifyT(String m_id);
 
+	public Integer deleteAd(String ad_code);
 	
 	
 	
@@ -87,6 +88,7 @@ public interface MemberDao {
 	public int imgOverlap(String m_id);
 
 	public String pfimage(String m_id);
+
 
 
 

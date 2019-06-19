@@ -56,7 +56,7 @@
 	</insert>
 	
 	<select id="getAdvertiselist" resultType="question">
-		select ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
+		select ad_code,ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
 	</select>
 	
 </mapper>

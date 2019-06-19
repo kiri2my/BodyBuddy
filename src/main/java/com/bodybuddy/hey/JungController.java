@@ -60,10 +60,14 @@ public class JungController {
 	@RequestMapping(value = "/advertisemanage", method = RequestMethod.GET)
 	public ModelAndView memberList(Locale locale, Model model) {
 		Member mb = (Member)session.getAttribute("mb");
+		Question qu = new Question();
+		System.out.println("에드벌 메시지");
 		String id = mb.getM_id();
+		System.out.println("에드코드"+mb.getAd_code());
 		System.out.println(id);
 		mav=js.getAdvertisemanage(id);
-		
+		System.out.println("디비코드 "+mb.getAd_code());
+		System.out.println("디비코드qu "+qu.getAd_code());
 		System.out.println("advertisemanage controller");
 		
 		return mav;

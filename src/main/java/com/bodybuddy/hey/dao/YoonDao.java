@@ -49,7 +49,7 @@ public interface YoonDao {
 
 	void updateNorMb(Member mb);
 
-	List<Map<String, String>> getDailyCheck(Map<String, String> cs);
+	List<Map<String, String>> getDailyList(Map<String, String> ck);
 
 	
 }
