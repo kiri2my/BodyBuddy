@@ -283,8 +283,8 @@ public class MemberManagemant {
 			mb.setM_name(m_name);
 			mb.setPf_image(pf_image);
 			mDao.updateNorMb(mb);
-			Member mb1=yDao.getModifyN(m_id);
-			Member mbPhoto = yDao.getPhotoModifyN(m_id);
+			Member mb1=mDao.getModifyN(m_id);
+			Member mbPhoto = mDao.getPhotoModifyN(m_id);
 			mav.addObject("mb", mb1);
 			mav.addObject("mbPhoto", mbPhoto);
 		 }else if(i>=1) {

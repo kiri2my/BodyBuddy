@@ -15,7 +15,7 @@
 
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M
-		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},#{m_birth},#{m_addr},#{m_kind},#{m_exaddr})
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},to_DATE(#{m_birth},'YYYY/MM/DD'),#{m_addr},#{m_kind},#{m_exaddr})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
 		INSERT INTO T
@@ -91,7 +91,7 @@
 
 	<select id="getModifyN" parameterType="String"
 		resultType="member">
-		SELECT * FROM M WHERE M_ID=#{m_id}
+		SELECT M_ID,M_PW,M_NAME,M_PHONE,TO_CHAR(M_BIRTH,'YYYY/DD/MM'),M_KIND,M_ADDR,M_EXADDR FROM M WHERE M_ID=#{m_id}
 	</select>
 
 	<select id="getPhotoModifyN" parameterType="String"

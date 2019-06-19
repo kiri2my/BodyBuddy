@@ -124,7 +124,7 @@
 
 	<select id="getInfomodifyC" resultType="company">
 		select
-		c_id,c_num,c_bname,c_bphone,m_id,m_pw,m_name,m_phone,to_char(m_birth,'YYYYMMDD')
+		c_id,c_num,c_bname,c_bphone,m_id,m_pw,m_name,m_phone,to_char(m_birth,'YYYY/MM/DD')
 		as m_birth,m_addr,m_exaddr,m_kind from c left join m on m_id = c_id
 		where m_id = #{id}
 	</select>
