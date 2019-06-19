@@ -233,7 +233,7 @@
 	function question() {
 		$.ajax({
 			type : "get",
-			url : "question",
+			url : "questionlist",
 			dataType : "html",
 			success : function(data) {
 				$('#main').html(data);

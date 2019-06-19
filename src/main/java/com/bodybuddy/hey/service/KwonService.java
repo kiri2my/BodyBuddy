@@ -489,7 +489,7 @@ public class KwonService {
 		return mav;
 	}
 
-	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
+	public String infoModifyUpdate(MultipartHttpServletRequest multi) {
 		Map<String, String> fMap = new HashMap<String, String>();
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mav = new ModelAndView();
@@ -584,21 +584,23 @@ public class KwonService {
 
 		System.out.println(
 				"m_phone+c_bphone+m_addr+m_exaddr=" + m_phone + c_bphone + m_addr + m_exaddr + com.getM_pw() + m_id);
-
+		Gson gson = new Gson();
+		String ajGson = null;
 		try {
 			com = ksDao.getInfomodifyC(m_id);
 			m = ksDao.getinfoModifyImage(m_id);
-			mav.addObject(com);
-			mav.addObject(m);
-			view = "manage/company/company?m_id"+m_id;
-			mav.setViewName(view);
+			/*
+			 * mav.addObject(com); mav.addObject(m); view =
+			 * "manage/company/company?m_id"+m_id; mav.setViewName(view);
+			 */
+			ajGson = gson.toJson(com)+gson.toJson(m);
 		} catch (Exception e) {
-			
+			System.out.println("정보수정 실패");
 		}
 
 		/* mav.setViewName("redirect:infomodifyc"); */
 
-		return mav;
+		return ajGson;
 	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.SalesService;
 
@@ -44,14 +45,21 @@ public class KwonController {
 	@RequestMapping(value = "/company")
 	public ModelAndView company(HttpServletRequest request) {
 		mav = new ModelAndView();
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("mb.getM_id() = "+mb.getM_id());
+		System.out.println("mb.getM_kind() = "+mb.getM_kind());
+		System.out.println("mb.getM_name() = "+mb.getM_name());
+		
 		mav.setViewName("manage/company/companyMain");
-		mav.addObject("session_id", request.getParameter("m_id"));
-		System.out.println(request.getParameter("m_id"));
+		mav.addObject("session_id", mb.getM_id());
 		return mav;
 	}
 
 	@RequestMapping(value = "/question")
-	public String question(Locale locale, Model model) {
+	public String question() {
+		
+		
+		
 		return "manage/question/questionList";
 	}
 
@@ -204,12 +212,15 @@ public class KwonController {
 		return mav;
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/infomodifyupdate" ,method = RequestMethod.POST)
-	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
+	public String infoModifyUpdate(MultipartHttpServletRequest multi) {
 		
-		mav = ks.infoModifyUpdate(multi);
+		//mav = ks.infoModifyUpdate(multi);
+		String gson = ks.infoModifyUpdate(multi);
+		System.out.println(gson);
 
-		return mav;
+		return gson;
 	}
 	
 	
