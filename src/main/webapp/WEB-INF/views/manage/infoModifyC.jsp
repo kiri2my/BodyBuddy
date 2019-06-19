@@ -35,19 +35,20 @@
 							</div>
 							<br>
 
-							<form action="infomodifyupdate" class="pt-3"
+							<form action="" class="pt-3"
 								name="infomodifyupdate" id="infomodifyupdate" method="post"
 								enctype="multipart/form-data">
 								<div>
 
 									<p class="title">업체프로필사진</p>
-									<input type="file" id="input_img" name="pf_image" onchange="fileChk(this)" />
-									<input type="hidden" id="fileCheck" value="0" name="fileCheck">
+									<input type="file" id="input_img" name="pf_image" id="pf_image"
+										onchange="fileChk(this)" /> <input type="hidden"
+										id="fileCheck" value="0" name="fileCheck">
 								</div>
 
 								<div>
 									<div class="img_wrap">
-										<img id="img" />
+										<img id="img" src="resources/upload/${m.pf_image }" />
 									</div>
 								</div>
 								<br>
@@ -76,7 +77,7 @@
 										<input type="email" name="m_id"
 											class="form-control form-control-lg border-left-0"
 											value="${com.c_id }" disabled> <input type="hidden"
-											name="c_id" value="${com.c_id }">
+											name="c_id" id="c_id" value="${com.c_id }">
 									</div>
 								</div>
 
@@ -90,7 +91,7 @@
 										</div>
 										<input type="password" name="m_pw"
 											class="form-control form-control-lg border-left-0"
-											id="exampleInputPassword" placeholder="패스워드를 입력해주세요">
+											id="m_pw" placeholder="패스워드를 입력해주세요">
 									</div>
 								</div>
 								<div class="form-group">
@@ -129,7 +130,7 @@
 										</div>
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
-											placeholder="${com.m_phone }" value="${com.m_phone }">
+											placeholder="${com.m_phone }" id="m_phone" value="${com.m_phone }">
 
 									</div>
 
@@ -162,7 +163,7 @@
 
 										<input type="text" name="m_addr"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="시/도-군/구"
+											id="m_addr" placeholder="시/도-군/구"
 											value="${com.m_addr }">
 										<button type="button" onclick="sample6_execDaumPostcode()"
 											class="btn btn-outline-secondary btn-md">주소 검색</button>
@@ -173,7 +174,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" name="m_exaddr"
+										<input type="text" name="m_exaddr" id="m_exaddr"
 											class="form-control form-control-lg border-left-0"
 											placeholder="상세주소 입력" value="${com.m_exaddr }">
 									</div>
@@ -191,7 +192,8 @@
 								</div>
 								<div class="mt-3">
 									<button
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="formData()" value="FormData">정보수정하기</button>
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										onclick="formData()" value="FormData">정보수정하기</button>
 								</div>
 
 							</form>
@@ -379,12 +381,11 @@
 			}
 		}).open();
 	} //다음주소api End
-	
-	
+
 	/* $('#rs').on('click', function() {
 		$('#fileCheck').val(0);
 	});
- */
+	 */
 	function fileChk(elem) {
 		console.dir(elem);
 		if (elem.value == "") {
@@ -397,44 +398,55 @@
 	}
 
 	function formData() {
-		/*var $obj = $('#b_files');
-		console.log(1, $obj);
-		console.log(2, $obj[0].files);
-		console.log(3, $obj[0].files[0]);
-		console.log(4, $obj[0].files[1]); */
+		alert("formData start");
+		
+		//var $obj = $('#b_files').val();
+		var form = $('#infomodifyupdate')[0];
+		//console.log(1, $obj);
+		//console.log(2, $obj[0].files);
+		//console.log(3, $obj[0].files[0]);
+		//console.log(4, $obj[0].files[1]); 
 
 		//multipart/form-data를 전송시 무조건 사용(파일 업로드)
 		//FormData객체는 form의 일부 데이터만 서버에 전송 가능
 		//ajax에서 사용
-		var formData = new FormData();
-		formData.append('b_title', $('#b_title').val());
-		formData.append('b_contents', $('#b_contents').val());
-		formData.append('fileCheck', $('#fileCheck').val()); // 0,1
+		var formData = new FormData(form);
+		//formData.append('c_id', $('#c_id').val());
+		//formData.append('m_pw', $('#m_pw').val());
+		//formData.append('m_phone', $('#m_phone').val());
+		//formData.append('m_addr', $('#m_addr').val());
+		//formData.append('m_exaddr', $('#m_exaddr').val());
+		//formData.append('c_bphone', $('#c_bphone').val());
+		//formData.append('pf_image', $('#pf_image').val());
+		//formData.append('fileCheck', $('#fileCheck').val());
 
-		var files = $obj[0].files; //배열로 파일정보를 반환
+		//var files = $obj[0].files; //배열로 파일정보를 반환 
 
-		for (var i = 0; i < files.length; i++) {
-			formData.append('b_files', files[i]);
-		}
+		//for (var i = 0; i < files.length; i++) {
+		//	formData.append('b_files', files[i]);
+		//} 
 
 		$.ajax({
-			url : "boardWrite",
+			url : "infomodifyupdate",
 			type : "post",
 			data : formData,
-			dataType : "html",
-			processData : false, 
+			dataType : "json",
+			processData : false,
 			contentType : false, //multipart의 경우 false ,
+			enctype : 'multipart/form-data',
 			//contestType : 'application/json'
 			success : function(data) {
-				alert('formData 성공');
-				location.href = './boardList';
+				alert(data);
+				// 	$('#main').html(data); //
+
+				// location.href = '/manage/infoModifyC'; //
 			},
 			error : function(error) {
 				console.log(error);
 			}
 
 		});
-
-	}//formData End
+		//$("#infomodifyupdate").submit();
+	}//formData End 
 </script>
 </html>

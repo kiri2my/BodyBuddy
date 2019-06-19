@@ -18,6 +18,7 @@ import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.dao.YoonDao;
 import com.bodybuddy.hey.userClass.UploadFile;
+import com.google.gson.Gson;
 
 @Service
 public class MemberManagemant {
@@ -229,7 +230,7 @@ public class MemberManagemant {
 		m = new Member();
 		System.out.println("   " + m_id);
 		m = mDao.trainerModifyT(m_id);
-		String pf_image = mDao.pfimage(m_id); 
+		String pf_image = mDao.pfimage(m_id);
 		session.setAttribute("mb", m);
 		mav.addObject("m_id", m.getM_id());
 		mav.addObject("m_name", m.getM_name());
@@ -244,36 +245,36 @@ public class MemberManagemant {
 
 		return mav;
 	}
+
 	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
 		System.out.println("mm  infomodifyn 시작");
-		String view=null;
-		Member mb=new Member();
+		String view = null;
+		Member mb = new Member();
 
 		Member sessionMb = (Member) session.getAttribute("mb");
-		String m_id=sessionMb.getM_id();
-		String m_birth=sessionMb.getM_birth();
-		String m_name=sessionMb.getM_name();
-		String m_pw=multi.getParameter("m_pw");
+		String m_id = sessionMb.getM_id();
+		String m_birth = sessionMb.getM_birth();
+		String m_name = sessionMb.getM_name();
+		String m_pw = multi.getParameter("m_pw");
 		System.out.println(m_pw);
 		System.out.println(m_pw);
-		String m_phone=multi.getParameter("m_phone");
+		String m_phone = multi.getParameter("m_phone");
 		System.out.println(m_phone);
 		System.out.println(m_phone);
-		String m_addr=multi.getParameter("m_addr");
+		String m_addr = multi.getParameter("m_addr");
 		System.out.println(m_addr);
 		System.out.println(m_addr);
-		String m_exaddr=multi.getParameter("m_exaddr");
+		String m_exaddr = multi.getParameter("m_exaddr");
 		System.out.println(m_exaddr);
 		System.out.println(m_exaddr);
-		String pf_image=multi.getParameter("pf_image");
+		String pf_image = multi.getParameter("pf_image");
 		System.out.println(pf_image);
 		System.out.println(pf_image);
 
-		
-		 int i=mDao.imgOverlap(m_id);
-		 if(i==0) {
+		int i = mDao.imgOverlap(m_id);
+		if (i == 0) {
 			upload.fileUp(multi, m_id);
-			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			mb.setM_id(m_id);
 			mb.setM_pw(pwdEncoder.encode(m_pw));
 			mb.setM_phone(m_phone);
@@ -283,29 +284,37 @@ public class MemberManagemant {
 			mb.setM_name(m_name);
 			mb.setPf_image(pf_image);
 			mDao.updateNorMb(mb);
-			Member mb1=yDao.getModifyN(m_id);
-			Member mbPhoto = yDao.getPhotoModifyN(m_id);
-			mav.addObject("mb", mb1);
-			mav.addObject("mbPhoto", mbPhoto);
-		 }else if(i>=1) {
-			upload.fileUp2(multi, m_id);
-			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
-			mb.setM_id(m_id);
-			mb.setM_pw(pwdEncoder.encode(m_pw));
-			mb.setM_phone(m_phone);
-			mb.setM_addr(m_addr);
-			mb.setM_exaddr(m_exaddr);
-			mb.setM_birth(m_birth);
-			mb.setM_name(m_name);
-			mb.setPf_image(pf_image);
-			mDao.updateNorMb(mb);
-			Member mb1=mDao.getModifyN(m_id);
+			Member mb1 = mDao.getModifyN(m_id);
 			Member mbPhoto = mDao.getPhotoModifyN(m_id);
 			mav.addObject("mb", mb1);
 			mav.addObject("mbPhoto", mbPhoto);
-		 }
-		 mav.setViewName("manage/trainer/trainer");
-		 
+		} else if (i >= 1) {
+			upload.fileUp2(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			mDao.updateNorMb(mb);
+			Member mb1 = mDao.getModifyN(m_id);
+			Member mbPhoto = mDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+		}
+		mav.setViewName("manage/trainer/trainer");
+
 		return mav;
+	}
+
+	public String deleteAd(String ad_code) {
+
+		Integer success = mDao.deleteAd(ad_code);
+		Gson gson = new Gson();
+		String str = gson.toString();
+		return str;
 	}
 }

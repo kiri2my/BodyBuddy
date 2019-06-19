@@ -75,4 +75,8 @@ public interface KwonDao {
 
 	public void programDailyCheckInsert(DailyCheck dc);
 
+	public Member getinfoModifyImage(String id);
+
+	public int profilePhotoSelect(String m_id);
+
 }

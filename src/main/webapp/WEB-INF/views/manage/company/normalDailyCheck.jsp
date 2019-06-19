@@ -137,7 +137,7 @@
 			},
 			dataType : 'text',
 			success : function(data) {
-				alert(data);
+				alert('출석 성공');
 			},
 			error : function() {
 				alert('일반회원 입력 실패');
