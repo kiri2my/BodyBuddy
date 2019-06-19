@@ -350,7 +350,7 @@ public class JungService {
 			mav.addObject("adList", adList);
 		} else {
 			System.out.println("advertise list select error");
-			view = "redirect:advertisemanage.jsp";
+			view = "manage/advertisemanage";
 			mav.setViewName(view);
 		}
 		return mav;

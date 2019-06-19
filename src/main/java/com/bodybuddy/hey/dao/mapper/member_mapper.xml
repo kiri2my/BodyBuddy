@@ -85,7 +85,9 @@
 		SELECT * from t_modify
 		WHERE m_id = #{m_id}
 	</select>
-
+	<update id="deleteAd" parameterType="String">
+	UPDATE AD SET AD_STATUS ='만료됨' WHERE AD_CODE=#{ad_code}
+	</update>
 
 
 

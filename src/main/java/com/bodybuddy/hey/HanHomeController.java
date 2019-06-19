@@ -175,5 +175,16 @@ public class HanHomeController {
 		mav=mm.infomodifyn(multi);
 		return mav;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/deletead" ,method = RequestMethod.POST)
+	public String deleteAd(String ad_code) {
+		System.out.println("deletead시작한다");
+		System.out.println("deletead시작한다"+ad_code+"          아니이");
+		
+		String str =mm.deleteAd(ad_code);
+		
+		System.out.println("ㅇㅇㅇㅇ");
+		return str;
+	}
 
 }
