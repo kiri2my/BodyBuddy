@@ -284,9 +284,9 @@ public class YoonService {
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
+					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" 
 					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>출석체크확인</button></td>\r\n"
-					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n"
+					+ "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -315,7 +315,7 @@ public class YoonService {
 					+ "                            <td class=\"sorting_1\">" + getPayListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
 					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>\r\n"
-					+ "                            <td>" + getPayListN.get(i).get("OP_PERIOD") + "</td>\r\n"
+					+ "                            <td>" + getPayListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "                            <td>" + price + "</td>\r\n" + "                            <td>"
 					+ Date + "</td>\r\n" + "                       </tr>");
 
@@ -403,24 +403,7 @@ public class YoonService {
 		StringBuilder sb=new StringBuilder();
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
-			System.out.println(getCounselListN.size());
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
 				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 

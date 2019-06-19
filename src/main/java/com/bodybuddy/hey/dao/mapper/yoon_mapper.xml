@@ -64,12 +64,12 @@
 		]]>
 	</select>
 	<select id="getpayListN" parameterType="String" resultType="HashMap">
-		SELECT AD_TITLE,
+		SELECT DA_OPPERIOD,AD_TITLE,
 		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
 		FROM PS
-		JOIN AD on
-		PS_ADCODE = AD_CODE
+		JOIN AD on PS_ADCODE = AD_CODE
 		JOIN OP on OP_CODE = PS_OPCODE
+		JOIN DA ON DA_PSCODE =PS_CODE
 		WHERE PS_MID=#{m_id}
 	</select>
 	<select id="getModifyN" parameterType="String" resultType="Member">

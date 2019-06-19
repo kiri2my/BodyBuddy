@@ -230,7 +230,7 @@
 
  	<insert id="norInsertDaliy" parameterType="HashMap">
  	<![CDATA[
-		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'진행중',#{str})
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'이용중',#{str})
 		]]>
 	</insert>
 	
