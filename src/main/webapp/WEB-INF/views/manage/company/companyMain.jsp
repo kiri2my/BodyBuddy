@@ -233,7 +233,7 @@
 	function question() {
 		$.ajax({
 			type : "get",
-			url : "question",
+			url : "questionlist",
 			dataType : "html",
 			success : function(data) {
 				$('#main').html(data);
@@ -248,7 +248,7 @@
 	function infoModify() {
 		var id = '${m_id}';
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "infomodifyc",
 			data : {
 				id : sessionId
@@ -264,6 +264,9 @@
 		});
 		
 	}
+	
+	
+	
 	
 	
 </script>
