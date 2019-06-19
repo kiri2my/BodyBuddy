@@ -42,7 +42,7 @@
 					</p>
 						<input type="text" class="span2" id="memsearch"
 							placeholder="회원 검색">
-						<button type="button" onclick="memberSearch()" class="btn" id="membtn">검색</button>
+						<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 							
@@ -56,7 +56,6 @@
 									<th>이름</th>
 									<th>생년월일</th>
 									<th>연락처</th>
-									<th>이용상품</th>
 									<th>이용상태</th>
 								</tr>
 							</thead>
@@ -66,7 +65,6 @@
 									<td><a href="#">${member.m_name }(${member.m_id })</a></td>
 									<td><a href="#">${member.m_birth }</a></td>
 									<td><a href="#">${member.m_phone }</a></td>
-									<td>${member.ad_category }</td>
 									<td>이용중</td>
 								</tr>
 								</c:forEach>

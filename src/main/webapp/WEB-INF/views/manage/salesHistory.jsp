@@ -42,7 +42,7 @@
 					</p>
 					<input type="text" class="span2" id="memsearch"
 						placeholder="일반회원 검색">
-					<button type="button" onclick="memberSearch()" class="btn"
+					<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">

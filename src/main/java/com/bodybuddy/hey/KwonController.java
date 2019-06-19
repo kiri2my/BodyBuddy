@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.service.KwonService;
 import com.bodybuddy.hey.service.SalesService;
 
@@ -33,9 +35,6 @@ public class KwonController {
 	@Autowired
 	HttpSession session;
 
-	/*
-	 * @Autowired private JavaMailSender mailSender;
-	 */
 	ModelAndView mav;
 
 	@RequestMapping(value = "/email")
@@ -46,20 +45,26 @@ public class KwonController {
 	@RequestMapping(value = "/company")
 	public ModelAndView company(HttpServletRequest request) {
 		mav = new ModelAndView();
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("mb.getM_id() = "+mb.getM_id());
+		System.out.println("mb.getM_kind() = "+mb.getM_kind());
+		System.out.println("mb.getM_name() = "+mb.getM_name());
+		
 		mav.setViewName("manage/company/companyMain");
-		mav.addObject("session_id", request.getParameter("m_id"));
-		System.out.println(request.getParameter("m_id"));
+		mav.addObject("session_id", mb.getM_id());
 		return mav;
 	}
 
 	@RequestMapping(value = "/question")
-	public String question(Locale locale, Model model) {
+	public String question() {
+		
+		
+		
 		return "manage/question/questionList";
 	}
 
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
-		
 
 		mav = ks.getMemberList(request);
 
@@ -207,13 +212,15 @@ public class KwonController {
 		return mav;
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/infomodifyupdate" ,method = RequestMethod.POST)
-	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
+	public String infoModifyUpdate(MultipartHttpServletRequest multi) {
 		
-		
-		mav = ks.infoModifyUpdate(multi);
+		//mav = ks.infoModifyUpdate(multi);
+		String gson = ks.infoModifyUpdate(multi);
+		System.out.println(gson);
 
-		return mav;
+		return gson;
 	}
 	
 	

@@ -42,7 +42,7 @@
 					</p>
 					<input type="text" class="span2" id="memsearch"
 						placeholder="일반회원 검색">
-					<button type="button" onclick="memberSearch()" class="btn"
+					<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
@@ -126,7 +126,6 @@
 </body>
 
 <script type="text/javascript">
-
 	function normalCheck(id, code) {
 		var id = id;
 		var code = code;
@@ -136,9 +135,9 @@
 			data : {
 				code : code
 			},
-			dataType : 'html',
+			dataType : 'text',
 			success : function(data) {
-				alert("일반회원 입력 성공");
+				alert('출석 성공');
 			},
 			error : function() {
 				alert('일반회원 입력 실패');

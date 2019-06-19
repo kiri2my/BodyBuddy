@@ -40,37 +40,42 @@
 					<p class="card-title">
 						<br>
 					</p>
-						<input type="text" class="span2" id="trainersearch"
-							placeholder="트레이너 검색">
-						<button type="button" onclick="trainerSearch()" class="btn" id="tainerbtn">검색</button>
+					<input type="text" class="span2" id="trainersearch"
+						placeholder="트레이너 검색">
+					<button type="button" style="position: absolute;"
+						onclick="trainerSearch()" class="btn" id="tainerbtn">검색</button>
+					<button style="position: absolute; left: 80%;"
+						class="btn btn-danger" onclick="trainerJoin()">트레이너 요청<span class="badge badge-important">6</span></button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
-							
-							<c:set var="trainer" value="${tList }" /> 
-								<c:if test="${empty trainer }">
+
+							<c:set var="trainer" value="${tList }" />
+							<c:if test="${empty trainer }">
 									트레이너가 없습니다.
-								</c:if> 
+								</c:if>
 							<c:if test="${!empty trainer }">
-							
-							<thead>
-								<tr>
-									<th>이름</th>
-                                    <th>입사일자</th>
-                                    <th>연락처</th>
-                                    <th>근태현황</th>
-                                    <th>실적보기</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="trainer" items="${tList }">
-								<tr>
-									<td><a href="#">${trainer.m_name }</a></td>
-									<td>2018-5-8</td>
-									<td>${trainer.m_phone }</td>
-									<td><a href="#">근태현황</a></td>
-									<td><a href="#">실적보기</a></td>
-								</tr>
-								</c:forEach>
+
+								<thead>
+									<tr>
+										<th>이름</th>
+										<th>입사일자</th>
+										<th>연락처</th>
+										<th>근태현황</th>
+										<th>실적보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="trainer" items="${tList }">
+										<tr>
+											<td><a href="#">${trainer.m_name }</a></td>
+											<td>2018-5-8</td>
+											<td>${trainer.m_phone }</td>
+											<td><button class="btn btn-danger"
+													onclick="workingAttitude('${trainer.m_id }','${trainer.t_cid }')">근태보기</button>
+											</td>
+											<td><button class="btn btn-danger" onclick="">실적보기</button></td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</c:if>
 						</table>
@@ -78,6 +83,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="modal" id="modal"
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3>트레이너 근태</h3>
+		</div>
+		<div class="modal-body" id="modalBody"></div>
 	</div>
 
 	<!-- plugins:js -->
@@ -109,13 +125,14 @@
 </body>
 
 <script type="text/javascript">
-	function trainerSearch(){
+	function trainerSearch() {
 		var name = $('#trainersearch').val();
 		$.ajax({
 			type : "get",
 			url : "trainersearch",
 			data : {
-				name : name, id : 'company1'
+				name : name,
+				id : 'company1'
 			},
 			dataType : "html",
 			success : function(data) {
@@ -126,6 +143,9 @@
 			}
 		});
 	}
-	
+
+	function trainerJoin() {
+
+	}
 </script>
 </html>

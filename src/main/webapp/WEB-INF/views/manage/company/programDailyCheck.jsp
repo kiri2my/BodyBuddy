@@ -42,7 +42,7 @@
 					</p>
 					<input type="text" class="span2" id="memsearch"
 						placeholder="일반회원 검색">
-					<button type="button" onclick="memberSearch()" class="btn"
+					<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn"
 						id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
@@ -85,7 +85,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		style="width: 40%; height: inherit; left: 45%; top: 10%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
@@ -93,6 +93,17 @@
 			<h3>모집 회원</h3>
 		</div>
 		<div class="modal-body" id="modalBody"></div>
+	</div>
+	
+	<div class="modal" id="modal1"
+		style="width: 20%; height: inherit; left: 85%; top: 10%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3>회원 출석 현황</h3>
+		</div>
+		<div class="modal-body" id="modalBody1"></div>
 	</div>
 
 	<!-- plugins:js -->
@@ -125,23 +136,25 @@
 
 <script type="text/javascript">
 	
+	id='name' name='name'
+	
+	${'#fff'}.id.val(dfdf);
+	
 	function programMember(adcode) {
 		var adCode = adcode;
-		var cid = 'company1';
 		$.ajax({
 				type : "post",
 				url : "programmember",
 				data : {
 						code : adCode,
-						cid : cid
 					},
 					dataType : 'json',
 					success : function(data) {
 						console.log(data);
 						 var str = "";
-						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>연락처</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>연락처</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>출결</th><th style='width: 10%'>현황</th></tr></thead><tbody>";
 						for (var i = 0; i < data.length; i++) {
-							str += "<tr><td>" + data[i].m_name+"("+data[i].m_id+")" + "</td><td>" + data[i].m_phone + "</td><td>" + data[i].m_birth + "</td><td><button class='btn btn-danger'	onclick='programCheck("+data[i].ps_code+")'>출석</button></td></tr>";
+							str += "<tr><td>" + data[i].m_name+"("+data[i].m_id+")" + "</td><td>" + data[i].m_phone + "</td><td>" + data[i].m_birth + "</td><td><button class='btn btn-danger'	onclick='programCheck("+data[i].ps_code+")'>출석</button></td><td><button class='btn btn-danger'	onclick='AttendedProgram("+data[i].ps_code+")'>현황</button></td></tr>";
 						}
 						str += "</tbody></table>";
 						$('#modalBody').html(str);
@@ -154,27 +167,55 @@
 		});
 	}
 	
-	programCheck
 	
-	function programCheck(psCode) {
-		var code = psCode;
+	function programCheck(code) {
+		var code = code;
 		$.ajax({
 			type : "POST",
-			url : "programcheck",
+			url : "normalcheck",
 			data : {
-				code : code,
+				code : code
 			},
-			dataType : 'html',
+			dataType : 'text',
 			success : function(data) {
 				alert("출석 입력 성공");
+				console.log(data);
 			},
 			error : function() {
-				alert('출석 입력 실패');
+				alert('프로그램 회원 입력 실패');
 			}
 		});
+
 	}
 	
-	
+	function AttendedProgram(code) {
+		var code = code;
+		$
+				.ajax({
+					type : "post",
+					url : "attended",
+					data : {
+						code : code
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>출결</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].dn_date + "</td><td>"
+									+ "출석" + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody1').html(str);
+						$('#modal1').modal('toggle');
+					},
+					error : function(error) {
+						alert('현황 목록 로드 실패');
+						console.log(error);
+					}
+				});
+	}
 	
 </script>
 </html>

@@ -30,8 +30,24 @@ public class Question {
 	private String op_adcode; 
 	private String op_code;
 	private String op_trainer;
-	private String op_name;
-	private int op_price;  
+	private String op_content;
+	private String op_price;  
 	private String op_category;
+	private String op_times;
+	private String op_period;
+	private String op_period1;
+	private String op_period2;
+	private String op_clock;
+	private String op_day;
+	private String op_personnel;
 	
-}
+	private String xxx;
+	private int checkNum;
+	private String ap_image;
+
+	private String e_name;
+	private int e_price;
+	
+		
+	}
+

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -38,16 +39,19 @@ public class YoonHomeController {
 	
 	ModelAndView mav;
 	
-	@RequestMapping(value = "/dailyCheck", method = RequestMethod.POST)
-	public String dailyCheck(String ps_code, String m_id) {
-		String html=null;
-		html=ys.dailyCheck(ps_code,m_id);
-		return html;
-	}
+	/*
+	 * @RequestMapping(value = "/dailyCheck", produces =
+	 * "application/json; charset=UTF-8")
+	 * 
+	 * @ResponseBody public String dailyCheck(String ps_code, String m_id) throws
+	 * ParseException {
+	 * 
+	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
+	 */
 	
 	@RequestMapping(value = "/calenderN")
-	public ModelAndView calenderN(String ps_code, String m_id) {
-		mav=ys.calender(ps_code,m_id);
+	public ModelAndView calenderN(String ps_code) {
+		mav=ys.calender(ps_code);
 		return mav;
 	}
 	
