@@ -32,10 +32,10 @@ public class KirimController {
 	//자정이 되면 실행:"0 0 0 * * *"       
 	//5분마다 실행:"0 0/5 * * * *"
 	
-	@Scheduled(cron="0 0/5 * * * *")   
+	@Scheduled(cron="0 0/5 * * * * ")   
 	public void adExpirePeriod() {
 		System.out.println("스케쥴러 : adExpirePeriod ");
-		ks.adExpirePeriod();
+		//ks.adExpirePeriod();
 	}
 	
 	

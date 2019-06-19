@@ -3,6 +3,7 @@ package com.bodybuddy.hey.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.bodybuddy.hey.bean.Alarm;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
@@ -71,6 +72,26 @@ public interface KirimDao {
 	public boolean detailQaWriteInsert(Qna qna);
 
 	public List<Map<String, String>> adPhotoList(String ad_code);
+
+	public boolean isWebSession(String string);
+	
+	public boolean webSessionInsert(Map<String, String> ws);
+
+	public boolean webSessionUpdate(Map<String, String> ws);
+
+	public String getAdName(String ad_code);
+
+	public int alarmSendPurch(Map<String, String> m);
+
+	public Map<String, String> alarmReceivePurch(Map<String, String> ws);
+
+	public String getWSession(String ws_mid);
+
+	public String getWMemberid(String wSession);
+
+	public List<Alarm> alarmReceiveAll(String m_id);
+
+	
 
 	
 	

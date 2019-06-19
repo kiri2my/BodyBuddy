@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- Web socket CDN -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <head>
 <!-- plugins:js -->
 <script type="text/javascript"
@@ -33,6 +39,9 @@
 	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+
+
+	
 <!-- End custom js for this page-->
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -108,6 +117,7 @@
 				</li>&nbsp;&nbsp;
 
 			</ul>
+			<input type="hidden" id="msg"/>
 
 
 
@@ -133,35 +143,94 @@
 
 
 </body>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-	var kind = "${mb.m_kind}";
 
-	console.log("headerConsoleKind", kind);
+
+<script src="${pageContext.request.contextPath}/resources/js/kirimWebSocket.js"></script>
+<script>
+var kind = "${mb.m_kind}";
+var m_id = "${mb.m_id}";
+console.log("headerConsoleKind", kind);
+console.log("sessionId", m_id);
+
+//////////////////////////////////////////////////////////////////////////웹소켓
+
+var sock=null;
+connect();
+
+//sock.onclose = onClose;
+
+
+//연결할때
+function connect(){
+	if(kind == 'n' || kind == 't' || kind == 'c'){
+	var connect = new SockJS("/alarm");
+	sock=connect;
+	$("#msg").val("CON1"+m_id);
+	}
+}
+
+
+//서버로부터 메시지를 받았을 때
+function onMessage(msg) {
+	var data = msg.data;
+	console.log("받은메세지...",data);
+	$(".beforeAlarm").after(data);
+}
+//보낼때
+function sendMessage() {
+	
+}
+//서버와 연결을 끊었을 때
+function onClose(evt) {
+	$(".beforeAlarm").append("연결 끊김");
+}
+
+window.onload=function(){
+	if(kind == 'n' || kind == 't' || kind == 'c'){
+		console.log("WebSock", sock);
+		
+		// 메시지 전송
+		console.log("보내는메세지...",$("#msg").val());
+		sock.onmessage = onMessage;
+		sock.send($("#msg").val());
+		sendMessage();
+	}
+}
+
+$(document).ready(function(){
+});
+
+/////////////웹소켓 끝
+
+
+
 
 	if (kind == 'n' || kind == 't' || kind == 'c') {
 
 		var strAlarm = "<li class='nav-item dropdown mr-4'>\n"
-				+ "    <a class='nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown' id='notificationDropdown' href='#' data-toggle='dropdown'>\n"
+				+ "    <a class='nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown'" 
+				+ "			id='notificationDropdown' href='#' data-toggle='dropdown'>\n"
 				+ "        <i class='mdi mdi-bell mx-0'></i>\n"
 				+ "        <span class='count'></span>\n"
 				+ "    </a>\n"
 				+ "    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='notificationDropdown'>\n"
-				+ "        <p class='mb-3 font-weight-normal float-left dropdown-header'>알림</p>\n"
-				+ "        <a class='dropdown-item'>\n"
-				+ "            <div class='item-content'>\n"
-				+ "                <h6 class='font-weight-normal'>김X솔 회원 박X솔 트레이너의 XXX프로그램 결제함</h6>\n"
-				+ "                <p class='font-weight-light small-text mb-0 text-muted'>\n"
-				+ "                    방금 전\n"
-				+ "                </p>\n"
-				+ "            </div>\n"
-				+ "        </a>\n"
+				+ "        <p class='mb-3 font-weight-normal float-left dropdown-header beforeAlarm'>알림</p>\n"
+				
+				
+				
+				
+				
 				+ "        <a class='dropdown-item'>\n"
 				+ "            <div class='item-content'>\n"
 				+ "                <h6 class='font-weight-normal'>차X헌 트레이너의 소속 승인요청 대기중</h6>\n"
 				+ "                <p class='font-weight-light small-text mb-0 text-muted'>\n"
 				+ "                    2 일 전\n" + "                </p>\n"
-				+ "            </div>\n" + "        </a>\n" + "    </div>\n"
+				+ "            </div>\n" 
+				+ "        </a>\n" 
+				
+				
+				
+				+ "    </div>\n"
 				+ "</li>\n";
 
 		$('#headerAlarm').html(strAlarm);

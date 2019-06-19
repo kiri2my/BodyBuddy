@@ -4,6 +4,10 @@
 <html>
 
 <head>
+<script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.js"></script>
+<script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f321e26e149ff9c8fec71aba7e8aa47c&libraries=services,clusterer,drawing"></script>
 <!-- plugins:js -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -127,12 +131,9 @@
 	<!-- container-scroller -->
 
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-<script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.js"></script>
-<script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f321e26e149ff9c8fec71aba7e8aa47c&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript">
+
+
+<script>
 
 //헤더 메뉴 카테고리버튼 /categoryselect id=cateAll cateFitness cateHomeTraining catePilates cateYoga
 $(".cate").click(function(){

@@ -205,9 +205,48 @@
  	<insert id="detailQaWriteInsert" parameterType="qna">
 		INSERT INTO QA VALUES(QA_SEQ.NEXTVAL,#{qa_adcode},#{qa_writer},#{qa_wContent},SYSDATE,#{qa_answer},'',SYSDATE,'f')
 	</insert>
- 	
-
 	
+	
+	<select id="isWebSession" parameterType="String">
+  		SELECT WS_MID FROM WS
+		WHERE EXISTS(SELECT WS_MID FROM WS WHERE WS_MID=#{m_id})
+ 	</select>
+	
+	<insert id="webSessionInsert" parameterType="HashMap">
+		INSERT INTO WS VALUES(#{ws_mid},#{ws_sessid})
+	</insert>
+	
+	<update id="webSessionUpdate" parameterType="HashMap">
+		UPDATE WS SET WS_SESSID = #{ws_sessid} WHERE WS_MID = #{ws_mid}
+	</update>
+	
+ 	<select id="getAdName" parameterType="String" resultType="String">
+  		SELECT AD_NAME FROM AD WHERE AD_CODE=#{ad_code}
+ 	</select>
+ 	
+ 	<insert id="alarmSendPurch" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	
+	<select id="alarmReceiveAll" parameterType="String" resultType="alarm">
+  		SELECT * FROM AL WHERE AL_MRID=#{m_id}
+ 	</select>
+	
+	<select id="alarmReceivePurch" parameterType="HashMap" resultType="HashMap">
+  		SELECT * FROM AL WHERE AL_CODE=#{al_code}
+ 	</select>
+ 	
+ 	<select id="getWSession" parameterType="String" resultType="String">
+  		SELECT WS_SESSID FROM WS WHERE WS_MID=#{ws_mid}
+ 	</select>
+ 	
+ 	<select id="getWMemberid" parameterType="String" resultType="String">
+  		SELECT WS_MID FROM WS WHERE WS_SESSID=#{wSession}
+ 	</select>
+ 	
 	
 	
 	
