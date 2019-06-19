@@ -248,7 +248,7 @@
 	function infoModify() {
 		var id = '${m_id}';
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "infomodifyc",
 			data : {
 				id : sessionId
@@ -264,6 +264,9 @@
 		});
 		
 	}
+	
+	
+	
 	
 	
 </script>

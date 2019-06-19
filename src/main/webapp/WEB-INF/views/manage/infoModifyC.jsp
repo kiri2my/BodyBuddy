@@ -41,13 +41,14 @@
 								<div>
 
 									<p class="title">업체프로필사진</p>
-									<input type="file" id="input_img" name="pf_image" onchange="fileChk(this)" />
-									<input type="hidden" id="fileCheck" value="0" name="fileCheck">
+									<input type="file" id="input_img" name="pf_image"
+										onchange="fileChk(this)" /> <input type="hidden"
+										id="fileCheck" value="0" name="fileCheck">
 								</div>
 
 								<div>
 									<div class="img_wrap">
-										<img id="img" />
+										<img id="img" src="resources/upload/${m.pf_image }" />
 									</div>
 								</div>
 								<br>
@@ -191,7 +192,8 @@
 								</div>
 								<div class="mt-3">
 									<button
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="formData()" value="FormData">정보수정하기</button>
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										type="submit" value="FormData">정보수정하기</button>
 								</div>
 
 							</form>
@@ -379,12 +381,11 @@
 			}
 		}).open();
 	} //다음주소api End
-	
-	
+
 	/* $('#rs').on('click', function() {
 		$('#fileCheck').val(0);
 	});
- */
+	 */
 	function fileChk(elem) {
 		console.dir(elem);
 		if (elem.value == "") {
@@ -396,45 +397,54 @@
 		}
 	}
 
-	function formData() {
+	/* function formData() {
+		alert("formData start" + "," + $('#fileCheck').val());
 		/*var $obj = $('#b_files');
 		console.log(1, $obj);
 		console.log(2, $obj[0].files);
 		console.log(3, $obj[0].files[0]);
-		console.log(4, $obj[0].files[1]); */
+		console.log(4, $obj[0].files[1]); 
 
 		//multipart/form-data를 전송시 무조건 사용(파일 업로드)
 		//FormData객체는 form의 일부 데이터만 서버에 전송 가능
 		//ajax에서 사용
 		var formData = new FormData();
-		formData.append('b_title', $('#b_title').val());
-		formData.append('b_contents', $('#b_contents').val());
-		formData.append('fileCheck', $('#fileCheck').val()); // 0,1
+		formData.append('m_id', $('#m_id').val());
+		formData.append('m_pw', $('#m_pw').val());
+		formData.append('m_phone', $('#m_phone').val());
+		formData.append('m_addr', $('#m_addr').val());
+		formData.append('m_exaddr', $('#m_exaddr').val());
+		formData.append('c_bphone', $('#c_bphone').val());
+		formData.append('pf_image', $('#pf_image').val());
+		formData.append('checkNum', $('#fileCheck').val());
 
-		var files = $obj[0].files; //배열로 파일정보를 반환
+		var files = $obj[0].files; //배열로 파일정보를 반환 
 
 		for (var i = 0; i < files.length; i++) {
 			formData.append('b_files', files[i]);
-		}
+		} 
 
 		$.ajax({
-			url : "boardWrite",
+			url : "infomodifyupdate",
 			type : "post",
 			data : formData,
 			dataType : "html",
-			processData : false, 
+			processData : false,
 			contentType : false, //multipart의 경우 false ,
+			enctype : 'multipart/form-data',
 			//contestType : 'application/json'
 			success : function(data) {
-				alert('formData 성공');
-				location.href = './boardList';
+				alert(data);
+				// 	$('#main').html(data); //
+
+				// location.href = '/manage/infoModifyC'; //
 			},
 			error : function(error) {
 				console.log(error);
 			}
 
 		});
-
-	}//formData End
+		$("#infomodifyupdate").submit();
+	}//formData End */
 </script>
 </html>

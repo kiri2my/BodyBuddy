@@ -217,5 +217,11 @@
 		insert into
 		daily values(DA_SEQ.nextval,#{ps_code},#{status},#{op_period})
 	</insert>
+	<select id="getinfoModifyImage" parameterType="String" resultType="member">
+		select pf_image from profilephoto where pf_id = #{id}
+	</select>
+	<select id="profilePhotoSelect" resultType="int" parameterType="String">
+		select count(*) from profilephoto where pf_id = #{m_id}
+	</select>
 
 </mapper>

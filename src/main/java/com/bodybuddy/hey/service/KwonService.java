@@ -338,9 +338,9 @@ public class KwonService {
 
 	public ModelAndView normalCheckInsert(HttpServletRequest request) {
 		String code = request.getParameter("code");
-		
+
 		mav = new ModelAndView();
-		
+
 		dc = new DailyCheck();
 
 		boolean dci = false;
@@ -368,15 +368,14 @@ public class KwonService {
 					return mav;
 				}
 
-				sd = Integer.parseInt(dc.getSd());
-				String str = dc.getDa_opperiod();
-				ps_date = Integer.parseInt(str.substring(0, 8));
+				sd = Integer.parseInt(dc.getSd()); // 현재 날짜 예)
+				String str = dc.getDa_opperiod(); // 출결조건 테이블에 실제 이용기간 예) 20190601~sysdate+13/20190618
+				ps_date = Integer.parseInt(str.substring(0, 8)); // ~기준으로 앞뒤로 자름
 				ps_date1 = Integer.parseInt(str.substring(9, 17));
 
 				if (ps_date <= sd || ps_date1 >= sd) {
 					dc.setStatus("이용중");
 					ksDao.normalDailyCheckUpdate(dc);
-
 					ksDao.normalDailyCheckInsert(dc);
 				} else if (ps_date > sd) {
 					dc.setStatus("대기중");
@@ -390,7 +389,7 @@ public class KwonService {
 				System.out.println("da_code null");
 				dc = ksDao.categoryCheck(code);
 				dc.setPs_code(code);
-				
+
 				String category = dc.getAd_category();
 				System.out.println("da_code null_category =" + category);
 
@@ -427,11 +426,11 @@ public class KwonService {
 					sd = Integer.parseInt(dc.getSd());
 					ps_date = Integer.parseInt(str1.substring(0, 8));
 					ps_date1 = Integer.parseInt(str1.substring(9, 17));
-					
+
 					if (ps_date <= sd && ps_date1 >= sd) {
 						System.out.println("이용중");
 						dc.setStatus("이용중");
-						System.out.println(dc.getPs_code()+dc.getStatus()+dc.getOp_period());
+						System.out.println(dc.getPs_code() + dc.getStatus() + dc.getOp_period());
 						ksDao.programDailyCheckInsert(dc);
 						da_code = ksDao.normalDailyCheckSelect(code);
 						dc.setDa_code(da_code);
@@ -447,14 +446,12 @@ public class KwonService {
 				}
 
 			}
-			
-			
+
 			dci = true;
 			System.out.println("normalDailyCheckInsert success");
 		} catch (Exception e) {
 			System.out.println("normalDailyCheckInsert fail");
 		}
-		
 
 		if (dci) {
 			System.out.println("normalCheckInsert success");
@@ -466,22 +463,25 @@ public class KwonService {
 		}
 		mav.setViewName("manage/company/programDailyCheck");
 		mav.addObject("result", result);
-		
+
 		return mav;
 	}
 
 	public ModelAndView getInfomodifyC(String id) {
 		mav = new ModelAndView();
+		com = new Company();
+		m = new Member();
 
-		Company com = new Company();
 		System.out.println("getInfomodifyC mDao in");
 		com = ksDao.getInfomodifyC(id);
+		m = ksDao.getinfoModifyImage(id);
 
 		if (com != null) {
 			System.out.println("getInfomodifyC success");
 			view = "manage/infoModifyC";
 			mav.setViewName(view);
 			mav.addObject("com", com);
+			mav.addObject("m", m);
 		} else {
 			System.out.println("getInfomodifyC error");
 		}
@@ -490,9 +490,11 @@ public class KwonService {
 	}
 
 	public ModelAndView infoModifyUpdate(MultipartHttpServletRequest multi) {
+		Map<String, String> fMap = new HashMap<String, String>();
+		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mav = new ModelAndView();
 		com = new Company();
-		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+		m = new Member();
 
 		String root = multi.getSession().getServletContext().getRealPath("/");
 		System.out.println("root=" + root);
@@ -503,28 +505,22 @@ public class KwonService {
 			dir.mkdirs(); // upload폴더 생성
 		}
 
-		MultipartFile file = multi.getFile("pf_image");
-		String oriFileName = null;
-		String sysFileName = null;
-		if (file != null) {
-			oriFileName = file.getOriginalFilename();
-			sysFileName = System.currentTimeMillis() + "." + oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
-			System.out.println("oriFileName=" + oriFileName);
-			System.out.println("sysFileName=" + sysFileName);
-		}
-
-		Map<String, String> fMap = new HashMap<String, String>();
-
-		String m_pw = null;
-		if (multi.getParameter("m_pw") != null) {
-			m_pw = multi.getParameter("m_pw");
-			com.setM_pw(pwdEncoder.encode(m_pw));
-		}
 		String m_id = multi.getParameter("c_id");
+		System.out.println("m_id 확인" + m_id);
 		String m_phone = multi.getParameter("m_phone");
+		System.out.println("m_phone 확인" + m_phone);
 		String m_addr = multi.getParameter("m_addr");
+		System.out.println("m_addr 확인" + m_addr);
 		String m_exaddr = multi.getParameter("m_exaddr");
+		System.out.println("m_exaddr 확인" + m_exaddr);
 		String c_bphone = multi.getParameter("c_bphone");
+		System.out.println("c_bphone 확인" + c_bphone);
+		String m_pw = multi.getParameter("m_pw");
+		System.out.println("m_pw 확인" + m_pw);
+		String fileCheck = multi.getParameter("fileCheck").trim();
+		System.out.println("fileCheck 확인" + fileCheck);
+		int checkNum = Integer.parseInt(fileCheck);
+		System.out.println("checkNum = " + checkNum);
 
 		com.setM_id(m_id);
 		com.setM_phone(m_phone);
@@ -534,10 +530,50 @@ public class KwonService {
 
 		try {
 			if (m_pw != null) {
+				System.out.println("pwd null이 아니면 실행");
+				com.setM_pw(pwdEncoder.encode(m_pw));
 				System.out.println("pwd update start");
 				ksDao.infoModifyPwUpdate(com);
 				System.out.println("pwd update success");
 			}
+		} catch (Exception e) {
+			System.out.println("pwd update fail");
+		}
+
+		MultipartFile file = multi.getFile("pf_image");
+		String oriFileName = null;
+		String sysFileName = null;
+		int cNum = 0;
+
+		try {
+			if (checkNum >= 1) {
+				System.out.println("checkNum 파일 있음"+","+checkNum);
+				oriFileName = file.getOriginalFilename();
+				sysFileName = System.currentTimeMillis() + "."
+						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
+				System.out.println("oriFileName=" + oriFileName);
+				System.out.println("sysFileName=" + sysFileName);
+				fMap.put("pf_id", m_id);
+				fMap.put("pf_image", sysFileName);
+				System.out.println("sysfilename = " + sysFileName);
+
+			}
+			if (sysFileName != null) {
+				file.transferTo(new File(path + sysFileName));
+
+				cNum = ksDao.profilePhotoSelect(m_id);
+				if (cNum >= 1) {
+					ksDao.fileUpdate(fMap);
+				} else if (cNum == 0) {
+					ksDao.fileInsert(fMap);
+				}
+
+			}
+		} catch (Exception e) {
+			System.out.println("file Insert,Update fail");
+		}
+
+		try {
 			System.out.println("infoModifyUpdate start");
 			ksDao.infoModifyMemberUpdate(com);
 			ksDao.infoModifyCompanyUpdate(com);
@@ -549,19 +585,18 @@ public class KwonService {
 		System.out.println(
 				"m_phone+c_bphone+m_addr+m_exaddr=" + m_phone + c_bphone + m_addr + m_exaddr + com.getM_pw() + m_id);
 
-		fMap.put("pf_id", m_id);
-		fMap.put("pf_image", sysFileName);
-
 		try {
-			if (sysFileName != null) {
-				file.transferTo(new File(path + sysFileName));
-				ksDao.fileInsert(fMap);
-			}
+			com = ksDao.getInfomodifyC(m_id);
+			m = ksDao.getinfoModifyImage(m_id);
+			mav.addObject(com);
+			mav.addObject(m);
+			view = "manage/company/company?m_id"+m_id;
+			mav.setViewName(view);
 		} catch (Exception e) {
-			ksDao.fileUpdate(fMap);
+			
 		}
 
-		mav.setViewName("redirect:/infoModifyC.do");
+		/* mav.setViewName("redirect:infomodifyc"); */
 
 		return mav;
 	}
