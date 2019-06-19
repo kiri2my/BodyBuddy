@@ -193,9 +193,9 @@ to {
 					<br>
 					<br>
 					<br>
-					<div id="articleView_layer">
+					<div id="articleView_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div id="bg_layer"></div>
-					<div id="contents_layer"></div>
+					<div id="contents_layer" style="width: 60em"></div>
 					</div>
 					<br>
 					<br>
@@ -266,7 +266,22 @@ to {
 			</div>
 		</div>
 	</div>
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="margin-left: 20%;">
+    <div class="modal-content" style="width: 60em">
+      <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closer" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -353,5 +368,25 @@ function yyyyyy(bnum) {
 		$layerWindow.removeClass('open');
 		
 	})//function End
+	
+	$(".profilePage").click(function(){
+		var m_id = $(this).prop("id").replace("profilePage","");
+		console.log(m_id);
+		$.ajax({
+			url: "profilepage",
+			type: "get",
+			data:{m_id:m_id},
+			dataType: "html",
+			success:(function(data){
+				console.log(data);
+				$(".modal-body").html(data);
+			   
+				
+			}),
+			error:(function(err){
+				console.log(err);
+			})
+		});
+	});
 </script>
 </html>

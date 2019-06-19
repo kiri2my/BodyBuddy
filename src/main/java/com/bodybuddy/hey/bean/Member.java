@@ -58,5 +58,6 @@ public class Member {
 	
 	private String ad_title;
 	private String ad_category;
+	private String ad_code;
 	
 }

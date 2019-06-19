@@ -85,11 +85,11 @@ body {
 					
 					
 					
-					<tr id="time" style="display: none">
+					<tr id="time" >
 						<th>옵션</th>
 						<td style="vertcal ical-align: middle">
 							<div class="radio">
-								<div id="pre_set" ><!-- style="display: none" -->
+								<div id="pre_set" class="pre_set"><!-- style="display: none" -->
 									<table>
 										<tr>
 											<th>옵션명</th>
@@ -105,8 +105,8 @@ body {
 										<tr>
 											<td><input type="text" name="op_content" value="" style="width: 100px" placeholder="옵션명" class="reset"></td>
 											<td >
-												<label for="from" >From</label><input type="text"  id="from" name="op_period1" class="reset">
-												 <label for="to">to</label><input type="text" id="to" name="op_period2" class="reset">
+												<label for="from" >From</label><input type="text"  id="from" name="op_period1" class="from">
+												 <label for="to">to</label><input type="text" id="to" name="op_period2" class="to">
 											</td>
 											<td><input type="text" name="op_clock" value="" style="width: 100px" placeholder="시작시간" class="reset"> 
 											<input type="text" name="op_clock" value="" style="width: 100px"	placeholder="종료시간" class="reset"></td>
@@ -125,6 +125,9 @@ body {
 									name="day" value="토 ">토
 								</label> <label for="foo7"> <input type="checkbox" id="foo7"
 									name="day" value="일 ">일
+								</label> 
+								<label for="foo7"> <input type="hidden" id="foo7"
+									name="day" value="@ ">
 								</label>
 							</div></td>
 											<td><input type="text" name="op_times" value="" style="width: 50px"	placeholder="횟수" class="reset"></td>
@@ -139,6 +142,7 @@ body {
 								</div>
 
 								<div id="field"></div>
+								<input type="hidden" value="0" name="checkNum" id="checkNum">
 								<input type="button" value=" 추가 " onclick="add_item()"><br>
 
 								<!-- <input name="op_content" type="text" placeholder="시작시간"
@@ -196,14 +200,18 @@ body {
 </body>
 
 <script>
+
 	//TIMEPICKER
-	
+	var x = 1;
 	//
 	function add_item() {
-		var i = 0;
+		
 		var div = document.createElement('div');
 		div.innerHTML = document.getElementById('pre_set').innerHTML;
 		document.getElementById('field').appendChild(div);
+		
+		x++;
+		$('#checkNum').val(x);
 		/* var tmpHtml = "";
 		tmpHtml = "<input type='text' id='testDatepicker'>"
 		$("#here").append(tmpHtml); */
@@ -212,6 +220,9 @@ body {
 	function remove_item(obj) {
 		// obj.parentNode 를 이용하여 삭제
 		document.getElementById('field').removeChild(obj.parentNode);
+		
+		x--;
+		$('#checkNum').val(x);
 	}
 	
 	
@@ -224,7 +235,7 @@ body {
 		// select element에서 선택된 option의 text가 저장된다.
 		var selectText = exSelect.options[exSelect.selectedIndex].text;
 
-		if (selectValue == "fitness") {
+		/* if (selectValue == "fitness") {
 			//$("#frm")[0].reset(); 
 			
 			$("#closed").show();
@@ -237,8 +248,9 @@ body {
 			$("#time").show();
 			$("#day").show();
 			$("#closed").hide();
-		}
-		$( function() {
+		} */
+		/* $(".pre_set").each(function() {
+			
 		    var dateFormat = "yymmdd",
 		      from = $( "#from" )
 		        .datepicker({
@@ -268,10 +280,45 @@ body {
 		 
 		      return date;
 		    }
-		  } );
+		  } */ 
+		  
 		
 		alert(selectText);
 	}
+	$(".pre_set").each(function() {
+		
+	    var dateFormat = "yymmdd",
+	      from = $(this).find("input[id=from]")
+	        .datepicker({
+	          defaultDate: "+1w",
+	          changeMonth: true,
+	          numberOfMonths: 2
+	        })
+	        .on( "change", function() {
+	          to.datepicker( "option", "minDate", getDate( this ) );
+	        }),
+	      to = $(this).find("input[id=to]")
+	      .datepicker({
+	        defaultDate: "+1w",
+	        changeMonth: true,
+	        numberOfMonths: 2
+	      })
+	      .on( "change", function() {
+	        from.datepicker( "option", "maxDate", getDate( this ) );
+	      });
+	 
+	    function getDate( element ) {
+	      var date;
+	      try {
+	        date = $.datepicker.parseDate( dateFormat, element.value );
+	      } catch( error ) {
+	        date = null;
+	      }
+	 
+	      return date;
+	    }
+	  } 
+);
 </script>
 
 </html>

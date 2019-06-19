@@ -256,8 +256,8 @@ public class YoonService {
 			String optimes=String.valueOf(getprogramListN.get(i).get("OP_TIMES"));
 			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" + "													<td>"
-					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>\r\n"
+					+ "</td>\r\n" 
+					+ "<td><a href='#' id='profilePage"+getprogramListN.get(i).get("OP_TRAINER")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getprogramListN.get(i).get("OP_TRAINER")+"</button></a></td>\r\n"
 					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+optimes
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
@@ -281,8 +281,8 @@ public class YoonService {
 		for (int i = 0; i < getnormalListN.size(); i++) {
 			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" + "													<td>"
-					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
+					+ "</td>\r\n"
+					+ "<td><a href='#' id='profilePage"+getnormalListN.get(i).get("M_ID")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getnormalListN.get(i).get("C_BNAME")+"</button></a></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" 
 					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>출석체크확인</button></td>\r\n"
@@ -323,7 +323,7 @@ public class YoonService {
 		return sb.toString();
 	}
 
-	public ModelAndView modifyN(String m_id) {
+	public ModelAndView modifyN(String m_id){
 		String view = null;
 		Member mb = yDao.getModifyN(m_id);
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
@@ -333,6 +333,7 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
+
 
 	public ModelAndView dibsList(String m_id) {
 		String view = null;

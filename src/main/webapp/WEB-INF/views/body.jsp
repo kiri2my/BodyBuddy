@@ -188,7 +188,8 @@ var jsonMainList = ${jsonMainList}
 
 var addrList = new Array();
 for(var i=0;i<jsonMainList.length; i++){
-	var addrRecord = jsonMainList[i]["M_ADDR"]+" "+jsonMainList[i]["M_EXADDR"]
+	//var addrRecord = jsonMainList[i]["M_ADDR"]+" "+jsonMainList[i]["M_EXADDR"]
+	var addrRecord = jsonMainList[i]["M_ADDR"]
 	addrList[i] += addrRecord.replace("undefined","");
 }
 for(var i=0;i<addrList.length; i++){

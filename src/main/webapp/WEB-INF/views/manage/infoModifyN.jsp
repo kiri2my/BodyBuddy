@@ -62,16 +62,19 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Majestic Admin</title>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
+<link type="text/css" rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 <style>
 .img_wrap {
 	width: 300px;
@@ -255,12 +258,16 @@
 	</div>
 	<!-- container-scroller -->
 	<!-- plugins:js -->
-	<script src="vendors/base/vendor.bundle.base.js"></script>
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
 	<!-- endinject -->
 	<!-- inject:js -->
-	<script src="js/off-canvas.js"></script>
-	<script src="js/hoverable-collapse.js"></script>
-	<script src="js/template.js"></script>
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
 	<!-- endinject -->
 	   		<div id="nav">
 			<jsp:include page="sidebarNormal.jsp" />
@@ -272,8 +279,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script type="text/javascript" src="./js/jquery-3.1.0.min.js"
-	charset="utf-8"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	var sel_file;

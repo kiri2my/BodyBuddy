@@ -214,6 +214,10 @@ public class JungService {
 		
 		mav = new ModelAndView();
 		
+		int checkNum = adadd.getCheckNum();
+		System.out.println("checkNum : "+checkNum);
+		
+		
 		String day1 = Arrays.toString(day);
 		System.out.println("요일 "+day1);
 		day1.substring(1, day1.length()-1);
@@ -235,22 +239,29 @@ public class JungService {
 		String x1= op_period1.substring(4);
 		String y1= op_period1.substring(0, 4);
 		String z1= x1+y1;
-		
+		System.out.println(op_period1);
 		String op_period2 = adadd.getOp_period1().replace("/", ""); //06072019 
 		String x2= op_period2.substring(4);
 		String y2= op_period2.substring(0, 4);
 		String z2= x2+y2;
+		System.out.println(op_period2);
 		
 		
-		System.out.println(z1);
-		System.out.println(z2);
+		/*
+		 * System.out.println(z1); System.out.println(z2);
+		 * 
+		 * String op_period = z1+"~"+z2;
+		 * 
+		 * adadd.setOp_period(op_period); System.out.println("op_period : "+ op_period);
+		 */
 		
-		String op_period = z1+"~"+z2;
-		/* op_period.replace("/", ""); */
-		adadd.setOp_period(op_period);
-		System.out.println("op_period : "+ op_period);
+		String op_times = adadd.getOp_clock();
+		System.out.println("op_times"+op_times);
 		
-		int op_price = adadd.getOp_price();
+		String op_clock = adadd.getOp_clock();
+		System.out.println("op_clock"+op_clock);
+		
+		String op_price =  adadd.getOp_price();
 		System.out.println("op_price : " + op_price);
 
 		String op_content = adadd.getOp_content();
@@ -350,7 +361,7 @@ public class JungService {
 			mav.addObject("adList", adList);
 		} else {
 			System.out.println("advertise list select error");
-			view = "redirect:advertisemanage.jsp";
+			view = "manage/advertisemanage";
 			mav.setViewName(view);
 		}
 		return mav;
