@@ -35,8 +35,8 @@
 							</div>
 							<br>
 
-							<form action="" class="pt-3"
-								name="infomodifyupdate" id="infomodifyupdate" method="post"
+							<form action="" class="pt-3" name="infomodifyupdate"
+								id="infomodifyupdate" method="post"
 								enctype="multipart/form-data">
 								<div>
 
@@ -90,8 +90,8 @@
 											</span>
 										</div>
 										<input type="password" name="m_pw"
-											class="form-control form-control-lg border-left-0"
-											id="m_pw" placeholder="패스워드를 입력해주세요">
+											class="form-control form-control-lg border-left-0" id="m_pw"
+											placeholder="패스워드를 입력해주세요">
 									</div>
 								</div>
 								<div class="form-group">
@@ -130,7 +130,8 @@
 										</div>
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
-											placeholder="${com.m_phone }" id="m_phone" value="${com.m_phone }">
+											placeholder="${com.m_phone }" id="m_phone"
+											value="${com.m_phone }">
 
 									</div>
 
@@ -163,8 +164,7 @@
 
 										<input type="text" name="m_addr"
 											class="form-control form-control-lg border-left-0"
-											id="m_addr" placeholder="시/도-군/구"
-											value="${com.m_addr }">
+											id="m_addr" placeholder="시/도-군/구" value="${com.m_addr }">
 										<button type="button" onclick="sample6_execDaumPostcode()"
 											class="btn btn-outline-secondary btn-md">주소 검색</button>
 
@@ -390,7 +390,7 @@
 		console.dir(elem);
 		if (elem.value == "") {
 			console.log("empty");
-			$('#fileCheck').val(0);
+			$('#fileCheck').val(x);
 		} else {
 			console.log("not empty");
 			$('#fileCheck').val(1);
@@ -399,7 +399,7 @@
 
 	function formData() {
 		alert("formData start");
-		
+
 		//var $obj = $('#b_files').val();
 		var form = $('#infomodifyupdate')[0];
 		//console.log(1, $obj);
@@ -447,6 +447,6 @@
 
 		});
 		//$("#infomodifyupdate").submit();
-	}//formData End 
+	}//formData End
 </script>
 </html>

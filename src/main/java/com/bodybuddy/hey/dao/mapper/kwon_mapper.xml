@@ -14,9 +14,9 @@
 		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
 
 	<select id="getMemberList" resultType="member">
-		select
+		select distinct
 		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
-		m_birth,ad.ad_category
+		m_birth
 		from m left join ps on m.m_id=ps.ps_mid left
 		join op on
 		ps.ps_adcode=op.op_adcode left join ad on
