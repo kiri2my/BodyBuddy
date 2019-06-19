@@ -39,18 +39,19 @@ public class YoonHomeController {
 	
 	ModelAndView mav;
 	
-	@RequestMapping(value = "/dailyCheck", produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public String dailyCheck(String ps_code, String m_id) {
-
-		String html=null;
-		html=ys.dailyCheck(ps_code,m_id);
-		return html;
-	}
+	/*
+	 * @RequestMapping(value = "/dailyCheck", produces =
+	 * "application/json; charset=UTF-8")
+	 * 
+	 * @ResponseBody public String dailyCheck(String ps_code, String m_id) throws
+	 * ParseException {
+	 * 
+	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
+	 */
 	
 	@RequestMapping(value = "/calenderN")
-	public ModelAndView calenderN(String ps_code, String m_id) {
-		mav=ys.calender(ps_code,m_id);
+	public ModelAndView calenderN(String ps_code) {
+		mav=ys.calender(ps_code);
 		return mav;
 	}
 	

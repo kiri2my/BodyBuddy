@@ -1,100 +1,116 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset='utf-8' />
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/packages/core/main.css" rel='stylesheet' />
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/packages/daygrid/main.css" rel='stylesheet' />
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/packages/timegrid/main.css" rel='stylesheet' />
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/packages/list/main.css" rel='stylesheet' />
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/packages/core/main.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/packages/interaction/main.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/packages/daygrid/main.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/packages/timegrid/main.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/packages/list/main.js"></script>
-	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Majestic Admin</title>
+<!-- plugins:css -->
+<link rel="stylesheet"
+	href="vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- plugin css for this page -->
+<link rel="stylesheet"
+	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="css/style.css">
+<!-- endinject -->
+<link rel="shortcut icon" href="images/favicon.png">
+<style type="text/css">/* Chart.js */
+@
+-webkit-keyframes chartjs-render-animation {
+	from {opacity: 0.99
+}
 
-<style>
+to {
+	opacity: 1
+}
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
+}
+@
+keyframes chartjs-render-animation {
+	from {opacity: 0.99
+}
 
-  #calendar {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+to {
+	opacity: 1
+}
+
+}
+.chartjs-render-monitor {
+	-webkit-animation: chartjs-render-animation 0.001s;
+	animation: chartjs-render-animation 0.001s;
+}
+
+.content-wrapper {
+	text-align: center;
+}
+
+.sorting {
+	text-align: center;
+}
+
+.odd {
+	text-align: center;
+}
+.even {
+	text-align: center;
+}
+
 
 </style>
 </head>
 <body>
 
-  <div id='calendar'></div>
+	<div class="container-scroller">
 
-<input type="hidden" id="mid" value="${m_id}"/>
-<input type="hidden" id="pscode" value="${ps_code}"/>
+
+
+		<div class="row">
+			<div class="col-md-12 grid-margin"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 stretch-card">
+				<div class="card">
+					<div class="card-body">
+						<p class="card-title">내 출석목록</p>
+						<div class="table-responsive">
+							<div id="recent-purchases-listing_wrapper"
+								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+
+								<div class="row">
+									<div class="col-sm-10">
+										<table id="recent-purchases-listing"
+											class="table dataTable no-footer" role="grid">
+											<thead>
+												<tr role="row">
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1" 
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">출석날짜</th>
+											</thead>
+											<tbody>
+
+										${getDailyList}
+							
+											</tbody>
+										</table>
+									</div>
+								</div>
+	
+							</div>
+						</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+				
 </body>
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-      },
-      defaultDate: '2019-06-12',
-      navLinks: true, // can click day/week names to navigate views
-
-      weekNumbers: true,
-      weekNumbersWithinDays: true,
-      weekNumberCalculation: 'ISO',
-
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-      events: [      ]
-    });
-
-    calendar.render();
-  }); //END
-
-  var mid = $('#mid').val();
-  var pscode = $('#pscode').val();
- 
-  $(document).ready(function(){
-	  console.log("상키ㅁㅁㅁㅁㅁㅁ")
-	  $.ajax({
-			type:'post', 
-			url:'dailyCheck',
-			data:{"m_id":$("#mid").val(),"ps_code":$("#pscode").val()},
-			dataType:'json',
-			success:function(data){
-				console.log(data)
-	
-			},
-			error:function(error){
-				console.log(error);
-			}
-		
-		});   
-  });
-
-</script>
-	
-</html>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>

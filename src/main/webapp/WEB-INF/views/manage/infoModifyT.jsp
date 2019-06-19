@@ -42,20 +42,19 @@
 									style="color: #71c016;">트레이너 내 정보 수정</a>
 							</div>
 							<br>
-							<form action="infomodifyt" class="pt-3" name="infomodifyt"
-								id="infomodifyt" method="post">
+							<form action="infomodify" class="pt-3" name="infomodifyt"
+								id="infomodifyt" method="post" enctype="multipart/form-data">
 								<div>
-
-									<p class="title">트레이너프로필사진</p>
+									<p class="title">프로필사진</p>
 									<input type="file" id="input_img" name="pf_image" />
 								</div>
-								<br>
 								<div>
 									<div class="img_wrap">
-										<img id="img" />
+										<img id="img" name="pf_image2" src="resources/upload/${pf_image}"/>
 									</div>
+								<input type="hidden" id="fileCheck" value="0" name="fileCheck"> 
 								</div>
-
+								
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend bg-transparent">
@@ -64,8 +63,8 @@
 											</span>
 										</div>
 										<input type="email" name="m_id"
-											class="form-control form-control-lg border-left-0"
-											value="gozldsos@naver.com" disabled>
+											class="form-control form-control-lg border-left-0" value="${m_id}"
+											disabled>
 									</div>
 								</div>
 
@@ -104,7 +103,7 @@
 										</div>
 										<input type="text" name="m_name"
 											class="form-control form-control-lg border-left-0"
-											value="윤상기" disabled>
+											value="${m_name}" disabled>
 									</div>
 								</div>
 
@@ -118,6 +117,7 @@
 										</div>
 										<input type="tel" name="m_phone"
 											class="form-control form-control-lg border-left-0"
+											value="${m_phone}"
 											placeholder="전화번호를 입력해주세요">
 									</div>
 								</div>
@@ -126,7 +126,7 @@
 									<div class="input-group">
 										<input type="text" name="m_birth"
 											class="form-control form-control-lg border-left-0"
-											value="1992년 11월 7일" disabled>
+											value="${m_birth}" disabled>
 									</div>
 								</div>
 
@@ -135,21 +135,17 @@
 
 										<input type="text" name="m_addr"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="시/도-군/구">
+											id="m_addr" value="${mb.m_addr}">
 										<button type="button" onclick="sample6_execDaumPostcode()"
 											class="btn btn-outline-secondary btn-md">주소 검색</button>
-
-
 									</div>
-
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" name="m_addr"
+										<input type="text" name="m_exaddr"
 											class="form-control form-control-lg border-left-0"
-											placeholder="상세주소 입력">
+											value="${mb.m_exaddr}">
 									</div>
-
 								</div>
 
 
@@ -162,10 +158,10 @@
 									</div>
 								</div>
 								<div class="mt-3">
-									<a
-										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">정보수정하기</a>
 								</div>
+								<input id="joinbtn"
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										type="submit" value="변경사항저장" />
 
 							</form>
 						</div>
@@ -219,9 +215,8 @@
 			reader.readAsDataURL(f);
 		});
 	}// img미리보기 End
-	$(function() {
 
-		$("#infomodifyt").validate({
+		$("#joinbtn").validate({
 			rules : {
 				m_id : {
 					required : true,
@@ -298,7 +293,6 @@
 		});
 		//end validate
 
-	});
 	//end 유효성검사function
 
 	function sample6_execDaumPostcode() {
@@ -339,7 +333,7 @@
 				}
 
 				// 우편번호와 주소 정보를 해당 필드에 넣는다.
-
+				
 				document.getElementById("sample6_address").value = addr;
 				// 커서를 상세주소 필드로 이동한다.
 

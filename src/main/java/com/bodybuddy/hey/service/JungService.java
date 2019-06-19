@@ -1,6 +1,7 @@
 package com.bodybuddy.hey.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,13 +10,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.YesOrNo;
 import com.bodybuddy.hey.dao.KirimDao;
 import com.bodybuddy.hey.dao.MemberDao;
+
 import com.google.gson.Gson;
 
 @Service
@@ -23,13 +27,12 @@ public class JungService {
 	@Autowired
 	private MemberDao mDao;
 	
-	
-	
 	private HttpSession session;
 
 	Member m;
 	String view = null;
 	ModelAndView mav;
+	Question q;
 
 	public ModelAndView getProfileList(String m_id) {
 		System.out.println("정 서비스");
@@ -206,29 +209,79 @@ public class JungService {
 
 		return "zzz";
 	}
-
-	public ModelAndView adinsert(Question adadd, String[] day, String[] op_content) {
-
+	@Transactional
+	public ModelAndView adinsert(Question adadd, String[] day) {
+		
+		mav = new ModelAndView();
+		
+		String day1 = Arrays.toString(day);
+		System.out.println("요일 "+day1);
+		day1.substring(1, day1.length()-1);
+		adadd.setOp_day(day1);
+		
+		String ad_name = adadd.getAd_name();
+		System.out.println("ad_name : "+ad_name);
+		
+		String ad_category = adadd.getAd_category();
+		System.out.println("ad_category : "+ ad_category );
+			
 		String ad_title = adadd.getAd_title();
 		System.out.println("ad_title : " + ad_title);
 
 		String ad_content = adadd.getAd_content();
 		System.out.println("ad_content : " + ad_content);
-
-		for (int i = 0; i < day.length; i++) {
-			System.out.println("day출력 : " + day[i]);
-		}
-
+		
+		String op_period1 = adadd.getOp_period1().replace("/", ""); //06072019 
+		String x1= op_period1.substring(4);
+		String y1= op_period1.substring(0, 4);
+		String z1= x1+y1;
+		
+		String op_period2 = adadd.getOp_period1().replace("/", ""); //06072019 
+		String x2= op_period2.substring(4);
+		String y2= op_period2.substring(0, 4);
+		String z2= x2+y2;
+		
+		
+		System.out.println(z1);
+		System.out.println(z2);
+		
+		String op_period = z1+"~"+z2;
+		/* op_period.replace("/", ""); */
+		adadd.setOp_period(op_period);
+		System.out.println("op_period : "+ op_period);
+		
 		int op_price = adadd.getOp_price();
 		System.out.println("op_price : " + op_price);
 
-		for (int i = 0; i < op_content.length; i++) {
-			System.out.println("op_content출력 : " + op_content[i]);
-		}
-
+		String op_content = adadd.getOp_content();
+		System.out.println("op_content출력 : " + op_content);
+		
 		String op_trainer = adadd.getOp_trainer();
 		System.out.println("op_trainer : " + op_trainer);
 
+		String ap_image = adadd.getAp_image();
+		System.out.println("ap_image : " + ap_image);
+		
+		
+		adadd.setAd_status("모집중");
+		
+		 if(mDao.adinsert(adadd)) {
+			 System.out.println("광고입력성공");
+			 System.out.println("xxx : "+adadd.getXxx());
+			 if(mDao.opinsert(adadd)) {
+				 System.out.println("옵션입력성공");
+				 if(!adadd.getAp_image().equals(null)||adadd.getAp_image().equals(""	)) {
+					 mDao.imginsert(adadd);
+					 System.out.println("이미지등록성공");
+				 }else System.out.println("이미지가 없음");
+				 mav.setViewName("manage/advertisemanage");
+			 return mav;
+			 }
+		 }else {
+			 System.out.println("광고등록실패");
+		 }
+		 
+		
 		return null;
 	}
 
@@ -238,10 +291,68 @@ public class JungService {
 	}
 
 	public ModelAndView advertisewriterfrm(Member mb) {
+		mav = new ModelAndView();
 		System.out.println("광고입력폼");
+		
+		
+		String trainerlist = makeHtmltrainerlist(mb);
+		System.out.println(trainerlist);
+		
+		mav.addObject("trainerlist",trainerlist);
 		String view="manage/advertisewritefrm";
-		System.out.println("viewName:"+view);
 		mav.setViewName(view);
+		System.out.println("서비스 끝");
+		return mav;
+	}
+
+	private String makeHtmltrainerlist(Member mb) {
+		StringBuilder sb = new StringBuilder();
+		String id=mb.getM_id();
+		System.out.println("id:"+id);
+		//다오가즈아
+		m = mDao.kindkind(id);
+		String kind = m.getM_kind();
+		System.out.println("KIND : "+kind);
+		System.out.println("Name : "+m.getM_name());
+		if(kind.equals("t")) {
+			System.out.println("트레이너네요");
+			sb.append("<select name=\"op_trainer\"><option value="+m.getM_name()+">"+m.getM_name()+"</option></select>");
+			System.out.println("저장되었다");
+			return sb.toString();
+		}else if(kind.equals("c")){
+			List<YesOrNo> yn= mDao.trinerlist(id);
+			sb.append("<select name=\"op_trainer\">\r\n" + 
+					"    <option value=\"\">트레이너 선택</option>\r\n");
+			for(int i = 0;i<yn.size();i++) {
+				sb.append("<option value=\"트레이너\">"+yn.get(i).getYn_trainer()+"</option>\r\n" 
+						);
+			}
+		sb.append("</select>");
+				 
+		}
+		return sb.toString();
+	}
+
+	public ModelAndView getAdvertisemanage(String id) {
+		mav = new ModelAndView();
+		String view = null;
+		m = new Member();
+		
+		List<Question> adList = null;
+		
+		
+		adList = mDao.getAdvertiselist(id);
+		System.out.println("이거다");
+		if (0 != adList.size()) {
+			System.out.println("advertise list select success");
+			view = "manage/advertisemanage";
+			mav.setViewName(view);
+			mav.addObject("adList", adList);
+		} else {
+			System.out.println("advertise list select error");
+			view = "redirect:advertisemanage.jsp";
+			mav.setViewName(view);
+		}
 		return mav;
 	}
 

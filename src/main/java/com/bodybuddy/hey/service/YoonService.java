@@ -267,10 +267,11 @@ public class YoonService {
 					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td><a href='"+"calenderN?ps_code="+getprogramListN.get(i).get("PS_CODE")+"&m_id="+getprogramListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>\r\n"
+					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>출석체크확인</button>"
+					+"</td>"
 					+ "													<td><a href='" + "reviewwritefrm?ps_code="
 					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
-					+ "'>후기쓰기</a></td>\r\n" + "												</tr>");
+					+ "'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n" + "												</tr>");
 		}
 		return sb.toString();
 	}
@@ -283,9 +284,9 @@ public class YoonService {
 					+ "</td>\r\n" + "													<td>"
 					+ getnormalListN.get(i).get("C_BNAME") + "</td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
-					+ "</td>\r\n" + "													<td><a href='"+"calenderN?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>\r\n"
-					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>\r\n"
+					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" 
+					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>출석체크확인</button></td>\r\n"
+					+ "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -314,7 +315,7 @@ public class YoonService {
 					+ "                            <td class=\"sorting_1\">" + getPayListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
 					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>\r\n"
-					+ "                            <td>" + getPayListN.get(i).get("OP_PERIOD") + "</td>\r\n"
+					+ "                            <td>" + getPayListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "                            <td>" + price + "</td>\r\n" + "                            <td>"
 					+ Date + "</td>\r\n" + "                       </tr>");
 
@@ -403,12 +404,6 @@ public class YoonService {
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
-			System.out.println(Date);
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
 				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 
@@ -499,28 +494,49 @@ public class YoonService {
 		 
 		return mav;
 	}
-	public ModelAndView calender(String ps_code, String m_id) {
-		String view= null;
-		mav.addObject("ps_code",ps_code);
-		mav.addObject("m_id", m_id);
+	public ModelAndView calender(String ps_code) {
+		List<Map<String, String>> getDailyListN = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		System.out.println();
+		String view=null;
+		Map<String,String> ck = new HashMap<>();
+		ck.put("ps_code", ps_code);
+		ck.put("m_id", m_id);
+		getDailyListN=yDao.getDailyList(ck);
+		String html = makeHTMLDailyPage(getDailyListN);
+		mav.addObject("getDailyList", html);
 		view="manage/calenderN";
 		mav.setViewName(view);
 		return mav;
 	}
-	public String dailyCheck(String ps_code, String m_id) {
-		String json="";
-		String dailyCheck1 = null;
-		Map<String,String> cs = new HashMap<>();
-		cs.put("ps_code", ps_code);
-		cs.put("ps_mid", m_id);
-		dailyCheck1=yDao.getDailyCheck(cs);
-
-		json=new Gson().toJson(dailyCheck1);
-		
 	
-		return json;
+	private String makeHTMLDailyPage(List<Map<String, String>> getDailyListN) {
+		StringBuilder sb=new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i <  getDailyListN.size(); i++) { 
+			String Date = sdFormat.format(getDailyListN.get(i).get("DN_DATE"));
+		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
+				"													<td>" + Date + "</td>\r\n" + 
+				"												</tr>");
+		}
+		return sb.toString();
 	}
 	
+	
+	/*
+	 * public String dailyCheck(String ps_code, String m_id) throws ParseException {
+	 * String json=""; List<Map<String, String>> dailyCheck1 = null;
+	 * Map<String,String> cs = new HashMap<>(); cs.put("ps_code", ps_code);
+	 * cs.put("ps_mid", m_id); dailyCheck1=yDao.getDailyCheck(cs); SimpleDateFormat
+	 * transFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 * 
+	 * for(int i=0;i<dailyCheck1.size();i++) { String
+	 * daily=dailyCheck1.get(i).toString(); Date to = transFormat.parse(daily);
+	 * json=new Gson().toJson(to); System.out.println(to); }
+	 * 
+	 * return json; }
+	 */
 	
 
 
