@@ -31,7 +31,7 @@ public class Question {
 	private String op_code;
 	private String op_trainer;
 	private String op_content;
-	private int op_price;  
+	private String op_price;  
 	private String op_category;
 	private String op_times;
 	private String op_period;
@@ -42,7 +42,12 @@ public class Question {
 	private String op_personnel;
 	
 	private String xxx;
-	
+	private int checkNum;
 	private String ap_image;
+
+	private String e_name;
+	private int e_price;
 	
-}
+		
+	}
+
