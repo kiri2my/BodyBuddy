@@ -224,7 +224,7 @@
 					maxlength : 40
 				},
 				m_pw : {
-					required : true,
+					required : true,	
 					minlength : 5,
 					maxlength : 12
 				},
@@ -333,8 +333,8 @@
 				}
 
 				// 우편번호와 주소 정보를 해당 필드에 넣는다.
-				
-				document.getElementById("sample6_address").value = addr;
+
+				document.getElementById("m_addr").value = addr;
 				// 커서를 상세주소 필드로 이동한다.
 
 			}
