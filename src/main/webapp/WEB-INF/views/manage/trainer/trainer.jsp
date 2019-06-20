@@ -1,10 +1,12 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
+
 <head>
-<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -34,6 +36,10 @@
 	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/js/jquery-3.4.1.min.js"></script>
 <!-- End custom js for this page-->
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -56,6 +62,8 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <style>
 #header {
@@ -100,14 +108,14 @@
 		<div id="header">
 			<jsp:include page="../../header.jsp" />
 		</div>
-		
+
 		<div id="main">
 			<jsp:include page="trainerMain.jsp" />
 		</div>
-		
+
 		<div id="nav">
 			<jsp:include page="trainerSidebar.jsp" />
-			</div>
+		</div>
 		<%--</div>
 		 <div id="footer">
 			<jsp:include page="trainerFooter.jsp" />
@@ -130,11 +138,7 @@
 			}
 		});
 	}
-	
-	
-	
-	
-	
+
 	function advertisemodifyfrm() {
 		$.ajax({
 			type : "GET",
@@ -149,7 +153,7 @@
 			}
 		});
 	}
-		function normalMemList(){
+	function normalMemList() {
 		$.ajax({
 			type : "get",
 			url : "memberlistc",
@@ -162,9 +166,8 @@
 			}
 		});
 	}
-	
+
 	function profileModifyT() {
-		alert("프로필");
 		$.ajax({
 			type : "GET",
 			url : "profileModifyT",
@@ -178,9 +181,8 @@
 			}
 		});
 	}
-	
+
 	function trainerModifyT() {
-		alert("내정보");
 		$.ajax({
 			type : "GET",
 			url : "trainerModifyT",
@@ -190,14 +192,12 @@
 			},
 			success : function(data) {
 				/* $('#main').hide(); */
-				alert(data)
-				console.log(data)
 				$('#main').html(data);
-				
+
 			}
 		});
 	}
-	
+
 	function questionList() {
 		$.ajax({
 			type : "GET",
@@ -212,6 +212,5 @@
 			}
 		});
 	}
-	
 </script>
 </html>
