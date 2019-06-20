@@ -17,11 +17,13 @@
 		select distinct
 		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
 		m_birth
-		from m left join ps on m.m_id=ps.ps_mid left
+		from
+		m left join ps on m.m_id=ps.ps_mid left
 		join op on
 		ps.ps_adcode=op.op_adcode left join ad on
 		ad.ad_code=op.op_adcode
-		where ad.ad_name = #{id}
+		where
+		ad.ad_name = #{id}
 	</select>
 
 	<select id="getMemberSearch" parameterType="member"
@@ -35,7 +37,7 @@
 
 	<select id="getTrainerList" resultType="member">
 		select
-		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
+		m.m_id,m.m_name,m.m_phone,t.t_cid,to_char(yn_date,'YYYY.MM.DD') as yn_date from m left join yesorno on m.m_id = yesorno.yn_trainer left join t on yesorno.yn_trainer=t.t_id
 		where t_cid= #{id}
 	</select>
 
@@ -217,11 +219,38 @@
 		insert into
 		daily values(DA_SEQ.nextval,#{ps_code},#{status},#{op_period})
 	</insert>
-	<select id="getinfoModifyImage" parameterType="String" resultType="member">
+	<select id="getinfoModifyImage" parameterType="String"
+		resultType="member">
 		select pf_image from profilephoto where pf_id = #{id}
 	</select>
-	<select id="profilePhotoSelect" resultType="int" parameterType="String">
+	<select id="profilePhotoSelect" resultType="int"
+		parameterType="String">
 		select count(*) from profilephoto where pf_id = #{m_id}
 	</select>
+	<select id="getTrainerJoinList" parameterType="String"
+		resultType="HashMap">
+		select m_name,to_char(m_birth,'YYYY.MM.DD') as
+		m_birth,m_phone,yn_company,yn_trainer,
+		yn_state, to_char(yn_date,
+		'YYYY.MM.DD HH24:MI:SS') as yn_date from m left join
+		yesorno on
+		yn_trainer = m.m_id where yn_company = #{id} and yn_state =
+		'진행'
+	</select>
+	<update id="trainerJoinUpdate" parameterType="HashMap">
+		update yesorno set
+		yn_state = #{state}, yn_date = sysdate where yn_trainer = #{tid}
+		and yn_company= #{cid}
+	</update>
+	<update id="trainerJoinInsert" parameterType="HashMap">
+		update trainer set t_cid = #{cid} where t_id = #{tid}
+	</update>
+	
+	<update id="trainerDiscon" parameterType="HashMap">
+		update trainer set t_cid = '소속업체없음' where t_id =#{tid} and t_cid = #{cid}
+	</update>
+	<delete id="trainerDisconDelete" parameterType="HashMap">
+		delete from yesorno where yn_company = #{cid} and yn_trainer = #{tid}
+	</delete>
 
 </mapper>

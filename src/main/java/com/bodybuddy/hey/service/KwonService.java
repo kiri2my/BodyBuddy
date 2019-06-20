@@ -1,6 +1,7 @@
 package com.bodybuddy.hey.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -547,7 +548,7 @@ public class KwonService {
 
 		try {
 			if (checkNum >= 1) {
-				System.out.println("checkNum 파일 있음"+","+checkNum);
+				System.out.println("checkNum 파일 있음" + "," + checkNum);
 				oriFileName = file.getOriginalFilename();
 				sysFileName = System.currentTimeMillis() + "."
 						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
@@ -593,7 +594,7 @@ public class KwonService {
 			 * mav.addObject(com); mav.addObject(m); view =
 			 * "manage/company/company?m_id"+m_id; mav.setViewName(view);
 			 */
-			ajGson = gson.toJson(com)+gson.toJson(m);
+			ajGson = gson.toJson(com) + gson.toJson(m);
 		} catch (Exception e) {
 			System.out.println("정보수정 실패");
 		}
@@ -601,6 +602,119 @@ public class KwonService {
 		/* mav.setViewName("redirect:infomodifyc"); */
 
 		return ajGson;
+	}
+
+	public String getTrainerJoinList(HttpServletRequest request) {
+		ArrayList<HashMap<String, String>> map = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+
+		mav = new ModelAndView();
+		m = new Member();
+
+		String id = request.getParameter("id");
+
+		try {
+			map = ksDao.getTrainerJoinList(id);
+			str = gson.toJson(map);
+			System.out.println(str);
+			System.out.println("트레이너 요청 리스트 성공");
+		} catch (Exception e) {
+			System.out.println("트레이너 요청 리스트 실패");
+		}
+
+		return str;
+	}
+
+	public String trainerJoin(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+		String state = request.getParameter("state");
+		
+		if (state.equals("1")) {
+			state = "수락";
+		} else if (state.equals("0")) {
+			state = "거절";
+		}
+		
+		String cid = request.getParameter("cid");
+		String id = cid;
+		String tid = request.getParameter("tid");
+		map.put("state", state);
+		map.put("cid", cid);
+		map.put("tid", tid);
+
+		try {
+			if (state.equals("수락")) {
+				ksDao.trainerJoinUpdate(map);
+				ksDao.trainerJoinInsert(map);
+				
+				hMap = ksDao.getTrainerJoinList(id);
+			} else if (state.equals("거절")) {
+				ksDao.trainerJoinUpdate(map);
+				
+				hMap = ksDao.getTrainerJoinList(id);
+			}
+			
+			str = gson.toJson(hMap);
+			System.out.println(str);
+			System.out.println("trainerJoin update,insert success");
+		} catch (Exception e) {
+			System.out.println("trainerJoin update,insert fail");
+		}
+
+		return str;
+	}
+
+	public String trainerDiscon(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+		
+		String cid = request.getParameter("cid");
+		String id = cid;
+		String tid = request.getParameter("tid");
+		map.put("cid", cid);
+		map.put("tid", tid);
+
+		try {
+				ksDao.trainerDiscon(map);
+				ksDao.trainerDisconDelete(map);
+				
+			System.out.println("trainerDiscon success");
+		} catch (Exception e) {
+			System.out.println("trainerDiscon fail");
+		}
+
+		return "success";
+	}
+
+	public String changeState(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+		
+		String cid = request.getParameter("cid");
+		String id = cid;
+		String tid = request.getParameter("tid");
+		map.put("cid", cid);
+		map.put("tid", tid);
+
+		try {
+				ksDao.trainerDiscon(map);
+				ksDao.trainerDisconDelete(map);
+				
+			System.out.println("trainerDiscon success");
+		} catch (Exception e) {
+			System.out.println("trainerDiscon fail");
+		}
+
+		return "success";
+		
 	}
 
 }
