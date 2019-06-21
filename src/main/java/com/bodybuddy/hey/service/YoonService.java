@@ -506,7 +506,7 @@ public class YoonService {
 		Map<String,String> cs = new HashMap<>();
 		cs.put("ps_code", ps_code);
 		cs.put("ps_mid", m_id);
-		dailyCheck1=yDao.getDailyCheck(cs);
+		//dailyCheck1=yDao.getDailyCheck(cs);
 		json=new Gson().toJson(dailyCheck1);
 		return json;
 	}

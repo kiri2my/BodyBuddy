@@ -79,8 +79,16 @@ body {
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td style="vertical-align: middle"><input type="text" class="reset"
-							name="ad_content" style="height: 300px; width: 500px"></td>
+						<td style="vertical-align: middle">
+						<!-- <input type="text" class="reset"
+							name="ad_content" style="height: 300px; width: 500px"> -->
+						<textarea id="ad_content" name="ad_content"></textarea>
+							
+							
+							
+						</td>
+							
+							
 					</tr>
 					
 					
@@ -197,10 +205,38 @@ body {
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment-with-locales.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+	
+	
+	
 </body>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
 <script>
 
+
+///////////////////////////////////////
+CKEDITOR.replace("ad_content", {
+	height:500,
+	filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
+	
+	
+});
+
+CKEDITOR.on('dialogDefinition', function(ev){
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+  
+    switch (dialogName) {
+        case 'image': //Image Properties dialog
+            //dialogDefinition.removeContents('info');
+            dialogDefinition.removeContents('Link');
+            dialogDefinition.removeContents('advanced');
+            break;
+    }
+});
+
+
+
+//////////////////////////////////////
 	//TIMEPICKER
 	var x = 1;
 	//
@@ -319,6 +355,7 @@ body {
 	    }
 	  } 
 );
+	
 </script>
 
 </html>
