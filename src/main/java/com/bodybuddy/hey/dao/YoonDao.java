@@ -66,5 +66,9 @@ public interface YoonDao {
 
 	List<Map<String, String>> getchart2(String t_cid);
 
+	List<Map<String, String>> getRvListN(String m_id);
+
+	List<Map<String, String>> getQuestListN(String m_id);
+
 	
 }

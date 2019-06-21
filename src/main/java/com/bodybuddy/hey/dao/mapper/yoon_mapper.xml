@@ -214,4 +214,24 @@
     ]]>
 	</select>
 	
+	
+	<select id="getRvListN" parameterType="String" resultType="HashMap">
+	<![CDATA[
+   SELECT RV_NUM,PS_CODE,PS_CODE,RV_CONTENT,RV_DATE,RV_STPOINT,PS_ADCODE,AD_CODE,OP_CONTENT,AD_TITLE
+    FROM RV
+    JOIN PS ON RV_PSCODE=PS_CODE
+    JOIN OP ON PS_OPCODE=OP_CODE
+    JOIN AD ON OP_ADCODE=AD_CODE
+    WHERE RV_NAME=#{m_id}
+    ]]>
+	</select>
+	
+	<select id="getQuestListN" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT QA_NUM,QA_ADCODE,QA_WRITER,QA_ANSWER,QA_WCONTENT,QA_WDATE,QA_ACONTENT,QA_ADATE,QA_TRUE,AD_TITLE
+    FROM QA
+    JOIN AD ON QA_ADCODE=AD_CODE
+    WHERE QA_WRITER =#{m_id}
+    ]]>
+	</select>
 </mapper>

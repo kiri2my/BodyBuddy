@@ -632,6 +632,64 @@ public class YoonService {
 	}
 	
 	
+	public ModelAndView questionlistN(String m_id) {
+		//System.out.println("idididididdsaasd=" + m_id);
+		String view = null;
+		
+		 List<Map<String, String>> getReviewListN = null; 
+		 List<Map<String, String>> getQuestionListN = null; 
+		 getReviewListN = yDao.getRvListN(m_id);
+		 getQuestionListN = yDao.getQuestListN(m_id); 
+		 String html =makeHTMLRVPage(getReviewListN); 
+		 String html2 = makeHTMLQTPage(getQuestionListN);
+		 
+		 mav.addObject("reviewListN", html);
+		 mav.addObject("questionListN", html2);
+		 
+
+		view = "manage/infoRVQAN";
+		mav.setViewName(view);
+		return mav;
+	}
+	private String makeHTMLQTPage(List<Map<String, String>> getQuestionListN) {
+		StringBuilder sb = new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		for (int i = 0; i < getQuestionListN.size(); i++) {
+			String Date = sdFormat.format(getQuestionListN.get(i).get("QA_WDATE"));
+			String Date2 = sdFormat.format(getQuestionListN.get(i).get("QA_ADATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getQuestionListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td><a href='#'>내용보기</a></td>\r\n"
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td>" + Date2+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		
+		return sb.toString();
+		
+	
+	}
+	private String makeHTMLRVPage(List<Map<String, String>> getReviewListN) {
+		StringBuilder sb = new StringBuilder();
+				DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i < getReviewListN.size(); i++) {
+			String Date = sdFormat.format(getReviewListN.get(i).get("RV_DATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("OP_CONTENT")+"</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("RV_CONTENT")+"</td>\r\n" 
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
 	
 
 	

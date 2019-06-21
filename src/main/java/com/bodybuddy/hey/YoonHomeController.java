@@ -52,7 +52,11 @@ public class YoonHomeController {
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
 	
-	
+	@RequestMapping(value = "/questionlistn")
+	public ModelAndView questionlistN(String m_id) {
+		mav=ys.questionlistN(m_id);
+		return mav;
+	}
 	
 	
 	@RequestMapping(value = "/chart",produces ="application/json; charset=utf-8", method = RequestMethod.POST)

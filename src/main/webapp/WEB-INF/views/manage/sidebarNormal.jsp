@@ -59,6 +59,11 @@
 						href="payhistoryn?m_id=${mb.m_id}"> <i
 							class="mdi mdi-square-inc-cash menu-icon"></i> <span class="menu-title">결제 내역</span>
 					</a></li>
+					
+					<li class="nav-item"><a class="nav-link"
+						href="questionlistn?m_id=${mb.m_id}"> <i
+							class="mdi mdi-comment-question-outline menu-icon"></i> <span class="menu-title">문의/후기관리</span>
+					</a></li>
 	
 
 					<li class="nav-item"><a class="nav-link"
