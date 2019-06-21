@@ -1,120 +1,131 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- Required meta tags -->
-<meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BODY BUDDY_COMPANY_MANAGER</title>
-<!-- plugins:css -->
 <link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<!-- End plugin css for this page -->
-<!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
-<!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
+
+<style type="text/css">
+#memsearch {
+	height: 40px;
+	width: 200px;
+}
+
+#membtn {
+	vertical-align: bottom;
+}
+</style>
 </head>
 <body>
-	<div class="row" style="height: 700px">
+	<div class="row" style="height: 100%">
 		<div class="col-md-12 stretch-card">
-			<!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도-->
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title">회원 목록</p>
-					<form class="navbar-search pull-left">
-						<input type="text" class="search-query" placeholder="회원 검색"
-							style="margin: 0px 0px 20px 20px">
-					</form>
+					<p class="card-title">
+						<br>
+					</p>
+						<input type="text" class="span2" id="memsearch"
+							placeholder="회원 검색">
+						<button type="button" onclick="memberSearch()" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
+							
+							<c:set var="member" value="${mList }" /> 
+								<c:if test="${empty member }">
+									회원이 없습니다.
+								</c:if> 
+							<c:if test="${!empty member }">
 							<thead>
 								<tr>
-									<th>회원번호</th>
 									<th>이름</th>
-									<th>이용기간</th>
-									<th>남은기간</th>
-									<th>트레이너</th>
+									<th>생년월일</th>
 									<th>연락처</th>
+									<th>이용상품</th>
 									<th>이용상태</th>
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="member" items="${mList }">
 								<tr>
-									<td>2</td>
-									<td>고소영</td>
-									<td>2019.4.1~2019.6.3</td>
-									<td>2</td>
-									<td>없음</td>
-									<td>010-1234-5678</td>
+									<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+									<td><a href="#">${member.m_birth }</a></td>
+									<td><a href="#">${member.m_phone }</a></td>
+									<td>${member.ad_category }</td>
 									<td>이용중</td>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td>송혜교</td>
-									<td>2019.5.1~2019.7.1</td>
-									<td>28</td>
-									<td>김현석</td>
-									<td>010-2234-5678</td>
-									<td>이용중</td>
-								</tr>
-
-							</tbody>
+								</c:forEach>
+								</tbody>
+							</c:if>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div
-			class="d-sm-flex justify-content-center justify-content-sm-between">
-			<span
-				class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-				FiveMan assembled in Incheon ICIA Academy 2019. All rights reserved.
-				Thanks to ji-hun Cha.<i class="mdi mdi-heart text-danger"></i>
-			</span>
-
-		</div>
-	</footer>
-	<!-- partial -->
-	</div>
-	<!-- main-panel ends -->
-	</div>
-	<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
 
 	<!-- plugins:js -->
-	<script src="vendors/base/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<script src="vendors/chart.js/Chart.min.js"></script>
-	<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-	<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<script src="js/off-canvas.js"></script>
-	<script src="js/hoverable-collapse.js"></script>
-	<script src="js/template.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script src="js/dashboard.js"></script>
-	<script src="js/data-table.js"></script>
-	<script src="js/jquery.dataTables.js"></script>
-	<script src="js/dataTables.bootstrap4.js"></script>
-	<!-- End custom js for this page-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 
 </body>
+
+<script type="text/javascript">
+	function memberSearch(){
+		var name = $('#memsearch').val();
+		$.ajax({
+			type : "get",
+			url : "membersearch",
+			data : {
+				name : name, id : '3333'
+			},
+			dataType : "html",
+			success : function(data) {
+				alert(data);
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('회원 검색 실패');
+			}
+		});
+	}
+	
+</script>
 </html>

@@ -35,7 +35,7 @@
 	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
 <!-- End custom js for this page-->
 
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/jquery.serializeObject.js"></script>
 
@@ -60,7 +60,7 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	
 </head>
 
 <body>
@@ -108,6 +108,7 @@
 
 </body>
 
+<script src="${pageContext.request.contextPath}/resources/js/kirimWebSocket.js"></script>
 <script>
 
 $('.carousel').carousel();
@@ -136,6 +137,7 @@ $(".profilePage").click(function(){
 
 
 $(".text-success.showHiddenReview").click(function(){
+	
 	$(this).parents().find(".hiddenReview").eq(0).prop("hidden",false);
 	$(this).parents().find(".text-success.foldHiddenReview").eq(0).prop("hidden",false);
 	$(this).prop("hidden",true);
@@ -147,16 +149,15 @@ $(".text-success.foldHiddenReview").click(function(){
 });
 
 $(".text-success.showHiddenQna").click(function(){
-	$(this).parents().find(".hiddenQna").eq(0).prop("hidden",false);
-	$(this).parents().find(".text-success.foldHiddenQna").eq(0).prop("hidden",false);
+	$(this).parent().eq(0).children().eq(2).eq(0).prop("hidden",false);//.hiddenQna
+	$(this).parent().eq(0).children().eq(3).eq(0).prop("hidden",false);//.foldHiddenQna
 	$(this).prop("hidden",true);
 });
 $(".text-success.foldHiddenQna").click(function(){
-	$(this).parents().find(".hiddenQna").eq(0).prop("hidden",true);
-	$(this).parents().find(".text-success.showHiddenQna").eq(0).prop("hidden",false);
+	$(this).parent().eq(0).children().eq(2).eq(0).prop("hidden",true);//.hiddenQna
+	$(this).parent().eq(0).children().eq(1).eq(0).prop("hidden",false);//.showHiddenQna
 	$(this).prop("hidden",true);
 });
-
 
 
 
@@ -185,6 +186,7 @@ var delBtnSet = ${delBtnSet}
 console.log(delBtnSet);
 
 var kind="${mb.m_kind}";
+
 console.log(kind);
 
 if(kind!='n'){
@@ -194,7 +196,6 @@ if(kind!='n'){
 	$("#purchase").attr("data-placement","bottom");
 	$("#purchase").attr("title","일반 회원만 구매가 가능합니다");
 	$("#purchase").after("<br><br><p class='text-light bg-dark pl-1 '>일반 회원만 구매가 가능합니다</p>");
-	console.log($("#purchase"));
 }else{
 	//n일때 찜버튼
 	var ad_code = $("#ad_code").val();
@@ -262,12 +263,12 @@ $(".qFrm").click(function(){
 
 
 
-
 $("#purchase").click(function(){
 	var ad_code = $("#ad_code").val();
 	var op_code = $("#optionSelect").prop("selectedOptions")[0].id.replace("op",""); 
 	var $op_code = "#"+op_code;
 	var $op_priceValue = $($op_code).val();
+	var m_id = "${mb.m_id}";
 	
 	console.log(ad_code);
 	console.log(op_code);
@@ -284,6 +285,13 @@ $("#purchase").click(function(){
 		success:function(data){
 			console.log(data);
 			if(data=='success'){
+				//웹소켓 구매알림 보내기
+				var jsonSendPurAlarm = JSON.stringify({ad_code:ad_code,m_id:m_id});
+				$("#msg").val("PS01"+jsonSendPurAlarm);
+				console.log("WebSock3", sock);
+				console.log($("#msg").val());
+				sock.send($("#msg").val());
+				//
 				var sucConf = confirm("구매에 성공하셨습니다. 내 프로그램 보기로 이동하시겠습니까?");
 				if(sucConf == true){
 					location.href="infoprogramn?m_id=${mb.m_id}";

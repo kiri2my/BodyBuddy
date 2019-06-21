@@ -1,9 +1,10 @@
 ﻿package com.bodybuddy.hey.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,7 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.WebSocketSession;
 
+import com.bodybuddy.hey.bean.Alarm;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
@@ -146,39 +149,19 @@ public class KirimService {
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
 			String da_opperiod=ph.getPs_opcode();
-			String ps_date=ph.getPs_date();
 			Payment ph1=kDao.selectPscode(cs);
 			String ph2=kDao.selectPeriod(da_opperiod);
-			
-			
 			Map<String,String> cs2 = new HashMap<>();
 			String ps_code=ph1.getPs_code();
 			cs2.put("da_period", ph2);
 			cs2.put("ps_code", ps_code);
-			int ps_day=kDao.getPscode(ps_code); //시작날짜
-			
-			
-			
-			/*
-			 * Map<String,Integer> cs3 = new HashMap<>(); cs3.put("op_period",opperiod);
-			 */
-				// 종료날짜
-			
-			if(kDao.getCategory(ps_code)!=0) {//일반회원모집 체크 
-				int opperiod2=kDao.selectOpPeriod(ps_code,ph2);
-				int endDay = kDao.getEndDay(cs2.get("ps_code"),opperiod2);
-		     String str = Integer.toString(ps_day) + "~" + Integer.toString(endDay);
-		     cs2.put("str", str);
-		     kDao.norInsertDaliy(cs2);
+		 boolean insertDaily=kDao.insertDaliy(cs2);
+		 	if(insertDaily==true) {
+		 		
 		 		text = "success";
-		 		return text;
-			 }else if(kDao.getCategory(ps_code)==0){		
-			 kDao.insertDaliy(cs2);
-			 text = "success";
 			 	return text;
-			 
-			 }
-			}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
+		 	}
+		}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
 				text ="notn";
 				return text;
 		}else if(i!=0) {
@@ -193,15 +176,13 @@ public class KirimService {
 		Map<String,String> purByPer=null;
 		purByPer = kDao.personnelCalc(ph.getPs_opcode());
 		if(purByPer!=null) {
-			System.out.println("SEX="+purByPer.size());
-			System.out.println("SEX="+String.valueOf(purByPer.get("PURCHCOUNT")));
-			System.out.println("SEX="+String.valueOf(purByPer.get("OP_PERSONNEL")));
-			System.out.println("SEX="+purByPer.get("PS_OPCODE"));
+			
 			int a = Integer.valueOf(String.valueOf(purByPer.get("PURCHCOUNT"))).intValue();
 			int b = Integer.valueOf(String.valueOf(purByPer.get("OP_PERSONNEL"))).intValue();
 			if(b!=-100) {
 				if(a >= b){
 					text="full";
+					adExpire();
 				}
 			}
 			
@@ -318,16 +299,14 @@ public class KirimService {
 		String periodStartStr=null;
 		LocalDate periodStart=null;
 		String op_code;
-		String ad_code;
-		String ad_code0;
-		String ad_code1;
 		int result=0;
 		//DAO에서 옵션 기간(OP_PERIOD) 얻어오기
 		List<Map<String,String>> opl = kDao.getOpPeriodList();
 		//현재 날짜 얻어오기
+		
 		LocalDate today = LocalDate.now();
 		//혹은 today.toString();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		/*Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //출력 형태 지정
 		String todayStr = sdf.format(cal.getTime()); //출력형태의 문자열*/
@@ -348,7 +327,15 @@ public class KirimService {
 			}
 		}
 		
+		adExpire();
 		//해당 광고의 모든 옵션이 만료되었다면 광고를 만료
+		
+	}
+	private void adExpire() {
+		int result=0;
+		String ad_code;
+		String ad_code0;
+		String ad_code1;
 		List<Map<String,String>> aeList =kDao.getAdExpireList();
 		Set<String> ex1CodeSet = new HashSet<>();
 		Set<String> ex0CodeSet = new HashSet<>();
@@ -359,6 +346,8 @@ public class KirimService {
 				ex0CodeSet.add((String) aeList.get(i).get("AD_CODE"));
 			}
 		}
+		
+		
 		//1셋에는 있고 0셋에는 없으면 만료시킴
 		Iterator<String> itr1 = ex1CodeSet.iterator();
 		Iterator<String> itr0 = ex0CodeSet.iterator();
@@ -392,7 +381,10 @@ public class KirimService {
 			}
 		}
 		System.out.println("정상완료");
-	}//adExpirePeriod 끝 http://www.urbanui.com/majestic/template/pages/ui-features/typography.html
+		
+	}
+
+	//adExpirePeriod 끝 http://www.urbanui.com/majestic/template/pages/ui-features/typography.html
 
 	public String detailQaWriteInsert(Qna qna) {
 		String html=null;
@@ -475,11 +467,9 @@ public class KirimService {
 				"                                                        <tbody>");
 		
 				for(int i=0;i<pco.size();i++) {
-					DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					String Date = sdFormat.format(pco.get(i).get("AD_DATE"));
 					sb.append("                                                     <tr role=\"row\" class=\"odd\">" + 
 							"                                                         <td class=\"sorting_1\">"+pco.get(i).get("AD_TITLE")+"</td>" + 
-							"                                                         <td>"+Date+"</td>");
+							"                                                         <td>"+pco.get(i).get("AD_DATE")+"</td>");
 							//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
 							if(pco.get(i).get("AD_STATUS").equals("진행중")) {
 								sb.append("<td><label class=\"badge badge-warning\">");
@@ -866,7 +856,7 @@ public class KirimService {
 							  "                         		<div class=\"dropdown-menu\">");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
 					if(dp.get("M_KIND").toString().equals("t") && dp.get("T_CID")==null) {
-						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+dp.get("M_NAME")+"</a>");
+						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage'>"+dp.get("M_NAME")+"</a>");
 					//프로그램 광고 작성자가 업체	
 					}else if(dp.get("M_KIND").toString().equals("c")) {
 						for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 트레이너 + 담당 옵션 찍어주기
@@ -1115,7 +1105,7 @@ public class KirimService {
 				  	if(qaList.get(i).getQa_aContent()!=null) {
 				  		sb.append("<tr><td></td><td><i class='mdi mdi-arrow-right-bold'></i></td>" + 
 				  				  "														      <td>");
-						//문의답변내용이 길다면 더보기 버튼 넣어주기
+						//답변내용이 길다면 더보기 버튼 넣어주기
 						if(qaList.get(i).getQa_aContent().length()>20) {
 							sb.append("<p>"+qaList.get(i).getQa_aContent().substring(0, 20)+"<p class='text-success showHiddenQna'> 더보기<i class='mdi mdi-arrow-down'></i></p>"
 									+"<p class='hiddenQna' hidden>"+qaList.get(i).getQa_aContent().substring(20)+"</p>"
@@ -1163,6 +1153,135 @@ public class KirimService {
 				
 		return sb.toString();
 	}
+
+	
+
+	
+	public String alarmSelfPurch(String ad_code) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("        <a class='dropdown-item'>"
+				+ "            <div class='item-content'>"
+				+ "                <h6 class='font-weight-normal'>상품번호:"+ad_code+"를 구매하셨습니다.</h6>"
+				+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+				+ "					방금 전"
+				+ "                </p>"
+				+ "            </div>"
+				+ "        </a>");
+		
+		return sb.toString();
+	}
+	
+	public Map<String,String> alarmSendPurch(Map<String, String> m) {
+		System.out.println("AD_CODE:::::::::::"+m.get("ad_code"));
+		String ad_name=kDao.getAdName(m.get("ad_code"));
+		m.put("al_msid", m.get("m_id"));
+		m.put("al_mrid", ad_name);
+		int al_code = kDao.alarmSendPurch(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("PS01:구매알림 보내기 성공");
+			return m;
+		}
+		System.out.println("PS01:구매알림 보내기 실패");
+		return null;
+	}
+	
+	public String alarmReceiveAll(String m_id) {
+		String html=null;
+		List<Alarm> msgList=null;
+		msgList = kDao.alarmReceiveAll(m_id);
+		if(msgList!=null) {
+			html = makeHTMLAllMsg(msgList);
+		}
+		
+		return html;
+	}
+
+	private String makeHTMLAllMsg(List<Alarm> msgList) {
+		LocalDateTime sendTime=null;
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<msgList.size(); i++) {
+			System.out.println(":::::::::::::::::::");
+			System.out.println(msgList.get(i).getAl_code());
+			System.out.println(msgList.get(i).getAl_mRId());
+			System.out.println(msgList.get(i).getAl_mSId());
+			System.out.println(msgList.get(i).getAl_status());
+			System.out.println(msgList.get(i).getAl_date());
+			System.out.println(msgList.get(i).getAl_kind());
+			sendTime = msgList.get(i).getAl_date();
+			String time = strtimeCalc(sendTime);
+			if(msgList.get(i).getAl_kind().equals("PS01")) {
+				sb.append("        <a class='dropdown-item'>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>"+msgList.get(i).getAl_mSId()+"님이 당신의 상품을 구매하였습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//PS01 END
+		}
+		return sb.toString();
+	}
+
+	private String strtimeCalc(LocalDateTime sendTime) {
+		String str=null;
+		LocalDateTime today = LocalDateTime.now();
+		long sec = ChronoUnit.SECONDS.between(sendTime, today);
+		long min = ChronoUnit.MINUTES.between(sendTime, today);
+		long hour = ChronoUnit.HOURS.between(sendTime, today);
+		long days = ChronoUnit.DAYS.between(sendTime, today); 
+		long weeks = ChronoUnit.WEEKS.between(sendTime, today); 
+		long months = ChronoUnit.MONTHS.between(sendTime, today); 
+		long years = ChronoUnit.YEARS.between(sendTime, today);
+		if(sec<60) str = "방금 전";
+		else if(min<60) str = min+" 분 전"; 
+		else if(hour<24) str = hour+" 시간 전";
+		else if(days<7) str = days+" 일 전";
+		else if(weeks<5) str = weeks+" 주 전";
+		else if(months<12) str = months+" 개월 전";
+		else if(years<1000) str = years+" 년 전";
+		return str;
+	}
+
+	/*
+	public boolean isWebSession() {
+		Member sessionMb = (Member) session.getAttribute("mb");
+		return kDao.isWebSession(sessionMb.getM_id());
+	}
+	public boolean webSessionInsert(String wSessId) {
+		Map<String,String> ws = new HashMap<>();
+		Member sessionMb = (Member) session.getAttribute("mb");
+		ws.put("ws_mid", sessionMb.getM_id());
+		ws.put("ws_sessid", wSessId);
+		return kDao.webSessionInsert(ws);
+		
+	}
+	public boolean webSessionUpdate(String wSessId) {
+		Map<String,String> ws = new HashMap<>();
+		Member sessionMb = (Member) session.getAttribute("mb");
+		ws.put("ws_mid", sessionMb.getM_id());
+		ws.put("ws_sessid", wSessId);
+		return kDao.webSessionUpdate(ws);
+		
+	} 
+	public String getWSession(Map<String, String> ws) {
+		String wSession=null;
+		wSession = kDao.getWSession(ws.get("AL_MRID"));
+		return wSession;
+	}
+
+	public String getWMemberid(String wSession) {
+		String ws_mid = null;
+		ws_mid = kDao.getWMemberid(wSession);
+		return ws_mid;
+	}
+	*/
+
+	
+
+	
 
 	
 	

@@ -118,12 +118,12 @@ public class YoonService {
 	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, 
 			Member sessionMb, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
-				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
-				"                                    <div class=\"row\">\r\n");
+		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">" + 
+				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>" + 
+				"                                    <div class=\"row\">");
 		Set<String> delBtnSet = new HashSet<>();		
 		String addBtn=null;
 		String delBtn=null;
@@ -131,12 +131,12 @@ public class YoonService {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
 					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
 					
-				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
-							"                                        <div class=\"thumbnail\">\r\n" + 
+				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">" + 
+							"                                        <div class=\"thumbnail\">" + 
 							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 
-							"                                            <div class=\"caption\">\r\n" + 
-							"                                                <br>\r\n" + 
+							"                                            <div class=\"caption\">" + 
+							"                                                <br>" + 
 							"                                                <h3 id=\"thumbnail-label\">");
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
@@ -144,9 +144,9 @@ public class YoonService {
 							//주소 시작위치
 							//트레이너던 업체던 소속업체가 없는경우
 							if(mainList.get(i).get("T_CID")==null) {
-								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>");
 							}else {//소속업체 있는경우
-								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>");
 							}
 							//주소 끝위치
 							 
@@ -164,7 +164,7 @@ public class YoonService {
 				  
 				  
 				  
-				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
+				  sb.append("</p>" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
 				// 찜버튼 위치 시작
 				  delBtn = "<button id='" + "dibsDelete" + ad_code
@@ -214,18 +214,18 @@ public class YoonService {
 					// 찜버튼 끝
 				  
 								
-						sb.append("</p>\r\n" + 
-								  "                                                </div>\r\n" + 
-								  "                                            </div>\r\n" + 
-								  "                                        </div>\r\n"
+						sb.append("</p>" + 
+								  "                                                </div>" + 
+								  "                                            </div>" + 
+								  "                                        </div>"
 						);
 				}//end For
 		String delBtnSetJson = new Gson().toJson(delBtnSet);
 		mav.addObject("delBtnSet",delBtnSetJson);
 				
-	  sb.append("            	                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
+	  sb.append("            	                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
 				"                        </div>");
 		
 		
@@ -253,25 +253,23 @@ public class YoonService {
 	private String makeHTMLproPage(List<Map<String, String>> getprogramListN) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < getprogramListN.size(); i++) {
-			String optimes=String.valueOf(getprogramListN.get(i).get("OP_TIMES"));
-			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+			sb.append("												<tr role=\"row\" class=\"odd\">"
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" 
-					+ "<td><a href='#' id='profilePage"+getprogramListN.get(i).get("OP_TRAINER")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getprogramListN.get(i).get("OP_TRAINER")+"</button></a></td>\r\n"
-					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+optimes
-					+ "</td>\r\n" + "													<td>"
-					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
+					+ "</td>" + "													<td>"
+					+ getprogramListN.get(i).get("OP_TRAINER") + "</td>"
+					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+getprogramListN.get(i).get("OP_TIMES")
+					+ "</td>" + "													<td>"
+					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>"
 					+ "													<td>"
-					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
+					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
+					+ "</td>" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>출석체크확인</button>"
-					+"</td>"
+					+ "		<td><a href='"+"calenderN?ps_code="+getprogramListN.get(i).get("PS_CODE")+"&m_id="+getprogramListN.get(i).get("PS_MID")+"' target='_blank'>출결상황보기</a></td>"
 					+ "													<td><a href='" + "reviewwritefrm?ps_code="
 					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
-					+ "'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n" + "												</tr>");
+					+ "'>후기쓰기</a></td>" + "												</tr>");
 		}
 		return sb.toString();
 	}
@@ -279,14 +277,14 @@ public class YoonService {
 	private String makeHTMLnorPage(List<Map<String, String>> getnormalListN) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < getnormalListN.size(); i++) {
-			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+			sb.append("												<tr role=\"row\" class=\"odd\">"
 					+ "													<td>" + getnormalListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n"
-					+ "<td><a href='#' id='profilePage"+getnormalListN.get(i).get("M_ID")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getnormalListN.get(i).get("C_BNAME")+"</button></a></td>\r\n"
+					+ "</td>" + "													<td>"
+					+ getnormalListN.get(i).get("C_BNAME") + "</td>"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
-					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" 
-					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>출석체크확인</button></td>\r\n"
-					+ "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n"
+					+ "</td>" + "													<td><button class='btn btn-dark btn-lg btn-block'>출결현황보기</button></td>"
+					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")
+					+ "</td>" + "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'>후기쓰기</a></td>"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -311,19 +309,19 @@ public class YoonService {
 			String price = String.valueOf(getPayListN.get(i).get("PS_PRICE"));
 			String Date = sdFormat.format(getPayListN.get(i).get("PS_DATE"));
 			System.out.println("price========" + price);
-			sb.append("                      <tr role=\"row\" class=\"odd\">\r\n"
+			sb.append("                      <tr role=\"row\" class=\"odd\">"
 					+ "                            <td class=\"sorting_1\">" + getPayListN.get(i).get("AD_TITLE")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
-					+ "</td>\r\n" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>\r\n"
-					+ "                            <td>" + getPayListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
-					+ "                            <td>" + price + "</td>\r\n" + "                            <td>"
-					+ Date + "</td>\r\n" + "                       </tr>");
+					+ "</td>" + "                            <td>" + getPayListN.get(i).get("AD_CATEGORY")
+					+ "</td>" + "                            <td>" + getPayListN.get(i).get("OP_CONTENT") + "</td>"
+					+ "                            <td>" + getPayListN.get(i).get("OP_PERIOD") + "</td>"
+					+ "                            <td>" + price + "</td>" + "                            <td>"
+					+ Date + "</td>" + "                       </tr>");
 
 		}
 		return sb.toString();
 	}
 
-	public ModelAndView modifyN(String m_id){
+	public ModelAndView modifyN(String m_id) {
 		String view = null;
 		Member mb = yDao.getModifyN(m_id);
 		Member mbPhoto = yDao.getPhotoModifyN(m_id);
@@ -333,7 +331,6 @@ public class YoonService {
 		mav.setViewName(view);
 		return mav;
 	}
-
 
 	public ModelAndView dibsList(String m_id) {
 		String view = null;
@@ -350,11 +347,11 @@ public class YoonService {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < dibs.size(); i++) {
 			System.out.println("-----------------------==" + dibs.get(i).get("AD_TITLE"));
-			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
+			sb.append("<tr role=\"row\" class=\"odd\">"
 					+ "													<td class=\"sorting_1\">"
-					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
+					+ dibs.get(i).get("AD_TITLE") + "</td>"
 					+ "													<td><button class='btn btn-dark'>삭제</button>"
-					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>\r\n"
+					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -405,9 +402,9 @@ public class YoonService {
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
-		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
-				"													<td>" + Date + "</td>\r\n" + 
+		sb.append("												<tr role=\"row\" class=\"odd\">" + 
+				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>" + 
+				"													<td>" + Date + "</td>" + 
 				"												</tr>");
 		}
 		return sb.toString();
@@ -495,49 +492,25 @@ public class YoonService {
 		 
 		return mav;
 	}
-	public ModelAndView calender(String ps_code) {
-		List<Map<String, String>> getDailyListN = null;
-		Member sessionMb = (Member) session.getAttribute("mb");
-		String m_id=sessionMb.getM_id();
-		System.out.println();
-		String view=null;
-		Map<String,String> ck = new HashMap<>();
-		ck.put("ps_code", ps_code);
-		ck.put("m_id", m_id);
-		getDailyListN=yDao.getDailyList(ck);
-		String html = makeHTMLDailyPage(getDailyListN);
-		mav.addObject("getDailyList", html);
+	public ModelAndView calender(String ps_code, String m_id) {
+		String view= null;
+		mav.addObject("ps_code",ps_code);
+		mav.addObject("m_id", m_id);
 		view="manage/calenderN";
 		mav.setViewName(view);
 		return mav;
 	}
-	
-	private String makeHTMLDailyPage(List<Map<String, String>> getDailyListN) {
-		StringBuilder sb=new StringBuilder();
-		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for (int i = 0; i <  getDailyListN.size(); i++) { 
-			String Date = sdFormat.format(getDailyListN.get(i).get("DN_DATE"));
-		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td>" + Date + "</td>\r\n" + 
-				"												</tr>");
-		}
-		return sb.toString();
+	public String dailyCheck(String ps_code, String m_id) {
+		String json="";
+		List<Map<String, String>> dailyCheck1 = null;
+		Map<String,String> cs = new HashMap<>();
+		cs.put("ps_code", ps_code);
+		cs.put("ps_mid", m_id);
+		dailyCheck1=yDao.getDailyCheck(cs);
+		json=new Gson().toJson(dailyCheck1);
+		return json;
 	}
 	
-	
-	/*
-	 * public String dailyCheck(String ps_code, String m_id) throws ParseException {
-	 * String json=""; List<Map<String, String>> dailyCheck1 = null;
-	 * Map<String,String> cs = new HashMap<>(); cs.put("ps_code", ps_code);
-	 * cs.put("ps_mid", m_id); dailyCheck1=yDao.getDailyCheck(cs); SimpleDateFormat
-	 * transFormat = new SimpleDateFormat("yyyy-MM-dd");
-	 * 
-	 * for(int i=0;i<dailyCheck1.size();i++) { String
-	 * daily=dailyCheck1.get(i).toString(); Date to = transFormat.parse(daily);
-	 * json=new Gson().toJson(to); System.out.println(to); }
-	 * 
-	 * return json; }
-	 */
 	
 
 
