@@ -41,7 +41,7 @@
 							<c:if test="${!empty advertise }">
 								<thead>
 									<tr>
-										<th >카테고리</th>
+										<th>카테고리</th>
 										<th>광고명</th>
 										<th>등록일</th>
 										<th>상태</th>

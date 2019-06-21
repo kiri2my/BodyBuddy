@@ -49,7 +49,7 @@
 								<div class="form-group">
 									<div class="input-group">
 
-										<textarea rows="8" cols="8" name="t_career"
+										<textarea rows="8" cols="8" name="t_career" id="t_career"
 											class="form-control form-control-lg border-left-0">${m.t_career}
 											</textarea>
 
@@ -69,6 +69,26 @@
 								
 								<div id="test">
 								</div>
+								<div id="sosok">
+									<table id="recent-purchases-listing" class="table">
+										<thead>
+										<tr>
+											<th>업체이름</th>
+											<th>내아이디</th>
+											<th>상태</th>
+											<th>날짜</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>${m1.c_bname }</td>
+											<td>${m1.yn_trainer }</td>
+											<td>${m1.yn_state }</td>
+											<td>${m1.yn_date }</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
 
 								<div class="mb-4">
 									<div class="form-check">
@@ -87,7 +107,7 @@
 										type='submit' onclick = "profileComplete()" value='프로필수정하기'>
 									<a
 										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-										href="main.jsp">프로필삭제하기</a>
+										href="main.jsp">뒤로가기</a>
 								</div>
 
 							</form>
@@ -187,13 +207,15 @@
 			}
 		});
 	}
-	function profileModifyComplete() {
+	function profileComplete() {
+		 var t_career = $("#t_career").val();
+			console.log("t_career:"+t_career);
+		
 		$.ajax({
 			type : "GET",
-			url : "acceptrequest",
+			url : "profileComplete",
 			data : {
-				id : "5555",
-				name : "테스트업체명"
+				t_career : t_career
 			},
 			dataType : "html",
 			error : function() {
@@ -206,10 +228,7 @@
 			}
 		});
 	}
-	function profileComplete() {
-		a = true;
-		alert("수정완료");
-	}
+	
 	
 
 	function profilemodify(){

@@ -9,7 +9,8 @@
 	</select>
 	
 	<select id="getTfindC" parameterType="member" resultType="member">
-		SELECT COMPANY.C_BNAME, MEMBER.M_ADDR ,YN_STATE FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID INNER JOIN YESORNO ON COMPANY.C_ID = YESORNO.YN_COMPANY WHERE COMPANY.C_BNAME= #{c_bname}
+		select c.c_bname, m.m_addr from m inner join c on m.m_id=c.c_id where c_bname=#{c_bname}
+		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR ,YN_STATE FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID INNER JOIN YESORNO ON COMPANY.C_ID = YESORNO.YN_COMPANY WHERE COMPANY.C_BNAME= #{c_bname} -->
 		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID WHERE COMPANY.C_BNAME= #{c_bname}  -->
 	</select>
 		
@@ -23,22 +24,33 @@
 	</update>
 	
 	<insert id="acceptrequestInsert"  >
-		INSERT INTO YESORNO VALUES(#{c_bname},#{m_id},'진행',SYSDATE)
+		INSERT INTO YESORNO VALUES(#{c_id},#{m_id},'진행',SYSDATE)
 	</insert>
 	<update id="acceptrequestupdate" parameterType="member">
-		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_bname} WHERE YN_TRAINER= #{m_id} 
+		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_id} WHERE YN_TRAINER= #{m_id} 
 	</update>
+	<select id="findC_id" resultType="member">
+		select c_id from C WHERE c_bname=#{c_bname}
+	</select>
+	<select id="comfirm" resultType="Integer">
+		select count (*) from yesorno where yn_trainer = #{m_id}
+	</select>
 	
-	<!-- <update id="profileComplete" parameterType="member">
-		UPDATE TRAINER SET T_CID = '테스트업체명132',T_CAREER='여기서일함 저기서일함 요기소속팀' WHERE T_ID= '123456@123456';
-	</update> -->
+	<select id="comfirm1" resultType="Integer">
+		select count (*) from yesorno where yn_trainer = #{m_id}
+	</select>
+	
+	<!-- UPDATE YESORNO SET YN_COMPANY = '2@2' WHERE YN_TRAINER = '1@1'; -->
+	
+	<update id="profileComplete" parameterType="member">
+		UPDATE TRAINER SET T_CAREER=#{t_career} WHERE T_ID= #{m_id}
+	</update>
 	
 	<select id="trinerlist" resultType="member">
 		SELECT * FROM YESORNO where YN_COMPANY=	#{id}
-
 	</select>
 	<select id="kindkind" resultType="member">
-		SELECT M_KIND,M_NAME FROM MEMBER WHERE M_ID=#{id}
+		SELECT M_KIND,M_NAME,M_ID FROM MEMBER WHERE M_ID=#{id}
 	</select>
 	
 	<insert id="adinsert" parameterType="question" useGeneratedKeys="true" keyProperty="xxx" >
@@ -47,16 +59,25 @@
   		</selectKey>
 		INSERT INTO AD VALUES(AD_SEQ.NEXTVAL,#{ad_name},#{ad_title},#{ad_content},#{ad_category},#{ad_status},sysdate)
 	</insert>
-	<insert id="opinsert">
-		
+	<!-- <insert id="opinsert" parameterType="HashMap"  useGeneratedKeys="true" keyProperty="xxx" >
 		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL, #{xxx}, #{ad_name}, #{op_price},#{op_period},#{op_times},#{op_day},#{op_content},'11:00:13:00',#{op_personnel},0)
-	</insert>
-	<insert id="imginsert">
+	</insert> -->
+	<insert id="imginsert" parameterType="HashMap">
 		INSERT INTO AP VALUES(#{xxx},#{ap_image})
 	</insert>
 	
 	<select id="getAdvertiselist" resultType="question">
 		select ad_code,ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
 	</select>
+	
+	<select id="getSosok" resultType="member" >
+		select c_bname, yn_trainer, yn_state, yn_date from c inner join yesorno on c.c_id = yesorno.yn_company where yn_trainer= #{id}
+	</select>
+	<insert id="opinsert" parameterType="HashMap" useGeneratedKeys="true" keyProperty="xxx" >
+		<selectKey keyProperty="xxx" resultType="String" order="AFTER">
+   			select ad_seq.currval from dual
+  		</selectKey>
+		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL,#{op_adcode},#{op_trainer},#{op_price},#{op_period},#{op_times},#{op_day},#{op_content},#{op_clock},#{op_personnel},0)
+	</insert>
 	
 </mapper>
