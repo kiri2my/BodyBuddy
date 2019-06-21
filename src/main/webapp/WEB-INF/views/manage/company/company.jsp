@@ -13,7 +13,7 @@
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
+	href="${pageContext.request.contextPath}/resources/vendors	/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
 <link type="text/css" rel="stylesheet"

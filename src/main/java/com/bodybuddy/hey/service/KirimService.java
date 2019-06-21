@@ -1,5 +1,7 @@
 ﻿package com.bodybuddy.hey.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -473,9 +475,11 @@ public class KirimService {
 				"                                                        <tbody>");
 		
 				for(int i=0;i<pco.size();i++) {
+					DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String Date = sdFormat.format(pco.get(i).get("AD_DATE"));
 					sb.append("                                                     <tr role=\"row\" class=\"odd\">" + 
 							"                                                         <td class=\"sorting_1\">"+pco.get(i).get("AD_TITLE")+"</td>" + 
-							"                                                         <td>"+pco.get(i).get("AD_DATE")+"</td>");
+							"                                                         <td>"+Date+"</td>");
 							//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
 							if(pco.get(i).get("AD_STATUS").equals("진행중")) {
 								sb.append("<td><label class=\"badge badge-warning\">");
@@ -862,7 +866,7 @@ public class KirimService {
 							  "                         		<div class=\"dropdown-menu\">");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
 					if(dp.get("M_KIND").toString().equals("t") && dp.get("T_CID")==null) {
-						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage'>"+dp.get("M_NAME")+"</a>");
+						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+dp.get("M_NAME")+"</a>");
 					//프로그램 광고 작성자가 업체	
 					}else if(dp.get("M_KIND").toString().equals("c")) {
 						for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 트레이너 + 담당 옵션 찍어주기

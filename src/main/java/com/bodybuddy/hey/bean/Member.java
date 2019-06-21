@@ -61,4 +61,5 @@ public class Member {
 	private String ad_category;
 	private String ad_code;
 	
+	private String yn_date;
 }
