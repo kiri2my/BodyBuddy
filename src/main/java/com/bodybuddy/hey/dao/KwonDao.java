@@ -1,6 +1,5 @@
 package com.bodybuddy.hey.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,16 +78,5 @@ public interface KwonDao {
 	public Member getinfoModifyImage(String id);
 
 	public int profilePhotoSelect(String m_id);
-
-	public ArrayList<HashMap<String, String>> getTrainerJoinList(String id);
-
-	public void trainerJoinUpdate(Map<String, String> map);
-
-	public void trainerJoinInsert(Map<String, String> map);
-
-	public void trainerDiscon(Map<String, String> map);
-
-	public void trainerDisconDelete(Map<String, String> map);
-
 
 }

@@ -40,35 +40,34 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch" placeholder="회원 검색">
-					<button type="button" onclick="memberSearch()"
-						style="position: absolute;" class="btn" id="membtn">검색</button>
+						<input type="text" class="span2" id="memsearch"
+							placeholder="회원 검색">
+						<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
-
-							<c:set var="member" value="${mList }" />
-							<c:if test="${empty member }">
+							
+							<c:set var="member" value="${mList }" /> 
+								<c:if test="${empty member }">
 									회원이 없습니다.
-								</c:if>
+								</c:if> 
 							<c:if test="${!empty member }">
-								<thead>
-									<tr>
-										<th>이름</th>
-										<th>생년월일</th>
-										<th>연락처</th>
-										<th>이용상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="member" items="${mList }">
-										<tr>
-											<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }(${member.m_id })</a></td>
-											<td>${member.m_birth }</td>
-											<td>${member.m_phone }</td>
-											<td><a href="#" style="text-decoration: none;"
-												onclick="changeState('${member.m_id }')">이용중</a></td>
-										</tr>
-									</c:forEach>
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>생년월일</th>
+									<th>연락처</th>
+									<th>이용상태</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${mList }">
+								<tr>
+									<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+									<td><a href="#">${member.m_birth }</a></td>
+									<td><a href="#">${member.m_phone }</a></td>
+									<td>이용중</td>
+								</tr>
+								</c:forEach>
 								</tbody>
 							</c:if>
 						</table>
@@ -76,17 +75,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div class="modal" id="modal"
-		style="width: 50%; height: 70%; left: 50%; top: 20%;">
-		<div class="modal-header"
-			style="text-align: center; align-content: center;">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true"></button>
-			<h3 id="modal-head"></h3>
-		</div>
-		<div class="modal-body" id="modalBody"></div>
 	</div>
 
 	<!-- plugins:js -->
@@ -118,14 +106,13 @@
 </body>
 
 <script type="text/javascript">
-	function memberSearch() {
+	function memberSearch(){
 		var name = $('#memsearch').val();
 		$.ajax({
 			type : "get",
 			url : "membersearch",
 			data : {
-				name : name,
-				id : '3333'
+				name : name, id : '3333'
 			},
 			dataType : "html",
 			success : function(data) {
@@ -137,53 +124,6 @@
 			}
 		});
 	}
-
-	function changeState(mid) {
-		var state = state;
-		var mid = mid;
-
-		alert()
-		$.ajax({
-			type : "post",
-			url : "changestate",
-			data : {
-				mid : mid,
-				cid : sessionId
-			},
-			dataType : "html",
-			success : function(data) {
-				alert(data);
-				//$('#main').html(data);
-			},
-			error : function() {
-				alert('이용 상태 전환 실패');
-			}
-		});
-	}
-
-	function profileN(m_id) {
-		var m_id = m_id;
-		alert(m_id);
-		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
-
-		$.ajax({
-			type : "get",
-			url : "profilepage",
-			data : {
-				m_id : m_id
-			},
-			dataType : "html",
-			success : function(data) {
-				alert(data);
-				$('#modal-head').html(m_id+' 프로필');
-				$('#modalBody').html(data);
-				$('#modal').modal('toggle');
-			},
-			error : function() {
-				alert('회원 프로필 로드 실패');
-			}
-
-		});
-	}
+	
 </script>
 </html>
