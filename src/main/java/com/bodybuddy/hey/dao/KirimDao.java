@@ -73,17 +73,23 @@ public interface KirimDao {
 
 	public List<Map<String, String>> adPhotoList(String ad_code);
 
+	public boolean isWebSession(String string);
+	
+	public boolean webSessionInsert(Map<String, String> ws);
+
+	public boolean webSessionUpdate(Map<String, String> ws);
+
 	public String getAdName(String ad_code);
 
-	public boolean alarmSelfPurch(Map<String, String> m);
-	
 	public int alarmSendPurch(Map<String, String> m);
 
+	public Map<String, String> alarmReceivePurch(Map<String, String> ws);
+
+	public String getWSession(String ws_mid);
+
+	public String getWMemberid(String wSession);
+
 	public List<Alarm> alarmReceiveAll(String m_id);
-
-	public boolean alarmConfirm(String al_code);
-
-
 
 	
 

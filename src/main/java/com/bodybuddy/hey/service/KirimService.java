@@ -1157,14 +1157,19 @@ public class KirimService {
 	
 
 	
-	public void alarmSelfPurch(Map<String, String> m) {
-		System.out.println("AD_CODE:::::::::::"+m.get("ad_code"));
-		m.put("al_msid", m.get("m_id"));
-		m.put("al_mrid", m.get("m_id"));
-		if(kDao.alarmSelfPurch(m)) {
-			System.out.println("PS02:구매알림 보내기 성공");
-		}
-		System.out.println("PS02:구매알림 보내기 실패");
+	public String alarmSelfPurch(String ad_code) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("        <a class='dropdown-item'>"
+				+ "            <div class='item-content'>"
+				+ "                <h6 class='font-weight-normal'>상품번호:"+ad_code+"를 구매하셨습니다.</h6>"
+				+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+				+ "					방금 전"
+				+ "                </p>"
+				+ "            </div>"
+				+ "        </a>");
+		
+		return sb.toString();
 	}
 	
 	public Map<String,String> alarmSendPurch(Map<String, String> m) {
@@ -1183,35 +1188,31 @@ public class KirimService {
 	}
 	
 	public String alarmReceiveAll(String m_id) {
-		String json=null;
+		String html=null;
 		List<Alarm> msgList=null;
 		msgList = kDao.alarmReceiveAll(m_id);
 		if(msgList!=null) {
-			String html = makeHTMLAllMsg(msgList);
-			List<String> list = new ArrayList<>();
-			list.add(html);
-			list.add(String.valueOf(msgList.size()));
-			json = new Gson().toJson(list);
+			html = makeHTMLAllMsg(msgList);
 		}
 		
-		return json;
-	}
-	public String alarmConfirm(String al_code) {
-		String text="failed";
-		System.out.println("AL_CODE:::"+al_code);
-		if(kDao.alarmConfirm(al_code)) {
-			text="success";
-		}
-		return text;
+		return html;
 	}
 
 	private String makeHTMLAllMsg(List<Alarm> msgList) {
+		LocalDateTime sendTime=null;
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<msgList.size(); i++) {
-			String time = strTimeCalc(msgList.get(i).getAl_date());
+			System.out.println(":::::::::::::::::::");
+			System.out.println(msgList.get(i).getAl_code());
+			System.out.println(msgList.get(i).getAl_mRId());
+			System.out.println(msgList.get(i).getAl_mSId());
+			System.out.println(msgList.get(i).getAl_status());
+			System.out.println(msgList.get(i).getAl_date());
+			System.out.println(msgList.get(i).getAl_kind());
+			sendTime = msgList.get(i).getAl_date();
+			String time = strtimeCalc(sendTime);
 			if(msgList.get(i).getAl_kind().equals("PS01")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+				sb.append("        <a class='dropdown-item'>"
 						+ "            <div class='item-content'>"
 						+ "                <h6 class='font-weight-normal'>"+msgList.get(i).getAl_mSId()+"님이 당신의 상품을 구매하였습니다.</h6>"
 						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
@@ -1220,22 +1221,11 @@ public class KirimService {
 						+ "            </div>"
 						+ "        </a>");
 			}//PS01 END
-			if(msgList.get(i).getAl_kind().equals("PS02")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>상품을 성공적으로 구매하였습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//PS02 END
 		}
 		return sb.toString();
 	}
 
-	private String strTimeCalc(LocalDateTime sendTime) {
+	private String strtimeCalc(LocalDateTime sendTime) {
 		String str=null;
 		LocalDateTime today = LocalDateTime.now();
 		long sec = ChronoUnit.SECONDS.between(sendTime, today);
@@ -1255,5 +1245,52 @@ public class KirimService {
 		return str;
 	}
 
+	/*
+	public boolean isWebSession() {
+		Member sessionMb = (Member) session.getAttribute("mb");
+		return kDao.isWebSession(sessionMb.getM_id());
+	}
+	public boolean webSessionInsert(String wSessId) {
+		Map<String,String> ws = new HashMap<>();
+		Member sessionMb = (Member) session.getAttribute("mb");
+		ws.put("ws_mid", sessionMb.getM_id());
+		ws.put("ws_sessid", wSessId);
+		return kDao.webSessionInsert(ws);
+		
+	}
+	public boolean webSessionUpdate(String wSessId) {
+		Map<String,String> ws = new HashMap<>();
+		Member sessionMb = (Member) session.getAttribute("mb");
+		ws.put("ws_mid", sessionMb.getM_id());
+		ws.put("ws_sessid", wSessId);
+		return kDao.webSessionUpdate(ws);
+		
+	} 
+	public String getWSession(Map<String, String> ws) {
+		String wSession=null;
+		wSession = kDao.getWSession(ws.get("AL_MRID"));
+		return wSession;
+	}
+
+	public String getWMemberid(String wSession) {
+		String ws_mid = null;
+		ws_mid = kDao.getWMemberid(wSession);
+		return ws_mid;
+	}
+	*/
+
+	
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
