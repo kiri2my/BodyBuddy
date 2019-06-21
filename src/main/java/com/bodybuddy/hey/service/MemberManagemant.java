@@ -40,6 +40,7 @@ public class MemberManagemant {
 		// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
+		System.out.println("asdasdsadasd    = "+mb.getM_phone());
 
 		if (mDao.normalMemberJoin(mb)) {
 			view = "loginJoinFrm/loginFrm";
@@ -251,6 +252,9 @@ public class MemberManagemant {
 		Member sessionMb = (Member) session.getAttribute("mb");
 		String m_id = sessionMb.getM_id();
 		String m_birth = sessionMb.getM_birth();
+		System.out.println("시작해보자");
+		System.out.println(m_birth);
+		System.out.println(m_birth);
 		String m_name = sessionMb.getM_name();
 		String m_pw = multi.getParameter("m_pw");
 		System.out.println(m_pw);
@@ -270,6 +274,7 @@ public class MemberManagemant {
 
 		int i = mDao.imgOverlap(m_id);
 		if (i == 0) {
+			System.out.println("if 가 0이다 이말이야");
 			upload.fileUp(multi, m_id);
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			mb.setM_id(m_id);
@@ -286,6 +291,8 @@ public class MemberManagemant {
 			mav.addObject("mb", mb1);
 			mav.addObject("mbPhoto", mbPhoto);
 		} else if (i >= 1) {
+			System.out.println("if 가 1이다 이말이야");
+
 			upload.fileUp2(multi, m_id);
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			mb.setM_id(m_id);

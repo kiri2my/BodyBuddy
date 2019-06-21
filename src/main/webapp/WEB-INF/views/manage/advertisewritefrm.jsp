@@ -75,12 +75,12 @@ body {
      <tr>
       <th>제목</th>
       <td style="vertical-align: middle"><input type="text" 
-       name="ad_title" style="height: 50px;"></td>
+       name="ad_title" style="height: 50px;" value="sssssss"></td>
      </tr>
      <tr>
       <th>내용</th>
       <td style="vertical-align: middle"><input type="text" class="reset"
-       name="ad_content" style="height: 300px; width: 500px"></td>
+       name="ad_content" style="height: 300px; width: 500px" value="asdasdasdasdasd"></td>
      </tr>
      
      
@@ -103,13 +103,13 @@ body {
            
           </tr>
           <tr>
-           <td><input type="text" name="op_content" value="" style="width: 100px" placeholder="옵션명" class="reset"></td>
+           <td><input type="text" name="op_content" style="width: 100px" placeholder="옵션명" class="reset"></td>
            <td >
-            <label for="from" >From</label><input type="text"  id="from" name="op_period1" class="from">
-             <label for="to">to</label><input type="text" id="to" name="op_period2" class="to">
+            <label for="from" >From</label><input type="text"  id="from" name="op_period1" class="from" value="06/20/2019">
+             <label for="to">to</label><input type="text" id="to" name="op_period2" class="to" value="10/11/2019">
            </td>
-           <td><input type="text" name="op_clock1" value="" style="width: 100px" placeholder="시작시간" class="reset"> 
-           <input type="text" name="op_clock2" value="" style="width: 100px" placeholder="종료시간" class="reset"></td>
+           <td><input type="text" name="op_clock1" value="12" style="width: 100px" placeholder="시작시간" class="reset"> 
+           <input type="text" name="op_clock2" value="13" style="width: 100px" placeholder="종료시간" class="reset"></td>
            <td><div class="checkbox" style="width: 300px; font-size: 20px" class="reset">
         <label for="foo1"> <input type="checkbox" id="foo1"
          name="day" value="월 ">월
@@ -127,12 +127,12 @@ body {
          name="day" value="일 ">일
         </label> 
         <label for="foo7"> <input type="hidden" id="foo7"
-         name="day" value="@ ">
+         name="day" value="@">
         </label>
        </div></td>
-           <td><input type="text" name="op_times" value="" style="width: 50px" placeholder="횟수" class="reset"></td>
-           <td><input type="text" name="op_personnel" placeholder="모집인원" class="reset">명</td>
-           <td><input type="text" name="op_price" placeholder="가격(원)" class="reset"></td>
+           <td><input type="text" name="op_times" value="2" style="width: 50px" placeholder="횟수" class="reset"></td>
+           <td><input type="text" name="op_personnel" placeholder="모집인원" class="reset" value="2">명</td>
+           <td><input type="text" name="op_price" placeholder="가격(원)" class="reset" value="50000"></td>
            <td>${trainerlist}</td><!-- 담당자 -->
             
            </tr>

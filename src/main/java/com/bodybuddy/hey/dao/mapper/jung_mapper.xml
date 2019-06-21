@@ -67,16 +67,16 @@
 	</insert>
 	
 	<select id="getAdvertiselist" resultType="question">
-		select ad_code,ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
+		select DISTINCT ad_code,ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
 	</select>
 	
 	<select id="getSosok" resultType="member" >
 		select c_bname, yn_trainer, yn_state, yn_date from c inner join yesorno on c.c_id = yesorno.yn_company where yn_trainer= #{id}
 	</select>
-	<insert id="opinsert" parameterType="HashMap" useGeneratedKeys="true" keyProperty="xxx" >
-		<selectKey keyProperty="xxx" resultType="String" order="AFTER">
+	<insert id="opinsert" parameterType="HashMap"><!--  useGeneratedKeys="true" keyProperty="xxx" > -->
+		<!-- <selectKey keyProperty="xxx" resultType="String" order="AFTER">
    			select ad_seq.currval from dual
-  		</selectKey>
+  		</selectKey> -->
 		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL,#{op_adcode},#{op_trainer},#{op_price},#{op_period},#{op_times},#{op_day},#{op_content},#{op_clock},#{op_personnel},0)
 	</insert>
 	

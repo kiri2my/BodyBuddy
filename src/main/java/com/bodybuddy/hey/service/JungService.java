@@ -219,15 +219,6 @@ public class JungService {
 
 		mav = new ModelAndView();
 
-		/*
-		 * Map<String, String> fMap = new HashMap<String, String>();
-		 * 
-		 * String root = multi.getSession().getServletContext().getRealPath("/");
-		 * System.out.println("root=" + root); String path = root + "resources/upload/";
-		 * // 2.폴더 생성을 꼭 할것... File dir = new File(path); if (!dir.isDirectory()) { //
-		 * upload폴더 없다면 dir.mkdirs(); // upload폴더 생성 } List<MultipartFile> files =
-		 * multi.getFiles("ap_image");
-		 */
 
 		int checkNum = adadd.getCheckNum();
 		System.out.println("checkNum : " + checkNum);
@@ -240,6 +231,7 @@ public class JungService {
 		System.out.println("ad_name2[1] : "+ad_name2[1]);
 		String ad_name = ad_name2[0];
 		String ad_name3 = ad_name2[1];
+		
 		
 		System.out.println("트레이너이름 : "+ ad_name3);
 		System.out.println("ad_name : " + ad_name);
@@ -257,7 +249,8 @@ public class JungService {
 		String op_content = adadd.getOp_content();
 		System.out.println("op_content출력 : " + op_content);
 		String[] op_content_1 = op_content.split(",");
-
+		System.out.println("op_content_1.op_content_1."+op_content_1.length);
+		
 		// day
 		String a = Arrays.toString(day);
 		String a2=a.replace(",", ""); //컴마없애기
@@ -276,11 +269,7 @@ public class JungService {
 			 
 			 op_period_1[i] = x+y;
 		 }
-		// String op_period2 = adadd.getOp_period1().replace("/", ""); // 06072019
-		/*
-		 * String x2 = op_period2.substring(4); String y2 = op_period2.substring(0, 4);
-		 * String z2 = x2 + y2;
-		 */
+	
 		String[] op_period_2 = adadd.getOp_period2().split(",");// 달력
 		for(int i=0; i<op_period_2.length; i++) {
 			 op_period_2[i] = op_period_2[i].replace("/","");
@@ -290,14 +279,7 @@ public class JungService {
 			 op_period_2[i] = x+y;
 		 }
 
-		/*
-		 * System.out.println(z1); System.out.println(z2);
-		 * 
-		 * String op_period = z1+"~"+z2;
-		 * 
-		 * adadd.setOp_period(op_period); System.out.println("op_period : "+ op_period);
-		 */
-		// times 횟수
+	
 		String op_times = adadd.getOp_times();
 		System.out.println("op_times" + op_times);
 		String[] op_times_1 = op_times.split(",");
@@ -315,6 +297,8 @@ public class JungService {
 		String op_price = adadd.getOp_price();
 		System.out.println("op_price : " + op_price);
 		String[] op_price_1 = op_price.split(",");
+		System.out.println("op_price_1"+ op_price_1[0]);
+		System.out.println("op_price_1"+ op_price_1[1]);
 		
 		String op_trainer = adadd.getOp_trainer();
 		System.out.println("op_trainer : " + op_trainer);
@@ -324,19 +308,7 @@ public class JungService {
 		System.out.println("op_personnel : "+op_personnel);
 		String[] op_personnel_1 = op_personnel.split(",");
 
-		// 대작업 시작
-
-		/*
-		 * String[] all = new String[op_content.length()]; for (int i = 0; i <
-		 * op_content.length() - 1; i++) { all[i] = op_trainer_1[i]
-		 * +","+op_price_1[i]+","+ op_period_1[i] +"~"+ op_period_2[i]
-		 * +","+op_times_1[i]+","+ day1[i] +"," +op_content_1[i]+","+op_clock_1[i] + "~"
-		 * + op_clock_2[i]+","+op_personnel_1[i]; } System.out.println("all[0] : " +
-		 * all[0]);
-		 * System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-		 * ); System.out.println("all[1] : " + all[1]);
-		 * System.out.println("------------------------------------------------------");
-		 */
+	
 
 		
 		String ap_image = adadd.getAp_image();
@@ -345,16 +317,22 @@ public class JungService {
 		adadd.setAd_status("모집중");
 
 		// advertise insert
-		 
+		System.out.println();
 		
 		
 		Map<String,String> opMap = new HashMap<String,String>();		
-		String xxx;
+		String xxx = null;
 		if (mDao.adinsert(adadd)) {
 			System.out.println("광고입력성공");
 			System.out.println("xxx : " + adadd.getXxx());
 			xxx= adadd.getXxx();
-			for(int i=0; i<op_content.length() - 1; i++) {
+			opMap.put("op_adcode",xxx);
+			System.out.println(op_content);
+			System.out.println("op_content.length() 의 수"+op_content.length());
+			for(int i=0; i<op_content_1.length; i++) {
+				System.out.println("반복문 op_price_1[i] = "+i+" 번째 "+op_price_1[i]);
+				System.out.println(ad_category);
+				opMap.put("ad_category",ad_category);
 				opMap.put("op_trainer", ad_name3);
 				opMap.put("op_price",op_price_1[i]);
 				opMap.put("op_period",op_period_1[i] +"~"+  op_period_2[i]);
@@ -363,30 +341,15 @@ public class JungService {
 				opMap.put("op_content",op_content_1[i]);
 				opMap.put("op_clock",op_clock_1[i] + "~"  + op_clock_2[i]);
 				opMap.put("op_personnel",op_personnel_1[i]);
-				opMap.put("op_adcode",xxx);
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
-				System.out.println(opMap.get("op_adcode"));
 				System.out.println(opMap.get("op_adcode"));
 			if (mDao.opinsert(opMap)) {
 				System.out.println("옵션입력성공");
 			}
-				/*
-				 * if (adadd.getAp_image() == null) { System.out.println("이미지가 없음"); } else {
-				 * for (MultipartFile mf : files) { String oriFileName =
-				 * mf.getOriginalFilename(); // 원본 파일명 String sysFileName = //
-				 * System.currentTimeMillis() + "." +
-				 * oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
-				 * fMap.put("oriFileName", oriFileName); fMap.put("ap_image", sysFileName);
-				 * 
-				 * try { mf.transferTo(new File(path + sysFileName)); mDao.imginsert(fMap);
-				 * System.out.println("이미지등록성공"); } catch (IOException e) { e.printStackTrace();
-				 * System.out.println("이미지등록실패"); } }
-				 * 
-				 * }
-				 */
+				
 			}
-			mav.setViewName("manage/advertisemanage");
+			mav.setViewName("manage/trainer/trainer");
 			return mav;
 		} else {
 			System.out.println("광고등록실패");
