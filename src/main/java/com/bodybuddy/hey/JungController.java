@@ -28,7 +28,7 @@ import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.service.JungService;
 import com.bodybuddy.hey.service.MemberManagemant;
-
+//되라
 @Controller
 public class JungController {
 	@Autowired
