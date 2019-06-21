@@ -20,7 +20,8 @@ public class Member {
 	private String t_id;
 	private String t_cid;
 	private String t_career;
-	 
+	
+	private String c_id;
 	private String c_num;
 	private String c_bname;
 	private String c_bphone;
@@ -35,7 +36,7 @@ public class Member {
 	private String ps_opcode;
 	private String ps_day;
 
-	private String yn_code;
+	private String yn_date;
 	private String yn_company;
 	private String yn_trainer;
 	private String yn_state;

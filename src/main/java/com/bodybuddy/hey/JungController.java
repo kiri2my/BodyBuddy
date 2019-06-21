@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
@@ -61,13 +62,13 @@ public class JungController {
 	public ModelAndView memberList(Locale locale, Model model) {
 		Member mb = (Member)session.getAttribute("mb");
 		Question qu = new Question();
-		System.out.println("에드벌 메시지");
+		System.out.println("�뿉�뱶踰� 硫붿떆吏�");
 		String id = mb.getM_id();
-		System.out.println("에드코드"+mb.getAd_code());
+		System.out.println("�뿉�뱶肄붾뱶"+mb.getAd_code());
 		System.out.println(id);
 		mav=js.getAdvertisemanage(id);
-		System.out.println("디비코드 "+mb.getAd_code());
-		System.out.println("디비코드qu "+qu.getAd_code());
+		System.out.println("�뵒鍮꾩퐫�뱶 "+mb.getAd_code());
+		System.out.println("�뵒鍮꾩퐫�뱶qu "+qu.getAd_code());
 		System.out.println("advertisemanage controller");
 		
 		return mav;
@@ -92,18 +93,17 @@ public class JungController {
 	@ResponseBody
 	@RequestMapping(value = "/profileModifyT" ,method = RequestMethod.GET)
 	public ModelAndView profileModifyT() {
-		System.out.println("/profileModifyT 시작");
+		System.out.println("/profileModifyT �떆�옉");
 		Member mb = (Member) session.getAttribute("mb");
-		System.out.println("찍기전");
+		System.out.println("李띻린�쟾");
 		System.out.println(mb.getM_id());
-		System.out.println("찍기후");
+		System.out.println("李띻린�썑");
 		String m_id = mb.getM_id();
-		
-
+	
 		System.out.println(m_id);
 		System.out.println("profileModifyT controller");
 		mav = js.getProfileList(m_id);
-		System.out.println("끝");
+		System.out.println("�걹");
 		return mav;
 	}
 	
@@ -133,23 +133,29 @@ public class JungController {
 	
 	@RequestMapping(value = "/acceptrequest",produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String acceptrequest(HttpServletRequest request) {
+	public ModelAndView acceptrequest(HttpServletRequest request) {
 		Member mb = (Member) session.getAttribute("mb");
 		String cName =request.getParameter("cName");
+		
+		
 		System.out.println("cName : "+cName);
 		
-		String html = js.acceptrequest(mb,cName);
+		ModelAndView html = js.acceptrequest(mb,cName);
 		
 		return html;
 	}
+	/* , MultipartHttpServletRequest multi */
 	
 	@RequestMapping(value = "/adinsert",produces = "application/json; charset=utf8")
 	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
+		System.out.println("HI INSERT CONTROLLER");
 		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("adinsert = "+mb.getM_id());
+		String op_trainer =request.getParameter("op_trainer");
+		System.out.println("12323"+op_trainer);
 		adadd.setAd_name(mb.getM_id());
-		
 		String[] day = request.getParameterValues("day");
-		mav=js.adinsert(adadd,day);
+		mav=js.adinsert(adadd,day,op_trainer);
 		
 		return mav;
 	}
@@ -159,9 +165,9 @@ public class JungController {
 	@RequestMapping(value = "/profileComplete")
 	public ModelAndView profileComplete(HttpServletRequest request) {
 		Member mb = (Member) session.getAttribute("mb");
-		String name = request.getParameter("name");
+		String t_career=request.getParameter("t_career");
 		
-		//mav = js.profileComplete(MB);
+		mav = js.profileComplete(mb,t_career);
 		
 		return mav;
 	}

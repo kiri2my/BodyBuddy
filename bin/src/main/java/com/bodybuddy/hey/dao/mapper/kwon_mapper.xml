@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 1.parameterType은 생략이 가능하다(권장하지 않음) 2.parameterType에 1개의 Type만 올 수 있다. 
+	3.parameterType에 bean인 경유 #{필드명} 4.parameterType에 변수인 경유 #{변수명} (변수가 1개인 
+	경우) 5.parameterType에 Map<key, value>타입인 경유 #{key}로 쓴다. 6.#{} : 문자열인 경우 '' 
+	추가됨 7.${} : ''(따옴표)없이 그대로 입력됨 8.resultType도 1개만 올 수 있는데 1개 이상의 레코드를 검색하는 
+	경우도 bean타입만 명시하면 된다. -->
+<mapper namespace="com.bodybuddy.hey.dao.KwonDao">
+	<!-- 빈 필드명과 컬럼명이 다르거나 타입이 호환되지 않을 때 -->
+	<!-- <resultMap type="memeber(Alias 타입)" id="member(resultMap의 이름)"> <result 
+		property="mid(빈 변수명)" column="M_ID(테이블 컬럼명)" javaType="String" jdbcType="NVARCHAR2" 
+		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
+
+	<select id="getMemberList" resultType="member">
+		select distinct
+		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
+		m_birth
+		from
+		m left join ps on m.m_id=ps.ps_mid left
+		join op on
+		ps.ps_adcode=op.op_adcode left join ad on
+		ad.ad_code=op.op_adcode
+		where
+		ad.ad_name = #{id}
+	</select>
+
+	<select id="getMemberSearch" parameterType="member"
+		resultType="member">
+		<![CDATA[
+			SELECT M_NAME,M_PHONE FROM
+			M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+			AD.AD_CODE AND AD.AD_NAME = #{m_id})
+		]]>
+	</select>
+
+	<select id="getTrainerList" resultType="member">
+		select
+		m.m_id,m.m_name,m.m_phone,t.t_cid,to_char(yn_date,'YYYY.MM.DD') as yn_date from m left join yesorno on m.m_id = yesorno.yn_trainer left join t on yesorno.yn_trainer=t.t_id
+		where t_cid= #{id}
+	</select>
+
+	<select id="getTrainerSearch" parameterType="member"
+		resultType="member">
+		<![CDATA[
+			SELECT M_NAME,M_PHONE FROM M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{m_id})
+		]]>
+	</select>
+	<select id="getNormalMemberList" resultType="member">
+		select
+		ps.ps_code,m.m_id,m.m_name,m.m_phone,to_char(ps.ps_date,'YYYYMMDD') as
+		ps_date,to_char(ps.ps_date+op.op_period,'YYYYMMDD') as
+		ps_date1,trunc(ps.ps_date+op.op_period-sysdate) as op_period from m
+		left join ps on m.m_id=ps.ps_mid left
+		join op on ps.ps_opcode =
+		op.op_code left join ad on
+		op.op_adcode=ad.ad_code where op.op_trainer
+		is null and ad.ad_name =
+		#{id}
+	</select>
+	<select id="getProgramMemberList" resultType="member">
+		select
+		op_code,op_adcode,op_trainer,m_name,op_period,ad_title from m left
+		join op on
+		m_id=op_trainer left join ad on ad_code = op_adcode where
+		ad_name =
+		#{id}
+
+	</select>
+	<select id="getTrainerMemberList" resultType="member">
+		select
+		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
+		where t_cid= #{id}
+	</select>
+
+	<insert id="trainerDailyCheckInsert" parameterType="member">
+		INSERT INTO
+		DAILYCHECKT
+		VALUES(#{dt_tid},#{dt_cid},TO_CHAR(sysdate,'YYYYMMDD'),#{dt_status})
+	</insert>
+
+	<update id="trainerDailyCheckUpdate" parameterType="member">
+		update
+		dailycheckt
+		set dt_status = #{dt_status} where dt_tid = #{dt_tid} and
+		dt_cid =
+		#{dt_cid}
+		and dt_date = to_char(sysdate,'YYYYMMDD')
+	</update>
+
+	<select id="getworkingAttitude" parameterType="member"
+		resultType="member">
+		select TO_CHAR(dt_date, 'YYYY"년"MM"월"DD"일"') as dt_date,
+		dt_status,dt_tid from dailycheckt where dt_cid = #{dt_cid} and dt_tid
+		=
+		#{dt_tid}
+	</select>
+
+	<select id="getProgramMember" resultType="member">
+		select
+		ps_code,m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth
+		from ps left join m
+		on m_id=ps_mid where ps_adcode = #{code}
+	</select>
+
+	<insert id="programCheckInsert" parameterType="String">
+		insert into daily
+		values(DA_SEQ.nextval,#{code},'이용중')
+	</insert>
+	<select id="programCheckSelect" resultType="String">
+		select da_code from
+		daily where da_pscode = #{code}
+	</select>
+	<insert id="programcheckInsert2" parameterType="String">
+		insert into
+		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
+	</insert>
+
+	<select id="getAttended" resultType="dc">
+		select
+		to_char(dn_date,'YYYY.MM.DD') as dn_date from dailycheckn
+		where
+		dn_dacode =(select da_code from daily where da_pscode = #{code})
+	</select>
+
+	<select id="getInfomodifyC" resultType="company">
+		select
+		c_id,c_num,c_bname,c_bphone,m_id,m_pw,m_name,m_phone,to_char(m_birth,'YYYY/MM/DD')
+		as m_birth,m_addr,m_exaddr,m_kind from c left join m on m_id = c_id
+		where m_id = #{id}
+	</select>
+
+	<update id="infoModifyPwUpdate" parameterType="company">
+		update member set
+		m_pw = #{m_pw} where m_id = #{m_id}
+	</update>
+
+	<update id="infoModifyMemberUpdate" parameterType="company">
+		update member
+		set m_phone = #{m_phone},m_addr = #{m_addr},m_exaddr = #{m_exaddr}
+		where m_id = #{m_id}
+	</update>
+
+	<update id="infoModifyCompanyUpdate" parameterType="company">
+		update
+		company set c_bphone = #{c_bphone} where c_id = #{m_id}
+	</update>
+
+	<insert id="fileInsert" parameterType="HashMap">
+		insert into profilephoto
+		values(#{pf_id},#{pf_image})
+	</insert>
+	<update id="fileUpdate" parameterType="HashMap">
+		update profilephoto set
+		pf_image = #{pf_image} where pf_id = #{pf_id}
+	</update>
+
+	<select id="normalDailyCheckSelect" resultType="String"
+		parameterType="String">
+		select da_code from daily where da_pscode = #{code}
+	</select>
+	<select id="normalDailyCheckSelect2" resultType="dc"
+		parameterType="String">
+		select
+		da_code,da_pscode,da_status,da_opperiod,to_char(sysdate,'YYYYMMDD') as
+		sd from daily where da_pscode = #{code}
+	</select>
+	<select id="normalDailyCheckSelect3" parameterType="dc"
+		resultType="int">
+		<![CDATA[
+		select count(*) from dailycheckn where dn_dacode = #{da_code} and dn_date= #{sd}
+		]]>
+	</select>
+
+	<insert id="normalDailyCheckInsert" parameterType="dc">
+		insert into
+		dailycheckn values(#{da_code},to_char(sysdate,'YYYYMMDD'))
+	</insert>
+
+	<select id="normalDailyCheckSelect1" parameterType="String"
+		resultType="dc">
+		select ad.ad_category,op.op_period,
+		to_char(ps.ps_date,'YYYYMMDD') as
+		ps_date,to_char(ps.ps_date+op.op_period,'YYYYMMDD') as
+		ps_date1,to_char(sysdate,'YYYYMMDD') as sd from
+		op left join ad on
+		op.op_adcode=ad.ad_code left join ps on
+		ad.ad_code=ps.ps_adcode where
+		ps_code = #{code}
+	</select>
+
+	<insert id="normalDailyCheckInsert1" parameterType="dc">
+		insert into
+		daily values(DA_SEQ.nextval,${ps_code},#{status},#{date})
+	</insert>
+
+	<insert id="normalDailyCheckInsert2" parameterType="dc">
+		insert into
+		daily values(DA_SEQ.nextval,#{code},#{status},#{ps_period})
+	</insert>
+
+	<update id="normalDailyCheckUpdate" parameterType="dc">
+		update daily
+		set da_status = #{status} where da_code = #{da_code}
+	</update>
+
+	<select id="programDailyCheckSelect" parameterType="String"
+		resultType="dc">
+		select op.op_period,to_char(sysdate,'YYYYMMDD') as sd from
+		op left join ps on op.op_code=ps.ps_opcode where ps.ps_code = #{code}
+	</select>
+	<select id="categoryCheck" parameterType="String"
+		resultType="dc">
+		select ad_category from ad left join ps on
+		ps_adcode=ad_code where ps_code = #{code}
+	</select>
+	<insert id="programDailyCheckInsert" parameterType="dc">
+		insert into
+		daily values(DA_SEQ.nextval,#{ps_code},#{status},#{op_period})
+	</insert>
+	<select id="getinfoModifyImage" parameterType="String"
+		resultType="member">
+		select pf_image from profilephoto where pf_id = #{id}
+	</select>
+	<select id="profilePhotoSelect" resultType="int"
+		parameterType="String">
+		select count(*) from profilephoto where pf_id = #{m_id}
+	</select>
+	<select id="getTrainerJoinList" parameterType="String"
+		resultType="HashMap">
+		select m_name,to_char(m_birth,'YYYY.MM.DD') as
+		m_birth,m_phone,yn_company,yn_trainer,
+		yn_state, to_char(yn_date,
+		'YYYY.MM.DD HH24:MI:SS') as yn_date from m left join
+		yesorno on
+		yn_trainer = m.m_id where yn_company = #{id} and yn_state =
+		'진행'
+	</select>
+	<update id="trainerJoinUpdate" parameterType="HashMap">
+		update yesorno set
+		yn_state = #{state}, yn_date = sysdate where yn_trainer = #{tid}
+		and yn_company= #{cid}
+	</update>
+	<update id="trainerJoinInsert" parameterType="HashMap">
+		update trainer set t_cid = #{cid} where t_id = #{tid}
+	</update>
+	
+	<update id="trainerDiscon" parameterType="HashMap">
+		update trainer set t_cid = '소속업체없음' where t_id =#{tid} and t_cid = #{cid}
+	</update>
+	<delete id="trainerDisconDelete" parameterType="HashMap">
+		delete from yesorno where yn_company = #{cid} and yn_trainer = #{tid}
+	</delete>
+
+</mapper>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bodybuddy.hey.dao.KirimDao">
+
+	<select id="getSecurityPwd" parameterType="String" resultType="String">
+	SELECT M_PW FROM M WHERE M_ID = #{m_id}
+	</select>
+
+	<select parameterType="String" id="getMemberKind" resultType="String"> 
+	SELECT M_KIND FROM M WHERE M_ID = #{m_id} 
+	</select>
+
+	<select parameterType="String" id="getNormalInfo" resultType="member"> 
+	SELECT * FROM NINFO WHERE M_ID = #{m_id} 
+	</select>
+
+	<select parameterType="String" id="getTrainerInfo" resultType="member"> 
+	SELECT * FROM TINFO WHERE M_ID = #{m_id} 
+	</select>
+	
+
+	<select parameterType="String" id="getCompanyInfo" resultType="member"> 
+	SELECT * FROM CINFO WHERE M_ID = #{m_id} 
+	</select>
+	
+		
+	<resultMap type="HashMap" id="detailPageResultMap">
+		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
+	</resultMap>
+	
+	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
+		SELECT DC.*, AD.AD_CONTENT 
+		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
+				 M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
+      			 FROM DETAILPAGE DP
+      			 LEFT JOIN T_CID_ADDR TCA ON DP.T_CID=TCA.T_CID) DC
+		LEFT JOIN AD ON DC.AD_CODE=AD.AD_CODE
+		WHERE DC.AD_CODE= #{ad_code} 
+	</select>
+	
+	<resultMap type="OpCategory" id="opCategory">
+  		<result property="op_adcode" column="OP_ADCODE" />
+ 		<result property="op_code" column="OP_CODE" />
+		<result property="op_trainer" column="OP_TRAINER"/> 
+  		<result property="op_content" column="OP_CONTENT"  />
+  		<result property="op_price" column="OP_PRICE" />
+  		<result property="op_period" column="OP_PERIOD"/>
+  		<result property="op_times" column="OP_TIMES"/>
+  		<result property="op_day" column="OP_DAY"/>
+  		<result property="op_clock" column="OP_CLOCK"/>
+  		<result property="op_personnel" column="OP_PERSONNEL"/>
+  		<result property="m_name" column="M_NAME" />
+  		<result property="m_addr" column="M_ADDR"/>
+  		<result property="m_exaddr" column="M_EXADDR"/>
+  	</resultMap>			
+	<select id="opCateList" parameterType="String" resultType="opCategory" resultMap="opCategory">
+		SELECT * FROM CATEGORY WHERE OP_ADCODE = #{ad_code}
+	</select>
+
+
+	<insert id="dibsAdd" parameterType="HashMap">
+		INSERT INTO D VALUES(#{d_adcode},#{d_id})
+	</insert>
+	
+	<delete id="dibsDelete" parameterType="HashMap">
+		DELETE FROM D WHERE D_ADCODE=#{d_adcode} AND D_ID=#{d_id}
+	</delete>
+	
+	<insert id="purchSingle" parameterType="Payment">
+		INSERT INTO PS VALUES(PS_SEQ.NEXTVAL,#{ps_adcode},#{ps_opcode},#{ps_mid},SYSDATE,#{ps_price})
+	</insert>
+	
+	<!-- <resultMap type="HashMap" id="getTrainerPf">
+  		<result property="m_id" column="M_ID" />
+ 		<result property="m_name" column="M_NAME" />
+		<result property="m_kind" column="M_KIND"/> 
+  		<result property="t_cid" column="T_CID"  />
+  		<result property="t_career" column="T_CAREER" />
+  		<result property="c_bname" column="C_BNAME"/>
+  		<result property="pf_image" column="PF_IMAGE"/>
+  	</resultMap> -->
+	
+	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
+		
+		SELECT M_ID, M_NAME, M_KIND, T_CID, NVL(T_CAREER,'none') as T_CAREER, C_BNAME, NVL(PF_IMAGE,'none') as PF_IMAGE 
+		FROM M
+		LEFT JOIN T ON M_ID=T_ID
+		LEFT JOIN C ON T_CID=C_ID
+		LEFT JOIN PF ON M_ID=PF_ID
+		WHERE M_ID=#{m_id}
+	</select>
+	
+	<select parameterType="String" id="getTrainerPOption" resultType="HashMap"> 
+		SELECT OP_CODE, OP_ADCODE, OP_TRAINER, OP_CONTENT, OP_PERIOD, OP_TIMES, OP_DAY, OP_CLOCK, OP_PERSONNEL,
+		AD_TITLE, AD_STATUS, AD_DATE, MC.M_ADDR AS AD_ADDR, MT.M_ADDR AS T_ADDR
+		FROM OP   
+		LEFT JOIN AD ON OP_ADCODE = AD_CODE   
+		LEFT JOIN M MT ON OP_TRAINER=MT.M_ID   
+		LEFT JOIN M MC ON AD_NAME=MC.M_ID   
+		LEFT JOIN C ON AD_NAME=C_ID  
+		WHERE OP_TRAINER=#{m_id} 
+	</select>
+	
+	<select parameterType="String" id="getTrainerPCategory" resultType="HashMap"> 
+		SELECT DISTINCT AD_CATEGORY 
+		FROM OP   
+		LEFT JOIN AD ON OP_ADCODE = AD_CODE   
+		WHERE OP_TRAINER=#{m_id} 
+	</select>
+
+	
+	<select parameterType="String" id="getCompanyProfile" resultType="HashMap"> 
+		SELECT M_ID, M_NAME, M_PHONE, M_ADDR, C_NUM, C_BNAME, C_BPHONE ,PF_IMAGE FROM CINFO
+		WHERE M_ID=#{m_id} 
+	</select>
+	
+	<select parameterType="String" id="getCompanyProfileOption" resultType="HashMap"> 
+		SELECT AD_CODE, AD_TITLE, AD_DATE, AD_STATUS, AD_KIND FROM AD
+		WHERE AD_NAME=#{m_id} 
+	</select>
+	
+	<select parameterType="String" id="detailQa" resultType="qna"> 
+		SELECT * FROM QA
+		WHERE QA_ADCODE=#{ad_code} 
+	</select>
+	<select parameterType="String" id="detailReview" resultType="HashMap"> 
+		SELECT RV_NUM, RV_PSCODE, RV_NAME, RV_CONTENT, RV_DATE, RV_STPOINT, 
+		AD_CODE, PS_DATE, OP_CODE, OP_CONTENT, OP_PERIOD, OP_TIMES, OP_DAY, OP_CLOCK 
+		FROM RV
+		LEFT JOIN PS ON RV.RV_PSCODE=PS.PS_CODE
+		LEFT JOIN AD ON PS.PS_ADCODE=AD.AD_CODE
+		LEFT JOIN OP ON PS.PS_OPCODE=OP.OP_CODE
+		WHERE AD.AD_CODE = #{ad_code}
+	</select>
+	
+	<select parameterType="String" id="detailPsCount" resultType="HashMap"> 
+		SELECT PS_OPCODE FROM PS WHERE PS_ADCODE=#{ad_code}
+	</select>
+	
+	<select parameterType="String" id="adPhotoList" resultType="HashMap"> 
+		SELECT * FROM AP WHERE AP_ADCODE=#{ad_code}
+	</select>
+	
+	
+	<select id="selectOverlap" parameterType="HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+	</select>
+
+	 <select id="selectPscode" parameterType="HashMap" resultType="Payment">
+  		SELECT PS_CODE FROM PS WHERE PS_MID=#{ps_mid} AND PS_ADCODE=#{ps_adcode}
+ 	</select>
+		
+	
+	<insert id="insertDaliy" parameterType="HashMap">
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'대기중',#{da_period})
+	</insert>
+	
+	
+	 <select id="deleteRealIdCheck" parameterType="String" resultType="String">
+  		SELECT m_id FROM DELETEREALID
+  		WHERE M_ID = #{m_id}
+ 	</select>
+ 	
+
+ 	<select id="personnelCalc" parameterType="String" resultType="HashMap">
+		SELECT PS_OPCODE, PURCHCOUNT, OP_PERSONNEL
+		FROM (SELECT PS_OPCODE, COUNT(PS_OPCODE) PURCHCOUNT  
+			  FROM PS	GROUP BY PS_OPCODE)
+		LEFT JOIN OP ON PS_OPCODE=OP_CODE
+		WHERE PS_OPCODE= #{PS_OPCODE}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	<select id="getOpPeriodList" resultType="HashMap">
+  		SELECT OP_CODE, OP_ADCODE, OP_PERIOD FROM OP
+ 	</select>
+ 	
+ 	<update id="expireOption" parameterType="String">
+ 		<![CDATA[UPDATE OP SET OP_EXPIRE=1 WHERE OP_CODE=#{op_code}]]>
+ 	</update>
+ 	
+ 	<select id="getAdExpireList" resultType="HashMap">
+  		SELECT AD_CODE, OP_EXPIRE FROM AD
+		JOIN OP ON AD_CODE=OP_ADCODE
+ 	</select>
+ 	
+ 	<update id="expireAd" parameterType="String">
+ 	<![CDATA[
+ 		UPDATE AD SET AD_STATUS='만료됨' WHERE AD_CODE=#{ad_code}
+ 	]]>
+ 	</update>
+ 	
+ 	
+
+ 	<select id="selectPeriod" parameterType="String" resultType="String">
+  		SELECT OP_PERIOD FROM OP
+		WHERE OP_CODE=#{da_opperiod}
+ 	</select>
+ 	
+ 	
+ 	<insert id="detailQaWriteInsert" parameterType="qna">
+		INSERT INTO QA VALUES(QA_SEQ.NEXTVAL,#{qa_adcode},#{qa_writer},#{qa_wContent},SYSDATE,#{qa_answer},'',SYSDATE,'f')
+	</insert>
+	
+		
+ 	<select id="getAdName" parameterType="String" resultType="String">
+  		SELECT AD_NAME FROM AD WHERE AD_CODE=#{ad_code}
+ 	</select>
+ 	
+ 	<insert id="alarmSendPurch" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	<insert id="alarmSelfPurch" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS02','n',SYSDATE)
+	</insert>
+	
+	<select id="alarmReceiveAll" parameterType="String" resultType="alarm">
+  		SELECT * FROM AL WHERE AL_MRID=#{m_id} AND AL_STATUS='n'
+ 	</select>
+ 	
+	<update id="alarmConfirm" parameterType="String">
+		UPDATE AL SET AL_STATUS='y' WHERE AL_CODE = #{al_code}
+	</update>
+	
+ 	 	
+ 	
+	
+	
+	
+	
+</mapper>

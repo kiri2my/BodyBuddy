@@ -32,7 +32,7 @@ import com.bodybuddy.hey.service.YoonService;
 public class YoonHomeController {
 	
 	@Autowired
-	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
+	private YoonService ys; //寃뚯떆�뙋 �꽌鍮꾩뒪 �겢�옒�뒪(Model),鍮꾩��땲�뒪 濡쒖쭅
 	
 	@Autowired
 	HttpSession session;
@@ -66,7 +66,7 @@ public class YoonHomeController {
 	
 	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 게시판페이징
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 寃뚯떆�뙋�럹�씠吏�
 		mav=ys.mainList(sido, sigungu, extra, cate);
 		return mav;
 	}

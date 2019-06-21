@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bodybuddy.hey.dao.MemberDao">
+
+	<select id="getProfileList" parameterType="String" resultType="member">
+		SELECT * FROM TRAINER WHERE T_ID = #{m_id} 
+	</select>
+	
+	<select id="getTfindC" parameterType="member" resultType="member">
+		SELECT COMPANY.C_BNAME, MEMBER.M_ADDR ,YN_STATE FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID INNER JOIN YESORNO ON COMPANY.C_ID = YESORNO.YN_COMPANY WHERE COMPANY.C_BNAME= #{c_bname}
+		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID WHERE COMPANY.C_BNAME= #{c_bname}  -->
+	</select>
+		
+	
+	<select id="getQuestionList" resultType="question">
+		SELECT QA_TRUE,QA_NUM ,AD_TITLE, QA_WCONTENT, QA_WRITER, QA_WDATE, QA_ADATE FROM ADVERTISE INNER JOIN QNA ON AD_CODE = QA_ADCODE WHERE QA_ANSWER = #{id}
+	</select>
+		
+	<update id="cancel" parameterType="String" >
+		UPDATE YESORNO SET YN_STATE= '취소' WHERE YN_TRAINER = #{id} 
+	</update>
+	
+	<insert id="acceptrequestInsert"  >
+		INSERT INTO YESORNO VALUES(#{c_bname},#{m_id},'진행',SYSDATE)
+	</insert>
+	<update id="acceptrequestupdate" parameterType="member">
+		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_bname} WHERE YN_TRAINER= #{m_id} 
+	</update>
+	
+	<!-- <update id="profileComplete" parameterType="member">
+		UPDATE TRAINER SET T_CID = '테스트업체명132',T_CAREER='여기서일함 저기서일함 요기소속팀' WHERE T_ID= '123456@123456';
+	</update> -->
+	
+	<select id="trinerlist" resultType="member">
+		SELECT * FROM YESORNO where YN_COMPANY=	#{id}
+
+	</select>
+	<select id="kindkind" resultType="member">
+		SELECT M_KIND,M_NAME FROM MEMBER WHERE M_ID=#{id}
+	</select>
+	
+	<insert id="adinsert" parameterType="question" useGeneratedKeys="true" keyProperty="xxx" >
+		<selectKey keyProperty="xxx" resultType="String" order="AFTER">
+   		select ad_seq.currval from dual
+  		</selectKey>
+		INSERT INTO AD VALUES(AD_SEQ.NEXTVAL,#{ad_name},#{ad_title},#{ad_content},#{ad_category},#{ad_status},sysdate)
+	</insert>
+	<insert id="opinsert">
+		
+		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL, #{xxx}, #{ad_name}, #{op_price},#{op_period},#{op_times},#{op_day},#{op_content},'11:00:13:00',#{op_personnel},0)
+	</insert>
+	<insert id="imginsert">
+		INSERT INTO AP VALUES(#{xxx},#{ap_image})
+	</insert>
+	
+	<select id="getAdvertiselist" resultType="question">
+		select ad_code,ad_category,ad_title,ad_date,ad_status,op_trainer from ad inner join op on ad.ad_code = op.op_adcode where ad.ad_name= #{id}
+	</select>
+	
+</mapper>
