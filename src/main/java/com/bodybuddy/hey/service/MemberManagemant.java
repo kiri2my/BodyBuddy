@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.dao.MemberDao;
-import com.bodybuddy.hey.dao.YoonDao;
 import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
 
@@ -28,8 +27,6 @@ public class MemberManagemant {
 	HttpSession session; // request는 권장하지 않음
 	@Autowired
 	private UploadFile upload;
-	@Autowired
-	private YoonDao yDao;
 
 	Member m;
 

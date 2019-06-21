@@ -71,6 +71,7 @@ public class KirimController {
 		return html;
 	}
 	
+	
 	@RequestMapping(value = "/detailpage", method = RequestMethod.GET)
 	public ModelAndView detailPage(String ad_code) {
 		System.out.println("url:/detailpage");

@@ -41,7 +41,7 @@
 							<c:if test="${!empty advertise }">
 								<thead>
 									<tr>
-										<th >카테고리</th>
+										<th>카테고리</th>
 										<th>광고명</th>
 										<th>등록일</th>
 										<th>상태</th>
@@ -53,7 +53,7 @@
 									<c:forEach var="advertise" items="${adList}">
 										<c:set var="name" value="만료됨" />
 										<c:if test="${name ne advertise.ad_status}">
-										<tr>
+										<tr id="${advertise.ad_code}" >
 											<td><a href="#">${advertise.ad_category}</a></td>
 											<input type="hidden" class="mm" value="${advertise.ad_code}" />
 											<td><a href="#">${advertise.ad_title}</a></td>
@@ -109,6 +109,8 @@ $(".dBtn").each(function() {
 	$(this).click(function() {
 		var num = $(this).parents().eq(1).children().eq(1).val();
 		console.log(num);
+		var id = "#"+num;
+		console.log(id);
 		$.ajax({
 			url : "deletead",
 			type : "post",
@@ -119,6 +121,8 @@ $(".dBtn").each(function() {
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 			success : function(data) {
 				console.log(data)
+				
+				$(id).prop("style", "display: none");
 			},
 			error : function(error) {
 				console.log(error);

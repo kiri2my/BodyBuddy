@@ -175,7 +175,6 @@
 			dataType : "html",
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
 			success : function(data) {
-				alert("오~~! 케이!")
 				$('#qa_acontent').val("")
 				var str = "";
 				str += '<td id="aa"><a style="display: inline;" href="#myModal" role="button" class="abtn"'
@@ -197,7 +196,6 @@
 	$(".abtn").each(function() {
 		$(this).click(function() {
 			var num = $(this).parents().eq(1).children().eq(4).val();
-			alert("성공!!" + num + "아아아");
 			console.log(num);
 
 			$.ajax({
@@ -234,7 +232,6 @@
 	$(".cbtn").each(function() {
 		$(this).click(function() {
 			var num = $(this).parents().eq(1).children().eq(4).val();
-			alert("성공!!" + num + "아아아");
 			console.log(num);
 
 			$.ajax({

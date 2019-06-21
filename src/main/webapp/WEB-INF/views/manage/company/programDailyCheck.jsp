@@ -136,10 +136,6 @@
 
 <script type="text/javascript">
 	
-	id='name' name='name'
-	
-	${'#fff'}.id.val(dfdf);
-	
 	function programMember(adcode) {
 		var adCode = adcode;
 		$.ajax({

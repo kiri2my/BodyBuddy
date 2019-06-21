@@ -45,7 +45,9 @@
 					<button type="button" style="position: absolute;"
 						onclick="trainerSearch()" class="btn" id="tainerbtn">검색</button>
 					<button style="position: absolute; left: 80%;"
-						class="btn btn-danger" onclick="trainerJoin()">트레이너 요청<span class="badge badge-important">6</span></button>
+						class="btn btn-danger" onclick="trainerJoinList()">
+						트레이너 요청<span class="badge badge-important">6</span>
+					</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
@@ -61,19 +63,23 @@
 										<th>입사일자</th>
 										<th>연락처</th>
 										<th>근태현황</th>
-										<th>실적보기</th>
+										<th>실적</th>
+										<th>상태</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="trainer" items="${tList }">
 										<tr>
-											<td><a href="#">${trainer.m_name }</a></td>
-											<td>2018-5-8</td>
+											<td><a href="#" onclick="profileC('${trainer.m_id }')">${trainer.m_name }(${trainer.m_id })</a></td>
+											<td>${trainer.yn_date }</td>
 											<td>${trainer.m_phone }</td>
 											<td><button class="btn btn-danger"
 													onclick="workingAttitude('${trainer.m_id }','${trainer.t_cid }')">근태보기</button>
 											</td>
 											<td><button class="btn btn-danger" onclick="">실적보기</button></td>
+											<td><button class="btn btn-danger"
+													onclick="delete_event('${trainer.m_id }')">소속끊기</button></td>
+											<!-- onclick="trainerDiscon('${trainer.m_id }')" -->
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -86,12 +92,12 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		style="width: 60%; height: 50%; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true"></button>
-			<h3>트레이너 근태</h3>
+			<h3 id="modal_title"></h3>
 		</div>
 		<div class="modal-body" id="modalBody"></div>
 	</div>
@@ -125,6 +131,31 @@
 </body>
 
 <script type="text/javascript">
+	function delete_event(tid) {
+		if (confirm("트레이너 소속을 끊으시겠습니까?") == true) {
+			var tid = tid;
+			alert(tid);
+			$.ajax({
+				type : 'post',
+				url : 'trainerdiscon',
+				data : {
+					cid : sessionId,
+					tid : tid
+				},
+				dateType : 'json',
+				success : function(data) {
+					alert(data);
+
+					$('#modal').modal('hide');
+				},
+				error : function(error) {
+					alert("트레이너 소속끊기 실패")
+				}
+			});
+		} else {
+			return;
+		}
+	}
 	function trainerSearch() {
 		var name = $('#trainersearch').val();
 		$.ajax({
@@ -136,7 +167,7 @@
 			},
 			dataType : "html",
 			success : function(data) {
-				$('#main').html(data);
+				$('#modal').html(data);
 			},
 			error : function() {
 				alert('트레이너 검색 실패');
@@ -144,8 +175,159 @@
 		});
 	}
 
-	function trainerJoin() {
+	function trainerJoinList() {
+		$
+				.ajax({
+					type : "post",
+					url : "trainerjoinlist",
+					data : {
+						id : sessionId
+					},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+						var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>연락처</th><th style='width: 20%'>선택</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr id=\'"+data[i].YN_TRAINER+"\'><td>"
+									+ data[i].M_NAME
+									+ "</td><td>"
+									+ data[i].M_BIRTH
+									+ "</td><td>"
+									+ data[i].M_PHONE
+									+ "</td><td><button class='btn btn-danger' onclick='trainerJoin(1,\""
+									+ data[i].YN_TRAINER
+									+ "\")'>수락</button><button class='btn btn-danger' onclick='trainerJoin(0,\""
+									+ data[i].YN_TRAINER
+									+ "\")'>거절</button></td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+					},
+					error : function() {
+						alert('트레이너 요청 목록 로드 실패');
+					}
+				});
+	}
 
+	function workingAttitude(id, cid) {
+		var tid = id;
+		var cid = cid
+		$
+				.ajax({
+					type : "post",
+					url : "workingattitude",
+					data : {
+						tid : tid,
+						cid : cid
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						var str = "";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>근태</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].dt_date + "</td><td>"
+									+ data[i].dt_status + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+						/* $('#modalBody').append(data); */
+					},
+					error : function(error) {
+						alert('근태 목록 로드 실패');
+						console.log(error);
+					}
+				});
+	}
+
+	function trainerJoin(state, tid) {
+		var state = state;
+		var tid = tid;
+		var ttid = "#" + tid;
+		alert(state + "," + tid);
+		$.ajax({
+			type : 'post',
+			url : 'trainerjoin',
+			data : {
+				state : state,
+				cid : sessionId,
+				tid : tid
+			},
+			dateType : 'json',
+			success : function(data) {
+				alert(data);
+				console.log(data);
+				/* var str = "";
+				str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>연락처</th><th style='width: 20%'>선택</th></tr></thead><tbody>";
+				for (var i = 0; i < data.length; i++) {
+					str += "<tr><td>"
+							+ data[i].M_NAME
+							+ "</td><td>"
+							+ data[i].M_BIRTH
+							+ "</td><td>"
+							+ data[i].M_PHONE
+							+ "</td><td><button class='btn btn-danger' onclick='trainerJoin(1,\""+ data[i].YN_TRAINER + "\")'>수락</button><button class='btn btn-danger' onclick='trainerJoin(0,\""	+ data[i].YN_TRAINER + "\")'>거절</button></td></tr>";
+				}
+				str += "</tbody></table>"; */
+
+				//$(ttid).prop("style","display: none");
+				//$('#modalBody').html(str);
+				$('#modal').modal('hide');
+			},
+			error : function(error) {
+				alert("트레이너 수락 거절 실패")
+			}
+		});
+	}
+
+	function trainerDiscon(tid) {
+		var tid = tid;
+		alert(tid);
+		$.ajax({
+			type : 'post',
+			url : 'trainerdiscon',
+			data : {
+				cid : sessionId,
+				tid : tid
+			},
+			dateType : 'json',
+			success : function(data) {
+				alert(data);
+
+				$('#modal').modal('hide');
+			},
+			error : function(error) {
+				alert("트레이너 소속끊기 실패")
+			}
+		});
+	}
+	
+	function profileC(m_id) {
+		var m_id = m_id;
+		alert(m_id);
+		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
+
+		$.ajax({
+			type : "get",
+			url : "profilepage",
+			data : {
+				m_id : m_id
+			},
+			dataType : "html",
+			success : function(data) {
+				alert(data);
+				$('#modal_title').html(m_id+' 프로필');
+				$('#modalBody').html(data);
+				$('#modal').modal('toggle');
+			},
+			error : function() {
+				alert('회원 프로필 로드 실패');
+			}
+
+		});
 	}
 </script>
 </html>
