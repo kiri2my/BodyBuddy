@@ -32,13 +32,15 @@ import com.bodybuddy.hey.service.YoonService;
 public class YoonHomeController {
 	
 	@Autowired
-	private YoonService ys; //寃뚯떆�뙋 �꽌鍮꾩뒪 �겢�옒�뒪(Model),鍮꾩��땲�뒪 濡쒖쭅
+	private YoonService ys; //게시판 서비스 클래스(Model),비지니스 로직
 	
 	@Autowired
 	HttpSession session;
 	
 	ModelAndView mav;
 	
+	
+	String html;
 	/*
 	 * @RequestMapping(value = "/dailyCheck", produces =
 	 * "application/json; charset=UTF-8")
@@ -48,6 +50,29 @@ public class YoonHomeController {
 	 * 
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
+	
+	@RequestMapping(value = "/chart",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public String chart(String t_cid) {
+		html = ys.chart(t_cid);
+		return html;
+	}
+	
+	@RequestMapping(value = "/charttwo",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public String chart2(String t_cid) {
+		html = ys.chart2(t_cid);
+		return html;
+	}
+	
+	@RequestMapping(value = "/sales")
+	public ModelAndView sales() {
+		mav=ys.sales();
+		return mav;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code) {
@@ -66,7 +91,7 @@ public class YoonHomeController {
 	
 	}
 	@RequestMapping(value = "/", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 寃뚯떆�뙋�럹�씠吏�
+	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) { //int pageNum 게시판페이징
 		mav=ys.mainList(sido, sigungu, extra, cate);
 		return mav;
 	}
