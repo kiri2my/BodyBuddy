@@ -8,19 +8,18 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Majestic Admin</title>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
-<link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <style type="text/css">/* Chart.js */
 @
 -webkit-keyframes chartjs-render-animation {
@@ -58,9 +57,58 @@ to {
 .odd {
 	text-align: center;
 }
+.even {
+	text-align: center;
+}
+#articleView_layer {
+
+	display: none;
+	position: fixed;	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#articleView_layer.open {
+	display: block;
+	color: red
+}
+
+#articleView_layer #bg_layer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+	z-index: 100;
+}
+
+ #contents_layer {
+	
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	width: 700px;
+	height: 700px;
+	margin: -150px 0 0 -194px;
+	padding: 28px 28px 0 28px;
+	border: 2px solid #555;
+	background: silver;
+	font-size: 12px;
+	z-index: 200;
+	color: #767676;
+	line-height: normal;
+	white-space: normal;
+	overflow: scroll
+} 
 </style>
 </head>
 <body>
+
 	<div class="container-scroller">
 
 
@@ -68,8 +116,6 @@ to {
 		<div class="row">
 			<div class="col-md-12 grid-margin"></div>
 		</div>
-
-
 		<div class="row">
 			<div class="col-md-12 stretch-card">
 				<div class="card">
@@ -78,124 +124,79 @@ to {
 						<div class="table-responsive">
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+
 								<div class="row">
-									<div class="col-sm-12 col-md-6"></div>
-									<div class="col-sm-12 col-md-6"></div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
 												<tr role="row">
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1" aria-sort="ascending"
+														colspan="1" 
 														aria-label="Name: activate to sort column descending"
-														style="width: 100px;">업체명</th>
+														style="width: 80px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Status report: activate to sort column ascending"
-														style="width: 100px;">프로그램명</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">트레이너</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Office: activate to sort column ascending"
-														style="width: 100px;">트레이너</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 140px;">옵션</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Price: activate to sort column ascending"
-														style="width: 144px;">이용기간</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 140px;">이용기간</th>	
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Date: activate to sort column ascending"
-														style="width: 100px;">출결확인</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 70px;">카테고리</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">이용상태</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 70px;">이용상태</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">상담내역</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">상담내역</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Gross amount: activate to sort column ascending"
-														style="width: 100px;">후기</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">출결현황</th>
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1"
+														aria-label="Name: activate to sort column descending"
+														style="width: 80px;">후기</th>
 												</tr>
 											</thead>
 											<tbody>
 
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>PT</td>
-													<td>유림하</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>상담내역보기</td>
-													<td>후기쓰기</td>
-												</tr>
+										${programListN}
+
 											</tbody>
 										</table>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-12 col-md-5"></div>
-									<div class="col-sm-12 col-md-7"></div>
-								</div>
+	
 							</div>
 						</div>
 					</div>
 					<br>
 					<br>
 					<br>
+					<div id="articleView_layer">
+					<div id="bg_layer"></div>
+					<div id="contents_layer"></div>
+					</div>
 					<br>
 					<br>
 					<br>
@@ -205,11 +206,12 @@ to {
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 								<div class="row">
-									<div class="col-sm-12 col-md-6"></div>
-									<div class="col-sm-12 col-md-6"></div>
+									<div class="col-sm-6 col-md-5"></div>
+									<div class="col-sm-6 col-md-5"></div>
 								</div>
+								
 								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
@@ -218,58 +220,36 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1" aria-sort="ascending"
 														aria-label="Name: activate to sort column descending"
-														style="width: 105px;">업체명</th>
+														style="width: 80px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Status report: activate to sort column ascending"
-														style="width: 105px;">이용기간</th>
+														style="width: 80px;">업체명</th>
+													<th class="sorting" tabindex="0"
+														aria-controls="recent-purchases-listing" rowspan="1"
+														colspan="1"
+														aria-label="Status report: activate to sort column ascending"
+														style="width: 80px;">이용기간</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Office: activate to sort column ascending"
-														style="width: 96px;">출결확인</th>
+														style="width: 80px;">출결확인</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Price: activate to sort column ascending"
-														style="width: 37px;">이용상태</th>
+														style="width: 80px;">이용상태</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Date: activate to sort column ascending"
-														style="width: 69px;">후기쓰기</th>
+														style="width: 80px;">후기쓰기</th>
 											</thead>
 											<tbody>
-
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
-												<tr role="row" class="odd">
-													<td class="sorting_1">ICIA피트니스</td>
-													<td>19.05.20~19.06.20</td>
-													<td>출결현황보기</td>
-													<td>이용중</td>
-													<td>후기쓰기</td>
-												</tr>
+										
+			${getnormalListN}
 
 											</tbody>
 										</table>
@@ -291,4 +271,87 @@ to {
 
 
 </body>
+<script>
+${alert}
+
+$(".btn.btn-dark.btn-lg.btn-block").click(function(){
+	
+	var list = new Array();
+	
+	/* var adnum1=$("#op_code").val(); */
+	
+	var adnum=$(this).parent().children().eq(1).val();
+	var mid=$(this).parent().children().eq(2).val();
+	
+/* 	$(document).ready(function() {
+		   var list = new Array();
+		   $("input[name=testInput]").each(function(index, item){
+			   list.push($(item).val());
+		   });
+		   alert(list);
+		}); */
+	
+	console.log(adnum);
+	console.log(mid);
+ 	$('#articleView_layer').addClass('open');
+	$.ajax({
+		type:'post', 
+		url:'counsellistn',
+		data:{cs_opcode:adnum,cs_mid:mid},
+		dataType:'html',
+		success:function(data){
+			$('#contents_layer').html(data);
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+	//ajax End 
+
+});
+
+
+function yyyyyy(bnum) {
+	
+	var list = new Array();
+	/* var adnum1=$("#op_code").val(); */
+	
+/* 	$(document).ready(function() {
+		   var list = new Array();
+		   $("input[name=testInput]").each(function(index, item){
+			   list.push($(item).val());
+		   });
+		   alert(list);
+		}); */
+	var bbb=bnum;
+	console.log(bbb);
+	console.log(bbb);
+ 	$('#articleView_layer').addClass('open');
+	$.ajax({
+		type:'get', 
+		url:'calenderN',
+		data:{ps_code:bbb},
+		dataType:'html',
+		success:function(data){
+			$('#contents_layer').html(data);
+		},
+		error:function(error){
+			console.log(error);
+		}
+	
+	});   
+	//ajax End 
+
+}
+	
+
+	//ModalBox 해제
+	var $layerWindow=$('#articleView_layer');
+	$layerWindow.find('#bg_layer').on('mousedown',function(event){
+		console.log(event);
+		$layerWindow.removeClass('open');
+		
+	})//function End
+</script>
 </html>
