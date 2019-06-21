@@ -41,6 +41,8 @@ public class YoonService {
 	@Autowired
 	private UploadFile upload;
 	
+	
+	
 	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;

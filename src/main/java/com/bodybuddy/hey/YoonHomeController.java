@@ -40,6 +40,7 @@ public class YoonHomeController {
 	ModelAndView mav;
 	
 	
+	
 	String html;
 	/*
 	 * @RequestMapping(value = "/dailyCheck", produces =
@@ -50,6 +51,9 @@ public class YoonHomeController {
 	 * 
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
+	
+	
+	
 	
 	@RequestMapping(value = "/chart",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
@@ -68,6 +72,7 @@ public class YoonHomeController {
 	@RequestMapping(value = "/sales")
 	public ModelAndView sales() {
 		mav=ys.sales();
+		
 		return mav;
 	}
 	
