@@ -57,16 +57,28 @@ public class JungService {
 		return mav;
 	}
 
-	private String makeHTMLProfileList(String bname, String addr) {
+	private String makeHTMLProfileList(List<Member> mList) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("         <table id=\"recent-purchases-listing\" class=\"table\">\n" + "           <thead>\n"
-				+ "            <tr>\n" + "             <th>업체이름</th>\n" + "             <th>업체주소</th>\n"
-				+ "             <th>요청</th>\n" + "             <th>요청취소</th>\n" + "            </tr>\n"
-				+ "           </thead>\n" + "           <tbody>\n" + "             <tr>\n" + "              <td>"
-				+ bname + "</td>\n" + "              <td>" + addr + "</td>\n"
-				+ "              <td><button onclick='acceptrequest()'>요청</button></td>\n"
-				+ "              <td><button onclick='cancel()'>취소</button></td>\n" + "             </tr>\n"
-				+ "           </tbody>\n" + "         </table>");
+		sb.append("         <table id=\"recent-purchases-listing\" class=\"table\">\n"
+				+ "			 <thead>\n"
+				+ "            <tr>\n" 
+				+ "             <th>업체이름</th>\n" 
+				+ "             <th>업체주소</th>\n"
+				+ "             <th>요청</th>\n" 
+				+ "             <th>요청취소</th>\n" 
+				+ "            </tr>\n"
+				+ "          </thead>\n" 
+				+ "          <tbody>\n"); 
+				for(int i=0;i<mList.size();i++) {
+					sb.append("             <tr>\n" 
+							+ "              <td>"+mList.get(i).getC_bname()+ "</td>\n" 
+							+ "              <td>"+mList.get(i).getM_addr()+ "</td>\n"
+							+ "              <td><input type='hidden' name='c_id' class='c_id' value='"+mList.get(i).getM_id()+"'/>"
+							+ "					<button class='acceptrequest'>요청</button></td>\n"
+							+ "              <td><button onclick='cancel()'>취소</button></td>\n" 
+							+ "             </tr>\n");
+				}
+				sb.append("</tbody></table>");
 		return sb.toString();
 	}
 
@@ -77,17 +89,15 @@ public class JungService {
 		m = new Member();
 		m.setC_bname(name);
 
-		m = mDao.getTfindC(m);
+		List<Member> mList = mDao.getTfindC(m);
 		System.out.println("다오다녀옴");
-		String addr = m.getM_addr();
-		String bname = m.getC_bname();
-		System.out.println("상태보여라");
-		System.out.println("상태 : " + m.getYn_state());
+		//String addr = m.getM_addr();
+		//String bname = m.getC_bname();
+		//System.out.println("상태 : " + m.getYn_state());
 		String html = null;
-		System.out.println("DB 다녀왔어요!");
 
 		System.out.println("company search select success");
-		html = makeHTMLProfileList(bname, addr);
+		html = makeHTMLProfileList(mList);
 
 		System.out.println("company search select error");
 
@@ -106,7 +116,7 @@ public class JungService {
 		System.out.println("이거다");
 		if (null != m) {
 			System.out.println("profile list select success");
-			view = "manage/profileModifyT";
+			view = "profileModifyT";
 			mav.setViewName(view);
 			mav.addObject("m", m);
 		} else {
@@ -161,40 +171,26 @@ public class JungService {
 
 	// 요청요청요청요청요청요청
 
-	public String acceptrequest(Member mb, String name) {
-		System.out.println("드루와!!");
-		mav = new ModelAndView();
-		String view = null;
-
+	public String acceptrequest(Member mb, String c_id) {
+		String text=null;
 		m = new Member();
-
-		m = mDao.findC_id(name);
 		m.setM_id(mb.getM_id());
-		m.setC_bname(name);
-
+		m.setC_id(c_id);
 		System.out.println("회사 아이디c_id : " + m.getC_id());
 		System.out.println("로그인한 본인 t_id:" + m.getM_id());
-		System.out.println("회사이름 name:" + m.getC_bname());
-
 		int count = mDao.comfirm(m);
 		System.out.println("count : " + count);
-
 		/* m.getC_id()!= 디비에있는 업체아이디; */
 		try {
 			if (count == 1)
 				mDao.acceptrequestupdate(m);
+				text="update";
 			if (count == 0)
 				mDao.acceptrequestInsert(m);
-
+				text="insert";
 		} catch (Exception e) {
-
 		}
-
-		System.out.println("나오자");
-
-		mav.setViewName("manage/profileModifyT");
-
-		return "zzz";
+		return text;
 	}
 
 	@Transactional

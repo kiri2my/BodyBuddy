@@ -31,7 +31,7 @@ public interface MemberDao {
 	
 	public Member getProfileList(String m_id);
 
-	public Member getTfindC(Member m);
+	public List<Member> getTfindC(Member m);
 
 	public List<Question> getQuestionList(String id);
 
@@ -90,7 +90,7 @@ public interface MemberDao {
 
 	public void imginsert(Map<String, String> fMap);
 
-	public Member findC_id(String name);
+	
 
 	public Member orginC_id(String m_id);
 

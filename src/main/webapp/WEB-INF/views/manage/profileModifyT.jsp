@@ -61,7 +61,7 @@
 									<div class="input-group">
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="현재나의소속업체 : ${m.t_cid}">
+											id="sample6_address" placeholder="현재 소속업체 ID: ${m.t_cid}">
 										<button type="button" id = "aa"
 											class="btn btn-outline-secondary btn-md">업체 검색</button>
 									</div>
@@ -133,6 +133,36 @@
 				/* $('#TfindC').html(); */
 				$("#test").html(data);
 				/* $("#TfindC").show(); */
+				$(".acceptrequest").click(function(){
+					var c_id = $(this).prev().val();
+					var m_id = "${mb.m_id}";
+					console.log(c_id);
+					$.ajax({
+						type : "GET",
+						url : "acceptrequest",
+						data : {
+							c_id : c_id
+						},
+						dataType : "html",
+						error : function() {
+							alert('요청 실패');
+						},
+						success : function(data) {
+							console.log(data);
+							alert('요청완료');
+							//웹소켓 소속요청 알림 보내기
+							if(data=='insert' || data=='update'){
+								var jsonSendSosokAlarm = JSON.stringify({c_id:c_id,m_id:m_id});
+								$("#msg").val("SS01"+jsonSendSosokAlarm);
+								console.log("WebSock6", sock);
+								console.log($("#msg").val());
+								sock.send($("#msg").val());
+							}
+							//
+						}
+					});
+				});
+				
 			},
 			error : function(er) {
 				console.log(er);
@@ -166,27 +196,9 @@
 	}
 	
 	
-	function acceptrequest(cName) {
-		 var cName = $("#sample6_address").val();
-		console.log("cName:"+cName);
-		alert("요청ajax");
-		$.ajax({
-			type : "GET",
-			url : "acceptrequest",
-			data : {
-				cName : cName
-			},
-			dataType : "html",
-			error : function() {
-				alert('요청 실패');
-			},
-			success : function(data) {
-				$('#main').html(data);
-
-				alert('요청완료');
-			}
-		});
-	}
+	
+	
+	
 	function profileModifyComplete() {
 		$.ajax({
 			type : "GET",

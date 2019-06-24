@@ -1207,6 +1207,19 @@ public class KirimService {
 		System.out.println("AQ01:문의답변알림 보내기 실패");
 		return null;
 	}
+	public Map<String, String> alarmSendSskReq(Map<String, String> m) {//SS01
+		int al_code=0;
+		m.put("al_msid", m.get("m_id"));
+		m.put("al_mrid", m.get("c_id"));
+		al_code = kDao.alarmSendSskReq(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("SS01:소속요청 보내기 성공");
+			return m;
+		}
+		System.out.println("SS01:소속요청 보내기 실패");
+		return null;
+	}
 	
 	public String alarmReceiveAll(String m_id) {
 		String json=null;
@@ -1257,6 +1270,40 @@ public class KirimService {
 						+ "            </div>"
 						+ "        </a>");
 			}//PS02 END
+			if(msgList.get(i).getAl_kind().equals("QA01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>답변을 기다리는 문의를 받았습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//QA01 END
+			if(msgList.get(i).getAl_kind().equals("AQ01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>문의에 대한 답변이 도착하였습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//AQ01 END
+			if(msgList.get(i).getAl_kind().equals("SS01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>트레이너의 소속계약 요청이 들어왔습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//SS01 END
+			
 		}
 		return sb.toString();
 	}
@@ -1280,6 +1327,8 @@ public class KirimService {
 		else if(years<1000) str = years+" 년 전";
 		return str;
 	}
+
+	
 
 	
 

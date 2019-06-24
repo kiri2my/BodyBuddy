@@ -89,6 +89,8 @@ public interface KirimDao {
 
 	public int alarmSendAnswer(Map<String, String> m);
 
+	public int alarmSendSskReq(Map<String, String> m);
+
 
 
 	
