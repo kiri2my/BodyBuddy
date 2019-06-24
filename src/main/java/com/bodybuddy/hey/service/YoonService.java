@@ -382,8 +382,10 @@ public class YoonService {
 
 	public ModelAndView insertReview(Review rv) {
 		String view = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
 		boolean insertRv = yDao.reviewInsert(rv);
-		view = "manage/normal/normalMain";
+		view = "forward:questionlistn?m_id="+m_id+"";
 		mav.setViewName(view);
 		return mav;
 	}
