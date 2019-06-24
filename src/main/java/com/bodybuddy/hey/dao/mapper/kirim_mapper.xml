@@ -117,7 +117,7 @@
 	</select>
 	
 	<select parameterType="String" id="getCompanyProfileOption" resultType="HashMap"> 
-		SELECT AD_CODE, AD_TITLE, AD_DATE, AD_STATUS, AD_KIND FROM AD
+		SELECT AD_CODE, AD_TITLE, AD_DATE, AD_STATUS, AD_CATEGORY FROM AD
 		WHERE AD_NAME=#{m_id} 
 	</select>
 	
