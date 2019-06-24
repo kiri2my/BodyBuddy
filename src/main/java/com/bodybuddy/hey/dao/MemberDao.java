@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.bean.YesOrNo;
+import com.google.gson.Gson;
 
 public interface MemberDao {
 
@@ -102,6 +103,10 @@ public interface MemberDao {
 	public boolean adinsert(Question adadd);
 
 	public boolean opinsert(Map<String, String> opMap);
+
+	public int opcount(String ad_code);
+
+	public ArrayList<Question> advertiseModifyFrm(String ad_code);
 
 	
 
