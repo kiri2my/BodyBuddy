@@ -76,6 +76,7 @@
 	color: white;
 	background: gray;
 }
+
 </style>
 </head>
 
@@ -101,21 +102,21 @@
 <script type="text/javascript">
     var sessionId = '';
     window.onload = function() {
-    	sessionId = '${session_id}';
+    	sessionId = '${mb.m_id}';
     }
     
     
 	function company() {
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "company",
 			dataType : "html",
 			success : function(data) {
-				$('#main').append(data);
+				$('#main').html(data);
 				
 			},
 			error : function() {
-				alert('일반회원 출석 로드 실패');
+				alert('업체 관리 페이지 로드 실패');
 			}
 
 		});
@@ -123,7 +124,7 @@
 
 	function normalDailyCheck() {
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "normaldailycheck",
 			data : {
 				id : sessionId

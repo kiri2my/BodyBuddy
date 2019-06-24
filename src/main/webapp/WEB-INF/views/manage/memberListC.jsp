@@ -54,6 +54,7 @@
 								<thead>
 									<tr>
 										<th>이름</th>
+										<th>아이디</th>
 										<th>생년월일</th>
 										<th>연락처</th>
 										<th>이용상태</th>
@@ -62,7 +63,8 @@
 								<tbody>
 									<c:forEach var="member" items="${mList }">
 										<tr>
-											<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }(${member.m_id })</a></td>
+											<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }</a></td>
+											<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_id }</a></td>
 											<td>${member.m_birth }</td>
 											<td>${member.m_phone }</td>
 											<td><a href="#" style="text-decoration: none;"
@@ -77,17 +79,19 @@
 			</div>
 		</div>
 	</div>
-	
+
+
 	<div class="modal" id="modal"
-		style="width: 50%; height: 70%; left: 50%; top: 20%;">
+		style="width: 800px; height: 800px; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true"></button>
 			<h3 id="modal-head"></h3>
 		</div>
-		<div class="modal-body" id="modalBody"></div>
+		<!-- <div id="modalBody" style="width: 300px;"></div> -->
 	</div>
+
 
 	<!-- plugins:js -->
 	<script
@@ -120,16 +124,17 @@
 <script type="text/javascript">
 	function memberSearch() {
 		var name = $('#memsearch').val();
+		//alert(name+","+sessionId);
 		$.ajax({
 			type : "get",
 			url : "membersearch",
 			data : {
 				name : name,
-				id : '3333'
+				id : sessionId
 			},
 			dataType : "html",
 			success : function(data) {
-				alert(data);
+				//alert(data);
 				$('#main').html(data);
 			},
 			error : function() {
@@ -142,7 +147,7 @@
 		var state = state;
 		var mid = mid;
 
-		alert()
+		alert();
 		$.ajax({
 			type : "post",
 			url : "changestate",
@@ -163,7 +168,7 @@
 
 	function profileN(m_id) {
 		var m_id = m_id;
-		alert(m_id);
+		//alert(m_id);
 		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
 
 		$.ajax({
@@ -174,10 +179,15 @@
 			},
 			dataType : "html",
 			success : function(data) {
-				alert(data);
-				$('#modal-head').html(m_id+' 프로필');
-				$('#modalBody').html(data);
+				//alert(data);
+				$('#modal-head').html(m_id + ' 프로필');
+				$('#modal').html(data);
 				$('#modal').modal('toggle');
+
+				//$('#aaaaa2').html(data);
+				//$('#aaaaa1').modal('toggle');
+				//$('#'+m_phone).html(data);
+				//$('#'+m_phone).prop("style", "display: inline");
 			},
 			error : function() {
 				alert('회원 프로필 로드 실패');

@@ -20,7 +20,7 @@ public interface KwonDao {
 
 	public List<Member> getTrainerSearch(Member m);
 
-	public List<Member> getNormalMemberList(String id);
+	public ArrayList<HashMap<String, String>> getNormalMemberList(String code);
 
 	public List<Member> getProgramMemberList(String id);
 
@@ -89,6 +89,14 @@ public interface KwonDao {
 	public void trainerDiscon(Map<String, String> map);
 
 	public void trainerDisconDelete(Map<String, String> map);
+
+	public String getNormalMemberListCode(String id);
+
+	public void changeState(Map<String, String> map);
+
+	public ArrayList<Member> getMainMemberList(String id);
+
+	public ArrayList<Question> getMainAdvertise(String id);
 
 
 }

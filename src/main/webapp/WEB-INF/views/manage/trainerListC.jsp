@@ -92,7 +92,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 60%; height: 50%; left: 50%; top: 20%;">
+		style="width: 30%; height: 50%; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"

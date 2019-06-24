@@ -28,7 +28,7 @@
 			<li class="nav-item"><a class="nav-link" href="#"
 				onclick="normalMemList()"> <!-- onclick="location.href='/memberlist'" -->
 					<i class="mdi mdi-account-multiple menu-icon"></i> <span
-					class="menu-title">회원 관리</span>
+					class="menu-title">회원 목록</span>
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link" href="#"

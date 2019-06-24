@@ -54,27 +54,29 @@
 							<c:if test="${!empty member }">
 								<thead>
 									<tr>
-										<th>이름</th>
-										<th style="width: 200px">이용기간</th>
-										<th style="width: 100px">남은기간</th>
-										<th>연락처</th>
-										<th>이용상태</th>
-										<th style="width: 100px">출석</th>
-										<th>현황</th>
+										<th style="width: 15%">이름</th>
+										<th style="width: 6%">생년월일</th>
+										<th style="width: 7%">연락처</th>
+										<th style="width: 7%">이용기간</th>
+										<th style="width: 6%">남은기간</th>
+										<th style="width: 7%">이용상태</th>
+										<th style="width: 5%">출석</th>
+										<th style="width: 5%">현황</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="member" items="${mList }">
 										<tr>
-											<td><a href="#">${member.m_name }(${member.m_id })</a></td>
-											<td>${member.ps_date }~${member.ps_date1 }</td>
-											<td>${member.op_period }</td>
-											<td>${member.m_phone }</td>
-											<td>이용중</td>
+											<td><a href="#">${member.M_NAME }(${member.M_ID })</a></td>
+											<td>${member.M_BIRTH }</td>
+											<td>${member.M_PHONE }</td>
+											<td>${member.PS_DATE }~${member.PS_DATE1 }</td>
+											<td>${member.OP_PERIOD }</td>
+											<td><button class="btn btn-danger" onclick="statusChange('${member.PS_CODE}','${member.DA_STATUS }')" id="${member.PS_CODE }" value="${member.DA_STATUS }">${member.DA_STATUS }</button></td>
 											<th><button class="btn btn-danger"
-													onclick="normalCheck('${member.m_id}','${member.ps_code}')">출석</button></th>
+													onclick="normalCheck('${member.M_ID}','${member.PS_CODE}')">출석</button></th>
 											<th><button class="btn btn-danger"
-													onclick="Attended('${member.m_id}','${member.ps_code}')">보기</button></th>
+													onclick="Attended('${member.M_ID}','${member.PS_CODE}','${member.M_NAME }')">보기</button></th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -92,7 +94,7 @@
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true"></button>
-			<h3 id="">일반회원 출석 현황</h3>
+			<h3 id="modal_title"></h3>
 		</div>
 		<div class="modal-body" id="modalBody"></div>
 	</div>
@@ -129,6 +131,12 @@
 	function normalCheck(id, code) {
 		var id = id;
 		var code = code;
+		var cCode = $('#'+code).val();
+		//alert('cCode = '+cCode+', code = '+code);
+		if(cCode == '일시정지') {
+			alert('일시정지 상태에서는 출석이 불가능 합니다.')
+			return;
+		}
 		$.ajax({
 			type : "POST",
 			url : "normalcheck",
@@ -146,9 +154,10 @@
 
 	}
 
-	function Attended(id, code) {
+	function Attended(id, code, name) {
 		var id = id;
 		var code = code;
+		var name = name;
 		$
 				.ajax({
 					type : "post",
@@ -167,6 +176,7 @@
 									+ "출석" + "</td></tr>";
 						}
 						str += "</tbody></table>";
+						$('#modal_title').html(name+'('+id+') 출석 현황');
 						$('#modalBody').html(str);
 						$('#modal').modal('toggle');
 					},
@@ -175,6 +185,67 @@
 						console.log(error);
 					}
 				});
+	}
+	
+	/* function changeState(mid) {
+		var state = state;
+		var mid = mid;
+		alert();
+		$.ajax({
+			type : "post",
+			url : "changestate",
+			data : {
+				mid : mid,
+				cid : sessionId
+			},
+			dataType : "html",
+			success : function(data) {
+				alert(data);
+				//$('#main').html(data);
+			},
+			error : function() {
+				alert('이용 상태 전환 실패');
+			}
+		});
+	} */
+	
+	function statusChange(code1,status1) {
+		var code = code1;
+		var status = status1;
+		//alert(code+","+status);
+		var start = '이용중으로 변경 하시겠습니까?';
+		var stop = '일시 정지로 변경 하시겠습니까?';
+		var str = '';
+		
+		if(status =='이용중'){
+			str = stop;
+			status = '일시정지';
+		}else if(status == '일시정지') {
+			str = start;
+			status = '이용중';
+		}
+		
+		if (confirm(str) == true) {
+			$.ajax({
+				type : 'post',
+				url : 'changestate',
+				data : {
+					code : code,
+					status : status
+				},
+				dateType : 'json',
+				success : function(data) {
+
+					$('#'+code).html(status);
+					$('#'+code).val(status);
+				},
+				error : function(error) {
+					alert("이용상태 변경 실패");
+				}
+			});
+		} else {
+			return;
+		}
 	}
 </script>
 </html>

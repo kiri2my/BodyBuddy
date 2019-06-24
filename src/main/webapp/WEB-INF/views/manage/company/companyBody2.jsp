@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -18,96 +17,10 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 
 <body>
-	<div id="bodybody" style="left: 0px; top: 15px; position: relative;">
-		<div
-			style="top: 0px; left: 0px; position: absolute; width: 550px; height: 300px; ">
-
-			<h3>최근 신규 가입</h3>
-
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>이름</th>
-						<th>아이디</th>
-						<th>가입날짜</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="member" items="${mList }">
-						<tr>
-							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }</a></td>
-							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_id }</a></td>
-							<td>${member.ps_date }</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
-		</div>
-		<div
-			style="left: 550px; position: absolute; width: 550px; height: 300px;">
-
-
-			<h3>최근 판매 내역</h3>
-
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<!-- <th>판매번호</th> -->
-						<th>광고명</th>
-						<th>결제자</th>
-						<th>금액</th>
-						<th>판매일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="sales" items="${sList }">
-						<tr>
-							<%-- <td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td> --%>
-							<td style="text-align: center; font-size: 12px;"><a href="#"
-								onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-							<td style="font-size: 12px;"><a href="#" onclick="advertisedetail(${sales.m_id})">${sales.m_name }(${sales.m_id})</a></td>
-							<td style="text-align: right; font-size: 12px;">${sales.ps_price }</td>
-							<td style="font-size: 12px;">${sales.ps_date }</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-		<div
-			style="left: 1100px; position: absolute; width: 550px; height: 300px;">
-			<h3>등록중인 광고</h3>
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>광고번호</th>
-						<th>광고명</th>
-						<th>등록일자</th>
-						<th>상태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<c:forEach var="ad" items="${aList }">
-						<tr>
-							<td>${ad.ad_code }</td>
-							<td><a href="#" onclick="profileN('${ad.ad_title }')">${ad.ad_title }</a></td>
-							<td>${ad.ad_date}</td>
-							<td>${ad.ad_status}</td>
-						</tr>
-					</c:forEach>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<!-- </div> -->
-	<!-- <div class="main-panel" style="width: 100%;">
+	<div class="main-panel" style="width : 100%;" >
 		<div class="content-wrapper">
 			<div class="row">
 				<div class="col-md-12 grid-margin stretch-card">
@@ -132,7 +45,28 @@
 								<div class="tab-pane fade show active" id="question"
 									role="tabpanel" aria-labelledby="question-tab">
 									<div class="d-flex flex-wrap justify-content-xl-between">
-
+										<div
+											class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+											<i class="mdi mdi-calendar-today icon-lg mr-3 text-primary"></i>
+											<div class="d-flex flex-column justify-content-around">
+												<small class="mb-1 text-muted">날짜</small>
+												<div class="dropdown">
+													<a
+														class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
+														href="#" role="button" id="dropdownMenuLinkA"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">
+														<h5 class="mb-0 d-inline-block">Sysdate</h5>
+													</a>
+													<div class="dropdown-menu"
+														aria-labelledby="dropdownMenuLinkA">
+														<a class="dropdown-item" href="#">어제...</a> <a
+															class="dropdown-item" href="#">엊그제...</a> <a
+															class="dropdown-item" href="#">date3...</a>
+													</div>
+												</div>
+											</div>
+										</div>
 
 										<div
 											class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -256,7 +190,6 @@
 
 									</div>
 								</div>
-
 								<div class="tab-pane fade" id="advertise" role="tabpanel"
 									aria-labelledby="advertise-tab">
 									<div class="d-flex flex-wrap justify-content-xl-between">
@@ -350,36 +283,36 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" style="height: 500px">
-				
-			</div>
-		</div>
-	</div> -->
-	<div class="col-lg-12 grid-margin stretch-card"
-		style="top: 400px; left: -10px;">
-		<div class="card">
-			<div class="card-body">
-				<div class="chartjs-size-monitor"
-					style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-					<div class="chartjs-size-monitor-expand"
-						style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-						<div
-							style="position: absolute; width: 1000px; height: 1000px; left: 0; top: 0"></div>
-					</div>
-					<div class="chartjs-size-monitor-shrink"
-						style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-						<div
-							style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
+
+			<div class="row" style="height: 700px">
+				<div class="col-lg-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<div class="chartjs-size-monitor"
+								style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+								<div class="chartjs-size-monitor-expand"
+									style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+									<div
+										style="position: absolute; width: 1000000px; height: 1000000px; left: 0; top: 0"></div>
+								</div>
+								<div class="chartjs-size-monitor-shrink"
+									style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+									<div
+										style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
+								</div>
+							</div>
+							<h4 class="card-title">트레이너 현황판(매출/실적 간단히보기)</h4>
+							<canvas id="barChart" width="380" height="189"
+								class="chartjs-render-monitor"
+								style="display: block; height: 211px; width: 423px;"></canvas>
+						</div>
 					</div>
 				</div>
-				<h4 class="card-title">트레이너 현황판(매출/실적 간단히보기)</h4>
-				<canvas id="barChart" width="380" height="189"
-					class="chartjs-render-monitor"
-					style="display: block; height: 211px; width: 423px;"></canvas>
 			</div>
 		</div>
 	</div>
-
+	
+	
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
 	<script type="text/javascript"
@@ -394,15 +327,14 @@
 		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-	<script type="text/javascript" src=" /resources/js/dashboard.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 
 </html>
