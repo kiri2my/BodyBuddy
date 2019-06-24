@@ -4,6 +4,12 @@
 <html>
 
 <head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -108,10 +114,13 @@
 
 </body>
 
-<script src="${pageContext.request.contextPath}/resources/js/kirimWebSocket.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/kirimWebSocket.js"></script> --%>
 <script>
+$(document).ready(function(){
+	$('#carousel-adPhoto-generic').carousel({interval:0});
+});
+		
 
-$('.carousel').carousel();
 
 
 $(".profilePage").click(function(){

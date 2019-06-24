@@ -130,7 +130,7 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			System.out.println("adcode::"+m.get("ad_code"));
 			System.out.println("m_id::"+m.get("m_id"));//m : ad_code, m_id들어있음
 					
-			ws = ks.alarmSendQuestion(m);//구매자가 판매자에게 구매알림보내기
+			ws = ks.alarmSendQuestion(m);//문의자가 답변자에게 문의알림보내기
 			//ws: 
 			//m.put("al_msid", m.get("m_id"));
 			//m.put("al_mrid", ad_name);
@@ -144,6 +144,25 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 				rSession.sendMessage(new TextMessage(json.toString()));
 			}
 			break;
+		case "AQ01":
+			System.out.println("::::::AQ01::::::");
+			json = message.getPayload().substring(4);
+			m = new Gson().fromJson(json, 
+					new TypeToken<Map<String,String>>(){}.getType());
+			System.out.println("qa_num::"+m.get("qa_num"));
+			System.out.println("m_id::"+m.get("m_id"));//m : qa_num, m_id들어있음
+			ws = ks.alarmSendAnswer(m);//답변자가 문의자에게 답변알림보내기
+						
+			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
+			rId = ws.get("al_mrid");
+			rSession = idAndSession.get(rId);
+			if(rSession!=null) {
+				json = ks.alarmReceiveAll(rId);
+				rSession.sendMessage(new TextMessage(json.toString()));
+			}
+			break;
+			
+			
 			
 			
 		}//SWITCH END

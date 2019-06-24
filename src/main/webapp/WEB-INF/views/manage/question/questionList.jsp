@@ -166,11 +166,14 @@
 	
 	//답변 저장
 	$("#aSave").click(function() {
+		var qa_num = $('#qa_num').val();
+		var m_id = "${mb.m_id}";
+		
 		$.ajax({
 			url : "questionreply",
 			type : "post",
 			data : {
-				"qa_acontent" : $('#qa_acontent').val(),"qa_num" : $('#qa_num').val()
+				"qa_acontent" : $('#qa_acontent').val(),"qa_num" : qa_num
 			},
 			dataType : "html",
 			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
@@ -181,6 +184,16 @@
 					+'data-toggle="modal" id="cbtn" >답변확인하기</a></td>'
 					$('#mm').prop("style", "display: none");
 					$('#ss').html(str);$();
+				//////////////////////////답변했다고 문의자 일반회원한테 알림보내기
+					console.log(":::"+m_id+","+qa_num);
+					var jsonSendAnsAlarm = JSON.stringify({qa_num:qa_num,m_id:m_id});
+					$("#msg").val("AQ01"+jsonSendAnsAlarm);
+					console.log("WebSock5", sock);
+					console.log($("#msg").val());
+					sock.send($("#msg").val());
+				//////////////
+					
+					
 			},
 			error : function(error) {
 				console.log(error);

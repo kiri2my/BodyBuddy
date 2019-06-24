@@ -7,6 +7,11 @@
 <!DOCTYPE html>
 <html>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 <!-- Web socket CDN -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <head>
@@ -74,10 +79,8 @@
 			<div
 				class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
 				<a class="navbar-brand brand-logo"
-					href="${pageContext.request.contextPath}/" style="color: #71c016;">BODY
-					BUDDY</a> <a class="navbar-brand brand-logo-mini"
-					href="${pageContext.request.contextPath}/" style="color: #71c016;">BODY
-					BUDDY</a>
+					href="${pageContext.request.contextPath}/" style="color: #71c016;"><img alt ="logo" src="resources/img/logo.jpg"></a> <a class="navbar-brand brand-logo-mini"
+					href="${pageContext.request.contextPath}/" style="color: #71c016;">BODY BUDDY</a>
 				<button class="navbar-toggler navbar-toggler align-self-center"
 					type="button" data-toggle="minimize">
 					<span class="mdi mdi-sort-variant"></span>

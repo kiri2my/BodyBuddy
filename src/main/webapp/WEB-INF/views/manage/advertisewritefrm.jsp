@@ -333,7 +333,7 @@ $("#ex-select").change(function(){
 	}
 	$(".pre_set").each(function() {
 		
-	    var dateFormat = "yymmdd",
+	    var dateFormat = "yyyymmdd",
 	      from = $(this).find("input[id=from]")
 	        .datepicker({
 	          defaultDate: "+1w",

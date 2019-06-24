@@ -4,6 +4,11 @@
 <html>
 
 <head>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"> -->
+
 <script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script	type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.js"></script>
 <script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -31,7 +36,7 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY(지도없음,로그인함)</title>
+<title>BODY BUDDY</title>
 <!-- plugins:css -->
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
@@ -62,6 +67,7 @@
 			<!-- partial -->
 			<div class="main-panel" style="width: 100%">
 				<div class="content-wrapper">
+					<br><br><br><br><br>
 					<div class="row">
 						<div class="col-md-12 grid-margin stretch-card">
 							<div class="card">
@@ -72,11 +78,10 @@
 											role="tab" aria-controls="overview" aria-selected="true"
 											style="border-bottom-color: #71c016; color: #71c016">주소검색</a>
 										</li>
-										<li class="nav-item"></li>
-										<li class="nav-item"></li>
+										
 									</ul>
 									<div class="tab-content py-0 px-0">
-										<div class="tab-pane fade show active" id="overview"
+										<div class="tab-pane fade show active in" id="overview"
 											role="tabpanel" aria-labelledby="overview-tab">
 											<div class="d-flex flex-wrap justify-content-xl-between">
 
