@@ -38,10 +38,8 @@ public class YoonHomeController {
 	HttpSession session;
 	
 	ModelAndView mav;
-	
-	
-	
 	String html;
+	
 	/*
 	 * @RequestMapping(value = "/dailyCheck", produces =
 	 * "application/json; charset=UTF-8")
@@ -51,8 +49,7 @@ public class YoonHomeController {
 	 * 
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
-	
-	@RequestMapping(value = "/questionlistn")
+	@RequestMapping(value = "/questionlistn", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView questionlistN(String m_id) {
 		mav=ys.questionlistN(m_id);
 		return mav;

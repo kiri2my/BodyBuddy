@@ -15,7 +15,7 @@
 
 	<insert id="normalMemberJoin" parameterType="member">
 		INSERT INTO M
-		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},to_DATE(#{m_birth},'YYYY/MM/DD'),#{m_addr},#{m_kind},#{m_exaddr})
+		VALUES(#{m_id},#{m_pw},#{m_name},#{m_phone},TO_DATE(#{m_birth},'YYYY/MM/DD'),#{m_addr},#{m_kind},#{m_exaddr})
 	</insert>
 	<insert id="trainerMemberJoin" parameterType="member">
 		INSERT INTO T
@@ -56,7 +56,7 @@
 		WHERE M_ID = #{m_id}
 	</update>
 	<insert id="DeleteRealId" parameterType="String">
-		INSERT INTO DELETEREALID
+		INSERT INTO DELETEREALID	
 		VALUES(#{m_id},'탈퇴회원')
 	</insert>
 
@@ -66,19 +66,15 @@
 	</update>
 
 	<select id="qaNum" parameterType="String" resultType="question">
-		SELECT *
-		FROM QA WHERE QA_NUM = #{qa_num}
+		SELECT * FROM QA WHERE QA_NUM = #{qa_num}
 	</select>
-
+	
 	<update id="questionReply" parameterType="hashmap">
-		UPDATE QA SET
-		QA_ACONTENT = #{param1}, QA_ADATE = SYSDATE , QA_TRUE='t'
-		WHERE QA_NUM
-		= #{param2}
-	</update>
-	<select id="qNaCheck" parameterType="String"
-		resultType="question">
-		SELECT * FROM QA WHERE qa_num= #{qa_num}
+	UPDATE QA SET QA_ACONTENT = #{param1}, QA_ADATE = SYSDATE , QA_TRUE='t'
+	WHERE QA_NUM = #{param2}
+	</update>	
+	<select id="qNaCheck" parameterType="String" resultType="question">
+	SELECT * FROM QA WHERE qa_num= #{qa_num} 
 	</select>
 	<select id="trainerModifyT" parameterType="String"
 		resultType="member">
@@ -86,23 +82,25 @@
 		WHERE m_id = #{m_id}
 	</select>
 	<update id="deleteAd" parameterType="String">
-	UPDATE AD SET AD_STATUS ='만료됨' WHERE AD_CODE=#{ad_code}
+		UPDATE AD SET AD_STATUS ='만료됨' WHERE AD_CODE=#{ad_code}
 	</update>
 
 
 
 	<select id="getModifyN" parameterType="String"
 		resultType="member">
-		SELECT M_ID,M_PW,M_NAME,M_PHONE,TO_CHAR(M_BIRTH,'YYYY/DD/MM'),M_KIND,M_ADDR,M_EXADDR FROM M WHERE M_ID=#{m_id}
+		SELECT
+		M_ID,M_PW,M_NAME,M_PHONE,TO_CHAR(M_BIRTH,'YYYY/DD/MM'),M_KIND,M_ADDR,M_EXADDR
+		FROM M WHERE M_ID=#{m_id}
 	</select>
 
 	<select id="getPhotoModifyN" parameterType="String"
 		resultType="member">
 		SELECT * FROM PF WHERE PF_ID=#{m_id}
 	</select>
-	<select id="pfimage" parameterType="String"
-		resultType="String">
-		SELECT * FROM PF WHERE PF_ID=#{m_id}
+	<select id="pfimage" parameterType="String" resultType="String">
+		SELECT *
+		FROM PF WHERE PF_ID=#{m_id}
 	</select>
 	<update id="updateNorMb" parameterType="member">
 		UPDATE MEMBER
@@ -118,13 +116,14 @@
 		SELECT COUNT(*) FROM PF WHERE PF_ID=#{m_id}
 	</select>
 	<select id="opcoubt" parameterType="String" resultType="Integer">
-	SELECT COUNT(*)	FROM OP WHERE OP_ADCODE = #{ad_code}
+		SELECT COUNT(*) FROM OP WHERE OP_ADCODE = #{ad_code}
 	</select>
-	<select id="advertiseModifyFrm" parameterType="String" resultType="question">
-	SELECT * FROM OP WHERE OP_ADCODE = #{ad_code}
+	<select id="advertiseModifyFrm" parameterType="String"
+		resultType="question">
+		SELECT * FROM OP
+		LEFR JOIN AD
+		ON AD_CODE = OP_ADCODE
+		WHERE OP_ADCODE = #{ad_code}
 	</select>
-	
-
-
 
 </mapper>

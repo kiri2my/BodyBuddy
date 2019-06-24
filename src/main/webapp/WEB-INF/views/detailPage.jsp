@@ -232,8 +232,10 @@ $(".qFrm").click(function(){
     $("#qaWrite").click(function(){
     	var ad_name = $("#ad_name").val();
     	var ad_code = $("#ad_code").val();
+    	var m_id = "${mb.m_id}";
     	console.log(ad_code);
     	var qa_wContent = $("#exampleTextarea1").val();
+    	
     	console.log(qa_wContent);
     	$.ajax({
     		url:"detailqawriteinsert",
@@ -243,6 +245,13 @@ $(".qFrm").click(function(){
 			success:function(data){
 				console.log(data);
 				if(data!=null){
+					//웹소켓 문의알림 보내기
+					var jsonSendQnaAlarm = JSON.stringify({ad_code:ad_code,m_id:m_id});
+					$("#msg").val("QA01"+jsonSendQnaAlarm);
+					console.log("WebSock4", sock);
+					console.log($("#msg").val());
+					sock.send($("#msg").val());
+					//
 					$("#question").html(data);	
 				}
 				

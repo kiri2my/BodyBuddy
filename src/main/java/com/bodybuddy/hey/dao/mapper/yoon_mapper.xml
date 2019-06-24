@@ -223,6 +223,7 @@
     JOIN OP ON PS_OPCODE=OP_CODE
     JOIN AD ON OP_ADCODE=AD_CODE
     WHERE RV_NAME=#{m_id}
+    ORDER BY RV_DATE DESC
     ]]>
 	</select>
 	
@@ -232,6 +233,7 @@
     FROM QA
     JOIN AD ON QA_ADCODE=AD_CODE
     WHERE QA_WRITER =#{m_id}
+    ORDER BY QA_ADATE DESC
     ]]>
 	</select>
 </mapper>

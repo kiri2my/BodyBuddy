@@ -41,8 +41,6 @@ public class YoonService {
 	@Autowired
 	private UploadFile upload;
 	
-	
-	
 	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;
@@ -120,12 +118,12 @@ public class YoonService {
 	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, 
 			Member sessionMb, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
-				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
-				"                                    <div class=\"row\">\r\n");
+		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">" + 
+				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>" + 
+				"                                    <div class=\"row\">");
 		Set<String> delBtnSet = new HashSet<>();		
 		String addBtn=null;
 		String delBtn=null;
@@ -133,12 +131,12 @@ public class YoonService {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
 					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
 					
-				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
-							"                                        <div class=\"thumbnail\">\r\n" + 
+				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">" + 
+							"                                        <div class=\"thumbnail\">" + 
 							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 
-							"                                            <div class=\"caption\">\r\n" + 
-							"                                                <br>\r\n" + 
+							"                                            <div class=\"caption\">" + 
+							"                                                <br>" + 
 							"                                                <h3 id=\"thumbnail-label\">");
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
@@ -146,9 +144,9 @@ public class YoonService {
 							//주소 시작위치
 							//트레이너던 업체던 소속업체가 없는경우
 							if(mainList.get(i).get("T_CID")==null) {
-								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>");
 							}else {//소속업체 있는경우
-								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>");
 							}
 							//주소 끝위치
 							 
@@ -166,7 +164,7 @@ public class YoonService {
 				  
 				  
 				  
-				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
+				  sb.append("</p>" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
 				// 찜버튼 위치 시작
 				  delBtn = "<button id='" + "dibsDelete" + ad_code
@@ -216,18 +214,18 @@ public class YoonService {
 					// 찜버튼 끝
 				  
 								
-						sb.append("</p>\r\n" + 
-								  "                                                </div>\r\n" + 
-								  "                                            </div>\r\n" + 
-								  "                                        </div>\r\n"
+						sb.append("</p>" + 
+								  "                                                </div>" + 
+								  "                                            </div>" + 
+								  "                                        </div>"
 						);
 				}//end For
 		String delBtnSetJson = new Gson().toJson(delBtnSet);
 		mav.addObject("delBtnSet",delBtnSetJson);
 				
-	  sb.append("            	                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
+	  sb.append("            	                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
 				"                        </div>");
 		
 		
@@ -382,8 +380,10 @@ public class YoonService {
 
 	public ModelAndView insertReview(Review rv) {
 		String view = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
 		boolean insertRv = yDao.reviewInsert(rv);
-		view = "manage/normal/normalMain";
+		view = "forward:questionlistn?m_id="+m_id+"";
 		mav.setViewName(view);
 		return mav;
 	}
@@ -661,7 +661,10 @@ public class YoonService {
 			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td>" + getQuestionListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n"
-					+ "													<td><a href='#'>내용보기</a></td>\r\n"
+					+ "													<td><a style='display: inline;' href='#myModal' role='button' class='cbtn'\r\n" + 
+					"													data-toggle='modal' id='cbtn'>내용보기</a>\r\n"
+					+ "<input type='hidden' class='mm' name='ad_code' value='"+getQuestionListN.get(i).get("QA_NUM")+"'></td>\r\n"
+					
 					+ "													<td>" + Date+"</td>\r\n" 
 					+ "													<td>" + Date2+"</td>\r\n" 
 					+ "													<td></td>\r\n"

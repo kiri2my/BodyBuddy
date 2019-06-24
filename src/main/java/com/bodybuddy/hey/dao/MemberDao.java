@@ -60,8 +60,7 @@ public interface MemberDao {
 
 	public Member kindkind(String id);
 
-
-	/* public boolean imginsert(Question adadd); */
+	public boolean imginsert(Question adadd);
 
 
 	public boolean questionReply(String qa_acontent, String qa_num);
@@ -86,6 +85,8 @@ public interface MemberDao {
 	public int imgOverlap(String m_id);
 
 	public String pfimage(String m_id);
+	
+	public boolean adPhotoInsert(Map<String, String> map);
 
 	public void imginsert(Map<String, String> fMap);
 
@@ -102,6 +103,10 @@ public interface MemberDao {
 	public boolean adinsert(Question adadd);
 
 	public boolean opinsert(Map<String, String> opMap);
+
+	public int opcount(String ad_code);
+
+	public ArrayList<Question> advertiseModifyFrm(String ad_code);
 
 	
 

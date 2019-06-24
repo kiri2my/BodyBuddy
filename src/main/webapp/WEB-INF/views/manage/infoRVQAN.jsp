@@ -60,51 +60,7 @@ to {
 .even {
 	text-align: center;
 }
-#articleView_layer {
 
-	display: none;
-	position: fixed;	
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-#articleView_layer.open {
-	display: block;
-	color: red
-}
-
-#articleView_layer #bg_layer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	opacity: .5;
-	filter: alpha(opacity = 50);
-	z-index: 100;
-}
-
- #contents_layer {
-	
-	position: absolute;
-	top: 40%;
-	left: 40%;
-	width: 700px;
-	height: 700px;
-	margin: -150px 0 0 -194px;
-	padding: 28px 28px 0 28px;
-	border: 2px solid #555;
-	background: silver;
-	font-size: 12px;
-	z-index: 200;
-	color: #767676;
-	line-height: normal;
-	white-space: normal;
-	overflow: scroll
-} 
 
 #header {
 	position: relative;
@@ -139,6 +95,23 @@ to {
 	color: white;
 	background: gray;
 }
+
+.modal {
+	text-align: center;
+}
+
+.modal:before {
+	display: inline-block;
+	vertical-align: middle;
+	content: " ";
+	height: 100%;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
 </style>
 </head>
 <body>
@@ -151,7 +124,7 @@ to {
 
 	<div class="container-scroller">
 
-
+	
 
 		<div class="row">
 			<div class="col-md-12 grid-margin"></div>
@@ -200,22 +173,24 @@ to {
 
 											</tbody>
 										</table>
+										
 									</div>
 								</div>
 	
 							</div>
 						</div>
 					</div>
-					<br>
+					<br/>
 					
 					
-					<div id="articleView_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div id="bg_layer"></div>
-					<div id="contents_layer" style="width: 60em"></div>
-					</div>
-					<br>
 					
 					
+	
+					
+					
+					
+					
+					<br/>
 					<div id="se" class="card-body">
 						<p class="card-title">문의 목록</p>
 						<div class="table-responsive">
@@ -272,131 +247,129 @@ to {
 			</div>
 		</div>
 	</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="margin-left: 20%;">
-    <div class="modal-content" style="width: 60em">
-      <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default closer" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
 </div>
-	</div>
 		<div id="nav">
 			<jsp:include page="sidebarNormal.jsp" />
 		</div>
 	</div>
 
 
+
+<!-- 모달 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 800px; height: 650px;">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Modal 제목</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+				
+				<input id="qa_num" type="hidden"/>
+					<div id="qa_wcontent" style="text-align: center;margin: 50px;"></div>
+					<%-- $ --%>
+				</div>
+
+				<div class="modal-body">
+					<input type="text" id="qa_acontent" name="qa_acontent"
+						placeholder="아직 답변이 없습니다."
+						disabled="disabled"
+						style="text-align: center; width: 750px; height: 150px;"
+						 />
+				</div>
+
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 </body>
 <script>
 ${alert}
 
-$(".btn.btn-dark.btn-lg.btn-block").click(function(){
-	
-	var list = new Array();
-	
-	/* var adnum1=$("#op_code").val(); */
-	
-	var adnum=$(this).parent().children().eq(1).val();
-	var mid=$(this).parent().children().eq(2).val();
-	
-/* 	$(document).ready(function() {
-		   var list = new Array();
-		   $("input[name=testInput]").each(function(index, item){
-			   list.push($(item).val());
-		   });
-		   alert(list);
-		}); */
-	
-	console.log(adnum);
-	console.log(mid);
- 	$('#articleView_layer').addClass('open');
-	$.ajax({
-		type:'post', 
-		url:'counsellistn',
-		data:{cs_opcode:adnum,cs_mid:mid},
-		dataType:'html',
-		success:function(data){
-			$('#contents_layer').html(data);
-		},
-		error:function(error){
-			console.log(error);
-		}
-	
-	});   
-	//ajax End 
-
-});
 
 
-function yyyyyy(bnum) {
-	
-	var list = new Array();
-	/* var adnum1=$("#op_code").val(); */
-	
-/* 	$(document).ready(function() {
-		   var list = new Array();
-		   $("input[name=testInput]").each(function(index, item){
-			   list.push($(item).val());
-		   });
-		   alert(list);
-		}); */
-	var bbb=bnum;
-	console.log(bbb);
-	console.log(bbb);
- 	$('#articleView_layer').addClass('open');
-	$.ajax({
-		type:'get', 
-		url:'calenderN',
-		data:{ps_code:bbb},
-		dataType:'html',
-		success:function(data){
-			$('#contents_layer').html(data);
-		},
-		error:function(error){
-			console.log(error);
-		}
-	
-	});   
-	//ajax End 
+$(".abtn").each(function() {
+	$(this).click(function() {
+		var num=$(this).parent().children().eq(1).val();
+		console.log(num);
 
-}
-	
-
-	//ModalBox 해제
-	var $layerWindow=$('#articleView_layer');
-	$layerWindow.find('#bg_layer').on('mousedown',function(event){
-		console.log(event);
-		$layerWindow.removeClass('open');
-		
-	})//function End
-	
-	$(".profilePage").click(function(){
-		var m_id = $(this).prop("id").replace("profilePage","");
-		console.log(m_id);
 		$.ajax({
-			url: "profilepage",
-			type: "get",
-			data:{m_id:m_id},
-			dataType: "html",
-			success:(function(data){
-				console.log(data);
-				$(".modal-body").html(data);
-			   
-				
-			}),
-			error:(function(err){
-				console.log(err);
-			})
-		});
-	});
+			url : "qnacheck",
+			type : "post",
+			data : {
+				"qa_num" : num
+			},
+			dataType : "json",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				qajax = data;
+				qajaxnum = data[0].qa_num;
+				qajaxwcon = data[0].qa_wcontent;
+				qajaxacon = data[0].qa_acontent;
+				console.log("1 = ", qajaxnum)
+				console.log("2 = ", qajaxwcon)
+				console.log("3 = ", qajaxacon)
+				$('#qa_wcontent').html(qajaxwcon);
+				$('#qa_num').val(qajaxnum);
+				$('#qa_acontent').prop("disabled", false);
+
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		})
+	});//end ajax
+
+});//end click
+
+$(".cbtn").each(function() {
+	$(this).click(function() {
+		var num=$(this).parent().children().eq(1).val();
+		console.log(num);
+
+		$.ajax({
+			url : "qnacheck",
+			type : "post",
+			data : {
+				"qa_num" : num
+			},
+			dataType : "json",
+			/*data:{m_id : $('#m_id').val(), sdf:"sdfsdfdfsdf"},*/
+			success : function(data) {
+				qajax = data;
+				qajaxnum = data[0].qa_num;
+				qajaxwcon = data[0].qa_wcontent;
+				qajaxacon = data[0].qa_acontent;
+				console.log("1-1 = ", qajaxnum)
+				console.log("2-2 = ", qajaxwcon)
+				console.log("3-3 = ", qajaxacon)
+				$('#qa_wcontent').html(qajaxwcon);
+				$('#qa_acontent').val(qajaxacon);
+				$('#qa_num').val(qajaxnum);
+				$('#qa_acontent').prop("disabled", true);
+
+			},
+			error : function(error) {
+				console.log(error);
+				alert(" 실패 ");
+
+			}
+		})
+	});//end ajax
+
+});//end click
 </script>
 </html>
