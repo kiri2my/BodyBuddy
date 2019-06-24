@@ -111,7 +111,7 @@
 						</div>
 					</div>
 					<!-- <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div> -->
-					<div class="row" style="height: 60em;">
+					<div class="row" style="height: 69em;">
 						<div id="mapCard" class="col-md-4 stretch-card" hidden="true">
                             <div class="card">
                                 <div class="card-body">
