@@ -291,11 +291,11 @@
             .count {
               position: absolute;
               left: 59%;
-              width: 8px;
-              height: 8px;
+              width: 15px;
+              height: 15px;
               border-radius: 100%;
               background: theme-color(danger);
-              top: 9px;
+              top: 6px;
             }
             &:after {
               display: none;

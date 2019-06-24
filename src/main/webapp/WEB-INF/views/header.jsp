@@ -159,22 +159,29 @@ connect();
 
 //sock.onclose = onClose;
 
-
 //연결할때
 function connect(){
-	if(kind == 'n' || kind == 't' || kind == 'c'){
+	
 	var connect = new SockJS("/alarm");
 	sock=connect;
 	$("#msg").val("CON1"+m_id);
-	}
+	
 }
-
 
 //서버로부터 메시지를 받았을 때
 function onMessage(msg) {
 	var data = msg.data;
 	console.log("받은메세지...",data);
-	$(".beforeAlarm").after(data);
+	var parseData = JSON.parse(data);
+	console.log("::::",parseData[0]);
+	console.log("::::",parseData[1]);
+	
+	$(".beforeAlarm").after(parseData[0]);
+	if(parseData[1]>0){
+		$(".count").html("<p class='text-white' style='font-size: 5px;line-height: 15px;'>"+parseData[1]+"</p>");
+		$(".count").prop("hidden", false);
+	}
+	
 }
 //보낼때
 function sendMessage() {
@@ -191,16 +198,45 @@ window.onload=function(){
 		
 		// 메시지 전송
 		console.log("보내는메세지...",$("#msg").val());
-		sock.onmessage = onMessage;
 		sock.send($("#msg").val());
+		sock.onmessage = onMessage;
 		sendMessage();
-	}
-}
+		
+		
+		//////////알림 받은거 클릭하면 이미 본걸로 업데이트 시켜주기
+		$("#notificationDropdown").click(function(){
+			//console.log($(this).next().children().filter($(".alarm-confirm")) );
+			var ac = $(this).next().children().filter($(".alarm-confirm")); 
+			ac.click(function(){
+				var al_code = $(this).children().filter($(".al_code")).val();
+				$.ajax({
+					url:'alarmconfirm',
+					type:'post',
+					data:{al_code:al_code},
+					dataType:'text',
+					success:function(suc){
+						console.log(suc);
+					},
+					error:function(err){
+						console.log(err);
+					}
+				});//$.ajax({
+			});//ac.click(function(){
+		});//$("#notificationDropdown").click(function(){
+	}//if(kind == 'n' || kind == 't' || kind == 'c'){
+}//window.onload=function(){
 
+	
+	
+	
 $(document).ready(function(){
 });
 
 /////////////웹소켓 끝
+
+
+
+
 
 
 
@@ -211,25 +247,17 @@ $(document).ready(function(){
 				+ "    <a class='nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown'" 
 				+ "			id='notificationDropdown' href='#' data-toggle='dropdown'>\n"
 				+ "        <i class='mdi mdi-bell mx-0'></i>\n"
-				+ "        <span class='count'></span>\n"
+				+ "        <span class='count' style='width: 15px;height: 15px;top: 6px;' hidden></span>\n"
 				+ "    </a>\n"
 				+ "    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='notificationDropdown'>\n"
 				+ "        <p class='mb-3 font-weight-normal float-left dropdown-header beforeAlarm'>알림</p>\n"
-				
-				
-				
-				
-				
-				+ "        <a class='dropdown-item'>\n"
+				/* + "        <a class='dropdown-item'>\n"
 				+ "            <div class='item-content'>\n"
-				+ "                <h6 class='font-weight-normal'>차X헌 트레이너의 소속 승인요청 대기중</h6>\n"
+				+ "                <h6 class='font-weight-normal'>-TEST- 차X헌 트레이너의 소속 승인요청 대기중</h6>\n"
 				+ "                <p class='font-weight-light small-text mb-0 text-muted'>\n"
-				+ "                    2 일 전\n" + "                </p>\n"
+				+ "                    2 년 전\n" + "                </p>\n"
 				+ "            </div>\n" 
-				+ "        </a>\n" 
-				
-				
-				
+				+ "        </a>\n"  */
 				+ "    </div>\n"
 				+ "</li>\n";
 
@@ -245,7 +273,6 @@ $(document).ready(function(){
 
 		if (kind == 'n') {
 			strKind += "infoprogramn?m_id=${mb.m_id} \n";
-			console.log(strKind);
 		} else if (kind == 't') {
 			strKind += "trainer?m_id=${mb.m_id} \n";
 		} else if (kind == 'c') {

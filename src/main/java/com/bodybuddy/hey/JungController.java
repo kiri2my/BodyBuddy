@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
@@ -143,14 +144,10 @@ public class JungController {
 		return html;
 	}
 	
-	@RequestMapping(value = "/adinsert",produces = "application/json; charset=utf8")
-	public ModelAndView adinsert(Question adadd,HttpServletRequest request) {
-		Member mb = (Member) session.getAttribute("mb");
-		adadd.setAd_name(mb.getM_id());
-		
-		String[] day = request.getParameterValues("day");
-		mav=js.adinsert(adadd,day);
-		
+	@RequestMapping(value = "/adinsert", method = RequestMethod.POST)
+	public ModelAndView adinsert(MultipartHttpServletRequest multi) {
+		System.out.println("url: /adinsert");
+		mav=js.adinsert(multi);
 		return mav;
 	}
 	
@@ -159,9 +156,9 @@ public class JungController {
 	@RequestMapping(value = "/profileComplete")
 	public ModelAndView profileComplete(HttpServletRequest request) {
 		Member mb = (Member) session.getAttribute("mb");
-		String name = request.getParameter("name");
-		
+		String t_career=request.getParameter("t_career");
 		//mav = js.profileComplete(MB);
+		mav = js.profileComplete(mb,t_career);
 		
 		return mav;
 	}
