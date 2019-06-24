@@ -86,11 +86,8 @@
 	</div>
 
 	<div class="modal" id="modal"
-<<<<<<< HEAD
-		style="width: 30%; height: 50%; left: 50%; top: 20%;">
-=======
 		style="width: 30%; height: inherit; left: 50%; top: 20%;">
->>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
+
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
