@@ -296,7 +296,7 @@ public class JungService {
 		//일반 일 수
 		op_period = multi.getParameter("op_period");
 		if(op_period!="" || op_period!=null) {
-			System.out.println("op_times" + op_times);
+			System.out.println("op_period=" + op_times);
 			op_period_n = op_period.split(",");
 			
 		}
@@ -343,7 +343,7 @@ public class JungService {
 		// times 횟수
 		op_times = multi.getParameter("op_times");
 		if(op_times!=null || op_times!="") {
-			System.out.println("op_times" + op_times);
+			System.out.println("op_times=" + op_times);
 			op_times_1 = op_times.split(",");
 		}
 		
@@ -416,21 +416,23 @@ public class JungService {
 			List<MultipartFile> files = multi.getFiles("ap_image");
 			String oriFileName = null;
 			String sysFileName = null;
+			System.out.println("::::::"+files.size());
 			try {
 				for(int i=0; i<files.size();i++) {
-					if (checkNum > 0) {
-						System.out.println("checkNum 파일 있음" + "," + checkNum);
-						oriFileName = files.get(i).getOriginalFilename();
-						sysFileName = System.currentTimeMillis() + "."
-								+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
-						System.out.println("oriFileName=" + oriFileName);
-						System.out.println("sysFileName=" + sysFileName);
-						map.put("ap_adcode", xxx);
-						map.put("ap_image", sysFileName);
-					}
+					oriFileName = files.get(i).getOriginalFilename();
+					String index = String.valueOf(i);
+					sysFileName = index+System.currentTimeMillis() + "."
+						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
+					System.out.println("oriFileName=" + oriFileName);
+					System.out.println("sysFileName=" + sysFileName);
+					map.put("ap_adcode", xxx);
+					map.put("ap_image", sysFileName);
+					System.out.println("ap_adcode=" + map.get("ap_adcode"));
+					System.out.println("ap_image=" + map.get("ap_image"));
+					
 					if (sysFileName != null) {
 						files.get(i).transferTo(new File(path + sysFileName));
-						if(mDao.adPhotoInsert(map)) {
+						if(mDao.adPhotoInsert(map)) {///////////////err
 							System.out.println(i+"번째 광고사진 업로드 및 등록 성공");
 						}
 					}
@@ -438,13 +440,12 @@ public class JungService {
 			} catch (Exception e) {
 				System.out.println("AdPhoto Insert fail");
 			}
-			
 ////////////////////////////////////////////////AP INSERT 끝//////////////////
 			System.out.println("광고입력성공2");
 			System.out.println("xxx : " + adadd.getXxx());
-			for (int i = 0; i < op_content.length() - 1; i++) {
+			for (int i = 0; i < op_content.length()-1; i++) {//
 				opMap.put("op_adcode", xxx);
-				opMap.put("op_content", op_content_1[i]);
+				opMap.put("op_content", op_content_1[i]);//////////////err
 				opMap.put("op_price", op_price_1[i]);
 				
 				if(ad_nameTId!=null||ad_nameTId!="")

@@ -1,5 +1,7 @@
 ﻿package com.bodybuddy.hey.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -467,9 +469,11 @@ public class KirimService {
 				"                                                        <tbody>");
 		
 				for(int i=0;i<pco.size();i++) {
+					DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String Date = sdFormat.format(pco.get(i).get("AD_DATE"));
 					sb.append("                                                     <tr role=\"row\" class=\"odd\">" + 
 							"                                                         <td class=\"sorting_1\">"+pco.get(i).get("AD_TITLE")+"</td>" + 
-							"                                                         <td>"+pco.get(i).get("AD_DATE")+"</td>");
+							"                                                         <td>"+Date+"</td>");
 							//success-초록색 : 완료	info-보라색 : 모집중	danger-빨간색 : 만료됨		
 							if(pco.get(i).get("AD_STATUS").equals("진행중")) {
 								sb.append("<td><label class=\"badge badge-warning\">");

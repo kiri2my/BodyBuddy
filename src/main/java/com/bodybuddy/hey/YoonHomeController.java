@@ -49,7 +49,7 @@ public class YoonHomeController {
 	 * 
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
-	@RequestMapping(value = "/questionlistn")
+	@RequestMapping(value = "/questionlistn", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView questionlistN(String m_id) {
 		mav=ys.questionlistN(m_id);
 		return mav;
@@ -77,9 +77,12 @@ public class YoonHomeController {
 		return mav;
 	}
 	
+	
+	
+	
 	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code) {
-		//mav=ys.calender(ps_code);
+		mav=ys.calender(ps_code);
 		return mav;
 	}
 	

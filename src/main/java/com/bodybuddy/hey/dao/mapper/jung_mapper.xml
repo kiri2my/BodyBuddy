@@ -61,19 +61,12 @@
 		INSERT INTO AD (AD_CODE,AD_NAME,AD_TITLE,AD_CATEGORY,AD_STATUS,AD_DATE,AD_CONTENT) VALUES(AD_SEQ.NEXTVAL,#{ad_name},#{ad_title},#{ad_category},#{ad_status},SYSDATE,#{ad_content})
 	</insert>
 	<insert id="opinsert">
-		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL, #{xxx}, #{ad_name}, #{op_price},#{op_period},#{op_times},#{op_day},#{op_content},'11:00:13:00',#{op_personnel},0)
-	</insert>
-	
-	<insert id="opinsert" parameterType="HashMap"><!--  useGeneratedKeys="true" keyProperty="xxx" > -->
-		<!-- <selectKey keyProperty="xxx" resultType="String" order="AFTER">
-   			select ad_seq.currval from dual
-  		</selectKey> -->
 		INSERT INTO OP VALUES(OP_SEQ.NEXTVAL,#{op_adcode},#{op_trainer},#{op_price},#{op_period},#{op_times},#{op_day},#{op_content},#{op_clock},#{op_personnel},0)
 	</insert>
+		
 	
-	
-	<insert id="adPhotoInsert">
-		INSERT INTO AP VALUES(#{xxx},#{ap_image})
+	<insert id="adPhotoInsert" parameterType="HashMap">
+		INSERT INTO AP VALUES(#{ap_adcode},#{ap_image})
 	</insert>
 	
 	<select id="getAdvertiselist" resultType="question">

@@ -661,7 +661,10 @@ public class YoonService {
 			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td>" + getQuestionListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n"
-					+ "													<td><a href='#'>내용보기</a></td>\r\n"
+					+ "													<td><a style='display: inline;' href='#myModal' role='button' class='cbtn'\r\n" + 
+					"													data-toggle='modal' id='cbtn'>내용보기</a>\r\n"
+					+ "<input type='hidden' class='mm' name='ad_code' value='"+getQuestionListN.get(i).get("QA_NUM")+"'></td>\r\n"
+					
 					+ "													<td>" + Date+"</td>\r\n" 
 					+ "													<td>" + Date2+"</td>\r\n" 
 					+ "													<td></td>\r\n"
