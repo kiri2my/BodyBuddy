@@ -124,4 +124,116 @@
 	WHERE PS_MID= #{m_id} AND PS_CODE=#{ps_code}
 	</select>
 	
+	
+	<select id="getCbname" parameterType="String" resultType="Member">
+    SELECT C_BNAME
+	FROM C
+	WHERE C_ID=#{m_id}
+	</select>
+	
+	<select id="getsales" parameterType="String" resultType="HashMap">
+		<![CDATA[
+    SELECT T_CID,T_ID,M_NAME,OP_CONTENT,COUNT(PS_OPCODE) as PS_OPCODE,OP_PRICE,SUM(PS_PRICE) as PS_PRICE
+    FROM M
+    JOIN T ON M_ID=T_ID
+    JOIN C ON C_ID=T_CID
+    JOIN AD ON AD_NAME=C_ID
+    JOIN OP ON OP_TRAINER= T_ID
+    JOIN PS ON OP_CODE = PS_OPCODE
+    WHERE T_CID=#{m_id}
+    GROUP BY T_CID,M_NAME,T_ID,OP_CONTENT,OP_PRICE
+    ]]>
+	</select>
+	
+	<select id="getsalesAll" parameterType="String" resultType="HashMap">
+		<![CDATA[
+    SELECT M_NAME,COUNT(PS_OPCODE) as PS_OPCODE,SUM(PS_PRICE) as PS_PRICE
+    FROM M
+    JOIN T ON M_ID=T_ID
+    JOIN C ON C_ID=T_CID
+    JOIN AD ON AD_NAME=C_ID
+    JOIN OP ON OP_TRAINER= T_ID
+    JOIN PS ON OP_CODE = PS_OPCODE
+    WHERE T_CID=#{m_id}
+    GROUP BY M_NAME
+    ORDER BY PS_PRICE DESC
+    	]]>
+	</select>
+	<select id="getchart" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT M_NAME,SUM(PS_PRICE) as PS_PRICE
+     FROM M
+    JOIN T ON M_ID=T_ID
+    JOIN C ON C_ID=T_CID
+    JOIN AD ON AD_NAME=C_ID
+    JOIN OP ON OP_TRAINER= T_ID
+    JOIN PS ON OP_CODE = PS_OPCODE
+    WHERE T_CID=#{m_id}
+    GROUP BY M_NAME
+    ORDER BY PS_PRICE DESC
+    ]]>
+	</select>
+	
+	<select id="getSalescList" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT AD_CATEGORY,OP_CONTENT,COUNT(PS_OPCODE) as PS_OPCODE,OP_PRICE,SUM(PS_PRICE) as PS_PRICE
+    FROM M
+    JOIN AD ON M_ID=AD_NAME
+    JOIN OP ON AD_CODE=OP_ADCODE
+    JOIN PS ON PS_OPCODE=OP_CODE
+    WHERE M_ID=#{m_id}
+    GROUP BY AD_CATEGORY,OP_CONTENT,OP_PRICE
+    ORDER BY PS_PRICE DESC
+    ]]>
+	</select>
+	
+	
+	<select id="getSalesAllcList" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT SUM(PS_PRICE) as PS_PRICE
+    FROM M
+    JOIN AD ON M_ID=AD_NAME
+    JOIN OP ON AD_CODE=OP_ADCODE
+    JOIN PS ON PS_OPCODE=OP_CODE
+    WHERE M_ID=#{m_id}
+    ORDER BY PS_PRICE DESC
+    ]]>
+	</select>
+	
+	
+	<select id="getchart2" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT AD_CATEGORY,SUM(PS_PRICE) as PS_PRICE
+    FROM M
+    JOIN AD ON M_ID=AD_NAME
+    JOIN OP ON AD_CODE=OP_ADCODE
+    JOIN PS ON PS_OPCODE=OP_CODE
+    WHERE M_ID=#{m_id}
+    GROUP BY AD_CATEGORY
+    ORDER BY PS_PRICE DESC
+    ]]>
+	</select>
+	
+	
+	<select id="getRvListN" parameterType="String" resultType="HashMap">
+	<![CDATA[
+   SELECT RV_NUM,PS_CODE,PS_CODE,RV_CONTENT,RV_DATE,RV_STPOINT,PS_ADCODE,AD_CODE,OP_CONTENT,AD_TITLE
+    FROM RV
+    JOIN PS ON RV_PSCODE=PS_CODE
+    JOIN OP ON PS_OPCODE=OP_CODE
+    JOIN AD ON OP_ADCODE=AD_CODE
+    WHERE RV_NAME=#{m_id}
+    ORDER BY RV_DATE DESC
+    ]]>
+	</select>
+	
+	<select id="getQuestListN" parameterType="String" resultType="HashMap">
+	<![CDATA[
+    SELECT QA_NUM,QA_ADCODE,QA_WRITER,QA_ANSWER,QA_WCONTENT,QA_WDATE,QA_ACONTENT,QA_ADATE,QA_TRUE,AD_TITLE
+    FROM QA
+    JOIN AD ON QA_ADCODE=AD_CODE
+    WHERE QA_WRITER =#{m_id}
+    ORDER BY QA_ADATE DESC
+    ]]>
+	</select>
 </mapper>

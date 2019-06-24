@@ -41,6 +41,8 @@ public class YoonService {
 	@Autowired
 	private UploadFile upload;
 	
+	
+	
 	public ModelAndView mainList(String sido, String sigungu, String extra, String cate) {
 		mav=new ModelAndView();
 		String view=null;
@@ -53,29 +55,29 @@ public class YoonService {
 					cate=null;
 					break;
 				case "cateNormal":
-					cate="�씪諛�";
+					cate="일반";
 					break;
 				case "cateFitness":
-					cate="�뵾�듃�땲�뒪";
+					cate="피트니스";
 					break;
 				case "cateHomeTraining":
-					cate="�솃�듃�젅�씠�떇";
+					cate="홈트레이닝";
 					break;
 				case "catePilates":
-					cate="�븘�씪�뀒�뒪";
+					cate="필라테스";
 					break;
 				case "cateYoga":
-					cate="�슂媛�";
+					cate="요가";
 					break;
 			}
 		}
 		
-		if(sido!=null) {//二쇱냼吏�媛� �엳�떎硫�
+		if(sido!=null) {//주소지가 있다면
 			Map<String,String> local = new HashMap<>();
 			local.put("sido", sido);
 			local.put("sigungu", sigungu);
 			System.out.println("cateGORY====================="+cate);
-			if(cate!=null) { //二쇱냼吏� �엳�뒗寃쎌슦 cate�엳�뒗寃쎌슦
+			if(cate!=null) { //주소지 있는경우 cate있는경우
 				local.put("cate", cate);
 			}
 			if(extra.contains("/")){
@@ -89,18 +91,18 @@ public class YoonService {
 			}
 			mav.addObject("showMap",true);
 			mav.addAllObjects(local);
-		}else {//二쇱냼吏�媛� �뾾�떎硫�
+		}else {//주소지가 없다면
 			System.out.println("cateGORY====================="+cate);
-			if(cate!=null) {//二쇱냼吏� �뾾�뒗寃쎌슦 cate�엳�뒗寃쎌슦
+			if(cate!=null) {//주소지 없는경우 cate있는경우
 				mainList = yDao.mainListCate(cate);
 			}else {
 				mainList = yDao.mainList();
 			}
 		}
 		
-		// 濡쒓렇�씤 �릺�뼱�엳�쓣 �떆
+		// 로그인 되어있을 시
 		Member sessionMb = (Member) session.getAttribute("mb");
-		System.out.println("�씠寃� �꼸�씠 �븘�땲�씪怨�? sessionMb=" + sessionMb);
+		System.out.println("이게 널이 아니라고? sessionMb=" + sessionMb);
 		if (sessionMb != null) {
 			String d_id = sessionMb.getM_id();
 			System.out.println("sessionMb.getM_id();sessionMb.getM_id();" + sessionMb.getM_id());
@@ -119,10 +121,10 @@ public class YoonService {
 			Member sessionMb, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
-				"                            <!--md-12硫� �솕硫댁뿉 苑� 李④퀬 md-7由ъ뒪�듃, md-5吏��룄�걹-->\r\n" + 
+				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
 				"                            <div class=\"card\">\r\n" + 
 				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">珥�"+mainList.size()+"嫄댁쓽 寃곌낵媛� �엳�뒿�땲�떎.</p>\r\n" + 
+				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
 				"                                    <div class=\"row\">\r\n");
 		Set<String> delBtnSet = new HashSet<>();		
 		String addBtn=null;
@@ -141,23 +143,23 @@ public class YoonService {
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
 							
-							//二쇱냼 �떆�옉�쐞移�
-							//�듃�젅�씠�꼫�뜕 �뾽泥대뜕 �냼�냽�뾽泥닿� �뾾�뒗寃쎌슦
+							//주소 시작위치
+							//트레이너던 업체던 소속업체가 없는경우
 							if(mainList.get(i).get("T_CID")==null) {
 								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
-							}else {//�냼�냽�뾽泥� �엳�뒗寃쎌슦
+							}else {//소속업체 있는경우
 								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
 							}
-							//二쇱냼 �걹�쐞移�
+							//주소 끝위치
 							 
 				  sb.append("<p>");
-				  /*for(int j=0;j<opCateListAll.size();j++) {//�샃�뀡 紐⑤몢 諛섎났臾� �룎�젮�꽌 �봽濡쒓렇�옩 �샃�뀡 移댄뀒怨좊━ 李띿뼱二쇨린
+				  /*for(int j=0;j<opCateListAll.size();j++) {//옵션 모두 반복문 돌려서 프로그램 옵션 카테고리 찍어주기
 					  if(opCateListAll.get(j).getOp_adcode().equals(ad_code)) {
 						  sb.append(opCateListAll.get(j).getOp_category()+"/");
 					  }
-				  }*/ //'AD'_CATEGORY濡� �삷寃⑥삤硫댁꽌 痍⑥냼
-				  if(ad_category.equals("�씪諛�")) {
-					  sb.append("�씪諛� �젙湲� �쉶�썝 紐⑥쭛");
+				  }*/ //'AD'_CATEGORY로 옮겨오면서 취소
+				  if(ad_category.equals("일반")) {
+					  sb.append("일반 정기 회원 모집");
 				  }else {
 					  sb.append(ad_category);
 				  }
@@ -166,8 +168,10 @@ public class YoonService {
 				  
 				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
-				// 李쒕쾭�듉 �쐞移� �떆�옉
-				  delBtn = "<button id='" + "dibsDelete" + ad_code
+
+				// 찜버튼 위치 시작
+				  
+		  delBtn = "<button id='" + "dibsDelete" + ad_code
 							+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart\"></i></button>";
 				  addBtn = "<button id='" + "dibsAdd" + ad_code
@@ -177,41 +181,41 @@ public class YoonService {
 				  
 					
 					
-					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (�쉶�썝:李쒗븯吏� �븡�� �긽�뭹�� 李쒗븯湲곕쾭�듉)
+					if (sessionMb != null && (dibsList != null && dibsList.size() != 0)) { // (회원:찜하지 않은 상품은 찜하기버튼)
 						// StringBuilder sb2=null;
 						for (int j = 0; j < dibsList.size(); j++) {
 							if(dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
 								delBtnSet.add(ad_code);
 							}
 								
-							// �쉶�썝 : 李쒗븳�긽�뭹 李� 痍⑥냼踰꾪듉
+							// 회원 : 찜한상품 찜 취소버튼
 							//else if (!dibsList.get(j).get("D_ADCODE").equals(ad_code)) {
 								//addBtnSet.add(ad_code);
 							//}
 						}
-						// �쉶�썝�씤�뜲 李� �븯�굹�룄 �뾾�쓣�븣�룄 dibsList null�씪�닔�엳�쓬 : 李쒗븯湲곕쾭�듉
+						// 회원인데 찜 하나도 없을때도 dibsList null일수있음 : 찜하기버튼
 					//} else if (sessionMb != null && (dibsList == null || dibsList.size() == 0)) {
 						//addBtnMap.put(ad_code,addBtn);
-					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 鍮꾪쉶�썝
-						// 鍮꾪쉶�썝 �꽭�뀡�뿉 李쒗븳�긽�뭹 �븘�땲硫� 李쒗븯湲곕쾭�듉
+					} else if (sessionMb == null && (dibsList == null || dibsList.size() == 0)) {// (dibsList==null) 비회원
+						// 비회원 세션에 찜한상품 아니면 찜하기버튼
 						Enumeration<String> names = session.getAttributeNames();
 						while (names.hasMoreElements()) {
-							System.out.println("李쏯AMES=" + names.nextElement());
+							System.out.println("찜NAMES=" + names.nextElement());
 						}
 						if (session.getAttribute("tempDibs" + ad_code) != null) {
-							System.out.println("李쒖컻李�!" + session.getAttribute("tempDibs" + ad_code));
+							System.out.println("찜찜찜!" + session.getAttribute("tempDibs" + ad_code));
 						}
 						if (session.getAttribute("tempDibs" + ad_code) == null
 								|| session.getAttribute("tempDibs" + ad_code) != "dibs") {
 							sb.append(addBtn);
-							// 鍮꾪쉶�썝 �꽭�뀡�뿉 李쒗븳 �긽�뭹 李쒖랬�냼踰꾪듉 :
+							// 비회원 세션에 찜한 상품 찜취소버튼 :
 							// session.setAttribute("tempDibs"+d_adcode,"dibs")/session.getAttribute("tempDibs"+d_adcode)
 						} else if (session.getAttribute("tempDibs" + ad_code) == "dibs") {
 							sb.append(delBtn);
 						}
 					} 
 					
-					// 李쒕쾭�듉 �걹
+					// 찜버튼 끝
 				  
 								
 						sb.append("</p>\r\n" + 
@@ -258,20 +262,20 @@ public class YoonService {
 					+ "													<td>" + getprogramListN.get(i).get("AD_TITLE")
 					+ "</td>\r\n" 
 					+ "<td><a href='#' id='profilePage"+getprogramListN.get(i).get("OP_TRAINER")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getprogramListN.get(i).get("OP_TRAINER")+"</button></a></td>\r\n"
-					+ "													<td>�븯�뒗�슂�씪:" + getprogramListN.get(i).get("OP_DAY")+",�떆媛�:"+ getprogramListN.get(i).get("OP_CLOCK")+",�슏�닔:"+optimes
+					+ "													<td>하는요일:" + getprogramListN.get(i).get("OP_DAY")+",시간:"+ getprogramListN.get(i).get("OP_CLOCK")+",횟수:"+optimes
 					+ "</td>\r\n" + "													<td>"
 					+ getprogramListN.get(i).get("DA_OPPERIOD") + "</td>\r\n"
 					+ "													<td>"
 					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>�긽�떞�궡�뿭蹂닿린</button>"
+					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
-					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>異쒖꽍泥댄겕�솗�씤</button>"
+					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>출석체크확인</button>"
 					+"</td>"
 					+ "													<td><a href='" + "reviewwritefrm?ps_code="
 					+ getprogramListN.get(i).get("PS_CODE") + "&m_id=" + getprogramListN.get(i).get("PS_MID")
-					+ "'><button class='btn btn-dark'>�썑湲곗벐湲�</button></a></td>\r\n" + "												</tr>");
+					+ "'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n" + "												</tr>");
 		}
 		return sb.toString();
 	}
@@ -285,8 +289,8 @@ public class YoonService {
 					+ "<td><a href='#' id='profilePage"+getnormalListN.get(i).get("M_ID")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\"><button class='btn btn-primary'>"+getnormalListN.get(i).get("C_BNAME")+"</button></a></td>\r\n"
 					+ "													<td>" + getnormalListN.get(i).get("DA_OPPERIOD")
 					+ "													<td>" + getnormalListN.get(i).get("DA_STATUS")+"</td>\r\n" 
-					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>異쒖꽍泥댄겕�솗�씤</button></td>\r\n"
-					+ "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>�썑湲곗벐湲�</button></a></td>\r\n"
+					+ "</td>\r\n" + "													<td><button class='btn btn-dark' onclick='yyyyyy("+getnormalListN.get(i).get("PS_CODE")+")'>출석체크확인</button></td>\r\n"
+					+ "													<td><a href='"+"reviewwritefrm?ps_code="+getnormalListN.get(i).get("PS_CODE")+"&m_id="+getnormalListN.get(i).get("PS_MID")+"'><button class='btn btn-dark'>후기쓰기</button></a></td>\r\n"
 					+ "												</tr>");
 		}
 		return sb.toString();
@@ -353,7 +357,7 @@ public class YoonService {
 			sb.append("<tr role=\"row\" class=\"odd\">\r\n"
 					+ "													<td class=\"sorting_1\">"
 					+ dibs.get(i).get("AD_TITLE") + "</td>\r\n"
-					+ "													<td><button class='btn btn-dark'>�궘�젣</button>"
+					+ "													<td><button class='btn btn-dark'>삭제</button>"
 					+ "<input type='hidden' id='ad_code' name='ad_code' value='"+dibs.get(i).get("AD_CODE")+"'></td>\r\n"
 					+ "												</tr>");
 		}
@@ -366,7 +370,7 @@ public class YoonService {
 		rv.setRv_name(m_id);
 		rv.setRv_pscode(ps_code);
 		if (yDao.reviewOverlap(rv)) {// true
-			String alert = "alert('�씠誘� �빐�떦 愿묎퀬湲��뿉 �썑湲곕벑濡앹쓣 �븯�뀲�뒿�땲�떎');";
+			String alert = "alert('이미 해당 광고글에 후기등록을 하셨습니다');";
 			mav.addObject("alert", alert);
 
 			mav.setViewName("forward:/infoprogramn");
@@ -380,8 +384,10 @@ public class YoonService {
 
 	public ModelAndView insertReview(Review rv) {
 		String view = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
 		boolean insertRv = yDao.reviewInsert(rv);
-		view = "manage/normal/normalMain";
+		view = "forward:questionlistn?m_id="+m_id+"";
 		mav.setViewName(view);
 		return mav;
 	}
@@ -406,7 +412,7 @@ public class YoonService {
 		for (int i = 0; i <  getCounselListN.size(); i++) { 
 			String Date = sdFormat.format(getCounselListN.get(i).get("CS_DATE"));
 		sb.append("												<tr role=\"row\" class=\"odd\">\r\n" + 
-				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>�옄�꽭�엳蹂닿린</button></a></td>\r\n" + 
+				"													<td><a href='"+"counseln?cs_opcode="+getCounselListN.get(i).get("CS_OPCODE")+"&cs_date="+Date+"' target='_blank'><button class='btn btn-dark btn-lg btn-block'>자세히보기</button></a></td>\r\n" + 
 				"													<td>" + Date + "</td>\r\n" + 
 				"												</tr>");
 		}
@@ -524,6 +530,172 @@ public class YoonService {
 		return sb.toString();
 	}
 	
+	
+	
+	public ModelAndView sales() {
+		List<Map<String, String>> getSalesList = null;
+		List<Map<String, String>> getSalesAllList = null;
+		List<Map<String, String>> getSalescList = null;
+		List<Map<String, String>> getSalesAllc = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		//Member mb=yDao.getCbname(m_id);
+		//String cbname=mb.getC_bname();
+		getSalesList = yDao.getsales(m_id);
+		getSalesAllList = yDao.getsalesAll(m_id);
+		getSalescList = yDao.getSalescList(m_id);
+		getSalesAllc = yDao.getSalesAllcList(m_id);
+		//getSalescList = yDao.getsalesAlla(m_id);
+		String html = makeHTMLsalesList(getSalesList);
+		String html2 = makeHTMLsalesAllList(getSalesAllList);
+		String html3 = makeHTMLsalescList(getSalescList);
+		String html4 = makeHTMLsalesAllcList(getSalesAllc);
+		mav.addObject("getSalesList", html);
+		mav.addObject("getSalesAllList", html2);
+		mav.addObject("getSalescList", html3);
+		mav.addObject("getSalesAllcList", html4);
+		mav.setViewName("manage/sales");
+		
+		return mav;
+		
+	}
+	
+	
+	private String makeHTMLsalesAllcList(List<Map<String, String>> getSalesAllc) {
+		StringBuilder sb=new StringBuilder();
+		String ps_price=String.valueOf(getSalesAllc.get(0).get("PS_PRICE"));
+		sb.append("<td>총 합계</td>\r\n" + 
+				"								<td>" + ps_price + "</td>");
+		
+		return sb.toString();
+	}
+	private String makeHTMLsalescList(List<Map<String, String>> getSalescList) {
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i <  getSalescList.size(); i++) {
+			String op_price=String.valueOf(getSalescList.get(i).get("OP_PRICE"));
+			String ps_price=String.valueOf(getSalescList.get(i).get("PS_PRICE"));
+			String ps_opcode=String.valueOf(getSalescList.get(i).get("PS_OPCODE"));
+		sb.append("<tr>\r\n" + 
+				"								<th>" + getSalescList.get(i).get("AD_CATEGORY") + "</th>\r\n" + 
+				"								<th>" + getSalescList.get(i).get("OP_CONTENT") + "</th>\r\n" + 
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"								<th>" + ps_price + "</th>\r\n" + 
+				"							</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	private String makeHTMLsalesAllList(List<Map<String, String>> getSalesAllList) {
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i <  getSalesAllList.size(); i++) { 
+			String ps_opcode=String.valueOf(getSalesAllList.get(i).get("PS_OPCODE"));
+			String op_price=String.valueOf(getSalesAllList.get(i).get("PS_PRICE"));
+		sb.append("							<tr>\r\n" + 
+				"								<th>" + getSalesAllList.get(i).get("M_NAME") + "</th>\r\n" +  
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"							</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	private String makeHTMLsalesList(List<Map<String, String>> getSalesList) {
+		StringBuilder sb=new StringBuilder();
+		
+		for (int i = 0; i <  getSalesList.size(); i++) { 
+			String ps_opcode=String.valueOf(getSalesList.get(i).get("PS_OPCODE"));
+			String op_price=String.valueOf(getSalesList.get(i).get("OP_PRICE"));
+			String ps_price=String.valueOf(getSalesList.get(i).get("PS_PRICE"));
+		sb.append("							<tr>\r\n" + 
+				"								<th>" + getSalesList.get(i).get("M_NAME") + "</th>\r\n" + 
+				"								<th>" + getSalesList.get(i).get("OP_CONTENT") + "</th>\r\n" + 
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"								<th>" + ps_price + "</th>\r\n" + 
+				"							</tr>");
+		sb.append("<input type='hidden' id='testInput' name='testInput' value='"+getSalesList.get(0).get("T_CID")+"'/>");
+		}
+		return sb.toString();
+	}
+	public String chart(String t_cid) {
+		String json="";
+		List<Map<String, String>> getChartList = null;
+		getChartList=yDao.getchart(t_cid);
+		json = new Gson().toJson(getChartList);
+		return json;
+	}
+	public String chart2(String t_cid) {
+		String json="";
+		List<Map<String, String>> getChartList2 = null;
+		getChartList2=yDao.getchart2(t_cid);
+		json = new Gson().toJson(getChartList2);
+		return json;
+	}
+	
+	
+	public ModelAndView questionlistN(String m_id) {
+		//System.out.println("idididididdsaasd=" + m_id);
+		String view = null;
+		
+		 List<Map<String, String>> getReviewListN = null; 
+		 List<Map<String, String>> getQuestionListN = null; 
+		 getReviewListN = yDao.getRvListN(m_id);
+		 getQuestionListN = yDao.getQuestListN(m_id); 
+		 String html =makeHTMLRVPage(getReviewListN); 
+		 String html2 = makeHTMLQTPage(getQuestionListN);
+		 
+		 mav.addObject("reviewListN", html);
+		 mav.addObject("questionListN", html2);
+		 
+
+		view = "manage/infoRVQAN";
+		mav.setViewName(view);
+		return mav;
+	}
+	private String makeHTMLQTPage(List<Map<String, String>> getQuestionListN) {
+		StringBuilder sb = new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		for (int i = 0; i < getQuestionListN.size(); i++) {
+			String Date = sdFormat.format(getQuestionListN.get(i).get("QA_WDATE"));
+			String Date2 = sdFormat.format(getQuestionListN.get(i).get("QA_ADATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getQuestionListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td><a href='#'>내용보기</a></td>\r\n"
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td>" + Date2+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		
+		return sb.toString();
+		
+	
+	}
+	private String makeHTMLRVPage(List<Map<String, String>> getReviewListN) {
+		StringBuilder sb = new StringBuilder();
+				DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i < getReviewListN.size(); i++) {
+			String Date = sdFormat.format(getReviewListN.get(i).get("RV_DATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("OP_CONTENT")+"</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("RV_CONTENT")+"</td>\r\n" 
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	
+
 	
 	/*
 	 * public String dailyCheck(String ps_code, String m_id) throws ParseException {
