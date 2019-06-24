@@ -168,8 +168,10 @@ public class YoonService {
 				  
 				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
+
 				// 찜버튼 위치 시작
-				  delBtn = "<button id='" + "dibsDelete" + ad_code
+				  
+		  delBtn = "<button id='" + "dibsDelete" + ad_code
 							+ "' type=\"button\" class=\"btn btn-outline-danger btn-rounded btn-icon\">"
 							+ "<i class=\"mdi mdi-heart\"></i></button>";
 				  addBtn = "<button id='" + "dibsAdd" + ad_code

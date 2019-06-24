@@ -2,6 +2,7 @@ package com.bodybuddy.hey;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
@@ -186,5 +187,24 @@ public class HanHomeController {
 		System.out.println("ㅇㅇㅇㅇ");
 		return str;
 	}
-
+	@ResponseBody
+	@RequestMapping(value = "/advertisemodifyfrm", method = RequestMethod.POST)
+	public ModelAndView advertiseModifyFrm(String ad_code) {
+		System.out.println("수정 폼입니다" + ad_code);
+		
+		mav = mm.advertiseModifyFrm(ad_code);
+		
+		return mav;
+	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "/advertisetrlist", method = RequestMethod.POST)
+	 * public ModelAndView advertisetrlist() { Member mb =
+	 * (Member)session.getAttribute("mb");
+	 * 
+	 * mav = mm.advertisetrlist(mb);
+	 * 
+	 * return mav; }
+	 */
 }
