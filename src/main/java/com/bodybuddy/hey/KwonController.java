@@ -147,10 +147,10 @@ public class KwonController {
 
 	@RequestMapping(value = "/saleshistory")
 	public ModelAndView salesHistory(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println(mb);
 
-		mav = ss.getSalesHistory(id);
+		mav = ss.getSalesHistory(mb);
 
 		return mav;
 	}

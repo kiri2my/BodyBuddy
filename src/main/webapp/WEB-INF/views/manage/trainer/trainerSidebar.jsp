@@ -101,7 +101,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/forms/basic_elements.html">
+                        <a class="nav-link" href="#" onclick="salesList()">
                             <i class="mdi mdi-square-inc-cash menu-icon"></i>
                             <span class="menu-title">내 판매 내역</span>
                         </a>
