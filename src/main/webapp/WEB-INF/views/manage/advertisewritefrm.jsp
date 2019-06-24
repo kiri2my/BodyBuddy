@@ -55,7 +55,7 @@ body {
 
 
 <body>
-	<form id="frm" action="adinsert">
+	<form id="frm" action="adinsert" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<table id="recent-purchases-listing" class="table">
 				<tbody>
@@ -65,10 +65,11 @@ body {
 						<td style="vertical-align: middle">
 						<select id="ex-select" name="ad_category" onchange="selectExercise()" class="form-control"	style="width: 150px;">
 								<option class="nothing" value="nothing" >선택해주세요</option> 
-								<option class="fitness" value="fitness">피트니스</option>
-								<option class="yoga" value="yoga">요가</option>
-								<option class="pt" value="pt">개인PT</option>
-								<option class="pilates" value="pilates">필라테스</option>
+								<option class="fitness" value="normal">일반</option>
+        						<option class="pt" value="pt">피트니스-PT</option>
+        						<option class="homeTraining" value="homeTraining">홈트레이닝</option>
+        						<option class="pilates" value="pilates">필라테스</option>
+        						<option class="yoga" value="yoga">요가</option>
 						</select>
 						</td>
 					</tr>
@@ -79,38 +80,47 @@ body {
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td style="vertical-align: middle"><input type="text" class="reset"
-							name="ad_content" style="height: 300px; width: 500px"></td>
+						<td style="vertical-align: middle">
+						<!-- <input type="text" class="reset"
+							name="ad_content" style="height: 300px; width: 500px"> -->
+						<textarea id="ad_content" name="ad_content"></textarea>
+							
+							
+							
+						</td>
+							
+							
 					</tr>
 					
 					
 					
 					<tr id="time" >
 						<th>옵션</th>
-						<td style="vertcal ical-align: middle">
+						<td style="vertical-align: middle">
 							<div class="radio">
 								<div id="pre_set" class="pre_set"><!-- style="display: none" -->
-									<table>
+									<table id="optionTable">
 										<tr>
 											<th>옵션명</th>
 											<th>기간</th>
 											<th>시간</th>
-											<th>요일</th>
-											<th>횟수</th>
-											<th>인원</th>
+											<th class="programOption">요일</th>
+											<th class="programOption">횟수</th>
+											<th class="programOption">인원</th>
 											<th>가격</th>
-											<th>담당자</th>
+											<th class="programOption">담당자</th>
 											
 										</tr>
 										<tr>
 											<td><input type="text" name="op_content" value="" style="width: 100px" placeholder="옵션명" class="reset"></td>
-											<td >
-												<label for="from" >From</label><input type="text"  id="from" name="op_period1" class="from">
-												 <label for="to">to</label><input type="text" id="to" name="op_period2" class="to">
+											<td>
+												<label for="dates" class="normalOption">일 수(Dates)</label><input type="text"  id="dates" name="op_period" class="dates normalOption">
+												<label for="from" class="programOption">From</label><input type="text"  id="from" name="op_period1" class="from programOption">
+												 <label for="to" class="programOption">to</label><input type="text" id="to" name="op_period2" class="to programOption">
 											</td>
-											<td><input type="text" name="op_clock" value="" style="width: 100px" placeholder="시작시간" class="reset"> 
-											<input type="text" name="op_clock" value="" style="width: 100px"	placeholder="종료시간" class="reset"></td>
-											<td><div class="checkbox" style="width: 300px; font-size: 20px" class="reset">
+											<td><input type="text" name="op_clock1" value="" style="width: 100px" placeholder="시작시간" class="reset"> 
+											<input type="text" name="op_clock2" value="" style="width: 100px"	placeholder="종료시간" class="reset"></td>
+											<td class="programOption"><div class="checkbox" style="width: 300px; font-size: 20px" class="reset">
 								<label for="foo1"> <input type="checkbox" id="foo1"
 									name="day" value="월 ">월
 								</label> <label for="foo2"> <input type="checkbox" id="foo2"
@@ -130,10 +140,10 @@ body {
 									name="day" value="@ ">
 								</label>
 							</div></td>
-											<td><input type="text" name="op_times" value="" style="width: 50px"	placeholder="횟수" class="reset"></td>
-											<td><input type="text" name="op_personnel" placeholder="모집인원" class="reset">명</td>
+											<td class="programOption"><input type="text" name="op_times" value="" style="width: 50px"	placeholder="횟수" class="reset"></td>
+											<td class="programOption"><input type="text" name="op_personnel" placeholder="모집인원" class="reset">명</td>
 											<td><input type="text" name="op_price" placeholder="가격(원)" class="reset"></td>
-											<td>${trainerlist}</td><!-- 담당자 -->
+											<td class="programOption">${trainerlist}</td><!-- 담당자 -->
 												
 											</tr>
 											</table><input type="button" value="삭제" onclick="remove_item(this)">
@@ -160,7 +170,7 @@ body {
 					<tr>
 						<th>사진</th>
 						<td colspan="2x">사진내용</td>
-						<td><input type="file" class="btn btn-secondary" name="ap_image">업로드</td>
+						<td><input type="file" class="btn btn-secondary" name="ap_image" multiple="multiple">업로드</td>
 					</tr>
 				</tbody>
 
@@ -197,9 +207,45 @@ body {
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment-with-locales.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+	
+	
+	
 </body>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
 <script>
+///////////////////////////////////////
+CKEDITOR.replace("ad_content", {
+	height:500,
+	filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
+	
+});
+
+CKEDITOR.on('dialogDefinition', function(ev){
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+  
+    switch (dialogName) {
+        case 'image': //Image Properties dialog
+            //dialogDefinition.removeContents('info');
+            dialogDefinition.removeContents('Link');
+            dialogDefinition.removeContents('advanced');
+            break;
+    }
+});
+//////////////////////////////////////
+
+$("#ex-select").change(function(){
+	console.log($("#ex-select").val());
+	if($("#ex-select").val()=="normal"){
+		$(".normalOption").show();
+		$(".programOption").hide();
+	}else{
+		$(".normalOption").hide();
+		$(".programOption").show();		
+	}
+});
+
+
 
 	//TIMEPICKER
 	var x = 1;
@@ -319,6 +365,7 @@ body {
 	    }
 	  } 
 );
+	
 </script>
 
 </html>

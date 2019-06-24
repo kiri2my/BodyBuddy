@@ -40,17 +40,18 @@
 					<p class="card-title">
 						<br>
 					</p>
-					<input type="text" class="span2" id="memsearch" placeholder="회원 검색">
-					<button type="button" onclick="memberSearch()"
-						style="position: absolute;" class="btn" id="membtn">검색</button>
+						<input type="text" class="span2" id="memsearch"
+							placeholder="회원 검색">
+						<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
-
-							<c:set var="member" value="${mList }" />
-							<c:if test="${empty member }">
+							
+							<c:set var="member" value="${mList }" /> 
+								<c:if test="${empty member }">
 									회원이 없습니다.
-								</c:if>
+								</c:if> 
 							<c:if test="${!empty member }">
+<<<<<<< HEAD
 								<thead>
 									<tr>
 										<th>이름</th>
@@ -71,6 +72,25 @@
 												onclick="changeState('${member.m_id }')">이용중</a></td>
 										</tr>
 									</c:forEach>
+=======
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>생년월일</th>
+									<th>연락처</th>
+									<th>이용상태</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${mList }">
+								<tr>
+									<td><a href="#">${member.m_name }(${member.m_id })</a></td>
+									<td><a href="#">${member.m_birth }</a></td>
+									<td><a href="#">${member.m_phone }</a></td>
+									<td>이용중</td>
+								</tr>
+								</c:forEach>
+>>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
 								</tbody>
 							</c:if>
 						</table>
@@ -79,6 +99,7 @@
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
 
 
 	<div class="modal" id="modal"
@@ -91,6 +112,8 @@
 		</div>
 		<!-- <div id="modalBody" style="width: 300px;"></div> -->
 	</div>
+=======
+>>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
 
 
 	<!-- plugins:js -->
@@ -122,15 +145,19 @@
 </body>
 
 <script type="text/javascript">
-	function memberSearch() {
+	function memberSearch(){
 		var name = $('#memsearch').val();
 		//alert(name+","+sessionId);
 		$.ajax({
 			type : "get",
 			url : "membersearch",
 			data : {
+<<<<<<< HEAD
 				name : name,
 				id : sessionId
+=======
+				name : name, id : '3333'
+>>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
 			},
 			dataType : "html",
 			success : function(data) {
@@ -142,6 +169,7 @@
 			}
 		});
 	}
+<<<<<<< HEAD
 
 	function changeState(mid) {
 		var state = state;
@@ -195,5 +223,8 @@
 
 		});
 	}
+=======
+	
+>>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
 </script>
 </html>

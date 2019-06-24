@@ -14,23 +14,9 @@
 		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
 
 	<select id="getMemberList" resultType="member">
-		select distinct rownum,
+		select distinct
 		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
 		m_birth
-		from
-		m left join ps on m.m_id=ps.ps_mid left
-		join op on
-		ps.ps_adcode=op.op_adcode left join ad on
-		ad.ad_code=op.op_adcode
-		where
-		ad.ad_name = #{id} order by rownum desc
-	</select>
-
-	<select id="getMainMemberList" resultType="member">
-		select distinct
-		rownum,
-		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
-		m_birth,ps_date
 		from
 		m left join ps on m.m_id=ps.ps_mid left
 		join op on
@@ -42,19 +28,16 @@
 
 	<select id="getMemberSearch" parameterType="member"
 		resultType="member">
-		SELECT m_id,to_char(m_birth,'YYYY.MM.DD') as
-		m_birth,M_NAME,M_PHONE FROM
-		M WHERE M_NAME = #{m_name} AND M_ID
-		IN(SELECT DISTINCT PS.PS_MID FROM
-		PS,AD WHERE PS_ADCODE =
-		AD.AD_CODE AND
-		AD.AD_NAME = #{m_id})
-
+		<![CDATA[
+			SELECT M_NAME,M_PHONE FROM
+			M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT DISTINCT PS.PS_MID FROM PS,AD WHERE PS_ADCODE =
+			AD.AD_CODE AND AD.AD_NAME = #{m_id})
+		]]>
 	</select>
 
 	<select id="getTrainerList" resultType="member">
 		select
-		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
+		m.m_id,m.m_name,m.m_phone,t.t_cid,to_char(yn_date,'YYYY.MM.DD') as yn_date from m left join yesorno on m.m_id = yesorno.yn_trainer left join t on yesorno.yn_trainer=t.t_id
 		where t_cid= #{id}
 	</select>
 
@@ -64,26 +47,18 @@
 			SELECT M_NAME,M_PHONE FROM M WHERE M_NAME = #{m_name} AND M_ID IN(SELECT T_ID FROM T WHERE T_CID = #{m_id})
 		]]>
 	</select>
-	<!-- <select id="getNormalMemberList" resultType="member"> select ps.ps_code,m.m_id,m.m_name,m.m_phone,to_char(ps.ps_date,'YYYYMMDD') 
-		as ps_date,to_char(ps.ps_date+op.op_period,'YYYYMMDD') as ps_date1,trunc(ps.ps_date+op.op_period-sysdate) 
-		as op_period from m left join ps on m.m_id=ps.ps_mid left join op on ps.ps_opcode 
-		= op.op_code left join ad on op.op_adcode=ad.ad_code where op.op_trainer 
-		is null and ad.ad_name = #{id} </select> -->
-	<select id="getNormalMemberList" resultType="HashMap"> <!-- view_table = daily_normal -->
-		select m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth,
-		to_char(ps_date,'YYYYMMDD') as
-		ps_date,to_char(ps_date+op_period,'YYYYMMDD') as
-		ps_date1,trunc(ps_date + op_period-sysdate) as op_period, da_status
-		,ps_code from m left join daily_normal on m.m_id = daily_normal.ps_mid
-		where
-		ad_code = #{code}
+	<select id="getNormalMemberList" resultType="member">
+		select
+		ps.ps_code,m.m_id,m.m_name,m.m_phone,to_char(ps.ps_date,'YYYYMMDD') as
+		ps_date,to_char(ps.ps_date+op.op_period,'YYYYMMDD') as
+		ps_date1,trunc(ps.ps_date+op.op_period-sysdate) as op_period from m
+		left join ps on m.m_id=ps.ps_mid left
+		join op on ps.ps_opcode =
+		op.op_code left join ad on
+		op.op_adcode=ad.ad_code where op.op_trainer
+		is null and ad.ad_name =
+		#{id}
 	</select>
-
-	<select id="getNormalMemberListCode" resultType="String">
-		select ad_code
-		from ad where ad_name = #{id} and ad_category = '일반'
-	</select>
-
 	<select id="getProgramMemberList" resultType="member">
 		select
 		op_code,op_adcode,op_trainer,m_name,op_period,ad_title from m left
@@ -91,6 +66,7 @@
 		m_id=op_trainer left join ad on ad_code = op_adcode where
 		ad_name =
 		#{id}
+
 	</select>
 	<select id="getTrainerMemberList" resultType="member">
 		select
@@ -264,31 +240,17 @@
 	<update id="trainerJoinUpdate" parameterType="HashMap">
 		update yesorno set
 		yn_state = #{state}, yn_date = sysdate where yn_trainer = #{tid}
-		and
-		yn_company= #{cid}
+		and yn_company= #{cid}
 	</update>
 	<update id="trainerJoinInsert" parameterType="HashMap">
-		update trainer set
-		t_cid = #{cid} where t_id = #{tid}
+		update trainer set t_cid = #{cid} where t_id = #{tid}
 	</update>
-
+	
 	<update id="trainerDiscon" parameterType="HashMap">
-		update trainer set
-		t_cid = '소속업체없음' where t_id =#{tid} and t_cid = #{cid}
+		update trainer set t_cid = '소속업체없음' where t_id =#{tid} and t_cid = #{cid}
 	</update>
 	<delete id="trainerDisconDelete" parameterType="HashMap">
-		delete from
-		yesorno where yn_company = #{cid} and yn_trainer = #{tid}
+		delete from yesorno where yn_company = #{cid} and yn_trainer = #{tid}
 	</delete>
-
-	<update id="changeState" parameterType="HashMap">
-		update daily set
-		da_status = #{status} where da_pscode = #{code}
-	</update>
-
-	<select id="getMainAdvertise" resultType="question">
-		select * from ad where
-		ad_name = #{id} and ad_status != '만료됨'
-	</select>
 
 </mapper>

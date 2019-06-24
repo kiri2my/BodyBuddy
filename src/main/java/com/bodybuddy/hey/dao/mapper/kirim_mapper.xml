@@ -26,11 +26,11 @@
 	</select>
 	
 		
-	<resultMap type="HashMap" id="detailPageResultMap">
+	<!-- <resultMap type="HashMap" id="detailPageResultMap">
 		<result column="AD_CONTENT" jdbcType="NCLOB" javaType="String"/>
-	</resultMap>
+	</resultMap> -->
 	
-	<select parameterType="String" id="detailPage" resultType="HashMap" resultMap="detailPageResultMap"> 
+	<select parameterType="String" id="detailPage" resultType="HashMap"> 
 		SELECT DC.*, AD.AD_CONTENT 
 		FROM	(SELECT DISTINCT AD_CODE, AD_NAME, AD_TITLE, AD_STATUS, AD_DATE, AD_CATEGORY, 
 				 M_ADDR, DP.T_CID, M_NAME, M_KIND, T_CID_ADDR 
@@ -84,7 +84,7 @@
 	
 	<select parameterType="String" id="getTrainerProfile" resultType="HashMap"> 
 		
-		SELECT M_ID, M_NAME, M_KIND, T_CID, NVL(T_CAREER,'none') as T_CAREER, NVL(C_BNAME,'none'), NVL(PF_IMAGE,'none') as PF_IMAGE 
+		SELECT M_ID, M_NAME, M_KIND, T_CID, NVL(T_CAREER,'none') as T_CAREER, C_BNAME, NVL(PF_IMAGE,'none') as PF_IMAGE 
 		FROM M
 		LEFT JOIN T ON M_ID=T_ID
 		LEFT JOIN C ON T_CID=C_ID
@@ -205,39 +205,38 @@
  	<insert id="detailQaWriteInsert" parameterType="qna">
 		INSERT INTO QA VALUES(QA_SEQ.NEXTVAL,#{qa_adcode},#{qa_writer},#{qa_wContent},SYSDATE,#{qa_answer},'',SYSDATE,'f')
 	</insert>
+	
+		
+ 	<select id="getAdName" parameterType="String" resultType="String">
+  		SELECT AD_NAME FROM AD WHERE AD_CODE=#{ad_code}
+ 	</select>
  	
-
-	<select id="getCategory" parameterType="String" resultType="Integer">
-    SELECT COUNT(*)
-	FROM PS
-	JOIN AD on PS_ADCODE = AD_CODE
-	WHERE PS_CODE=#{ps_code} AND AD_CATEGORY='일반'
- 	</select>
- 	<select id="selectOpPeriod" parameterType="String" resultType="Integer">
-    SELECT TO_NUMBER(#{ph2})
-	FROM PS
-	JOIN OP on PS_OPCODE = OP_CODE
-	WHERE PS_CODE= #{ps_code}
- 	</select>
-	<select id="getEndDay" resultType="Integer">
-	<![CDATA[
-    SELECT TO_NUMBER(TO_CHAR(PS_DATE+#{opperiod},'YYYYMMDD'))
-	FROM PS
-	JOIN OP on PS_OPCODE = OP_CODE
-	WHERE PS_CODE=#{ps_code}
-    	]]>
- 	</select>
-
- 	<insert id="norInsertDaliy" parameterType="HashMap">
- 	<![CDATA[
-		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'이용중',#{str})
-		]]>
+ 	<insert id="alarmSendPurch" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	<insert id="alarmSelfPurch" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS02','n',SYSDATE)
 	</insert>
 	
-	 <select id="getPscode" parameterType="String" resultType="Integer">
-    SELECT TO_NUMBER(TO_CHAR(PS_DATE,'YYYYMMDD')) FROM PS
-	WHERE PS_CODE= #{ps_code}
+	<select id="alarmReceiveAll" parameterType="String" resultType="alarm">
+  		SELECT * FROM AL WHERE AL_MRID=#{m_id} AND AL_STATUS='n'
  	</select>
+ 	
+	<update id="alarmConfirm" parameterType="String">
+		UPDATE AL SET AL_STATUS='y' WHERE AL_CODE = #{al_code}
+	</update>
+	<insert id="alarmSendQuestion" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'QA01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	
+ 	 	
+ 	
 	
 	
 	

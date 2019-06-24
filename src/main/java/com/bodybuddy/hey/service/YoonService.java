@@ -118,12 +118,12 @@ public class YoonService {
 	private String makeHTMLMainList(List<Map<String, String>> mainList, List<Map<String, String>> dibsList, 
 			Member sessionMb, ModelAndView mav) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">\r\n" + 
-				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->\r\n" + 
-				"                            <div class=\"card\">\r\n" + 
-				"                                <div class=\"card-body\">\r\n" + 
-				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>\r\n" + 
-				"                                    <div class=\"row\">\r\n");
+		sb.append("<div id='listCard' class=\"col-md-12 card scroll\">" + 
+				"                            <!--md-12면 화면에 꽉 차고 md-7리스트, md-5지도끝-->" + 
+				"                            <div class=\"card\">" + 
+				"                                <div class=\"card-body\">" + 
+				"                                    <p class=\"card-title\">총"+mainList.size()+"건의 결과가 있습니다.</p>" + 
+				"                                    <div class=\"row\">");
 		Set<String> delBtnSet = new HashSet<>();		
 		String addBtn=null;
 		String delBtn=null;
@@ -131,12 +131,12 @@ public class YoonService {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
 					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
 					
-				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">\r\n" + 
-							"                                        <div class=\"thumbnail\">\r\n" + 
+				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">" + 
+							"                                        <div class=\"thumbnail\">" + 
 							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 
-							"                                            <div class=\"caption\">\r\n" + 
-							"                                                <br>\r\n" + 
+							"                                            <div class=\"caption\">" + 
+							"                                                <br>" + 
 							"                                                <h3 id=\"thumbnail-label\">");
 							sb.append(mainList.get(i).get("AD_TITLE")+"<a class=\"anchorjs-link\" href=\"#thumbnail-label\">"+
 									 "<span class=\"anchorjs-icon\"></span></a></h3>"); 
@@ -144,9 +144,9 @@ public class YoonService {
 							//주소 시작위치
 							//트레이너던 업체던 소속업체가 없는경우
 							if(mainList.get(i).get("T_CID")==null) {
-								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>");
 							}else {//소속업체 있는경우
-								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>\r\n");
+								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>");
 							}
 							//주소 끝위치
 							 
@@ -164,7 +164,7 @@ public class YoonService {
 				  
 				  
 				  
-				  sb.append("</p>\r\n" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
+				  sb.append("</p>" + //"detailpage?ad_code="+ad_code //"detail/page/"+ad_code+"
 							"<p><a href='detailpage?ad_code="+ad_code+"' id='showdetail"+ad_code+"' class='btn btn-primary' role=\"button\">상세보기</a> ");
 				// 찜버튼 위치 시작
 				  delBtn = "<button id='" + "dibsDelete" + ad_code
@@ -214,18 +214,18 @@ public class YoonService {
 					// 찜버튼 끝
 				  
 								
-						sb.append("</p>\r\n" + 
-								  "                                                </div>\r\n" + 
-								  "                                            </div>\r\n" + 
-								  "                                        </div>\r\n"
+						sb.append("</p>" + 
+								  "                                                </div>" + 
+								  "                                            </div>" + 
+								  "                                        </div>"
 						);
 				}//end For
 		String delBtnSetJson = new Gson().toJson(delBtnSet);
 		mav.addObject("delBtnSet",delBtnSetJson);
 				
-	  sb.append("            	                    </div>\r\n" + 
-				"                                </div>\r\n" + 
-				"                            </div>\r\n" + 
+	  sb.append("            	                    </div>" + 
+				"                                </div>" + 
+				"                            </div>" + 
 				"                        </div>");
 		
 		
@@ -380,8 +380,10 @@ public class YoonService {
 
 	public ModelAndView insertReview(Review rv) {
 		String view = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
 		boolean insertRv = yDao.reviewInsert(rv);
-		view = "manage/normal/normalMain";
+		view = "forward:questionlistn?m_id="+m_id+"";
 		mav.setViewName(view);
 		return mav;
 	}
@@ -524,6 +526,175 @@ public class YoonService {
 		return sb.toString();
 	}
 	
+	
+	
+	public ModelAndView sales() {
+		List<Map<String, String>> getSalesList = null;
+		List<Map<String, String>> getSalesAllList = null;
+		List<Map<String, String>> getSalescList = null;
+		List<Map<String, String>> getSalesAllc = null;
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id=sessionMb.getM_id();
+		//Member mb=yDao.getCbname(m_id);
+		//String cbname=mb.getC_bname();
+		getSalesList = yDao.getsales(m_id);
+		getSalesAllList = yDao.getsalesAll(m_id);
+		getSalescList = yDao.getSalescList(m_id);
+		getSalesAllc = yDao.getSalesAllcList(m_id);
+		//getSalescList = yDao.getsalesAlla(m_id);
+		String html = makeHTMLsalesList(getSalesList);
+		String html2 = makeHTMLsalesAllList(getSalesAllList);
+		String html3 = makeHTMLsalescList(getSalescList);
+		String html4 = makeHTMLsalesAllcList(getSalesAllc);
+		mav.addObject("getSalesList", html);
+		mav.addObject("getSalesAllList", html2);
+		mav.addObject("getSalescList", html3);
+		mav.addObject("getSalesAllcList", html4);
+		mav.setViewName("manage/sales");
+		
+		return mav;
+		
+	}
+	
+	
+	private String makeHTMLsalesAllcList(List<Map<String, String>> getSalesAllc) {
+		StringBuilder sb=new StringBuilder();
+		String ps_price=String.valueOf(getSalesAllc.get(0).get("PS_PRICE"));
+		sb.append("<td>총 합계</td>\r\n" + 
+				"								<td>" + ps_price + "</td>");
+		
+		return sb.toString();
+	}
+	private String makeHTMLsalescList(List<Map<String, String>> getSalescList) {
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i <  getSalescList.size(); i++) {
+			String op_price=String.valueOf(getSalescList.get(i).get("OP_PRICE"));
+			String ps_price=String.valueOf(getSalescList.get(i).get("PS_PRICE"));
+			String ps_opcode=String.valueOf(getSalescList.get(i).get("PS_OPCODE"));
+		sb.append("<tr>\r\n" + 
+				"								<th>" + getSalescList.get(i).get("AD_CATEGORY") + "</th>\r\n" + 
+				"								<th>" + getSalescList.get(i).get("OP_CONTENT") + "</th>\r\n" + 
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"								<th>" + ps_price + "</th>\r\n" + 
+				"							</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	private String makeHTMLsalesAllList(List<Map<String, String>> getSalesAllList) {
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i <  getSalesAllList.size(); i++) { 
+			String ps_opcode=String.valueOf(getSalesAllList.get(i).get("PS_OPCODE"));
+			String op_price=String.valueOf(getSalesAllList.get(i).get("PS_PRICE"));
+		sb.append("							<tr>\r\n" + 
+				"								<th>" + getSalesAllList.get(i).get("M_NAME") + "</th>\r\n" +  
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"							</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	private String makeHTMLsalesList(List<Map<String, String>> getSalesList) {
+		StringBuilder sb=new StringBuilder();
+		
+		for (int i = 0; i <  getSalesList.size(); i++) { 
+			String ps_opcode=String.valueOf(getSalesList.get(i).get("PS_OPCODE"));
+			String op_price=String.valueOf(getSalesList.get(i).get("OP_PRICE"));
+			String ps_price=String.valueOf(getSalesList.get(i).get("PS_PRICE"));
+		sb.append("							<tr>\r\n" + 
+				"								<th>" + getSalesList.get(i).get("M_NAME") + "</th>\r\n" + 
+				"								<th>" + getSalesList.get(i).get("OP_CONTENT") + "</th>\r\n" + 
+				"								<th>" + ps_opcode + "</th>\r\n" + 
+				"								<th>" + op_price + "</th>\r\n" + 
+				"								<th>" + ps_price + "</th>\r\n" + 
+				"							</tr>");
+		sb.append("<input type='hidden' id='testInput' name='testInput' value='"+getSalesList.get(0).get("T_CID")+"'/>");
+		}
+		return sb.toString();
+	}
+	public String chart(String t_cid) {
+		String json="";
+		List<Map<String, String>> getChartList = null;
+		getChartList=yDao.getchart(t_cid);
+		json = new Gson().toJson(getChartList);
+		return json;
+	}
+	public String chart2(String t_cid) {
+		String json="";
+		List<Map<String, String>> getChartList2 = null;
+		getChartList2=yDao.getchart2(t_cid);
+		json = new Gson().toJson(getChartList2);
+		return json;
+	}
+	
+	
+	public ModelAndView questionlistN(String m_id) {
+		//System.out.println("idididididdsaasd=" + m_id);
+		String view = null;
+		
+		 List<Map<String, String>> getReviewListN = null; 
+		 List<Map<String, String>> getQuestionListN = null; 
+		 getReviewListN = yDao.getRvListN(m_id);
+		 getQuestionListN = yDao.getQuestListN(m_id); 
+		 String html =makeHTMLRVPage(getReviewListN); 
+		 String html2 = makeHTMLQTPage(getQuestionListN);
+		 
+		 mav.addObject("reviewListN", html);
+		 mav.addObject("questionListN", html2);
+		 
+
+		view = "manage/infoRVQAN";
+		mav.setViewName(view);
+		return mav;
+	}
+	private String makeHTMLQTPage(List<Map<String, String>> getQuestionListN) {
+		StringBuilder sb = new StringBuilder();
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		for (int i = 0; i < getQuestionListN.size(); i++) {
+			String Date = sdFormat.format(getQuestionListN.get(i).get("QA_WDATE"));
+			String Date2 = sdFormat.format(getQuestionListN.get(i).get("QA_ADATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getQuestionListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td><a style='display: inline;' href='#myModal' role='button' class='cbtn'\r\n" + 
+					"													data-toggle='modal' id='cbtn'>내용보기</a>\r\n"
+					+ "<input type='hidden' class='mm' name='ad_code' value='"+getQuestionListN.get(i).get("QA_NUM")+"'></td>\r\n"
+					
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td>" + Date2+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		
+		return sb.toString();
+		
+	
+	}
+	private String makeHTMLRVPage(List<Map<String, String>> getReviewListN) {
+		StringBuilder sb = new StringBuilder();
+				DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i < getReviewListN.size(); i++) {
+			String Date = sdFormat.format(getReviewListN.get(i).get("RV_DATE"));
+			sb.append("												<tr role=\"row\" class=\"odd\">\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("AD_TITLE")
+					+ "</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("OP_CONTENT")+"</td>\r\n"
+					+ "													<td>" + getReviewListN.get(i).get("RV_CONTENT")+"</td>\r\n" 
+					+ "													<td>" + Date+"</td>\r\n" 
+					+ "													<td></td>\r\n"
+					+ "												</tr>");
+		}
+		return sb.toString();
+	}
+	
+	
+	
+
 	
 	/*
 	 * public String dailyCheck(String ps_code, String m_id) throws ParseException {

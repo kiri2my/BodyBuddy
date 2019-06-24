@@ -3,8 +3,7 @@ package com.bodybuddy.hey.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
+import com.bodybuddy.hey.bean.Alarm;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Payment;
@@ -74,16 +73,23 @@ public interface KirimDao {
 
 	public List<Map<String, String>> adPhotoList(String ad_code);
 
-	public Integer getCategory(String ps_code);
+	public String getAdName(String ad_code);
 
-	public int getEndDay(@Param("ps_code") String ps_code, @Param("opperiod")int opperiod2);
+	public boolean alarmSelfPurch(Map<String, String> m);
+	
+	public int alarmSendPurch(Map<String, String> m);
 
-	public int selectOpPeriod(@Param("ps_code")String ps_code, @Param("ph2")String ph2);
+	public List<Alarm> alarmReceiveAll(String m_id);
 
-	public boolean norInsertDaliy(Map<String, String> cs2);
+	public boolean alarmConfirm(String al_code);
 
-	public int getPscode(String ps_code);
+	public int alarmSendQuestion(Map<String, String> m);
 
+
+
+	
+
+	
 	
 
 	

@@ -45,9 +45,9 @@ public class KwonService {
 
 	public ModelAndView getMemberList(Member mb) {
 		mav = new ModelAndView();
-
+		
 		String id = mb.getM_id();
-
+		
 		List<Member> mList = null;
 		System.out.println("getMemberList mDao in");
 		mList = ksDao.getMemberList(id);
@@ -558,7 +558,7 @@ public class KwonService {
 
 		try {
 			if (checkNum >= 1) {
-				System.out.println("checkNum 파일 있음" + "," + checkNum);
+				System.out.println("checkNum 파일 있음"+","+checkNum);
 				oriFileName = file.getOriginalFilename();
 				sysFileName = System.currentTimeMillis() + "."
 						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
@@ -604,7 +604,7 @@ public class KwonService {
 			 * mav.addObject(com); mav.addObject(m); view =
 			 * "manage/company/company?m_id"+m_id; mav.setViewName(view);
 			 */
-			ajGson = gson.toJson(com) + gson.toJson(m);
+			ajGson = gson.toJson(com)+gson.toJson(m);
 		} catch (Exception e) {
 			System.out.println("정보수정 실패");
 		}

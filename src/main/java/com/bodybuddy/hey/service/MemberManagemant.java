@@ -1,6 +1,7 @@
 package com.bodybuddy.hey.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ public class MemberManagemant {
 		// 비번을 암호화(Encoding)할 수 있지만 복호화(Decoding)는 불가능
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
+		System.out.println("asdasdsadasd    = " + mb.getM_phone());
 
 		if (mDao.normalMemberJoin(mb)) {
 			view = "loginJoinFrm/loginFrm";
@@ -251,6 +253,9 @@ public class MemberManagemant {
 		Member sessionMb = (Member) session.getAttribute("mb");
 		String m_id = sessionMb.getM_id();
 		String m_birth = sessionMb.getM_birth();
+		System.out.println("시작해보자");
+		System.out.println(m_birth);
+		System.out.println(m_birth);
 		String m_name = sessionMb.getM_name();
 		String m_pw = multi.getParameter("m_pw");
 		System.out.println(m_pw);
@@ -270,6 +275,7 @@ public class MemberManagemant {
 
 		int i = mDao.imgOverlap(m_id);
 		if (i == 0) {
+			System.out.println("if 가 0이다 이말이야");
 			upload.fileUp(multi, m_id);
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			mb.setM_id(m_id);
@@ -286,6 +292,8 @@ public class MemberManagemant {
 			mav.addObject("mb", mb1);
 			mav.addObject("mbPhoto", mbPhoto);
 		} else if (i >= 1) {
+			System.out.println("if 가 1이다 이말이야");
+
 			upload.fileUp2(multi, m_id);
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			mb.setM_id(m_id);
@@ -314,4 +322,191 @@ public class MemberManagemant {
 		String str = gson.toString();
 		return str;
 	}
+
+	public ModelAndView advertiseModifyFrm(String ad_code) {
+		// int i = mDao.opcount(ad_code);
+		mav = new ModelAndView();
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println("메멘의 수정폼입니다");
+		ArrayList<Question> opList = mDao.advertiseModifyFrm(ad_code);
+		System.out.println("dao입니다");
+		System.out.println("opList1" + opList.size());
+		String makeopHtml = opHtml(opList, opList.size());
+
+		Question list = new Question();
+		System.out.println("list" + list.getOp_code());
+		System.out.println(opList);
+
+		
+		mav.addObject("opHtml", makeopHtml);
+		mav.addObject("opList", opList);
+		mav.setViewName("manage/advertisemodifyfrm2");
+		System.out.println("메멘의 리턴입니다");
+		return mav;
+	}
+
+	private String opHtml(ArrayList<Question> opList, int opSize) {
+		StringBuilder sb = new StringBuilder();
+		String str  = "";
+		String str2 = "";
+		String str3 = "";
+		String mon = "";
+		String tue = "";
+		String wed = "";
+		String thu = "";
+		String fri = "";
+		String sat = "";
+		String sun = "";
+		String fitness = "";
+		String yoga = "";
+		String pt = "";
+		String pilates = "";
+		System.out.println(opList.get(0).getOp_adcode());
+		String[] op_period = opList.get(0).getOp_period().split("~");
+		String[] op_day = opList.get(0).getOp_day().split(" ");
+		String[] op_clock = opList.get(0).getOp_clock().split("~");
+		String ad_content = opList.get(0).getAd_content();
+		String ad_title = opList.get(0).getAd_title();
+		String ad_category = opList.get(0).getAd_category();
+		Member m = (Member) session.getAttribute("mb");
+		if (ad_category.equals("fitness")) {
+			fitness = "selected=\"selected\"";
+		}
+		if (ad_category.equals("yoga")) {
+			yoga = "selected=\"selected\"";
+		}
+		if (ad_category.equals("pt")) {
+			pt = "selected=\"selected\"";
+		}
+		if (ad_category.equals("pilates")) {
+			pilates = "selected=\"selected\"";
+		}
+
+		str = ("<form id=\"frm\" action=\"adinsert\">\r\n" + "  <div class=\"container\">\r\n"
+				+ "   <table id=\"recent-purchases-listing\" class=\"table\">\r\n" + "    <tbody>\r\n" + "     <tr>\r\n"
+				+ "      <th style=\"width: 200px\">분류</th>\r\n" + "\r\n"
+				+ "      <td style=\"vertical-align: middle\">\r\n"
+				+ "      <select id=\"ex-select\" name=\"ad_category\" onchange=\"selectExercise()\" class=\"form-control\" style=\"width: 150px;\">\r\n"
+				+ "        <option class=\"nothing\" value=\"nothing\" >선택해주세요</option> \r\n"
+				+ "        <option class=\"fitness\" value=\"fitness\" " + fitness + ">피트니스</option>\r\n"
+				+ "        <option class=\"yoga\" value=\"yoga\" " + yoga + ">요가</option>\r\n"
+				+ "        <option class=\"pt\" value=\"pt\" " + pt + ">개인PT</option>\r\n"
+				+ "        <option class=\"pilates\" value=\"pilates\" " + pilates + ">필라테스</option>\r\n"
+				+ "      </select>\r\n" + "      </td>\r\n" + "     </tr>\r\n" + "     <tr>\r\n"
+				+ "      <th>제목</th>\r\n" + "      <td style=\"vertical-align: middle\"><input type=\"text\" \r\n"
+				+ "       name=\"ad_title\" style=\"height: 50px;\" value=" + ad_title + "></td>\r\n" + "     </tr>\r\n"
+				+ "     <tr>\r\n" + "      <th>내용</th>\r\n"
+				+ "      <td style=\"vertical-align: middle\"><input type=\"text\" class=\"reset\"\r\n"
+				+ "       name=\"ad_content\" style=\"height: 300px; width: 500px\" value=" + ad_content + "></td>\r\n"
+				+ "     </tr>\r\n" + "     \r\n" + "     \r\n" + "     \r\n" + "     <tr id=\"time\" >\r\n"
+				+ "      <th>옵션</th>\r\n" + "      <td style=\"vertcal ical-align: middle\">\r\n"
+				+ "       <div class=\"radio\">\r\n" + "        <div id=\"pre_set\" class=\"pre_set\">" + "<table>\r\n"
+				+ "          <tr>\r\n" + "           <th>옵션명</th>\r\n" + "           <th>기간</th>\r\n"
+				+ "           <th>시간</th>\r\n" + "           <th>요일</th>\r\n" + "           <th>횟수</th>\r\n"
+				+ "           <th>인원</th>\r\n" + "           <th>가격</th>\r\n" + "           <th>담당자</th>\r\n"
+				+ "           \r\n" + "          </tr>\r\n" + "          <tr>\r\n");
+		for (int i = 0; i < opSize; i++) {
+			op_period = opList.get(i).getOp_period().split("~");
+			op_day = opList.get(i).getOp_day().split(" ");
+			op_clock = opList.get(i).getOp_clock().split("~");
+			for (int s = 0; s < opSize; s++) {
+				if (op_day[s].equals("월")) {
+					mon = "checked";
+				}
+				if (op_day[s].equals("화")) {
+					tue = "checked";
+				}
+				if (op_day[s].equals("수")) {
+					wed = "checked";
+				}
+				if (op_day[s].equals("목")) {
+					thu = "checked";
+				}
+				if (op_day[s].equals("금")) {
+					fri = "checked";
+				}
+				if (op_day[s].equals("토")) {
+					sat = "checked";
+				}
+				if (op_day[s].equals("일")) {
+					sun = "checked";
+
+				}
+				System.out.println(i + "asdadasdasdasdasd");
+				System.out.println("op_period[0]" + op_period[0]);
+				System.out.println("op_period[1]" + op_period[1]);
+				System.out.println("op_clock[0]" + op_clock[0]);
+				System.out.println("op_clock[1]" + op_clock[1]);
+				System.out.println("opList.get(" + i + ").getOp_times()" + opList.get(i).getOp_times());
+				System.out.println("opList.get(" + i + ").getOp_personnel()" + opList.get(i).getOp_personnel());
+				System.out.println("opList.get(" + i + ").getOp_price()" + opList.get(i).getOp_price());
+
+				str2 = ("          <tr>\r\n"
+						+ "           <td><input type=\"text\" name=\"op_content\"	 style=\"width: 100px\" placeholder=\"옵션명\"  class=\"reset\" value="
+						+ opList.get(i).getOp_content() + "></td>\r\n" + "           <td >\r\n"
+						+ "            <label for=\"from\" >From</label><input type=\"text\"  id=\"from\" name=\"op_period1\" class=\"from\" value="
+						+ op_period[0] + ">\r\n"
+						+ "             <label for=\"to\">to</label><input type=\"text\" id=\"to\" name=\"op_period2\" class=\"to\" value="
+						+ op_period[1] + ">\r\n" + "           </td>\r\n"
+						+ "           <td><input type=\"text\" name=\"op_clock1\" style=\"width: 100px\" placeholder=\"시작시간\" class=\"reset\" value="
+						+ op_clock[0] + "> \r\n"
+						+ "           <input type=\"text\" name=\"op_clock2\" style=\"width: 100px\" placeholder=\"종료시간\" class=\"reset\" value="
+						+ op_clock[1] + "></td>\r\n"
+						+ "           <td><div class=\"checkbox\" style=\"width: 300px; font-size: 20px\" class=\"reset\">\r\n"
+						+ "        <label for=\"foo1\"> <input type=\"checkbox\" id=\"foo1\"\r\n"
+						+ "         name=\"day\" value=\"월 \" " + mon + ">월\r\n"
+						+ "        </label> <label for=\"foo2\"> <input type=\"checkbox\" id=\"foo2\"\r\n"
+						+ "         name=\"day\" value=\"화 \" " + tue + ">화\r\n"
+						+ "        </label> <label for=\"foo3\"> <input type=\"checkbox\" id=\"foo3\"\r\n"
+						+ "         name=\"day\" value=\"수 \" " + wed + ">수\r\n"
+						+ "        </label> <label for=\"foo4\"> <input type=\"checkbox\" id=\"foo4\"\r\n"
+						+ "         name=\"day\" value=\"목 \" " + thu + ">목\r\n"
+						+ "        </label> <label for=\"foo5\"> <input type=\"checkbox\" id=\"foo5\"\r\n"
+						+ "         name=\"day\" value=\"금 \" " + fri + ">금\r\n"
+						+ "        </label> <label for=\"foo6\"> <input type=\"checkbox\" id=\"foo6\"\r\n"
+						+ "         name=\"day\" value=\"토 \" " + sat + ">토\r\n"
+						+ "        </label> <label for=\"foo7\"> <input type=\"checkbox\" id=\"foo7\"\r\n"
+						+ "         name=\"day\" value=\"일 \" " + sun + ">일\r\n" + "        </label> \r\n"
+						+ "        <label for=\"foo7\"> <input type=\"hidden\" id=\"foo7\"\r\n"
+						+ "         name=\"day\" value=\"@\">\r\n" + "        </label>\r\n" + "       </div></td>\r\n"
+						+ "           <td><input type=\"text\" name=\"op_times\" style=\"width: 50px\" placeholder=\"횟수\" class=\"reset\" value="
+						+ opList.get(i).getOp_times() + "></td>\r\n"
+						+ "           <td><input type=\"text\" name=\"op_personnel\" placeholder=\"모집인원\" class=\"reset\" value="
+						+ opList.get(i).getOp_personnel() + ">명</td>\r\n"
+						+ "           <td><input type=\"text\" name=\"op_price\" placeholder=\"가격(원)\" class=\"reset\" value="
+						+ opList.get(i).getOp_price() + "></td>\r\n"
+						+ "           <td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id() + ">\r\n"  
+						+ m.getM_name() + "</option></select></td> </tr>\r\n");
+			}
+			str3 += str2;
+		}
+		System.out.println("최종입니다" + str2);
+		sb.append(str + str3);
+
+		return sb.toString();
+	}
+	
+	/*
+	 * public ModelAndView advertisetrlist(Member mb) { mav = new ModelAndView();
+	 * String trainerlist = makeHtmltrainerlist(mb);
+	 * 
+	 * mav.addObject("trainerlist", trainerlist);
+	 * 
+	 * 
+	 * return mav; }
+	 * 
+	 * private String makeHtmltrainerlist(Member mb) { StringBuilder sb = new
+	 * StringBuilder(); String id = mb.getM_id(); System.out.println("id:" + id); //
+	 * 다오가즈아 m = mDao.kindkind(id); String kind = m.getM_kind();
+	 * System.out.println("KIND : " + kind); System.out.println("Name : " +
+	 * m.getM_name());
+	 * 
+	 * System.out.println("트레이너네요");
+	 * sb.append("<select name=\"op_trainer\"><option value=" + m.getM_name() + ","
+	 * + m.getM_id() + ">" + m.getM_name() + "</option></select>");
+	 * System.out.println("저장되었다"); return sb.toString();
+	 * 
+	 * }
+	 */
+
 }

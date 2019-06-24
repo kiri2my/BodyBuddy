@@ -85,7 +85,7 @@
 					class="menu-title">판매내역</span>
 			</a></li>
 			<li class="nav-item"><a class="nav-link"
-				href="pages/forms/basic_elements.html"> <i
+				href="#" onclick="salesPage()"> <i
 					class="mdi mdi-chart-areaspline menu-icon"></i> <span
 					class="menu-title">매출/실적 관리</span>
 			</a></li>

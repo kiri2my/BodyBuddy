@@ -38,6 +38,7 @@ public class YoonHomeController {
 	HttpSession session;
 	
 	ModelAndView mav;
+	String html;
 	
 	/*
 	 * @RequestMapping(value = "/dailyCheck", produces =
@@ -48,6 +49,36 @@ public class YoonHomeController {
 	 * 
 	 * String html=null; html=ys.dailyCheck(ps_code,m_id); return html; }
 	 */
+	@RequestMapping(value = "/questionlistn", method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView questionlistN(String m_id) {
+		mav=ys.questionlistN(m_id);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/chart",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public String chart(String t_cid) {
+		html = ys.chart(t_cid);
+		return html;
+	}
+	
+	@RequestMapping(value = "/charttwo",produces ="application/json; charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public String chart2(String t_cid) {
+		html = ys.chart2(t_cid);
+		return html;
+	}
+	
+	@RequestMapping(value = "/sales")
+	public ModelAndView sales() {
+		mav=ys.sales();
+		
+		return mav;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/calenderN")
 	public ModelAndView calenderN(String ps_code) {

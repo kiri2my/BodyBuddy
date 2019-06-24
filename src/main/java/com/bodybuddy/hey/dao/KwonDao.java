@@ -98,5 +98,4 @@ public interface KwonDao {
 
 	public ArrayList<Question> getMainAdvertise(String id);
 
-
 }

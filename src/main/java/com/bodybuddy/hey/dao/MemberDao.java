@@ -2,6 +2,7 @@ package com.bodybuddy.hey.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public interface MemberDao {
 	
 	public Member getProfileList(String m_id);
 
-	public List<Member> getTfindC(Member m);
+	public Member getTfindC(Member m);
 
 	public List<Question> getQuestionList(String id);
 
@@ -46,7 +47,7 @@ public interface MemberDao {
 	
 	public boolean memberDeleteReal(String m_id);
 
-	public void profileComplete(String id);
+	public void profileComplete(Member mb);
 
 	public boolean acceptrequestInsert(Member m);
 
@@ -58,10 +59,6 @@ public interface MemberDao {
 	public List<YesOrNo> trinerlist(String id);
 
 	public Member kindkind(String id);
-
-	public boolean adinsert(Question adadd);
-
-	public boolean opinsert(Question adadd);
 
 	public boolean imginsert(Question adadd);
 
@@ -88,6 +85,30 @@ public interface MemberDao {
 	public int imgOverlap(String m_id);
 
 	public String pfimage(String m_id);
+	
+	public boolean adPhotoInsert(Map<String, String> map);
+
+	public void imginsert(Map<String, String> fMap);
+
+	public Member findC_id(String name);
+
+	public Member orginC_id(String m_id);
+
+	public int comfirm(Member m);
+
+	public Member getSosok(String m_id);
+
+	public int comfirm1(String m_id);
+
+	public boolean adinsert(Question adadd);
+
+	public boolean opinsert(Map<String, String> opMap);
+
+	public int opcount(String ad_code);
+
+	public ArrayList<Question> advertiseModifyFrm(String ad_code);
+
+	
 
 
 

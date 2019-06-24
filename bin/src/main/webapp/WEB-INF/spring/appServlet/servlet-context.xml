@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -21,11 +22,14 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<!-- <resources location="/WEB-INF/views/images/" mapping="/images/**" />
-	<resources location="/WEB-INF/views/css/" mapping="/css/**" />
-	<resources location="/WEB-INF/views/js/" mapping="/js/**" /> -->
+	<!-- <resources location="/WEB-INF/views/images/" mapping="/images/**" /> 
+		<resources location="/WEB-INF/views/css/" mapping="/css/**" /> <resources 
+		location="/WEB-INF/views/js/" mapping="/js/**" /> -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
+	
+	<task:annotation-driven/>
+	
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -41,6 +45,8 @@
 			value="net.sf.log4jdbc.DriverSpy" />
 		<beans:property name="url"
 			value="jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521:xe" />
+		<!-- <beans:property name="url" value="jdbc:log4jdbc:oracle:thin:@106.243.194.226:3100:xe" 
+			/> -->
 		<beans:property name="username" value="ICIA" />
 		<beans:property name="password" value="1111" />
 	</beans:bean>
@@ -53,5 +59,82 @@
 		<beans:property name="mapperLocations"
 			value="classpath:com/**/mapper/*.xml" />
 	</beans:bean>
+
+	<beans:bean id="mDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.MemberDao" />
+	</beans:bean>
+
+	<beans:bean id="yDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.YoonDao" />
+	</beans:bean>
+	<beans:bean id="kDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.KirimDao" />
+	</beans:bean>
+	<beans:bean id="sDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.SalesDao" />
+	</beans:bean>
+	<beans:bean id="ksDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+		<beans:property name="mapperInterface"
+			value="com.bodybuddy.hey.dao.KwonDao" />
+	</beans:bean>
+
+
+	<beans:bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 필요한 정보 -->
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
+	<!-- 일정시간마다 작동하는 스케쥴러 -->
+	<!-- <beans:bean id="kirimDailyWork"
+		class="com.bodybuddy.hey.userClass.KirimDailyWork">
+		필요한 정보
+		<beans:property name="daemon" ref="kirimDailyWork" />
+	</beans:bean> -->
+	
+	
+	<!-- @Transactional 어노테이션 사용을 위한 설정 : 반드시 servlet-context에 설정할것 -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+	<!-- 파일 업로드 설정 -->
+	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<beans:property name="defaultEncoding" value="UTF-8"/>
+	<beans:property name="maxUploadSize" value="10000000"/> 
+	<beans:property name="maxInMemorySize" value="10000000"/> 
+	</beans:bean> 
+	
+	<!--Session Interceptor(가로채기)-->
+	<!--<interceptors>
+		<interceptor>
+			<mapping path="/*"/> Mapping의 모든 요청은 Controller에 도착하기 전에 가로챈다.
+		 	<exclude-mapping path="/"/> exclude-mapping의 요청은 가로채지 않는다  
+		 	
+		 	
+		 	<beans:bean class="com.bodybuddy.hey.userClass.SessionInterceptor"/>
+		</interceptor>
+	</interceptors>-->
+	
+	
+	
+
 
 </beans:beans>
