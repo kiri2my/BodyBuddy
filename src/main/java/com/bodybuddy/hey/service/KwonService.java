@@ -1,6 +1,7 @@
 package com.bodybuddy.hey.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,19 +19,25 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Company;
 import com.bodybuddy.hey.bean.DailyCheck;
 import com.bodybuddy.hey.bean.Member;
+import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.dao.KwonDao;
+import com.bodybuddy.hey.dao.SalesDao;
 import com.google.gson.Gson;
 
 @Service
 public class KwonService {
 	@Autowired
 	private KwonDao ksDao;
-
+	@Autowired
+	private SalesDao sDao;
+	@Autowired
 	private HttpSession session; // request는 권장하지 않음
 
 	Member m;
 	DailyCheck dc;
 	Company com;
+	Sales s;
 
 	ModelAndView mav;
 
@@ -88,8 +95,9 @@ public class KwonService {
 		return mav;
 	}
 
-	public ModelAndView getTrainerList(String id) {
+	public ModelAndView getTrainerList(Member mb) {
 		mav = new ModelAndView();
+		String id = mb.getM_id();
 
 		List<Member> tList = null;
 		System.out.println("Trainer select in");
@@ -138,20 +146,22 @@ public class KwonService {
 	}
 
 	public ModelAndView getNormalMemberList(HttpServletRequest request) {
+		ArrayList<HashMap<String, String>> mList1 = new ArrayList<HashMap<String, String>>();
 		mav = new ModelAndView();
 		String id = request.getParameter("id");
 
 		List<Member> mList = null;
 		System.out.println("getNormalMemberList mDao in");
-		mList = ksDao.getNormalMemberList(id);
-		System.out.println("mList = " + mList.get(0).getM_name());
-		System.out.println("mList size = " + mList.size());
+		String code = ksDao.getNormalMemberListCode(id);
+		mList1 = ksDao.getNormalMemberList(code);
+		System.out.println("mList = " + mList1.get(0).get("M_ID"));
+		System.out.println("mList size = " + mList1.size());
 
-		if (0 != mList.size()) {
+		if (0 != mList1.size()) {
 			System.out.println("getNormalMemberList select success");
 			view = "manage/company/normalDailyCheck";
 			mav.setViewName(view);
-			mav.addObject("mList", mList);
+			mav.addObject("mList", mList1);
 		} else {
 			System.out.println("member list select error");
 			view = "redirect:memberListC.jsp";
@@ -602,6 +612,193 @@ public class KwonService {
 		/* mav.setViewName("redirect:infomodifyc"); */
 
 		return ajGson;
+	}
+
+	public String getTrainerJoinList(HttpServletRequest request) {
+		ArrayList<HashMap<String, String>> map = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+
+		mav = new ModelAndView();
+		m = new Member();
+
+		String id = request.getParameter("id");
+
+		try {
+			map = ksDao.getTrainerJoinList(id);
+			str = gson.toJson(map);
+			System.out.println(str);
+			System.out.println("트레이너 요청 리스트 성공");
+		} catch (Exception e) {
+			System.out.println("트레이너 요청 리스트 실패");
+		}
+
+		return str;
+	}
+
+	public String trainerJoin(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+		String state = request.getParameter("state");
+
+		if (state.equals("1")) {
+			state = "수락";
+		} else if (state.equals("0")) {
+			state = "거절";
+		}
+
+		String cid = request.getParameter("cid");
+		String id = cid;
+		String tid = request.getParameter("tid");
+		map.put("state", state);
+		map.put("cid", cid);
+		map.put("tid", tid);
+
+		try {
+			if (state.equals("수락")) {
+				ksDao.trainerJoinUpdate(map);
+				ksDao.trainerJoinInsert(map);
+
+				hMap = ksDao.getTrainerJoinList(id);
+			} else if (state.equals("거절")) {
+				ksDao.trainerJoinUpdate(map);
+
+				hMap = ksDao.getTrainerJoinList(id);
+			}
+
+			str = gson.toJson(hMap);
+			System.out.println(str);
+			System.out.println("trainerJoin update,insert success");
+		} catch (Exception e) {
+			System.out.println("trainerJoin update,insert fail");
+		}
+
+		return str;
+	}
+
+	public String trainerDiscon(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+
+		String cid = request.getParameter("cid");
+		String id = cid;
+		String tid = request.getParameter("tid");
+		map.put("cid", cid);
+		map.put("tid", tid);
+
+		try {
+			ksDao.trainerDiscon(map);
+			ksDao.trainerDisconDelete(map);
+
+			System.out.println("trainerDiscon success");
+		} catch (Exception e) {
+			System.out.println("trainerDiscon fail");
+		}
+
+		return "success";
+	}
+
+	public String changeState(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		ArrayList<HashMap<String, String>> hMap = new ArrayList<HashMap<String, String>>();
+		Gson gson = new Gson();
+		String str = null;
+
+		String code = request.getParameter("code");
+		String status = request.getParameter("status");
+		map.put("code", code);
+		map.put("status", status);
+
+		try {
+			ksDao.changeState(map);
+			// ksDao.trainerDisconDelete(map);
+
+			System.out.println("trainerDiscon success");
+		} catch (Exception e) {
+			System.out.println("trainerDiscon fail");
+		}
+
+		return "success";
+
+	}
+
+	public ModelAndView mainList(Member mb) {
+		mav = new ModelAndView();
+		String id = mb.getM_id();
+
+		ArrayList<Member> mList = new ArrayList<Member>();
+		ArrayList<Member> mList1 = new ArrayList<Member>();
+		try {
+			System.out.println("getMainMemberList mDao in");
+			mList1 = ksDao.getMainMemberList(id);
+			System.out.println("getMainMemberList mDao out" + mList1.size());
+
+			if (0 != mList1.size()) {
+				System.out.println("getMainMemberList if in");
+				for (int i = 0; i < 5; i++) {
+					System.out.println("getMainMemberList for in");
+					mList.add(i, mList1.get(i));
+					System.out.println(mList.get(i).getM_id());
+				}
+				System.out.println("getMainMemberList for out");
+
+			}
+			System.out.println("member list select success");
+			mav.addObject("mList", mList);
+		} catch (Exception e) {
+			System.out.println("member list select error");
+		}
+
+		ArrayList<Sales> sList = new ArrayList<Sales>();
+		ArrayList<Sales> sList1 = new ArrayList<Sales>();
+		try {
+			System.out.println("getSalesHistory mDao in");
+			sList1 = sDao.getMainSalesHistory(id);
+
+			if (0 != sList1.size()) {
+				for (int i = 0; i < 5; i++) {
+					sList.add(i, sList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(sList.get(i).getPs_code());
+				}
+
+			}
+			System.out.println("getSalesHistory select success");
+			mav.addObject("sList", sList);
+		} catch (Exception e) {
+			System.out.println("getSalesHistory list select error");
+		}
+		
+		int j = 5;
+		
+		ArrayList<Question> aList = new ArrayList<Question>();
+		ArrayList<Question> aList1 = new ArrayList<Question>();
+		try {
+			System.out.println("getMainAdvertise mDao in");
+			aList1 = ksDao.getMainAdvertise(id);
+			if( aList1.size() < 5) {
+				j = aList1.size();
+			}
+			if (0 != aList1.size()) {
+				for (int i = 0; i < j; i++) {
+					aList.add(i, aList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(aList.get(i).getAd_code());
+				}
+
+			}
+			System.out.println("getMainAdvertise select success");
+			mav.addObject("aList", aList);
+		} catch (Exception e) {
+			System.out.println("getMainAdvertise list select error");
+		}
+
+		mav.setViewName("manage/company/companyMain");
+		return mav;
 	}
 
 }

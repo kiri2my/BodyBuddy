@@ -13,14 +13,21 @@
 		property="mid(빈 변수명)" column="M_ID(테이블 컬럼명)" javaType="String" jdbcType="NVARCHAR2" 
 		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
 
-	<select id="getSalesHistory" resultType="sales">
+	<select id="getSalesHistory" parameterType="String"
+		resultType="sales">
 		select
 		ps.ps_code,ad.ad_title,m.m_id,m.m_name,ps.ps_price,ps.ps_date,ps.ps_adcode
 		from m left join ps on ps.ps_mid= m.m_id left join ad on ps.ps_adcode
-		= ad.ad_code where ad.ad_name = #{id}
+		= ad.ad_code where ad.ad_name = #{m_id}
 	</select>
 	<!-- <![CDATA[ SELECT M_NAME,M_PHONE FROM M WHERE M_ID IN(SELECT DISTINCT 
 		PS.PS_MID FROM PS,AD WHERE PS_ADCODE = AD.AD_CODE AND AD.AD_NAME = #{id}) 
 		]]> -->
+	<select id="getMainSalesHistory" resultType="sales">
+		select
+		ps.ps_code,ad.ad_title,m.m_id,m.m_name,ps.ps_price,ps.ps_date,ps.ps_adcode
+		from m left join ps on ps.ps_mid= m.m_id left join ad on ps.ps_adcode
+		= ad.ad_code where ad.ad_name = #{id} order by ps_code desc
+	</select>
 
 </mapper>

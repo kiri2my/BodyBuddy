@@ -135,6 +135,12 @@ public class YoonHomeController {
 		mav=ys.memberdelten();
 		return mav;
 	}
+	@RequestMapping(value = "/memberdeltet")
+	public ModelAndView memberdeltet() {
+		mav=ys.memberdeltet();
+		return mav;
+	}
+
 	@RequestMapping(value = "/payhistoryn") 
 	public ModelAndView payList(String m_id) {
 		mav=ys.payListN(m_id);

@@ -46,12 +46,17 @@ public class KwonController {
 	public ModelAndView company(HttpServletRequest request) {
 		mav = new ModelAndView();
 		Member mb = (Member) session.getAttribute("mb");
+		session.setAttribute("mb", mb);
+		mav.addObject("session_id", mb.getM_id());
+		
 		System.out.println("mb.getM_id() = "+mb.getM_id());
 		System.out.println("mb.getM_kind() = "+mb.getM_kind());
 		System.out.println("mb.getM_name() = "+mb.getM_name());
 		
-		mav.setViewName("manage/company/companyMain");
-		mav.addObject("session_id", mb.getM_id());
+		mav = ks.mainList(mb);
+		
+		
+		
 		return mav;
 	}
 
@@ -86,10 +91,10 @@ public class KwonController {
 
 	@RequestMapping(value = "/trainerlistc")
 	public ModelAndView trainerListC(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
+		Member mb = (Member) session.getAttribute("mb");
+		session.setAttribute("mb", mb);
 
-		mav = ks.getTrainerList(id);
+		mav = ks.getTrainerList(mb);
 
 		return mav;
 	}
@@ -147,10 +152,10 @@ public class KwonController {
 
 	@RequestMapping(value = "/saleshistory")
 	public ModelAndView salesHistory(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		System.out.println(id);
+		Member mb = (Member) session.getAttribute("mb");
+		System.out.println(mb);
 
-		mav = ss.getSalesHistory(id);
+		mav = ss.getSalesHistory(mb);
 
 		return mav;
 	}

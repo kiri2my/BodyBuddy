@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.dao.SalesDao;
 
@@ -21,13 +22,13 @@ public class SalesService {
 	
 	ModelAndView mav;
 
-	public ModelAndView getSalesHistory(String id) {
+	public ModelAndView getSalesHistory(Member mb) {
 		mav = new ModelAndView();
 		String view = null;
-
+		String m_id=mb.getM_id();
 		List<Sales> sList = null;
 		System.out.println("getSalesHistory mDao in");
-		sList = sDao.getSalesHistory(id);
+		sList = sDao.getSalesHistory(m_id);
 		// System.out.println("mList = " + sList.get(0).getM_name());
 		System.out.println("sList size = " + sList.size());
 

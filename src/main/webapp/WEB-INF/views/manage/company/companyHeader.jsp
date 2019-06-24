@@ -73,7 +73,7 @@
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <img src="resources/images/faces/mydefault.jpg" alt="profile" />
-                            <span class="nav-profile-name" id='sessionId'>${session_id }</span>
+                            <span class="nav-profile-name" id='sessionId'>${mb.m_name }(${mb.m_id })</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
 						<!-- <a class="dropdown-item">

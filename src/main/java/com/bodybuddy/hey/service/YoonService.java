@@ -440,7 +440,12 @@ public class YoonService {
 		mav.setViewName("manage/memberDeleteN");
 		return mav;
 	}
-	
+	public ModelAndView memberdeltet() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("manage/memberDeleteT");
+		return mav;
+	}
+
 
 	
 	public ModelAndView infomodifyn(MultipartHttpServletRequest multi) {
@@ -691,6 +696,8 @@ public class YoonService {
 		}
 		return sb.toString();
 	}
+
+
 	
 	
 	
