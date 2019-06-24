@@ -38,6 +38,8 @@ public class Question {
 	private String op_period1;
 	private String op_period2;
 	private String op_clock;
+	private String op_clock1;
+	private String op_clock2;
 	private String op_day;
 	private String op_personnel;
 	

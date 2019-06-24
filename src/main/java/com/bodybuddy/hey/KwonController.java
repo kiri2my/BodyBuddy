@@ -65,8 +65,9 @@ public class KwonController {
 
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
+		Member mb = (Member) session.getAttribute("mb");
 
-		mav = ks.getMemberList(request);
+		mav = ks.getMemberList(mb);
 
 		return mav;
 	}

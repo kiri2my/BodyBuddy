@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bodybuddy.hey.dao.YoonDao">
+
+	<select id="mainList" resultType="HashMap">
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		ORDER BY AD_CODE DESC
+	</select>
+	<select id="mainListCate" parameterType="String" resultType="HashMap">
+		SELECT DISTINCT *
+		FROM MAINLIST 
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE AD_CATEGORY= #{cate}
+		ORDER BY AD_CODE DESC
+	</select>
+	<select id="mainListMap" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+		SELECT DISTINCT * FROM MAINLIST
+		LEFT JOIN T_CID_ADDR ON MAINLIST.T_CID=T_CID_ADDR.T_CID
+		WHERE]]>
+		
+		<if test="cate!=null">
+			<![CDATA[AD_CATEGORY= #{cate} AND]]>
+		</if> 
+		<if test="extra1!=null or extra2!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra1}%' OR M_ADDR LIKE '%${extra2}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra1}%' OR T_CID_ADDR LIKE '%${extra2}%'))]]> 
+        </if>
+        <if test="extra!=null">
+			<![CDATA[ 
+			((M_ADDR LIKE '%${sido}%' AND M_ADDR LIKE '%${sigungu}%' OR M_ADDR LIKE '%${extra}%')
+			OR (T_CID_ADDR LIKE '%${sido}%' AND T_CID_ADDR LIKE '%${sigungu}%' OR T_CID_ADDR LIKE '%${extra}%'))]]> 
+        </if>
+        ORDER BY AD_CODE DESC
+	</select>
+	
+	<select id="dibsN" parameterType="String" resultType="HashMap">
+		SELECT * FROM D WHERE D_ID=#{d_id}
+	</select>
+	
+	<select id="getproListN" parameterType="String" resultType="HashMap">
+    SELECT OP_TRAINER,OP_TIMES,OP_CLOCK,OP_DAY,DA_OPPERIOD ,OP_CODE,OP_CONTENT,PS_CODE ,AD_CODE, AD_TITLE, AD_CATEGORY, OP_TRAINER, OP_PERIOD, AD_CATEGORY, PS_MID, DA_STATUS,OP_PERIOD 
+	FROM PS
+	JOIN AD on PS_ADCODE = AD_CODE
+	JOIN OP on PS_OPCODE = OP_CODE
+	JOIN DA ON PS_CODE=DA_PSCODE
+	WHERE PS_MID= #{m_id} AND AD_CATEGORY NOT IN '일반'
+	</select>
+
+	<select id="getnormalListN" parameterType="String" resultType="HashMap">
+	<![CDATA[
+	SELECT M_ID,DA_OPPERIOD,OP_CODE,PS_CODE,AD_CODE, AD_TITLE, AD_STATUS, OP_PERIOD, AD_CATEGORY, PS_MID, C_BNAME, DA_STATUS,OP_PERIOD 
+	FROM PS
+	JOIN AD on PS_ADCODE = AD_CODE
+	JOIN OP on PS_OPCODE = OP_CODE
+	JOIN C ON AD_NAME=C_ID
+	JOIN DA ON PS_CODE=DA_PSCODE
+	 JOIN M ON M_ID=AD_NAME
+	WHERE PS_MID=#{m_id} AND AD_CATEGORY='일반'
+		]]>
+	</select>
+	<select id="getpayListN" parameterType="String" resultType="HashMap">
+		SELECT DA_OPPERIOD,AD_TITLE,
+		AD_CATEGORY, PS_PRICE, PS_DATE, OP_CONTENT, OP_PERIOD
+		FROM PS
+		JOIN AD on PS_ADCODE = AD_CODE
+		JOIN OP on OP_CODE = PS_OPCODE
+		JOIN DA ON DA_PSCODE =PS_CODE
+		WHERE PS_MID=#{m_id}
+	</select>
+	<select id="getModifyN" parameterType="String" resultType="Member">
+	SELECT * FROM M WHERE M_ID=#{m_id}
+	</select>
+	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
+	SELECT * FROM PF WHERE PF_ID=#{m_id}
+	</select>
+	<select id="getdibs" resultType="HashMap">
+	SELECT AD_TITLE,AD_CODE
+	FROM AD
+	JOIN DIBS
+	ON AD_CODE=D_ADCODE
+	WHERE D_ID=#{m_id}
+	</select>
+	<insert id="reviewInsert" parameterType="review">
+	INSERT INTO REVIEW VALUES(RV_SEQ.NEXTVAL,#{rv_pscode},#{rv_name},#{rv_content},sysdate,#{rv_stpoint})
+	</insert>
+	<select id="reviewOverlap" parameterType="review" resultType="boolean">
+	SELECT COUNT(*) FROM REVIEW WHERE RV_NAME=#{rv_name} AND RV_PSCODE=#{rv_pscode}
+	</select>
+	<select id="getCounsel" parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid}
+	</select>
+	<select id="getcounselN"  resultType="Counsel">
+	SELECT * FROM COUNSEL WHERE CS_OPCODE=#{cs_opcode} AND CS_MID=#{cs_mid} AND CS_DATE=#{cs_date}     
+	</select>
+	<select id="imgOverlap" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) FROM PF WHERE PF_ID=#{m_id}
+	</select>
+	<insert id="fileInsert" parameterType="String">
+		INSERT INTO PROFILEPHOTO VALUES(#{m_id},#{pf_image})
+	</insert>
+	<update id="updateNorMb" parameterType="Member">
+	UPDATE MEMBER
+		SET M_PW = #{m_pw},
+    	M_PHONE = #{m_phone},
+    	M_ADDR = #{m_addr},
+    	M_EXADDR= #{m_exaddr}   
+		WHERE M_ID=#{m_id}
+	</update>
+	<update id="fileUpdate" parameterType="String">
+	UPDATE PROFILEPHOTO
+		SET PF_IMAGE = #{pf_image} 
+		WHERE PF_ID=#{m_id}
+	</update>
+	<select id="getDailyList" parameterType="HashMap" resultType="HashMap">
+	SELECT DN_DATE
+	FROM DN
+	JOIN DA on DN_DACODE = DA_CODE
+	JOIN PS on DA_PSCODE = PS_CODE
+	WHERE PS_MID= #{m_id} AND PS_CODE=#{ps_code}
+	</select>
+	
+</mapper>

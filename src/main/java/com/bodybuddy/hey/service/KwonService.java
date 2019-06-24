@@ -36,10 +36,11 @@ public class KwonService {
 
 	String view = null;
 
-	public ModelAndView getMemberList(HttpServletRequest request) {
+	public ModelAndView getMemberList(Member mb) {
 		mav = new ModelAndView();
-		String id = request.getParameter("id");
-
+		
+		String id = mb.getM_id();
+		
 		List<Member> mList = null;
 		System.out.println("getMemberList mDao in");
 		mList = ksDao.getMemberList(id);

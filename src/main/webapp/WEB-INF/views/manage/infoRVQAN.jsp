@@ -105,9 +105,49 @@ to {
 	white-space: normal;
 	overflow: scroll
 } 
+
+#header {
+	position: relative;
+}
+
+#nav {
+	position: fixed;
+	top: 50px;
+	height: 90%;
+}
+
+#main {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 105%;
+}
+
+#memberList {
+	position: absolute;
+	left: 240px;
+	top: 25px;
+	width: 110%;
+}
+
+#footer {
+	position: relative;
+	left: 240px;
+	width: 70%;
+	padding: 15px 0;
+	text-align: center;
+	color: white;
+	background: gray;
+}
 </style>
 </head>
 <body>
+<div id="wrap">
+		<div id="header">
+			<%-- <jsp:include page="headerNCT.jsp" /> --%>
+			<jsp:include page="../header.jsp" />
+		</div>
+		<div id="main">
 
 	<div class="container-scroller">
 
@@ -120,13 +160,13 @@ to {
 			<div class="col-md-12 stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<p class="card-title">내 프로그램</p>
+						<p class="card-title">후기목록</p>
 						<div class="table-responsive">
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 
 								<div class="row">
-									<div class="col-sm-10">
+									<div class="col-sm-12">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
@@ -135,52 +175,28 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1" 
 														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">광고명</th>
+														style="width: 200px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">트레이너</th>
+														style="width: 200px;">옵션명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Name: activate to sort column descending"
-														style="width: 140px;">옵션</th>
+														style="width: 800px;">내용</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Name: activate to sort column descending"
-														style="width: 140px;">이용기간</th>	
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
-														style="width: 70px;">카테고리</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
-														style="width: 70px;">이용상태</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">상담내역</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">출결현황</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">후기</th>
+														style="width: 260px;">올린시간</th>	
+				
 												</tr>
 											</thead>
 											<tbody>
-
-										${programListN}
+								
+											${reviewListN}
 
 											</tbody>
 										</table>
@@ -191,27 +207,27 @@ to {
 						</div>
 					</div>
 					<br>
-					<br>
-					<br>
-					<div id="articleView_layer">
+					
+					
+					<div id="articleView_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div id="bg_layer"></div>
-					<div id="contents_layer"></div>
+					<div id="contents_layer" style="width: 60em"></div>
 					</div>
 					<br>
-					<br>
-					<br>
+					
+					
 					<div id="se" class="card-body">
-						<p class="card-title">일반 피트니스</p>
+						<p class="card-title">문의 목록</p>
 						<div class="table-responsive">
 							<div id="recent-purchases-listing_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 								<div class="row">
-									<div class="col-sm-6 col-md-5"></div>
-									<div class="col-sm-6 col-md-5"></div>
+									<div class="col-sm-5 col-md-12"></div>
+									<div class="col-sm-5 col-md-12"></div>
 								</div>
 								
 								<div class="row">
-									<div class="col-sm-10">
+									<div class="col-sm-12">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
@@ -220,36 +236,26 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1" aria-sort="ascending"
 														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">광고명</th>
+														style="width: 300px;">광고명</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Status report: activate to sort column ascending"
-														style="width: 80px;">업체명</th>
+														style="width: 200px;">내용보기</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Status report: activate to sort column ascending"
-														style="width: 80px;">이용기간</th>
+														style="width: 500px;">올린시간</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
-														aria-label="Office: activate to sort column ascending"
-														style="width: 80px;">출결확인</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Price: activate to sort column ascending"
-														style="width: 80px;">이용상태</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Date: activate to sort column ascending"
-														style="width: 80px;">후기쓰기</th>
+														aria-label="Name: activate to sort column descending"
+														style="width: 470px;">답변시간</th>	
 											</thead>
 											<tbody>
-										
-			${getnormalListN}
+											${questionListN}
+											
 
 											</tbody>
 										</table>
@@ -266,8 +272,27 @@ to {
 			</div>
 		</div>
 	</div>
-
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="margin-left: 20%;">
+    <div class="modal-content" style="width: 60em">
+      <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closer" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+	</div>
+		<div id="nav">
+			<jsp:include page="sidebarNormal.jsp" />
+		</div>
+	</div>
 
 
 </body>
@@ -353,5 +378,25 @@ function yyyyyy(bnum) {
 		$layerWindow.removeClass('open');
 		
 	})//function End
+	
+	$(".profilePage").click(function(){
+		var m_id = $(this).prop("id").replace("profilePage","");
+		console.log(m_id);
+		$.ajax({
+			url: "profilepage",
+			type: "get",
+			data:{m_id:m_id},
+			dataType: "html",
+			success:(function(data){
+				console.log(data);
+				$(".modal-body").html(data);
+			   
+				
+			}),
+			error:(function(err){
+				console.log(err);
+			})
+		});
+	});
 </script>
 </html>

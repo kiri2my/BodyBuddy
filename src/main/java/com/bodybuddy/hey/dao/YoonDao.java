@@ -50,6 +50,25 @@ public interface YoonDao {
 	void updateNorMb(Member mb);
 
 	List<Map<String, String>> getDailyList(Map<String, String> ck);
+	
+	
+	Member getCbname(String m_id);
+
+	List<Map<String, String>> getsales(String m_id);
+
+	List<Map<String, String>> getsalesAll(String m_id);
+
+	List<Map<String, String>> getchart(String t_cid);
+
+	List<Map<String, String>> getSalescList(String m_id);
+
+	List<Map<String, String>> getSalesAllcList(String m_id);
+
+	List<Map<String, String>> getchart2(String t_cid);
+
+	List<Map<String, String>> getRvListN(String m_id);
+
+	List<Map<String, String>> getQuestListN(String m_id);
 
 	
 }

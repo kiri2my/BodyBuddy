@@ -10,20 +10,54 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BODY BUDDY_COMPANY_MANAGER</title>
 <!-- plugins:css -->
-<link rel="stylesheet"
-	href="vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
-<link rel="stylesheet"
-	href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="images/favicon.png" />
-<link rel="stylesheet" href="js/bootstrap.js" />
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/bootstrap.js" />
+			<!-- plugins:js -->
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+			<!-- endinject -->
+			<!-- Plugin js for this page-->
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+			<!-- End plugin js for this page-->
+			<!-- inject:js -->
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+			<!-- endinject -->
+			<!-- Custom js for this page-->
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/css/bootstrap.css"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/css/style.css"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+			<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+			<!-- End custom js for this page-->
 </head>
 
 <body>
@@ -40,43 +74,29 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>분류</th>
-								<th>결제 수량</th>
+								<th>옵션명</th>
+								<th>총실적수</th>
 								<th>단가</th>
 								<th>총 금액</th>
-
 							</tr>
 						</thead>
 						<tbody>
-
-							<tr>
-								<th><a href="">일반광고</a></th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
-							</tr>
-							<tr>
-								<th><a href="">요가</a></th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
-							</tr>
-							<tr>
-								<th><a href="">플라잉 요가</a></th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
-							</tr>
-
+							${getSalescList}
 						</tbody>
 						<footer>
 							<tr>
-								<td>총 합계</td>
-								<td>30,000,000원</td>
+								${getSalesAllcList}
 							</tr>
 						</footer>
+						
 					</table>
+															<div style="width:1500px">
+    <canvas id="myChart2"></canvas>
+</div>
 				</div>
 			</div>
+
+			
 			<div class="tab-pane" id="tab2">
 				<div class="table-responsive">
 					<table class="table">
@@ -89,108 +109,192 @@
 								<th>금액</th>
 							</tr>
 						</thead>
+						
 						<tbody>
-
+							${getSalesList}
+							
+						</tbody>
+						
+					</table>
+	</div>
+					<br>
+			
+				<table class="table">
+						<thead class="thead-dark">
 							<tr>
-								<th><a href="">장동건</a></th>
-								<th>요가</th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
+								<th>트레이너명</th>
+								<th>총실적수</th>
+								<th>총금액</th>
 							</tr>
-							<tr>
-								<th><a href="">강동원</a></th>
-								<th>플라잉</th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
-							</tr>
-							<tr>
-								<th><a href="">시우민</a></th>
-								<th>핫요가</th>
-								<th>100</th>
-								<th>100,000원</th>
-								<th>10,000,000원</th>
-							</tr>
+						</thead>
+						<tbody>
+						${getSalesAllList}
 
 						</tbody>
-						<footer>
-							<tr>
-								<td>총 합계</td>
-								<td>30,000,000원</td>
-							</tr>
-						</footer>
+
 					</table>
+					<div style="width:1500px">
+    <canvas id="myChart"></canvas>
+</div>
 				</div>
+				
+
+				
 			</div>
-
-			<div class="row">
-				<div class="col-md-7 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body">
-							<p class="card-title">Cash deposits</p>
-							<p class="mb-4">To start a blog, think of a topic about and
-								first brainstorm party is ways to write details</p>
-							<div id="cash-deposits-chart-legend"
-								class="d-flex justify-content-center pt-3"></div>
-							<canvas id="cash-deposits-chart"></canvas>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-5 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body">
-							<p class="card-title">Total sales</p>
-							<h1>$ 28835</h1>
-							<h4>Gross sales over the years</h4>
-							<p class="text-muted">Today, many people rely on computers to
-								do homework, work, and create or store useful information.
-								Therefore, it is important</p>
-							<div id="total-sales-chart-legend"></div>
-						</div>
-						<canvas id="total-sales-chart"></canvas>
-					</div>
-				</div>
-			</div>
-
-
-			<!-- content-wrapper ends -->
-			<!-- partial:partials/_footer.html -->
-			<footer class="footer">
-				<div
-					class="d-sm-flex justify-content-center justify-content-sm-between">
-					<span
-						class="text-muted text-center text-sm-left d-block d-sm-inline-block">Team
-						FiveMan assembled in Incheon ICIA Academy 2019. All rights
-						reserved. Thanks to ji-hun Cha.<i
-						class="mdi mdi-heart text-danger"></i>
-					</span>
-
-				</div>
-			</footer>
-
-			<!-- plugins:js -->
-			<script src="vendors/base/vendor.bundle.base.js"></script>
-			<!-- endinject -->
-			<!-- Plugin js for this page-->
-			<script src="vendors/chart.js/Chart.min.js"></script>
-			<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-			<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-			<!-- End plugin js for this page-->
-			<!-- inject:js -->
-			<script src="js/off-canvas.js"></script>
-			<script src="js/hoverable-collapse.js"></script>
-			<script src="js/template.js"></script>
-			<!-- endinject -->
-			<!-- Custom js for this page-->
-			<script src="js/dashboard.js"></script>
-			<script src="js/data-table.js"></script>
-			<script src="js/jquery.dataTables.js"></script>
-			<script src="css/bootstrap.css"></script>
-			<script src="css/style.css"></script>
-			<script src="js/dataTables.bootstrap4.js"></script>
-			<script src="js/bootstrap.js"></script>
-			<!-- End custom js for this page-->
+			
 </body>
+<script>
+var omg="";
+$(document).ready(function(){
+	
+	
+	 var t_cid = $("#testInput").val();
+	 console.log(t_cid)
 
+		$.ajax({
+			type : "post",
+			url : "chart",
+			data : {
+				t_cid : t_cid
+			},
+			dataType : "json",
+			success : function(result) {
+			console.log("result:",result);
+				var str = "";
+				var name = "";
+				var ctx = document.getElementById("myChart").getContext('2d');
+				var arr = {};
+				for(var i=0;i<result.length;i++){		
+					str += String(result[i].PS_PRICE).split(9)+",";
+					name += String(result[i].M_NAME).split(7)+",";
+				}
+					var arr2=(name.substring(0, name.length-1)).split(",");
+					var arr=(str.substring(0, str.length-1)).split(",");
+			
+					
+				var myChart = new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				        labels: arr2,
+				        datasets: [{
+				            label: '# of Votes',
+				            data: arr,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255,99,132,1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero:true
+				                }
+				            }]
+				        }
+				    }
+				});
+				
+			},
+			error : function(er) {
+				console.log(er);
+				
+			}
+		});
+
+	 //실적 end
+	 
+	 
+	 
+	 //매출 start
+	 var t_cid2 = $("#testInput").val();
+	 console.log("DDDDDDDDDDDD"+t_cid2)
+
+		$.ajax({
+			type : "post",
+			url : "charttwo",
+			data : {
+				t_cid : t_cid2
+			},
+			dataType : "json",
+			success : function(result) {
+			console.log("result:",result);
+
+				var str = "";
+				var name = "";
+				var ctx = document.getElementById("myChart2").getContext('2d');
+				var arr = {};
+				for(var i=0;i<result.length;i++){		
+					str += String(result[i].PS_PRICE).split(9)+",";
+					name += String(result[i].AD_CATEGORY).split(7)+",";
+				}
+				console.log(name)
+					var arr2=(name.substring(0, name.length-1)).split(",");
+					var arr=(str.substring(0, str.length-1)).split(",");
+			
+					
+				var myChart2 = new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				        labels: arr2,
+				        datasets: [{
+				            label: '# of Votes',
+				            data: arr,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255,99,132,1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero:true
+				                }
+				            }]
+				        }
+				    }
+				});
+				
+			},
+			error : function(er) {
+				console.log(er);
+				
+			}
+		});
+
+});// redey End
+
+
+</script>
 </html>

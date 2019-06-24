@@ -72,11 +72,13 @@
 							<form action="access" name="loginFrm" class="pt-3" method="post">
 								<div class="form-group">
 									<input type="email" class="form-control form-control-lg"
-										id="inputId" name="m_id" placeholder="이메일을 입력해주세요">
+										id="inputId" name="m_id" placeholder="이메일을 입력해주세요"
+										 value="r@r">
 								</div>
 								<div class="form-group">
 									<input type="password" class="form-control form-control-lg"
-										id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요">
+										id="inputPw" name="m_pw" placeholder="패스워드를 입력해주세요"
+										value="123456">
 								</div>
 								<div class="mt-3">
 									<p class="text-light bg-dark pl-1">${loginCheck}</p>
