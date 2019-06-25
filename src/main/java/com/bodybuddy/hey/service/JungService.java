@@ -46,11 +46,12 @@ public class JungService {
 		mav = new ModelAndView();
 		String view = null;
 		m = new Member();
-		System.out.println("696969696969696969   " + m_id);
+		System.out.println("m_id " + m_id);
+		
 		mav.addObject("m", m);
-		if(m!=null) {
-			m = mDao.getProfileList(m_id);
-		}
+		
+		m = mDao.getProfileList(m_id);
+		
 
 		view = "manage/profileModifyT";
 		mav.setViewName(view);
