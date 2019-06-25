@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Majestic Admin</title>
+<title>BODY BUDDY</title>
 <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <!-- plugins:css -->
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
@@ -263,7 +263,8 @@ to {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" style="width: 800px; height: 650px;">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">Modal 제목</h4>
+					<h4 class="modal-title" id="myModalLabel">내 문의 보기</h4>
+					
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -271,7 +272,7 @@ to {
 				</div>
 
 				<div class="modal-body">
-				
+				문의 내용 : 
 				<input id="qa_num" type="hidden"/>
 					<div id="qa_wcontent" style="text-align: center;margin: 50px;"></div>
 					<%-- $ --%>

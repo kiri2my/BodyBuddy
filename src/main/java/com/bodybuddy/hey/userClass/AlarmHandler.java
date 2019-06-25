@@ -79,7 +79,7 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			
 			wSession.sendMessage(new TextMessage(htmlMsg.toString()));
 			
-			String conMsg = "       <a class='dropdown-item'>"
+			/*String conMsg = "       <a class='dropdown-item'>"
 					  + "            <div class='item-content'>"
 					  + "                <h6 class='font-weight-normal'>-TEST-웹소켓에 접속되셨습니다 세션아이디 : "+wSession.getId()+"</h6>"
 					  + "                <p class='font-weight-light small-text mb-0 text-muted'>"
@@ -91,7 +91,7 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			List<String> list = new ArrayList<>();
 			list.add(conMsg);
 			list.add("3");
-			wSession.sendMessage(new TextMessage(new Gson().toJson(list).toString()));
+			wSession.sendMessage(new TextMessage(new Gson().toJson(list).toString()));*/
 			break;
 			
 		case "PS01":
