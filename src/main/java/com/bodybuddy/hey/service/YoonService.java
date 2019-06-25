@@ -559,6 +559,7 @@ public class YoonService {
 		mav.addObject("getSalesAllList", html2);
 		mav.addObject("getSalescList", html3);
 		mav.addObject("getSalesAllcList", html4);
+		
 		mav.setViewName("manage/sales");
 		
 		return mav;
@@ -566,7 +567,7 @@ public class YoonService {
 	}
 	
 	
-	private String makeHTMLsalesAllcList(List<Map<String, String>> getSalesAllc) {
+	String makeHTMLsalesAllcList(List<Map<String, String>> getSalesAllc) {
 		StringBuilder sb=new StringBuilder();
 		String ps_price=String.valueOf(getSalesAllc.get(0).get("PS_PRICE"));
 		sb.append("<td>총 합계</td>\r\n" + 
@@ -574,7 +575,7 @@ public class YoonService {
 		
 		return sb.toString();
 	}
-	private String makeHTMLsalescList(List<Map<String, String>> getSalescList) {
+	String makeHTMLsalescList(List<Map<String, String>> getSalescList) {
 		StringBuilder sb=new StringBuilder();
 		for (int i = 0; i <  getSalescList.size(); i++) {
 			String op_price=String.valueOf(getSalescList.get(i).get("OP_PRICE"));
@@ -592,7 +593,7 @@ public class YoonService {
 	}
 	
 	
-	private String makeHTMLsalesAllList(List<Map<String, String>> getSalesAllList) {
+	String makeHTMLsalesAllList(List<Map<String, String>> getSalesAllList) {
 		StringBuilder sb=new StringBuilder();
 		for (int i = 0; i <  getSalesAllList.size(); i++) { 
 			String ps_opcode=String.valueOf(getSalesAllList.get(i).get("PS_OPCODE"));
@@ -607,7 +608,7 @@ public class YoonService {
 	}
 	
 	
-	private String makeHTMLsalesList(List<Map<String, String>> getSalesList) {
+	String makeHTMLsalesList(List<Map<String, String>> getSalesList) {
 		StringBuilder sb=new StringBuilder();
 		
 		for (int i = 0; i <  getSalesList.size(); i++) { 
