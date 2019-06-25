@@ -54,8 +54,11 @@
 
 	<select id="getTrainerList" resultType="member">
 		select
-		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
-		where t_cid= #{id}
+		m.m_id,m.m_name,m.m_phone,t.t_cid,to_char(yn_date,'YYYY.MM.DD') as
+		yn_date from m left join yesorno on m.m_id = yesorno.yn_trainer left
+		join t on yesorno.yn_trainer=t.t_id
+		where t_cid= #{id} order by yn_date
+		desc
 	</select>
 
 	<select id="getTrainerSearch" parameterType="member"
@@ -289,6 +292,36 @@
 	<select id="getMainAdvertise" resultType="question">
 		select * from ad where
 		ad_name = #{id} and ad_status != '만료됨'
+	</select>
+
+	<select id="trainerRequest" resultType="int"
+		parameterType="String">
+		select count(*) from yesorno where yn_company = #{id}
+		and yn_state = '진행'
+	</select>
+
+	<select id="getTrainerSales" resultType="HashMap"
+		parameterType="HashMap">
+		<![CDATA[
+		select count(op_code) as
+		count,op_code,ad_title,op_price,sum(op_price) as price_sum,op_trainer,ad_name,to_char(sysdate,'YYYY"년"MM"월"') as ym from
+		trainer_sales where ad_name = #{cid} and op_trainer = #{tid} and
+		to_char(ps_date,'yyyymm') >= #{date} and
+		to_char(ps_date,'yyyymm') <= #{date} group by
+		ad_title,op_code,op_price,op_trainer,ad_name
+		]]>
+	</select>
+	
+	<select id="getTrainerSalesSelect" resultType="HashMap"
+		parameterType="HashMap">
+		<![CDATA[
+		select count(op_code) as
+		count,op_code,ad_title,op_price,sum(op_price) as price_sum,op_trainer,ad_name from
+		trainer_sales where ad_name = #{cid} and op_trainer = #{tid} and
+		to_char(ps_date,'yyyymm') >= #{ym} and
+		to_char(ps_date,'yyyymm') <= #{ym} group by
+		ad_title,op_code,op_price,op_trainer,ad_name
+		]]>
 	</select>
 
 </mapper>

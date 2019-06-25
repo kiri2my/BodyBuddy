@@ -45,9 +45,9 @@ public class KwonService {
 
 	public ModelAndView getMemberList(Member mb) {
 		mav = new ModelAndView();
-		
+
 		String id = mb.getM_id();
-		
+
 		List<Member> mList = null;
 		System.out.println("getMemberList mDao in");
 		mList = ksDao.getMemberList(id);
@@ -96,27 +96,38 @@ public class KwonService {
 	}
 
 	public ModelAndView getTrainerList(Member mb) {
-		mav = new ModelAndView();
-		String id = mb.getM_id();
-
 		List<Member> tList = null;
-		System.out.println("Trainer select in");
-		tList = ksDao.getTrainerList(id);
-		System.out.println("tList = " + tList.get(0).getM_name());
-		System.out.println("tList size = " + tList.size());
+		mav = new ModelAndView();
 
-		if (0 != tList.size()) {
-			System.out.println("trainer list select success");
-			view = "manage/trainerListC";
-			mav.setViewName(view);
-			mav.addObject("tList", tList);
-		} else {
+		String id = mb.getM_id();
+		int num = 0;
+
+		try {
+			System.out.println("Trainer select in");
+			tList = ksDao.getTrainerList(id);
+			System.out.println("tList = " + tList.get(0).getM_name());
+			System.out.println("tList size = " + tList.size());
+
+			if (0 != tList.size()) {
+				System.out.println("trainer list select success");
+				view = "manage/trainerListC";
+				mav.setViewName(view);
+				mav.addObject("tList", tList);
+			}
+
+			num = ksDao.trainerRequest(id);
+			System.out.println("trainerRequest = " + num);
+
+			mav.addObject("num", num);
+
+		} catch (Exception e) {
 			System.out.println("trainer list select error");
 			view = "manage/trainerListC";
 			mav.setViewName(view);
 		}
 
 		return mav;
+
 	}
 
 	public ModelAndView getTrainerSearch(String name, String id) {
@@ -558,7 +569,7 @@ public class KwonService {
 
 		try {
 			if (checkNum >= 1) {
-				System.out.println("checkNum 파일 있음"+","+checkNum);
+				System.out.println("checkNum 파일 있음" + "," + checkNum);
 				oriFileName = file.getOriginalFilename();
 				sysFileName = System.currentTimeMillis() + "."
 						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
@@ -604,7 +615,7 @@ public class KwonService {
 			 * mav.addObject(com); mav.addObject(m); view =
 			 * "manage/company/company?m_id"+m_id; mav.setViewName(view);
 			 */
-			ajGson = gson.toJson(com)+gson.toJson(m);
+			ajGson = gson.toJson(com) + gson.toJson(m);
 		} catch (Exception e) {
 			System.out.println("정보수정 실패");
 		}
@@ -772,15 +783,15 @@ public class KwonService {
 		} catch (Exception e) {
 			System.out.println("getSalesHistory list select error");
 		}
-		
+
 		int j = 5;
-		
+
 		ArrayList<Question> aList = new ArrayList<Question>();
 		ArrayList<Question> aList1 = new ArrayList<Question>();
 		try {
 			System.out.println("getMainAdvertise mDao in");
 			aList1 = ksDao.getMainAdvertise(id);
-			if( aList1.size() < 5) {
+			if (aList1.size() < 5) {
 				j = aList1.size();
 			}
 			if (0 != aList1.size()) {
@@ -799,6 +810,73 @@ public class KwonService {
 
 		mav.setViewName("manage/company/companyMain");
 		return mav;
+	}
+
+	public String getTrainerSales(HttpServletRequest request) {
+		String date = new java.text.SimpleDateFormat("YYYYMM").format(new java.util.Date());
+		String tid = request.getParameter("tid");
+		String cid = request.getParameter("cid");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tid", tid);
+		map.put("cid", cid);
+		map.put("date", date);
+		
+		
+		Gson gson = new Gson();
+		String str = null;
+
+		ArrayList<HashMap<String, String>> sList = new ArrayList<HashMap<String, String>>();
+
+		try {
+			sList = ksDao.getTrainerSales(map);
+
+			System.out.println(sList.get(0));
+			System.out.println("getTrainerSales success");
+			
+			if(sList.size() == 0) {
+				return "0";
+			}
+			
+			str = gson.toJson(sList);
+		} catch (Exception e) {
+			System.out.println("getTrainerSales fail");
+			return "0";
+		}
+
+		return str;
+	}
+
+	public String getTrainerSalesSelect(HttpServletRequest request) {
+		
+		String tid = request.getParameter("tid");
+		String cid = request.getParameter("cid");
+		String ym = request.getParameter("ym");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tid", tid);
+		map.put("cid", cid);
+		map.put("ym", ym);
+		
+		Gson gson = new Gson();
+		String str = null;
+
+		ArrayList<HashMap<String, String>> sList = new ArrayList<HashMap<String, String>>();
+
+		try {
+			sList = ksDao.getTrainerSalesSelect(map);
+
+			System.out.println(sList.get(0));
+			System.out.println("getTrainerSalesSelect success");
+			if(sList.size() == 0) {
+				return "0";
+			}
+			
+			str = gson.toJson(sList);
+		} catch (Exception e) {
+			System.out.println("getTrainerSalesSelect fail");
+			return "0";
+		}
+
+		return str;
 	}
 
 }

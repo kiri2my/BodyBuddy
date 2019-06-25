@@ -173,7 +173,7 @@ public class HanHomeController {
 	@RequestMapping(value = "/infomodify" ,method = RequestMethod.POST)
 	public ModelAndView infoModify(MultipartHttpServletRequest multi) {
 		System.out.println("infomodify시작한다");
-		mav=mm.infomodifyn(multi);
+		mav=ys.infomodify(multi);
 		return mav;
 	}
 	@ResponseBody
@@ -196,6 +196,17 @@ public class HanHomeController {
 		
 		return mav;
 	}
+
+	@RequestMapping(value = "/admodify", method = RequestMethod.POST)
+	public ModelAndView adeModify(MultipartHttpServletRequest multi) {
+		System.out.println("수정 폼입니다" + multi);
+		
+		mav = mm.adModify(multi);
+		
+		return mav;
+	}
+	
+	
 	/*
 	 * @ResponseBody
 	 * 

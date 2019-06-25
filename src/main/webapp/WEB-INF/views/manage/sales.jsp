@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -10,54 +10,61 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BODY BUDDY_COMPANY_MANAGER</title>
 <!-- plugins:css -->
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- plugin css for this page -->
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 <!-- endinject -->
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/bootstrap.js" />
-			<!-- plugins:js -->
-			<script type="text/javascript"
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/js/bootstrap.js" />
+<!-- plugins:js -->
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-			<!-- endinject -->
-			<!-- Plugin js for this page-->
-			<script type="text/javascript"
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-			<!-- End plugin js for this page-->
-			<!-- inject:js -->
-			<script type="text/javascript"
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-			<!-- endinject -->
-			<!-- Custom js for this page-->
-			<script type="text/javascript"
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/css/bootstrap.css"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/css/style.css"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-			<script type="text/javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-			<!-- End custom js for this page-->
+<!-- End custom js for this page-->
 </head>
 
 <body>
@@ -88,15 +95,15 @@
 								${getSalesAllcList}
 							</tr>
 						</footer>
-						
+
 					</table>
-															<div style="width:1500px">
-    <canvas id="myChart2"></canvas>
-</div>
+					<div style="width: 1500px">
+						<canvas id="myChart2"></canvas>
+					</div>
 				</div>
 			</div>
 
-			
+
 			<div class="tab-pane" id="tab2">
 				<div class="table-responsive">
 					<table class="table">
@@ -109,192 +116,201 @@
 								<th>금액</th>
 							</tr>
 						</thead>
-						
+
 						<tbody>
 							${getSalesList}
-							
-						</tbody>
-						
-					</table>
-	</div>
-					<br>
-			
-				<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th>트레이너명</th>
-								<th>총실적수</th>
-								<th>총금액</th>
-							</tr>
-						</thead>
-						<tbody>
-						${getSalesAllList}
-
 						</tbody>
 
 					</table>
-					<div style="width:1500px">
-    <canvas id="myChart"></canvas>
-</div>
 				</div>
-				
+				<br>
 
-				
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th>트레이너명</th>
+							<th>총실적수</th>
+							<th>총금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						${getSalesAllList}
+					</tbody>
+
+				</table>
+				<div style="width: 1500px">
+					<canvas id="myChart"></canvas>
+				</div>
 			</div>
-			
+
+
+
+		</div>
 </body>
 <script>
-var omg="";
-$(document).ready(function(){
-	
-	
-	 var t_cid = $("#testInput").val();
-	 console.log(t_cid)
+	var omg = "";
+	$(document)
+			.ready(
+					function() {
 
-		$.ajax({
-			type : "post",
-			url : "chart",
-			data : {
-				t_cid : t_cid
-			},
-			dataType : "json",
-			success : function(result) {
-			console.log("result:",result);
-				var str = "";
-				var name = "";
-				var ctx = document.getElementById("myChart").getContext('2d');
-				var arr = {};
-				for(var i=0;i<result.length;i++){		
-					str += String(result[i].PS_PRICE).split(9)+",";
-					name += String(result[i].M_NAME).split(7)+",";
-				}
-					var arr2=(name.substring(0, name.length-1)).split(",");
-					var arr=(str.substring(0, str.length-1)).split(",");
-			
-					
-				var myChart = new Chart(ctx, {
-				    type: 'bar',
-				    data: {
-				        labels: arr2,
-				        datasets: [{
-				            label: '# of Votes',
-				            data: arr,
-				            backgroundColor: [
-				                'rgba(255, 99, 132, 0.2)',
-				                'rgba(54, 162, 235, 0.2)',
-				                'rgba(255, 206, 86, 0.2)',
-				                'rgba(75, 192, 192, 0.2)',
-				                'rgba(153, 102, 255, 0.2)',
-				                'rgba(255, 159, 64, 0.2)'
-				            ],
-				            borderColor: [
-				                'rgba(255,99,132,1)',
-				                'rgba(54, 162, 235, 1)',
-				                'rgba(255, 206, 86, 1)',
-				                'rgba(75, 192, 192, 1)',
-				                'rgba(153, 102, 255, 1)',
-				                'rgba(255, 159, 64, 1)'
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-				        scales: {
-				            yAxes: [{
-				                ticks: {
-				                    beginAtZero:true
-				                }
-				            }]
-				        }
-				    }
-				});
-				
-			},
-			error : function(er) {
-				console.log(er);
-				
-			}
-		});
+						var t_cid = $("#testInput").val();
+						console.log(t_cid)
 
-	 //실적 end
-	 
-	 
-	 
-	 //매출 start
-	 var t_cid2 = $("#testInput").val();
-	 console.log("DDDDDDDDDDDD"+t_cid2)
+						$
+								.ajax({
+									type : "post",
+									url : "chart",
+									data : {
+										t_cid : t_cid
+									},
+									dataType : "json",
+									success : function(result) {
+										console.log("result:", result);
+										var str = "";
+										var name = "";
+										var ctx = document.getElementById(
+												"myChart").getContext('2d');
+										var arr = {};
+										for (var i = 0; i < result.length; i++) {
+											str += String(result[i].PS_PRICE)
+													.split(9)
+													+ ",";
+											name += String(result[i].M_NAME)
+													.split(7)
+													+ ",";
+										}
+										var arr2 = (name.substring(0,
+												name.length - 1)).split(",");
+										var arr = (str.substring(0,
+												str.length - 1)).split(",");
 
-		$.ajax({
-			type : "post",
-			url : "charttwo",
-			data : {
-				t_cid : t_cid2
-			},
-			dataType : "json",
-			success : function(result) {
-			console.log("result:",result);
+										var myChart = new Chart(
+												ctx,
+												{
+													type : 'bar',
+													data : {
+														labels : arr2,
+														datasets : [ {
+															label : '# of Votes',
+															data : arr,
+															backgroundColor : [
+																	'rgba(255, 99, 132, 0.2)',
+																	'rgba(54, 162, 235, 0.2)',
+																	'rgba(255, 206, 86, 0.2)',
+																	'rgba(75, 192, 192, 0.2)',
+																	'rgba(153, 102, 255, 0.2)',
+																	'rgba(255, 159, 64, 0.2)' ],
+															borderColor : [
+																	'rgba(255,99,132,1)',
+																	'rgba(54, 162, 235, 1)',
+																	'rgba(255, 206, 86, 1)',
+																	'rgba(75, 192, 192, 1)',
+																	'rgba(153, 102, 255, 1)',
+																	'rgba(255, 159, 64, 1)' ],
+															borderWidth : 1
+														} ]
+													},
+													options : {
+														maintainAspectRatio : true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+														scales : {
+															yAxes : [ {
+																ticks : {
+																	beginAtZero : true
+																}
+															} ]
+														}
+													}
+												});
 
-				var str = "";
-				var name = "";
-				var ctx = document.getElementById("myChart2").getContext('2d');
-				var arr = {};
-				for(var i=0;i<result.length;i++){		
-					str += String(result[i].PS_PRICE).split(9)+",";
-					name += String(result[i].AD_CATEGORY).split(7)+",";
-				}
-				console.log(name)
-					var arr2=(name.substring(0, name.length-1)).split(",");
-					var arr=(str.substring(0, str.length-1)).split(",");
-			
-					
-				var myChart2 = new Chart(ctx, {
-				    type: 'bar',
-				    data: {
-				        labels: arr2,
-				        datasets: [{
-				            label: '# of Votes',
-				            data: arr,
-				            backgroundColor: [
-				                'rgba(255, 99, 132, 0.2)',
-				                'rgba(54, 162, 235, 0.2)',
-				                'rgba(255, 206, 86, 0.2)',
-				                'rgba(75, 192, 192, 0.2)',
-				                'rgba(153, 102, 255, 0.2)',
-				                'rgba(255, 159, 64, 0.2)'
-				            ],
-				            borderColor: [
-				                'rgba(255,99,132,1)',
-				                'rgba(54, 162, 235, 1)',
-				                'rgba(255, 206, 86, 1)',
-				                'rgba(75, 192, 192, 1)',
-				                'rgba(153, 102, 255, 1)',
-				                'rgba(255, 159, 64, 1)'
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-				        scales: {
-				            yAxes: [{
-				                ticks: {
-				                    beginAtZero:true
-				                }
-				            }]
-				        }
-				    }
-				});
-				
-			},
-			error : function(er) {
-				console.log(er);
-				
-			}
-		});
+									},
+									error : function(er) {
+										console.log(er);
 
-});// redey End
+									}
+								});
 
+						//실적 end
 
+						//매출 start
+						var t_cid2 = $("#testInput").val();
+						console.log("DDDDDDDDDDDD" + t_cid2)
+
+						$
+								.ajax({
+									type : "post",
+									url : "charttwo",
+									data : {
+										t_cid : t_cid2
+									},
+									dataType : "json",
+									success : function(result) {
+										console.log("result:", result);
+
+										var str = "";
+										var name = "";
+										var ctx = document.getElementById(
+												"myChart2").getContext('2d');
+										var arr = {};
+										for (var i = 0; i < result.length; i++) {
+											str += String(result[i].PS_PRICE)
+													.split(9)
+													+ ",";
+											name += String(
+													result[i].AD_CATEGORY)
+													.split(7)
+													+ ",";
+										}
+										console.log(name)
+										var arr2 = (name.substring(0,
+												name.length - 1)).split(",");
+										var arr = (str.substring(0,
+												str.length - 1)).split(",");
+
+										var myChart2 = new Chart(
+												ctx,
+												{
+													type : 'bar',
+													data : {
+														labels : arr2,
+														datasets : [ {
+															label : '# of Votes',
+															data : arr,
+															backgroundColor : [
+																	'rgba(255, 99, 132, 0.2)',
+																	'rgba(54, 162, 235, 0.2)',
+																	'rgba(255, 206, 86, 0.2)',
+																	'rgba(75, 192, 192, 0.2)',
+																	'rgba(153, 102, 255, 0.2)',
+																	'rgba(255, 159, 64, 0.2)' ],
+															borderColor : [
+																	'rgba(255,99,132,1)',
+																	'rgba(54, 162, 235, 1)',
+																	'rgba(255, 206, 86, 1)',
+																	'rgba(75, 192, 192, 1)',
+																	'rgba(153, 102, 255, 1)',
+																	'rgba(255, 159, 64, 1)' ],
+															borderWidth : 1
+														} ]
+													},
+													options : {
+														maintainAspectRatio : true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+														scales : {
+															yAxes : [ {
+																ticks : {
+																	beginAtZero : true
+																}
+															} ]
+														}
+													}
+												});
+
+									},
+									error : function(er) {
+										console.log(er);
+
+									}
+								});
+
+					});// redey End
 </script>
 </html>

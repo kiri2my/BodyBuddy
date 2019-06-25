@@ -91,12 +91,6 @@
 									<a href="forgetid" class="auth-link text-black">이메일과 패스워드를
 										잊으셨나요?</a>
 								</div>
-								<div class="mb-2">
-									<button type="button" class="btn btn-block btn-google">
-										<i class="mdi mdi-google-plus mr-2"
-											style="text-align: center;"></i><font>구글 계정으로 접속하기</font>
-									</button>
-								</div>
 								<div class="text-center mt-4 font-weight-light">
 									아직 회원이 아니신가요? <a href="join" class="text-primary">회원가입</a>
 								</div>

@@ -55,6 +55,8 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+	
+
 </head>
 
 <body>
@@ -67,7 +69,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="normalMemList()">
                             <i class="mdi mdi-account-multiple menu-icon"></i>
-                            <span class="menu-title">내 회원목록</span>
+                            <span class="menu-title" >내 회원목록</span>
                         </a>
 
                     </li>
@@ -77,6 +79,12 @@
                             <i class="mdi mdi-bulletin-board menu-icon"></i>
                             <span class="menu-title">내 프로그램 광고 관리</span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                    	<a class="nav-link" href="#" onclick="programDailyCheck()">
+                    		<i class="mdi mdi-calendar-check menu-icon"></i>
+                    		<span class="menu-title">프로그램 출결</span>
+                    	</a>
                     </li>
                      <li class="nav-item">
                         <a class="nav-link" href="#" onclick="trainerModifyT()">
@@ -106,6 +114,12 @@
                             <span class="menu-title">내 판매 내역</span>
                         </a>
                     </li>
+                    <li class="nav-item"><a class="nav-link"
+						href="#" onclick="salesPage()"> <i
+							class="mdi mdi-chart-areaspline menu-icon"></i> <span
+							class="menu-title">매출/실적 관리</span>
+						</a>
+						</li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="memberdeleteT()">

@@ -98,6 +98,8 @@
 	text-align: center;
 	color: white;
 	background: gray;
+	
+	
 }
 </style>
 </head>
@@ -124,6 +126,10 @@
 
 </body>
 <script type="text/javascript">
+	var sessionId = '';
+	window.onload = function() {
+		sessionId = '${mb.m_id}';
+	}
 	function advertisemanage() {
 		$.ajax({
 			type : "GET",
@@ -240,6 +246,23 @@
 				/* $('#main').hide(); */
 				$('#main').html(data);
 			}
+		});
+	}
+	function programDailyCheck() {
+		$.ajax({
+			type : "get",
+			url : "programdailycheck",
+			data : {
+				id : sessionId
+			},
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('프로그램  로드 실패');
+			}
+
 		});
 	}
 </script>

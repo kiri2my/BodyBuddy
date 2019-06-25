@@ -56,7 +56,7 @@
 										<c:forEach var="advertise" items="${adList}">
 											<c:set var="name" value="만료됨" />
 											<c:if test="${name ne advertise.ad_status}">
-												<tr id="${advertise.ad_code}">
+												<tr id="${advertise.ad_code}" name="ad_code">
 													<td><a href="#">${advertise.ad_category}</a></td>
 													<input type="hidden" class="mm"
 														value="${advertise.ad_code}" />
@@ -141,6 +141,7 @@
 	$(".eBtn").each(function() {
 		$(this).click(function() {
 			var num = $(this).parents().eq(1).children().eq(1).val();
+			console.log(num);
 			$.ajax({
 				type : "post",
 				url : "advertisemodifyfrm",

@@ -71,7 +71,7 @@ public class KwonController {
 	@RequestMapping(value = "/memberlistc")
 	public ModelAndView memberListC(HttpServletRequest request) {
 		Member mb = (Member) session.getAttribute("mb");
-
+		
 		mav = ks.getMemberList(mb);
 
 		return mav;
@@ -228,7 +228,62 @@ public class KwonController {
 
 		return gson;
 	}
+	@RequestMapping(value = "/trainerjoinlist",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerJoinList(HttpServletRequest request) {
+		System.out.println("trainerjoinlist id = "+request.getParameter("id") );
+		
+		String gson = ks.getTrainerJoinList(request);
+		
+
+		return gson;
+	}
 	
+	@RequestMapping(value = "/trainerjoin",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerJoin(HttpServletRequest request) {
+		//System.out.println("trainerjoinlist state = "+request.getParameter("state") );
+		//System.out.println("trainerjoinlist cid = "+request.getParameter("cid") );
+		//System.out.println("trainerjoinlist tid = "+request.getParameter("tid") );
+		
+		String gson = ks.trainerJoin(request);
+		
+
+		return gson;
+	}
 	
+	@RequestMapping(value = "/trainerdiscon",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerDiscon(HttpServletRequest request) {
+		//System.out.println("trainerjoinlist state = "+request.getParameter("state") );
+		//System.out.println("trainerjoinlist cid = "+request.getParameter("cid") );
+		//System.out.println("trainerjoinlist tid = "+request.getParameter("tid") );
+		
+		String gson = ks.trainerDiscon(request);
+		
+
+		return gson;
+	}
+	
+	@RequestMapping(value = "/changestate",produces = "application/text; charset=utf8")
+	public @ResponseBody String changeState(HttpServletRequest request) {
+		
+		String gson = ks.changeState(request);
+		
+		return gson;
+	}
+	
+	@RequestMapping(value = "/trainersales",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerSales(HttpServletRequest request) {
+		
+		String gson = ks.getTrainerSales(request);
+		
+		return gson;
+	}
+	
+	@RequestMapping(value = "/trainersalesselect",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerSalesSelect(HttpServletRequest request) {
+		
+		String gson = ks.getTrainerSalesSelect(request);
+			
+		return gson;
+	}
 
 }
