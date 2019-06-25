@@ -165,11 +165,6 @@ to {
 														aria-controls="recent-purchases-listing" rowspan="1"
 														colspan="1"
 														aria-label="Name: activate to sort column descending"
-														style="width: 80px;">상담내역</th>
-													<th class="sorting" tabindex="0"
-														aria-controls="recent-purchases-listing" rowspan="1"
-														colspan="1"
-														aria-label="Name: activate to sort column descending"
 														style="width: 80px;">출결현황</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="recent-purchases-listing" rowspan="1"
