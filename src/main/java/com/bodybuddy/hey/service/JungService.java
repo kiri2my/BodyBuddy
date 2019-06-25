@@ -47,12 +47,15 @@ public class JungService {
 		String view = null;
 		m = new Member();
 		System.out.println("696969696969696969   " + m_id);
-		m = mDao.getProfileList(m_id);
+		mav.addObject("m", m);
+		if(m!=null) {
+			m = mDao.getProfileList(m_id);
+		}
 
 		view = "manage/profileModifyT";
 		mav.setViewName(view);
 
-		mav.addObject("m", m);
+		
 
 		return mav;
 	}
