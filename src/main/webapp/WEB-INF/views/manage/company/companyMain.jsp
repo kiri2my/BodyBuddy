@@ -283,7 +283,21 @@
 		
 	}
 	
-	
+	function advertiseManage(){
+		$.ajax({
+			type : "get",
+			url : "advertisemanage",
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('광고 관리 페이지 로드 실패');
+			}
+
+		});
+		
+	}
 	
 	
 </script>
