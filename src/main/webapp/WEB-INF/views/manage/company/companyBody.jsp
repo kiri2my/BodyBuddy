@@ -123,7 +123,7 @@
 						style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
 				</div>
 			</div>
-			<h4 class="card-title">트레이너 현황판(매출/실적 간단히보기)</h4>
+			<h4 class="card-title">트레이너 현황판</h4>
 			<%-- <canvas id="barChart" width="380" height="189"
 				class="chartjs-render-monitor"
 				style="display: block; height: 211px; width: 423px;"></canvas> --%>
@@ -230,6 +230,12 @@ var omg = "";
 $(document)
 		.ready(
 				function() {
+					
+					console.log("${aList }");
+					console.log("${getSalesAllcList}");
+					console.log("${getSalescList}");
+					console.log("${getSalesList}");
+					console.log("${getSalesAllList}");
 
 					var t_cid = '${mb.m_id}'; /* $("#testInput").val(); */
 					console.log(t_cid)

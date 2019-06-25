@@ -59,8 +59,8 @@ public class YoonService {
 				case "cateNormal":
 					cate="일반";
 					break;
-				case "cateFitness":
-					cate="피트니스";
+				case "catePT":
+					cate="PT";
 					break;
 				case "cateHomeTraining":
 					cate="홈트레이닝";

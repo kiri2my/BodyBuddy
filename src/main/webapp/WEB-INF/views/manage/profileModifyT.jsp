@@ -50,7 +50,10 @@
 									<div class="input-group">
 
 										<textarea rows="8" cols="8" name="t_career"
-											class="form-control form-control-lg border-left-0">${m.t_career}
+											class="form-control form-control-lg border-left-0"
+											placeholder="쉼표(,)로 항목을 구분해주세요">
+											
+											${m.t_career}
 											</textarea>
 
 
