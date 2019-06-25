@@ -155,7 +155,6 @@ $(".cate").click(function(){
 	}else{
 		location.href="${pageContext.request.contextPath}/?cate="+cate;	
 	}
-	
 });
 
 //지도
@@ -219,12 +218,14 @@ for(var i=0; i< addrList.length; i++){
 			marker.setMap(map);
 			// 지도 중심을 변경한다.
     		map.setCenter(markerPosition);
+			
 		}//if END
 	});//geoCoder END
 }//for END
 //지도를 보여준다.
 var showMap = ${showMap}
 if(showMap){
+	$(".adBanner").prop("className","adBanner col-sm-6 col-md-4");	
 	$("#listCard").prop("className","col-md-8 card scroll");//col-md-12 card scroll
 	$("#mapCard").prop("hidden",false);
 	mapContainer.style.display = "block";
@@ -240,9 +241,6 @@ $("#sample5_address").val(sido);
 $("#sample6_address").val(sigungu);
 if(extra1=="") $("#sample7_address").val(extra); 
 if(extra=="") $("#sample7_address").val(extra1+extra2);
-
-
-
 
 //찜
 
@@ -273,7 +271,6 @@ for(var i=0;i<delBtnSet.length;i++){
 	$(targetAddBtn).prop("outerHTML",delBtn);
 }
 }
-
 
 	dibsAdd();
 	dibsDelete();

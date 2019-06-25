@@ -91,6 +91,12 @@ public interface KirimDao {
 
 	public int alarmSendSskReq(Map<String, String> m);
 
+	public int alarmSendSskAcpt(Map<String, String> m);
+
+	public int alarmSendSskRjct(Map<String, String> m);
+
+	public int alarmSendSskCut(Map<String, String> m);
+
 
 
 	

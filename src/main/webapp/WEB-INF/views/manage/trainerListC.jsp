@@ -93,7 +93,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		style="width: 60em; height: inherit; margin-left: 15%; top: 20%; ">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
@@ -279,6 +279,21 @@
 				//$(ttid).prop("style","display: none");
 				//$('#modalBody').html(str);
 				$('#modal').modal('hide');
+				//////////소속수락 웹소켓 알림
+				if(state==1){
+					var jsonSendSosokAcptAlarm = JSON.stringify({c_id:sessionId,t_id:tid});
+					$("#msg").val("SS02"+jsonSendSosokAcptAlarm);
+					console.log("WebSock7", sock);
+					console.log($("#msg").val());
+					sock.send($("#msg").val());
+				}else if(state==0){//////////소속거절 웹소켓 알림
+					var jsonSendSosokRjctAlarm = JSON.stringify({c_id:sessionId,t_id:tid});
+					$("#msg").val("SS03"+jsonSendSosokRjctAlarm);
+					console.log("WebSock8", sock);
+					console.log($("#msg").val());
+					sock.send($("#msg").val());
+				}
+				/////////////
 			},
 			error : function(error) {
 				alert("트레이너 수락 거절 실패")
@@ -301,6 +316,13 @@
 				alert(data);
 
 				$('#modal').modal('hide');
+				//////////////소속끊기 웹소켓 알림
+				var jsonSendSosokCutAlarm = JSON.stringify({c_id:sessionId,t_id:tid});
+				$("#msg").val("SS04"+jsonSendSosokCutAlarm);
+				console.log("WebSock9", sock);
+				console.log($("#msg").val());
+				sock.send($("#msg").val());
+				///////////////////
 			},
 			error : function(error) {
 				alert("트레이너 소속끊기 실패")

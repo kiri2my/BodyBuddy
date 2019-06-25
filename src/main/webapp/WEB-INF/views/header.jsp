@@ -103,8 +103,8 @@
 
 				<li>
 
-					<button id="cateFitness" type="button"
-						class="btn btn-outline-success navbar-btn cate">피트니스</button>
+					<button id="catePT" type="button"
+						class="btn btn-outline-success navbar-btn cate">PT</button>
 				</li>&nbsp;&nbsp;
 				<li>
 					<button id="cateHomeTraining" type="button"
