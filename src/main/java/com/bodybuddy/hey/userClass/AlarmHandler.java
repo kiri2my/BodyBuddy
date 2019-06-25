@@ -90,19 +90,6 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			//판매자건 누구건 접속했을때 알림내용 가져오기 //현재 수신자에게 몇개의 메세지가 와있는지 디비에서 검색함.
 			json = ks.alarmReceiveAll(m_id);
 			wSession.sendMessage(new TextMessage(json.toString()));
-			/*String conMsg = "       <a class='dropdown-item'>"
-					  + "            <div class='item-content'>"
-					  + "                <h6 class='font-weight-normal'>-TEST-웹소켓에 접속되셨습니다 세션아이디 : "+wSession.getId()+"</h6>"
-					  + "                <p class='font-weight-light small-text mb-0 text-muted'>"
-					  + "                    방금 전"
-					  + "                </p>"
-					  + "            </div>"
-					  + "        </a>";
-			
-			List<String> list = new ArrayList<>();
-			list.add(conMsg);
-			list.add("3");
-			wSession.sendMessage(new TextMessage(new Gson().toJson(list).toString()));*/
 			break;
 			
 		case "PS01":

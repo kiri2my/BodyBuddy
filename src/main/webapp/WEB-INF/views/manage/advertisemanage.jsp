@@ -81,7 +81,7 @@
 
 
 		<button class="btn btn-secondary" onclick="advertisewritefrm()"
-			type="button">신규 등록</button>
+			type="button" style="display: inline;" id="adWriteFrm">신규 등록</button>
 
 	</div>
 

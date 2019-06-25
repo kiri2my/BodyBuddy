@@ -547,7 +547,7 @@ public class KirimService {
 	  sb.append("										 </h4><br>" + 
 				"                                        <h4>주요 이력: <p class=\"display-4\">");
 	  if(!tp.get("T_CAREER").equals("none")) {
-		  String[] career = tp.get("T_CAREER").split(" ");//,쉼표로 자를것
+		  String[] career = tp.get("T_CAREER").split(",");//,쉼표로 자를것
 		  	for(int i=0;i<career.length;i++) {
 		  		sb.append(career[i]+"<br>");
 		  	}

@@ -289,10 +289,46 @@
 			url : "advertisemanage",
 			dataType : "html",
 			success : function(data) {
+				
 				$('#main').html(data);
+				$('#adWriteFrm').prop('style','display: none');
 			},
 			error : function() {
 				alert('광고 관리 페이지 로드 실패');
+			}
+
+		});
+		
+	}
+	
+	
+	
+	function advertiseWriteFrm(){
+		$.ajax({
+			type : "get",
+			url : "advertisewritefrm",
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('광고 등록 페이지 로드 실패');
+			}
+
+		});
+		
+	}
+	
+	function advertiseModifyFrm(){
+		$.ajax({
+			type : "get",
+			url : "advertisemodifyfrm",
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('광고 등록 페이지 로드 실패');
 			}
 
 		});
