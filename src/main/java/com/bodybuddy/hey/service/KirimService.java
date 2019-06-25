@@ -1102,9 +1102,6 @@ public class KirimService {
 				
 		return sb.toString();
 	}
-
-	
-
 	
 	public void alarmSelfPurch(Map<String, String> m) {
 		System.out.println("AD_CODE:::::::::::"+m.get("ad_code"));
@@ -1187,7 +1184,6 @@ public class KirimService {
 		System.out.println("SS02:소속수락 보내기 실패");
 		return null;
 	}
-
 	public Map<String, String> alarmSendSskRjct(Map<String, String> m) {//SS03
 		int al_code=0;
 		m.put("al_msid", m.get("c_id"));
@@ -1201,7 +1197,6 @@ public class KirimService {
 		System.out.println("SS03:소속거절 보내기 실패");
 		return null;
 	}
-
 	public Map<String, String> alarmSendSskCut(Map<String, String> m) {//SS04
 		int al_code=0;
 		m.put("al_msid", m.get("c_id"));
@@ -1215,7 +1210,6 @@ public class KirimService {
 		System.out.println("SS04:소속끊기 보내기 실패");
 		return null;
 	}
-	
 	public String alarmReceiveAll(String m_id) {
 		String json=null;
 		List<Alarm> msgList=null;
@@ -1227,7 +1221,6 @@ public class KirimService {
 			list.add(String.valueOf(msgList.size()));
 			json = new Gson().toJson(list);
 		}
-		
 		return json;
 	}
 	public String alarmConfirm(String al_code) {
@@ -1238,100 +1231,35 @@ public class KirimService {
 		}
 		return text;
 	}
-
 	private String makeHTMLAllMsg(List<Alarm> msgList) {
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<msgList.size(); i++) {
 			String time = strTimeCalc(msgList.get(i).getAl_date());
+			sb.append("        <a class='dropdown-item alarm-confirm'>"
+					+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+					+ "            <div class='item-content'>"
+					+ "                <h6 class='font-weight-normal'>");
 			if(msgList.get(i).getAl_kind().equals("PS01")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>"+msgList.get(i).getAl_mSId()+"님이 당신의 상품을 구매하였습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//PS01 END
-			if(msgList.get(i).getAl_kind().equals("PS02")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>상품을 성공적으로 구매하였습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//PS02 END
-			if(msgList.get(i).getAl_kind().equals("QA01")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>답변을 기다리는 문의를 받았습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//QA01 END
-			if(msgList.get(i).getAl_kind().equals("AQ01")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>문의에 대한 답변이 도착하였습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//AQ01 END
-			if(msgList.get(i).getAl_kind().equals("SS01")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>트레이너의 소속계약 요청이 들어왔습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//SS01 END
-			if(msgList.get(i).getAl_kind().equals("SS02")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>소속계약 요청이 수락되었습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//SS02 END
-			if(msgList.get(i).getAl_kind().equals("SS03")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>소속계약 요청이 거부되었습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//SS03 END
-			if(msgList.get(i).getAl_kind().equals("SS04")) {
-				sb.append("        <a class='dropdown-item alarm-confirm'>"
-						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
-						+ "            <div class='item-content'>"
-						+ "                <h6 class='font-weight-normal'>업체와의 소속계약이 종료되었습니다.</h6>"
-						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
-											+time
-						+ "                </p>"
-						+ "            </div>"
-						+ "        </a>");
-			}//SS04 END
-			
+				sb.append(msgList.get(i).getAl_mSId()+"님이 당신의 상품을 구매하였습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("PS02")) {
+				sb.append("상품을 성공적으로 구매하였습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("QA01")) {
+				sb.append("답변을 기다리고있는  문의가 도착했습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("AQ01")) {
+				sb.append("문의에 대한 답변이 도착하였습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("SS01")) {
+				sb.append("트레이너의 소속계약 요청이 들어왔습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("SS02")) {
+				sb.append("소속계약 요청이 수락되었습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("SS03")) {
+				sb.append("소속계약 요청이 거부되었습니다.");
+			}else if(msgList.get(i).getAl_kind().equals("SS04")) {
+				sb.append("업체와의 소속계약이 종료되었습니다.");
+			}
+			sb.append("					</h6>"
+					+ "                <p class='font-weight-light small-text mb-0 text-muted'>"+time+"</p>"
+					+ "            </div>"
+					+ "        </a>");
 		}
 		return sb.toString();
 	}

@@ -155,7 +155,6 @@ $(".cate").click(function(){
 	}else{
 		location.href="${pageContext.request.contextPath}/?cate="+cate;	
 	}
-	
 });
 
 //지도
@@ -243,9 +242,6 @@ $("#sample6_address").val(sigungu);
 if(extra1=="") $("#sample7_address").val(extra); 
 if(extra=="") $("#sample7_address").val(extra1+extra2);
 
-
-
-
 //찜
 
 console.log(jsonMainList);
@@ -275,7 +271,6 @@ for(var i=0;i<delBtnSet.length;i++){
 	$(targetAddBtn).prop("outerHTML",delBtn);
 }
 }
-
 
 	dibsAdd();
 	dibsDelete();

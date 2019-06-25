@@ -1,5 +1,6 @@
 package com.bodybuddy.hey.userClass;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +34,11 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 	@Autowired
 	KirimService ks;
 	
+	private String json;
+	private WebSocketSession rSession;
+	private Map<String,String> ws;
+	private String rId;
+	
 	private static Logger logger = LoggerFactory.getLogger(AlarmHandler.class);
 	//접속자 관리
 	private static List<WebSocketSession> wSessionList = new ArrayList<WebSocketSession>();
@@ -48,25 +54,32 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 		
 	}
 		
-	
+	private Map<String, String> fromJson(TextMessage message) {
+		json = message.getPayload().substring(4);
+		return new Gson().fromJson(json,new TypeToken<Map<String,String>>(){}.getType());
+	}
+
+	private void sendOnline(Map<String,String> ws) throws IOException {
+		rId = ws.get("al_mrid");
+		rSession = idAndSession.get(rId);
+		if(rSession!=null) {
+			json = ks.alarmReceiveAll(rId);
+			rSession.sendMessage(new TextMessage(json.toString()));
+		}
+	}
 	//클라<->서버간 상호작용 메소드 //@OnMessage 역할
 	@Override
 	protected void handleTextMessage(WebSocketSession wSession, TextMessage message) throws Exception {
 		String jsonObj = new Gson().toJson(message);
-		String json=null;
-		String htmlMsg=null;
 		Map<String,String> m =null;
-		Map<String,String> ws=null;
 		String m_id=null;
-		String rId=null;
-		WebSocketSession rSession=null;
 		
 		logger.info("jsonObj : "+jsonObj);
 		logger.info("{}로 부터 {} 받음", wSession.getId(), message.getPayload());
 		
-		
 		String sort = message.getPayload().substring(0, 4);
 		System.out.println("SORT::::::::::::::::::"+sort);
+		
 		switch(sort) {
 		case "CON1": //접속시 모든 알림메세지 찍어줌
 			System.out.println("::::::CON1::::::");
@@ -75,10 +88,8 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			idAndSession.put(m_id, wSession);
 			//내가 받은 알람 모두 찍어내기
 			//판매자건 누구건 접속했을때 알림내용 가져오기 //현재 수신자에게 몇개의 메세지가 와있는지 디비에서 검색함.
-			htmlMsg = ks.alarmReceiveAll(m_id);
-			
-			wSession.sendMessage(new TextMessage(htmlMsg.toString()));
-			
+			json = ks.alarmReceiveAll(m_id);
+			wSession.sendMessage(new TextMessage(json.toString()));
 			/*String conMsg = "       <a class='dropdown-item'>"
 					  + "            <div class='item-content'>"
 					  + "                <h6 class='font-weight-normal'>-TEST-웹소켓에 접속되셨습니다 세션아이디 : "+wSession.getId()+"</h6>"
@@ -96,16 +107,11 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			
 		case "PS01":
 			System.out.println("::::::PS01::::::");
-			json = message.getPayload().substring(4);
-			
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("adcode::"+m.get("ad_code"));
 			System.out.println("m_id::"+m.get("m_id"));//m : ad_code, m_id들어있음
-			
 			ks.alarmSelfPurch(m);//구매자가 자기구매알림 받기
 			//wSession.sendMessage(new TextMessage(htmlMsg));
-					
 			ws = ks.alarmSendPurch(m);//구매자가 판매자에게 구매알림보내기
 			//ws: 
 			//m.put("al_msid", m.get("m_id"));
@@ -113,123 +119,59 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			//m.put("al_code", String.valueOf(al_code)); 들어있음
 			
 			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 			
 		case "QA01":
 			System.out.println("::::::QA01::::::");
-			json = message.getPayload().substring(4);
-			
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("adcode::"+m.get("ad_code"));
 			System.out.println("m_id::"+m.get("m_id"));//m : ad_code, m_id들어있음
-					
 			ws = ks.alarmSendQuestion(m);//문의자가 답변자에게 문의알림보내기
-			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 		case "AQ01":
 			System.out.println("::::::AQ01::::::");
-			json = message.getPayload().substring(4);
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("qa_num::"+m.get("qa_num"));
 			System.out.println("m_id::"+m.get("m_id"));//m : qa_num, m_id들어있음
 			ws = ks.alarmSendAnswer(m);//답변자가 문의자에게 답변알림보내기
-						
-			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 		case "SS01"://소속 요청
 			System.out.println("::::::SS01::::::");
-			json = message.getPayload().substring(4);
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("c_id::"+m.get("c_id"));
 			System.out.println("m_id::"+m.get("m_id"));//m : c_id, m_id들어있음
 			ws = ks.alarmSendSskReq(m);//소속요청 트레이너가 업체에게 요청알림보내기
-			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 		case "SS02"://소속 수락
 			System.out.println("::::::SS02::::::");
-			json = message.getPayload().substring(4);
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("c_id::"+m.get("c_id"));
 			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
 			ws = ks.alarmSendSskAcpt(m);//업체가 요청 트레이너에게 수락알림보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 		case "SS03"://소속 거절
 			System.out.println("::::::SS03::::::");
-			json = message.getPayload().substring(4);
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("c_id::"+m.get("c_id"));
 			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
 			ws = ks.alarmSendSskRjct(m);//업체가 요청 트레이너에게 거절알림보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 		case "SS04"://소속 끊기
 			System.out.println("::::::SS04::::::");
-			json = message.getPayload().substring(4);
-			m = new Gson().fromJson(json, 
-					new TypeToken<Map<String,String>>(){}.getType());
+			m = fromJson(message);
 			System.out.println("c_id::"+m.get("c_id"));
 			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
 			ws = ks.alarmSendSskCut(m);//업체가 트레이너에게 소속끊기알림보내기
-			rId = ws.get("al_mrid");
-			rSession = idAndSession.get(rId);
-			if(rSession!=null) {
-				json = ks.alarmReceiveAll(rId);
-				rSession.sendMessage(new TextMessage(json.toString()));
-			}
+			sendOnline(ws);
 			break;
 			
 		}//SWITCH END
-		
-				//rcvSessionId = ks.getWSession(ws);//판매자 웹세션받기
-				//htmlMsg = ks.alarmReceivePurch(ws);//판매자가 구매알림받기
-				/*synchronized(wSessionList){
-					for (WebSocketSession singleWSession : wSessionList) {
-						if(singleWSession.getId().equals(rcvSessionId)){
-							wSession=singleWSession; //판매자 웹세션의 아이디가 세션리스트에 있는놈중에서 걸린다면
-							wSession.sendMessage(new TextMessage(htmlMsg));
-						}
-					}
-				}*/
 		
 		/*synchronized(wSessionList){
 			for (WebSocketSession singleWSession : wSessionList) {//모두한테 메세지 보내기
@@ -241,7 +183,6 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			}
 		}*/
 	}
-	
 	// 클라이언트와 연결을 끊었을 때 실행되는 메소드 //@OnClose역할
 	@Override
 	public void afterConnectionClosed(WebSocketSession wSession, CloseStatus status) throws Exception {
