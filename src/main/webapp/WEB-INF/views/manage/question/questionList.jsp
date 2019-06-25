@@ -69,9 +69,9 @@
 								<tbody>
 									<c:forEach var="question" items="${qList }">
 										<tr>
-											<td><a href="#">${question.ad_title}</a></td>
-											<td><a href="#">${question.qa_wcontent}</a></td>
-											<td><a href="#">${question.qa_writer}</a></td>
+											<td>${question.ad_title}</td>
+											<td>${question.qa_wcontent}</td>
+											<td>${question.qa_writer}</td>
 											<td>${question.qa_wdate }</td>
 											<c:set var="name" value="t" />
 											<input type="hidden" class="mm" value="${question.qa_num}" />

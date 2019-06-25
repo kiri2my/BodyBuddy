@@ -123,16 +123,13 @@
 						style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
 				</div>
 			</div>
-			<h4 class="card-title">트레이너 현황판</h4>
+			<h2>매출</h2>
 			<%-- <canvas id="barChart" width="380" height="189"
 				class="chartjs-render-monitor"
 				style="display: block; height: 211px; width: 423px;"></canvas> --%>
 			<div class="tabbable">
 				<!-- 왼쪽과 오른쪽 탭에만 필요 -->
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#tab1" data-toggle="tab">매출</a></li>
-					<li><a href="#tab2" data-toggle="tab">실적</a></li>
-				</ul>
+				
 				<div class="tab-content">
 					<div class="tab-pane active" id="tab1">
 						<div class="table-responsive">
@@ -156,7 +153,7 @@
 							</table>
 							<!-- table  -->
 
-
+							<h2>실적</h2>
 
 							<div class="tab-pane" id="tab2">
 								<div class="table-responsive">
@@ -227,11 +224,16 @@
 </body>
 <script type="text/javascript">
 var omg = "";
+console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
+console.log("${getSalesAllcList}");
+console.log("${getSalescList}");
+console.log("${getSalesList}");
+console.log("${getSalesAllList}");
 $(document)
 		.ready(
 				function() {
 					
-					console.log("${aList }");
+					console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
 					console.log("${getSalesAllcList}");
 					console.log("${getSalescList}");
 					console.log("${getSalesList}");
