@@ -738,9 +738,6 @@ public class KirimService {
 				}
 				sb.append("')>" + 
 						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>" + //width='400px'
-						"      <div class=\"carousel-caption\">" + 
-						i+"번째사진" + 
-						"      </div>" + 
 						"    </div>");
 			}
 	sb.append("  </div>" + 
@@ -843,12 +840,12 @@ public class KirimService {
 				"                                                </blockquote>" + 
 				"                                            </div>" + 
 				"                                        </div>"+
-				"                          				<div style=\"text-align: center\">");//버튼단DIV 시작
+				"                          				<div style='text-align: center'>");//버튼단DIV 시작
 		
 				//옵션 담당 트레이너 보기버튼 시작				
 				if(!dp.get("AD_CATEGORY").toString().equals("일반")) {
-					sb.append("                        	 	<button type=\"button\" class=\"btn btn-outline-secondary dropdown-toggle\" data-toggle=\"dropdown\">담당 트레이너 프로필 보기</button>" + 
-							  "                         		<div class=\"dropdown-menu\">");
+					sb.append("                        	 	<button type='button' class='btn btn-outline-secondary dropdown-toggle' data-toggle='dropdown'>담당 트레이너 프로필 보기</button>" + 
+							  "                         		<div class='dropdown-menu'>");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
 					if(dp.get("M_KIND").toString().equals("t") ) {//&& dp.get("T_CID")==null
 						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+dp.get("M_NAME")+"</a>");
@@ -922,7 +919,7 @@ public class KirimService {
 				
 				//상세정보 시작
 				
-				"                                        <div class=\"tab-pane fade\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">" + 
+				"                                        <div class=\"tab-pane fade active in show\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">" + 
 				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">" + 
 				"" + 
 				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">" + 
@@ -1018,26 +1015,7 @@ public class KirimService {
 				
 		sb.append("                                                                </tbody>"
 				+ "                                                            </table>"
-				+ "                                                        </div>"+
-				//페이징시작
-				"                                                        <ul class=\"pagination pagination-sm\" style=\"padding-left:  \">" + 
-				"                                                            <li>" + 
-				"                                                                <div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">" + 
-				"                                                                    <div class=\"btn-group\" role=\"group\">" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">◀◀</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Previous\">◀</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">1</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">2</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">3</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">4</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">5</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" aria-label=\"Next\">▶</button>" + 
-				"                                                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">▶▶</button>" + 
-				"                                                                    </div>" + 
-				"                                                                </div>" + 
-				"                                                            </li>" + 
-				"                                                        </ul>"
-				//페이징 끝
+				+ "                                                        </div>"
 				+ "                                                    </li>"
 				+ "                                                </div>"
 				+ "                                            </div>"
@@ -1117,32 +1095,8 @@ public class KirimService {
 				}
 	  sb.append("                                                                </tbody>" + 
 				"                                                            </table>" + 
-			  
 				"                                                        </div>" + 
-				"                                                            <ul class='pagination pagination-lg'>" + 
-				"                                                                <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>" + 
-				"                                                                    <div class='btn-group' role='group' aria-label='First group'>" + 
-				"                                                                        <li>" + 
-				"                                                                            <a href='#' aria-label='Previous'>" + 
-				"                                                                                <span aria-hidden='true' class='disabled'><button type='button' class='btn btn-outline-secondary'>«</button></span>" + 
-				"                                                                            </a>" + 
-				"                                                                        </li>" + 
-				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>1</button></a></li>" + 
-				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>2</button></a></li>" + 
-				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>3</button></a></li>" + 
-				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>4</button></a></li>" + 
-				"                                                                        <li><a href='#' ><button type='button' class='btn btn-outline-secondary'>5</button></a></li>" + 
-				"                                                                        <li>" + 
-				"                                                                            <a href='#' aria-label='Next'>" + 
-				"                                                                                <span aria-hidden='true'><button type='button' class='btn btn-outline-secondary'>»</button></span>" + 
-				"                                                                            </a>" + 
-				"                                                                        </li>" + 
-				"                                                                    </div>" + 
-				"                                                                </div>" + 
-				"                                                            </ul>" + 
-				"" + 
 				"                                                    </li>" + 
-				"" + 
 				"                                                </div>" + //d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item
 				"                                            </div>"); //d-flex flex-wrap justify-content-xl-between
 				

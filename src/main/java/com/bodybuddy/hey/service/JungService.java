@@ -46,13 +46,17 @@ public class JungService {
 		mav = new ModelAndView();
 		String view = null;
 		m = new Member();
-		System.out.println("696969696969696969   " + m_id);
+		System.out.println("m_id " + m_id);
+		
+		mav.addObject("m", m);
+		
 		m = mDao.getProfileList(m_id);
+		
 
 		view = "manage/profileModifyT";
 		mav.setViewName(view);
 
-		mav.addObject("m", m);
+		
 
 		return mav;
 	}
@@ -252,7 +256,7 @@ public class JungService {
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());//세션아이디
 		
-		int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
+		//int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
 		
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if(ad_category!=null && ad_category!="") {
@@ -309,57 +313,60 @@ public class JungService {
 		System.out.println("b="+b);
 		day1 = b.split("@"); // @ 기준으로 나누기	
 		
-		//일반 일 수
-		op_periodValues = multi.getParameterValues("op_period");
-		if(op_periodValues.length!=0 && op_periodValues!=null) {
-			for(int i=0;i<op_periodValues.length; i++) {
-				System.out.println("op_period출력 : " + op_periodValues[i]);
-			}
-		}
 		
-		// period
-		// 달력
-		op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
-		// op_period_1[0] = mm/dd/yyyy
-		if(op_period_1sValues.length!=0 && op_period_1sValues!=null) {
-			for(int i=0; i<op_period_1sValues.length;i++) {
-				System.out.println("op_period_1출력i "+op_period_1sValues[i]);
+		//일반 일 수
+		if(ad_category.equals("normal")) {
+			op_periodValues = multi.getParameterValues("op_period");
+			if(op_periodValues.length!=0 && op_periodValues!=null) {
+				for(int i=0;i<op_periodValues.length; i++) {
+					System.out.println("op_period출력 : " + op_periodValues[i]);
+				}
+			}
+		}else {
+			// period
+			// 달력
+			op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
+			// op_period_1[0] = mm/dd/yyyy
+			if(op_period_1sValues.length!=0 && op_period_1sValues!=null) {
+				for(int i=0; i<op_period_1sValues.length;i++) {
+					System.out.println("op_period_1출력i "+op_period_1sValues[i]);
+				}
+				
+				/*if(op_period_1s!="" && op_period_1s.contains(",") || op_period_1s!=null && op_period_1s.contains(",")) {
+					op_period_1 = op_period_1s.split(",");
+					for (int i = 0; i < op_period_1.length; i++) {
+						op_period_1[i] = op_period_1[i].replace("/", "");
+						String x = op_period_1[i].substring(4);
+						String y = op_period_1[i].substring(0, 4);
+						op_period_1[i] = x + y;
+					}
+				}*/
+			}
+			// String op_period2 = adadd.getOp_period1().replace("/", ""); // 06072019
+			/*
+			 * String x2 = op_period2.substring(4); String y2 = op_period2.substring(0, 4);
+			 * String z2 = x2 + y2;
+			 */
+			
+			op_period_2sValues = multi.getParameterValues("op_period2");// adadd.getOp_period1().split(",");
+			// op_period_1[0] = mm/dd/yyyy
+			if(op_period_2sValues.length!=0 && op_period_2sValues!=null) {
+				System.out.println("op_period_2출력 "+op_period_2sValues);
+				for(int i=0; i<op_period_2sValues.length;i++) {
+					System.out.println("op_period_2출력i "+op_period_2sValues[i]);
+				}
+				/*if(op_period_2s!="" && op_period_2s.contains(",") || op_period_2s!=null && op_period_2s.contains(",")) {
+					op_period_2 = op_period_2s.split(",");
+					for (int i = 0; i < op_period_2.length; i++) {
+						op_period_2[i] = op_period_2[i].replace("/", "");
+						String x = op_period_2[i].substring(4);
+						String y = op_period_2[i].substring(0, 4);
+						op_period_2[i] = x + y;
+					}
+				}*/
 			}
 			
-			/*if(op_period_1s!="" && op_period_1s.contains(",") || op_period_1s!=null && op_period_1s.contains(",")) {
-				op_period_1 = op_period_1s.split(",");
-				for (int i = 0; i < op_period_1.length; i++) {
-					op_period_1[i] = op_period_1[i].replace("/", "");
-					String x = op_period_1[i].substring(4);
-					String y = op_period_1[i].substring(0, 4);
-					op_period_1[i] = x + y;
-				}
-			}*/
-		}
-		// String op_period2 = adadd.getOp_period1().replace("/", ""); // 06072019
-		/*
-		 * String x2 = op_period2.substring(4); String y2 = op_period2.substring(0, 4);
-		 * String z2 = x2 + y2;
-		 */
-		
-		op_period_2sValues = multi.getParameterValues("op_period2");// adadd.getOp_period1().split(",");
-		// op_period_1[0] = mm/dd/yyyy
-		if(op_period_2sValues.length!=0 && op_period_2sValues!=null) {
-			System.out.println("op_period_2출력 "+op_period_2sValues);
-			for(int i=0; i<op_period_2sValues.length;i++) {
-				System.out.println("op_period_2출력i "+op_period_2sValues[i]);
-			}
-			/*if(op_period_2s!="" && op_period_2s.contains(",") || op_period_2s!=null && op_period_2s.contains(",")) {
-				op_period_2 = op_period_2s.split(",");
-				for (int i = 0; i < op_period_2.length; i++) {
-					op_period_2[i] = op_period_2[i].replace("/", "");
-					String x = op_period_2[i].substring(4);
-					String y = op_period_2[i].substring(0, 4);
-					op_period_2[i] = x + y;
-				}
-			}*/
-		}
-		
+		}//일반 제외 나머지 프로그램 기간
 		adadd.setAd_status("모집중");
 		
 ////////////////////////////////////////////////사전 대작업 완료
@@ -433,12 +440,13 @@ public class JungService {
 				if(ad_nameTId.size()!=0)
 				opMap.put("op_trainer", ad_nameTId.get(i));
 				
-				if(op_periodValues[i]!="")
-				opMap.put("op_period", op_periodValues[i]);
-				
-				if(op_period_1sValues[i]!="" && op_period_2sValues[i]!="")
-				opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);//일반일경우 제외
-				
+				if(ad_category.equals("normal")) {
+					if(op_periodValues[i]!="")
+						opMap.put("op_period", op_periodValues[i]);
+				}else {
+					if(op_period_1sValues[i]!="" && op_period_2sValues[i]!="")
+						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);//일반일경우 제외
+				}
 				if(op_clock1Values[i]!="" && op_clock2Values[i]!="")
 				opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
 
@@ -462,9 +470,10 @@ public class JungService {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/advertisemanage");
+		mav.setViewName("/manage/trainer/trainer");
 		return mav;
 	}
+	
 
 	public ModelAndView profileComplete(Member mb, String t_career) {
 

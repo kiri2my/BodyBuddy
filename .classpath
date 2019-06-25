@@ -40,5 +40,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/kirimdown/CKFinder-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/kirimdown/CKFinderPlugin-FileEditor-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/kirimdown/CKFinderPlugin-ImageResize-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/kirimdown/CKFinderPlugin-Watermark-2.6.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/kirimdown/thumbnailator-0.4.8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

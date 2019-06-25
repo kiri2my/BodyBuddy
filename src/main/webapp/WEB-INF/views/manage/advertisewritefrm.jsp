@@ -4,6 +4,7 @@
 <html>
 
 <head>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -76,7 +77,7 @@ body {
 					<tr>
 						<th>제목</th>
 						<td style="vertical-align: middle"><input type="text" 
-							name="ad_title" style="height: 50px;"></td>
+							name="ad_title" style="height: 40px; width: 600px"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
@@ -168,9 +169,8 @@ body {
 
 
 					<tr>
-						<th>사진</th>
-						<td colspan="2x">사진내용</td>
-						<td><input type="file" class="btn btn-secondary" name="ap_image" multiple="multiple">업로드</td>
+						<th>광고사진</th>
+						<td><input type="file" class="btn btn-secondary pull-left" name="ap_image" multiple="multiple"></td>
 					</tr>
 				</tbody>
 
@@ -212,38 +212,46 @@ body {
 	
 </body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
-<script>
+<script type="text/javascript">
+
+var kind = "${mb.m_kind}";
+console.log(kind);
+if(kind=='t'){
+	$('.fitness').hide();	
+}
+
+$(document).ready(function(){
 ///////////////////////////////////////
+console.log($("#ad_content"));
+if (typeof CKEDITOR != 'undefined') { 
 CKEDITOR.replace("ad_content", {
-	height:500,
-	filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
-	
+height:500,
+filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
+
 });
+}
+
+
 
 CKEDITOR.on('dialogDefinition', function(ev){
-    var dialogName = ev.data.name;
-    var dialogDefinition = ev.data.definition;
-  
-    switch (dialogName) {
-        case 'image': //Image Properties dialog
-            //dialogDefinition.removeContents('info');
-            dialogDefinition.removeContents('Link');
-            dialogDefinition.removeContents('advanced');
-            break;
-    }
+var dialogName = ev.data.name;
+var dialogDefinition = ev.data.definition;
+
+switch (dialogName) {
+case 'image': //Image Properties dialog
+//dialogDefinition.removeContents('info');
+dialogDefinition.removeContents('Link');
+dialogDefinition.removeContents('advanced');
+break;
+}
 });
 //////////////////////////////////////
 
 $("#ex-select").change(function(){
-	console.log($("#ex-select").val());
-	if($("#ex-select").val()=="normal"){
-		$(".normalOption").show();
-		$(".programOption").hide();
-	}else{
-		$(".normalOption").hide();
-		$(".programOption").show();		
-	}
+
 });
+});////////////onload
+
 
 
 
@@ -273,6 +281,18 @@ $("#ex-select").change(function(){
 	
 	
 	function selectExercise() {
+		
+		
+		console.log($("#ex-select").val());
+		if($("#ex-select").val()=="normal"){
+			$(".normalOption").show();
+			$(".programOption").hide();
+		}else{
+			$(".normalOption").hide();
+			$(".programOption").show();		
+		}
+		
+		
 		var exSelect = document.getElementById("ex-select");
 
 		// select element에서 선택된 option의 value가 저장된다.
@@ -328,7 +348,7 @@ $("#ex-select").change(function(){
 		    }
 		  } */ 
 		  
-		
+
 		alert(selectText);
 	}
 	$(".pre_set").each(function() {
