@@ -217,10 +217,8 @@ public class MemberManagemant {
 	}
 
 	public Question qNaCheck(String qa_num) {
-		System.out.println("씨발");
 		Question qa = mDao.qNaCheck(qa_num);
-		System.out.println("씨이발!!!!!!!!!!!" + qa);
-		return qa;
+ 		return qa;
 
 	}
 

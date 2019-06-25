@@ -47,12 +47,7 @@
 			value="net.sf.log4jdbc.DriverSpy" />
 		<beans:property name="url"
 			value="jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521:xe" />
-<<<<<<< HEAD
-		<!-- <beans:property name="url" value="jdbc:log4jdbc:oracle:thin:@106.243.194.226:3100:xe" 
-			/> "jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521:xe"  -->
-=======
 		<!-- <beans:property name="url" value="jdbc:log4jdbc:oracle:thin:@106.243.194.226:3100:xe"/> -->
->>>>>>> 0bb3dfaca655760365ec5d6664ab78ab2c73bf24
 		<beans:property name="username" value="ICIA" />
 		<beans:property name="password" value="1111" />
 	</beans:bean>

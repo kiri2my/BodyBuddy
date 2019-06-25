@@ -54,8 +54,8 @@
 
 	<select id="getTrainerList" resultType="member">
 		select
-		m.m_id,m.m_name,m.m_phone,t.t_cid from m left join t on m.m_id=t.t_id
-		where t_cid= #{id}
+		m.m_id,m.m_name,m.m_phone,t.t_cid,to_char(yn_date,'YYYY.MM.DD') as yn_date from m left join yesorno on m.m_id = yesorno.yn_trainer left join t on yesorno.yn_trainer=t.t_id
+		where t_cid= #{id} order by yn_date desc
 	</select>
 
 	<select id="getTrainerSearch" parameterType="member"

@@ -16,6 +16,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
 <script type="text/javascript"
+
 	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
