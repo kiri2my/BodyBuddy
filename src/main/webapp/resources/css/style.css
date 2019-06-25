@@ -21176,12 +21176,13 @@ dl li {
 }
 
 .sidebar .nav .nav-item .nav-link {
+  font-size: 2rem;
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: center;
   align-items: center;
   white-space: nowrap;
-  padding: 0.75rem 2.5rem 0.75rem 1.25rem;
+  padding: 5rem 2.5rem 0.75rem 1.25rem;
   color: #000;
   -webkit-transition-duration: 0.45s;
   -moz-transition-duration: 0.45s;
