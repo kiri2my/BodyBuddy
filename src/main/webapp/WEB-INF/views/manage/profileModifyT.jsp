@@ -72,11 +72,28 @@
 
 								<div class="mb-4">
 									<div class="form-check">
-
-
-
 										<i class="input-helper"></i>
 									</div>
+								</div>
+								<div id="sosok">
+									<table id="recent-purchases-listing" class="table">
+										<thead>
+										<tr>
+											<th>업체이름</th>
+											<th>내아이디</th>
+											<th>상태</th>
+											<th>날짜</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>${m1.c_bname }</td>
+											<td>${m1.yn_trainer }</td>
+											<td>${m1.yn_state }</td>
+											<td>${m1.yn_date }</td>
+										</tr>
+										</tbody>
+									</table>
 								</div>
 								<div class="mt-3">
 									<!-- <a
