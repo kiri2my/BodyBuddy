@@ -156,7 +156,7 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 				rSession.sendMessage(new TextMessage(json.toString()));
 			}
 			break;
-		case "SS01":
+		case "SS01"://소속 요청
 			System.out.println("::::::SS01::::::");
 			json = message.getPayload().substring(4);
 			m = new Gson().fromJson(json, 
@@ -172,15 +172,44 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 				rSession.sendMessage(new TextMessage(json.toString()));
 			}
 			break;
-		case "SS02":
+		case "SS02"://소속 수락
 			System.out.println("::::::SS02::::::");
 			json = message.getPayload().substring(4);
 			m = new Gson().fromJson(json, 
 					new TypeToken<Map<String,String>>(){}.getType());
 			System.out.println("c_id::"+m.get("c_id"));
-			System.out.println("m_id::"+m.get("m_id"));//m : c_id, m_id들어있음
-			ws = ks.alarmSendSskReq(m);//소속요청 트레이너가 업체에게 요청알림보내기
-			//만약 받는사람이 현재 웹소켓에 접속중이라면 알림 보내기
+			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
+			ws = ks.alarmSendSskAcpt(m);//업체가 요청 트레이너에게 수락알림보내기
+			rId = ws.get("al_mrid");
+			rSession = idAndSession.get(rId);
+			if(rSession!=null) {
+				json = ks.alarmReceiveAll(rId);
+				rSession.sendMessage(new TextMessage(json.toString()));
+			}
+			break;
+		case "SS03"://소속 거절
+			System.out.println("::::::SS03::::::");
+			json = message.getPayload().substring(4);
+			m = new Gson().fromJson(json, 
+					new TypeToken<Map<String,String>>(){}.getType());
+			System.out.println("c_id::"+m.get("c_id"));
+			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
+			ws = ks.alarmSendSskRjct(m);//업체가 요청 트레이너에게 거절알림보내기
+			rId = ws.get("al_mrid");
+			rSession = idAndSession.get(rId);
+			if(rSession!=null) {
+				json = ks.alarmReceiveAll(rId);
+				rSession.sendMessage(new TextMessage(json.toString()));
+			}
+			break;
+		case "SS04"://소속 끊기
+			System.out.println("::::::SS04::::::");
+			json = message.getPayload().substring(4);
+			m = new Gson().fromJson(json, 
+					new TypeToken<Map<String,String>>(){}.getType());
+			System.out.println("c_id::"+m.get("c_id"));
+			System.out.println("t_id::"+m.get("t_id"));//m : c_id, t_id들어있음
+			ws = ks.alarmSendSskCut(m);//업체가 트레이너에게 소속끊기알림보내기
 			rId = ws.get("al_mrid");
 			rSession = idAndSession.get(rId);
 			if(rSession!=null) {
@@ -189,14 +218,7 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 			}
 			break;
 			
-			
-			
 		}//SWITCH END
-		
-		
-	
-		
-		
 		
 				//rcvSessionId = ks.getWSession(ws);//판매자 웹세션받기
 				//htmlMsg = ks.alarmReceivePurch(ws);//판매자가 구매알림받기
@@ -228,7 +250,4 @@ public class AlarmHandler extends TextWebSocketHandler {//문자는 text ,데이
 		logger.info("접속자 수 : "+wSessionList.size());
 		
 	}	
-		
-	
-		
 }

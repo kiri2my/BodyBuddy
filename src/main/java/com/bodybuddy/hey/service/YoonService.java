@@ -135,7 +135,7 @@ public class YoonService {
 					String ad_code = mainList.get(i).get("AD_CODE").toString();
 					String ad_category = mainList.get(i).get("AD_CATEGORY").toString();
 					
-				  sb.append("                                    <div class=\"col-sm-6 col-md-3\">" + 
+				  sb.append("                                    <div class=\"adBanner col-sm-6 col-md-3\">" + 
 							"                                        <div class=\"thumbnail\">" + 
 							"                                            <img alt=\"100%x200\" src='resources/upload/"+mainList.get(i).get("PF_IMAGE")+"'"+
 																				"data-holder-rendered=\"true\" style=\"height: 200px; width: 100%; display: block;\">"+ 

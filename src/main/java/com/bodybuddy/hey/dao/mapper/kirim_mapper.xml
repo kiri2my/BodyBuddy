@@ -251,6 +251,27 @@
   		</selectKey>
 	</insert>
 	
+	<insert id="alarmSendSskAcpt" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'SS02','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	<insert id="alarmSendSskRjct" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'SS03','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	<insert id="alarmSendSskCut" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'SS04','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	
+	
+	
 	
 	
 	

@@ -1174,6 +1174,47 @@ public class KirimService {
 		System.out.println("SS01:소속요청 보내기 실패");
 		return null;
 	}
+	public Map<String, String> alarmSendSskAcpt(Map<String, String> m) {//SS02
+		int al_code=0;
+		m.put("al_msid", m.get("c_id"));
+		m.put("al_mrid", m.get("t_id"));
+		al_code = kDao.alarmSendSskAcpt(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("SS02:소속수락 보내기 성공");
+			return m;
+		}
+		System.out.println("SS02:소속수락 보내기 실패");
+		return null;
+	}
+
+	public Map<String, String> alarmSendSskRjct(Map<String, String> m) {//SS03
+		int al_code=0;
+		m.put("al_msid", m.get("c_id"));
+		m.put("al_mrid", m.get("t_id"));
+		al_code = kDao.alarmSendSskRjct(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("SS03:소속거절 보내기 성공");
+			return m;
+		}
+		System.out.println("SS03:소속거절 보내기 실패");
+		return null;
+	}
+
+	public Map<String, String> alarmSendSskCut(Map<String, String> m) {//SS04
+		int al_code=0;
+		m.put("al_msid", m.get("c_id"));
+		m.put("al_mrid", m.get("t_id"));
+		al_code = kDao.alarmSendSskCut(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("SS04:소속끊기 보내기 성공");
+			return m;
+		}
+		System.out.println("SS04:소속끊기 보내기 실패");
+		return null;
+	}
 	
 	public String alarmReceiveAll(String m_id) {
 		String json=null;
@@ -1257,6 +1298,39 @@ public class KirimService {
 						+ "            </div>"
 						+ "        </a>");
 			}//SS01 END
+			if(msgList.get(i).getAl_kind().equals("SS02")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>소속계약 요청이 수락되었습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//SS02 END
+			if(msgList.get(i).getAl_kind().equals("SS03")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>소속계약 요청이 거부되었습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//SS03 END
+			if(msgList.get(i).getAl_kind().equals("SS04")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>업체와의 소속계약이 종료되었습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//SS04 END
 			
 		}
 		return sb.toString();
@@ -1281,14 +1355,4 @@ public class KirimService {
 		else if(years<1000) str = years+" 년 전";
 		return str;
 	}
-
-	
-
-	
-
-	
-
-	
-
-	
 }

@@ -219,12 +219,14 @@ for(var i=0; i< addrList.length; i++){
 			marker.setMap(map);
 			// 지도 중심을 변경한다.
     		map.setCenter(markerPosition);
+			
 		}//if END
 	});//geoCoder END
 }//for END
 //지도를 보여준다.
 var showMap = ${showMap}
 if(showMap){
+	$(".adBanner").prop("className","adBanner col-sm-6 col-md-4");	
 	$("#listCard").prop("className","col-md-8 card scroll");//col-md-12 card scroll
 	$("#mapCard").prop("hidden",false);
 	mapContainer.style.display = "block";
