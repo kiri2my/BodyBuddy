@@ -141,6 +141,7 @@
 	$(".eBtn").each(function() {
 		$(this).click(function() {
 			var num = $(this).parents().eq(1).children().eq(1).val();
+			console.log(num);
 			$.ajax({
 				type : "post",
 				url : "advertisemodifyfrm",

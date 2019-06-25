@@ -338,7 +338,7 @@ public class MemberManagemant {
 		
 		mav.addObject("opHtml", makeopHtml);
 		mav.addObject("opList", opList);
-		mav.setViewName("manage/advertisemodifyfrm2");
+		mav.setViewName("manage/advertisemodifyfrm");
 		System.out.println("메멘의 리턴입니다");
 		return mav;
 	}
