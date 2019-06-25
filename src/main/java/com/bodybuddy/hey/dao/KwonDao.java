@@ -98,5 +98,11 @@ public interface KwonDao {
 
 	public ArrayList<Question> getMainAdvertise(String id);
 
+	public int trainerRequest(String id);
+
+	public ArrayList<HashMap<String, String>> getTrainerSales(Map<String, String> map);
+
+	public ArrayList<HashMap<String, String>> getTrainerSalesSelect(Map<String, String> map);
+
 
 }

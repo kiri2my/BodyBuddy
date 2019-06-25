@@ -46,7 +46,7 @@
 						onclick="trainerSearch()" class="btn" id="tainerbtn">검색</button>
 					<button style="position: absolute; left: 80%;"
 						class="btn btn-danger" onclick="trainerJoinList()">
-						트레이너 요청<span class="badge badge-important">6</span>
+						트레이너 요청 <span class="badge badge-important" style="font: bold;">${num }</span>
 					</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
@@ -76,7 +76,8 @@
 											<td><button class="btn btn-danger"
 													onclick="workingAttitude('${trainer.m_id }','${trainer.t_cid }')">근태보기</button>
 											</td>
-											<td><button class="btn btn-danger" onclick="">실적보기</button></td>
+											<td><button class="btn btn-danger"
+													onclick="trainerSales('${trainer.m_id}','${trainer.t_cid}')">실적보기</button></td>
 											<td><button class="btn btn-danger"
 													onclick="delete_event('${trainer.m_id }')">소속끊기</button></td>
 											<!-- onclick="trainerDiscon('${trainer.m_id }')" -->
@@ -131,6 +132,8 @@
 </body>
 
 <script type="text/javascript">
+	var cidd = '';
+	var tidd = '';
 	function delete_event(tid) {
 		if (confirm("트레이너 소속을 끊으시겠습니까?") == true) {
 			var tid = tid;
@@ -328,6 +331,111 @@
 			}
 
 		});
+	}
+
+	function trainerSales(tid, cid) {
+		var tid = tid;
+		var cid = cid;
+		//console.log(tid + "," + cid);
+		$
+				.ajax({
+					type : "post",
+					url : "trainersales",
+					data : {
+						tid : tid,
+						cid : cid
+					},
+					dataType : "json",
+					success : function(data) {
+						var msg = '';
+						if (data == '0') {
+							cidd = cid;
+							tidd = tid;
+							msg ="<select name='year' id='year' > <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+							+ "<select name='year' id='month'> <option value='01' selected='selected'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+							+ "<button class='btn btn-danger' onclick='trainerSalesSelect()'>검색</button>";
+							$('#modalBody').html(msg);
+							$('#modal').modal('toggle');
+							alert("실적이 없습니다.");
+							return;
+						}
+						cidd = data[0].AD_NAME;
+						tidd = data[0].OP_TRAINER;
+						console.log(cidd + "," + tidd);
+						//alert(data[0].AD_NAME+","+data[0].OP_TRAINER);
+						var str = "<h3>"+ data[0].YM+" 실적</h3>" + "<select name='year' id='year' > <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+								+ "<select name='year' id='month'> <option value='01' selected='selected'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+								+ "<button class='btn btn-danger' onclick='trainerSalesSelect()'>검색</button>";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>프로그램명</th><th style='width: 10%'>실적수</th><th style='width: 10%'>단가</th><th style='width: 10%'>금액</th></tr></thead><tbody>";
+
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].AD_TITLE + "</td><td>"
+									+ data[i].COUNT + "</td><td>"
+									+ data[i].OP_PRICE + "</td><td>"
+									+ data[i].PRICE_SUM + "</td></tr>";
+						}
+
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						$('#modal').modal('toggle');
+					},
+					error : function() {
+						alert('트레이너 실적 로드 실패');
+					}
+
+				});
+	}
+
+	function trainerSalesSelect() {
+		//$('#modal').modal('toggle');
+		var tid = tidd;
+		var cid = cidd;
+		var month = $('#month option:selected').val();
+		var year = $('#year option:selected').val();
+		var ym = year + month;
+		//alert(tid + "," + cid + "," + month + "," + year + "," + ym);
+		$
+				.ajax({
+					type : "post",
+					url : "trainersalesselect",
+					data : {
+						tid : tid,
+						cid : cid,
+						ym : ym
+					},
+					dataType : "json",
+					success : function(data) {
+						if (data == '0') {
+							alert("실적이 없습니다.");
+							return;
+						}
+						cidd = data[0].AD_NAME;
+						tidd = data[0].OP_TRAINER;
+						console.log(cidd + "," + tidd);
+						var str = "<h3>"
+								+ year
+								+ "년"
+								+ month
+								+ "월 실적</h3>"
+								+ "<br><select name='year' id='year'> <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+								+ "<select name='year' id='month'> <option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+								+ "<button class='btn btn-danger' onclick='trainerSalesSelect()'>검색</button>";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>프로그램명</th><th style='width: 10%'>실적수</th><th style='width: 10%'>단가</th><th style='width: 10%'>금액</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].AD_TITLE + "</td><td>"
+									+ data[i].COUNT + "</td><td>"
+									+ data[i].OP_PRICE + "</td><td>"
+									+ data[i].PRICE_SUM + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						//$('#modal').modal('toggle');
+					},
+					error : function() {
+						alert('트레이너 실적 로드 실패');
+					}
+
+				});
 	}
 </script>
 </html>

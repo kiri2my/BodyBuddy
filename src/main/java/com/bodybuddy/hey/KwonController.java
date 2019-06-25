@@ -270,6 +270,20 @@ public class KwonController {
 		return gson;
 	}
 	
+	@RequestMapping(value = "/trainersales",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerSales(HttpServletRequest request) {
+		
+		String gson = ks.getTrainerSales(request);
+		
+		return gson;
+	}
 	
+	@RequestMapping(value = "/trainersalesselect",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerSalesSelect(HttpServletRequest request) {
+		
+		String gson = ks.getTrainerSalesSelect(request);
+			
+		return gson;
+	}
 
 }
