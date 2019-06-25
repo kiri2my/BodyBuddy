@@ -65,11 +65,7 @@
 </head>
 <body>
 <div id="wrap">
-		<div id="header">
-			<%-- <jsp:include page="headerNCT.jsp" /> --%>
-			<jsp:include page="../header.jsp" />
-		</div>
-		<div id="main">
+
 	<div class="container-scroller">
 		<div class="col-md-12 grid-margin grid-margin-md-0 stretch-card">
 			<div class="card">
@@ -100,10 +96,8 @@
 
 	</div>
 		</div>
-		<div id="nav">
-			<jsp:include page="sidebarNormal.jsp" />
-		</div>
-	</div>
+
+	
 
 
 

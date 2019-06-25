@@ -712,43 +712,38 @@ public class KirimService {
 				"<br><br><br><br><br><br><br><br><br>                    <div class=\"row\">" + 
 				
 				"                        <div class=\"col-md-4 grid-margin stretch-card\">" + 
-				"" + 
 				"                            <div class=\"card\">" + 
 				"                                <div class=\"card-body\">" + 
-				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 600px;\">" + 
+				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">" + 
 //광고사진 캐러셀 시작
-			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\">" + 
+			"<div id=\"carousel-adPhoto-generic\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"false\"  >" + 
 			"  <!-- Indicators -->" + 
-			"  <ol class=\"carousel-indicators\">" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"0\" class=\"active\"></li>" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"1\"></li>" + 
-			"    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to=\"2\"></li>" + 
+			"  <ol class=\"carousel-indicators\">");
+			for(int i=0;i<apList.size();i++) {
+				sb.append("    <li data-target=\"#carousel-adPhoto-generic\" data-slide-to='"+i+"'");
+				if(i==0) {
+					sb.append("class='active'");
+				}
+				sb.append("></li>");
+				
+			}
+  sb.append( 
 			"  </ol>" + 
-			"" + 
 			"  <!-- Wrapper for slides -->" + 
 			"  <div class=\"carousel-inner\" role=\"listbox\">");
-			
 			for(int i=0;i<apList.size();i++) {
-				sb.append("    <div class=\"item active\">" + 
-						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>" + 
+				sb.append("    <div class='item");
+				if(i==0) {
+					sb.append(" active");
+				}
+				sb.append("')>" + 
+						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>" + //width='400px'
 						"      <div class=\"carousel-caption\">" + 
 						i+"번째사진" + 
 						"      </div>" + 
 						"    </div>");
 			}
-			
-	sb.append("    <div class=\"item active\">" + 
-			"      <img src='' alt='advertisePhoto'>" + 
-			"      <div class=\"carousel-caption\">" + 
-			"        1번째사진" + 
-			"      </div>" + 
-			"    </div>" + 
-			
-			
-			
-			"    qwerqwer" + 
-			"  </div>" + 
-			"" + 
+	sb.append("  </div>" + 
 			"  <!-- Controls -->" + 
 			"  <a class=\"left carousel-control\" href=\"#carousel-adPhoto-generic\" role=\"button\" data-slide=\"prev\">" + 
 			"    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>" + 
@@ -759,10 +754,6 @@ public class KirimService {
 			"    <span class=\"sr-only\">Next</span>" + 
 			"  </a>" + 
 			"</div>"+	
-
-				
-			
-				
 				
 //프로필 캐러셀 끝				
 				
@@ -859,8 +850,8 @@ public class KirimService {
 					sb.append("                        	 	<button type=\"button\" class=\"btn btn-outline-secondary dropdown-toggle\" data-toggle=\"dropdown\">담당 트레이너 프로필 보기</button>" + 
 							  "                         		<div class=\"dropdown-menu\">");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
-					if(dp.get("M_KIND").toString().equals("t") && dp.get("T_CID")==null) {
-						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage'>"+dp.get("M_NAME")+"</a>");
+					if(dp.get("M_KIND").toString().equals("t") ) {//&& dp.get("T_CID")==null
+						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+dp.get("M_NAME")+"</a>");
 					//프로그램 광고 작성자가 업체	
 					}else if(dp.get("M_KIND").toString().equals("c")) {
 						for(int i=0;i<opCateList.size();i++) {//반복문 돌려서 트레이너 + 담당 옵션 찍어주기
@@ -1062,7 +1053,7 @@ public class KirimService {
 				"                            </div>" + 
 				"                        </div>" + 
 				"                    </div>" + 
-				"" + 
+				"" +
 				"                </div>");
 		return sb.toString();
 	}
@@ -1172,11 +1163,12 @@ public class KirimService {
 	}
 	
 	public Map<String,String> alarmSendPurch(Map<String, String> m) {
+		int al_code=0;
 		System.out.println("AD_CODE:::::::::::"+m.get("ad_code"));
 		String ad_name=kDao.getAdName(m.get("ad_code"));
 		m.put("al_msid", m.get("m_id"));
 		m.put("al_mrid", ad_name);
-		int al_code = kDao.alarmSendPurch(m);
+		al_code = kDao.alarmSendPurch(m);
 		if(al_code!=0) {
 			m.put("al_code", String.valueOf(al_code));
 			System.out.println("PS01:구매알림 보내기 성공");
@@ -1186,17 +1178,46 @@ public class KirimService {
 		return null;
 	}
 	public Map<String, String> alarmSendQuestion(Map<String, String> m) {
+		int al_code=0;
 		System.out.println("AD_CODE:::::::::::"+m.get("ad_code"));
 		String ad_name=kDao.getAdName(m.get("ad_code"));
 		m.put("al_msid", m.get("m_id"));
 		m.put("al_mrid", ad_name);
-		int al_code = kDao.alarmSendQuestion(m);
+		al_code = kDao.alarmSendQuestion(m);
 		if(al_code!=0) {
 			m.put("al_code", String.valueOf(al_code));
 			System.out.println("QA01:문의알림 보내기 성공");
 			return m;
 		}
 		System.out.println("QA01:문의알림 보내기 실패");
+		return null;
+	}
+	public Map<String, String> alarmSendAnswer(Map<String, String> m) {
+		int al_code=0;
+		System.out.println("QA_NUM:::::::::::"+m.get("qa_num"));
+		String qa_writer=kDao.getQuestionId(m.get("qa_num"));
+		m.put("al_msid", m.get("m_id"));
+		m.put("al_mrid", qa_writer);
+		al_code = kDao.alarmSendAnswer(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("AQ01:문의답변알림 보내기 성공");
+			return m;
+		}
+		System.out.println("AQ01:문의답변알림 보내기 실패");
+		return null;
+	}
+	public Map<String, String> alarmSendSskReq(Map<String, String> m) {//SS01
+		int al_code=0;
+		m.put("al_msid", m.get("m_id"));
+		m.put("al_mrid", m.get("c_id"));
+		al_code = kDao.alarmSendSskReq(m);
+		if(al_code!=0) {
+			m.put("al_code", String.valueOf(al_code));
+			System.out.println("SS01:소속요청 보내기 성공");
+			return m;
+		}
+		System.out.println("SS01:소속요청 보내기 실패");
 		return null;
 	}
 	
@@ -1249,6 +1270,40 @@ public class KirimService {
 						+ "            </div>"
 						+ "        </a>");
 			}//PS02 END
+			if(msgList.get(i).getAl_kind().equals("QA01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>답변을 기다리는 문의를 받았습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//QA01 END
+			if(msgList.get(i).getAl_kind().equals("AQ01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>문의에 대한 답변이 도착하였습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//AQ01 END
+			if(msgList.get(i).getAl_kind().equals("SS01")) {
+				sb.append("        <a class='dropdown-item alarm-confirm'>"
+						+ "			   <input type='hidden' class='al_code' value='"+msgList.get(i).getAl_code()+"'/>"
+						+ "            <div class='item-content'>"
+						+ "                <h6 class='font-weight-normal'>트레이너의 소속계약 요청이 들어왔습니다.</h6>"
+						+ "                <p class='font-weight-light small-text mb-0 text-muted'>"
+											+time
+						+ "                </p>"
+						+ "            </div>"
+						+ "        </a>");
+			}//SS01 END
+			
 		}
 		return sb.toString();
 	}
@@ -1272,6 +1327,12 @@ public class KirimService {
 		else if(years<1000) str = years+" 년 전";
 		return str;
 	}
+
+	
+
+	
+
+	
 
 	
 

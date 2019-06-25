@@ -210,6 +210,10 @@
  	<select id="getAdName" parameterType="String" resultType="String">
   		SELECT AD_NAME FROM AD WHERE AD_CODE=#{ad_code}
  	</select>
+ 	<select id="getQuestionId" parameterType="String" resultType="String">
+  		SELECT QA_WRITER FROM QA WHERE QA_NUM=#{qa_num}
+ 	</select>
+ 	
  	
  	<insert id="alarmSendPurch" parameterType="HashMap">
 		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'PS01','n',SYSDATE)
@@ -234,6 +238,21 @@
     		SELECT AL_SEQ.CURRVAL FROM DUAL
   		</selectKey>
 	</insert>
+	<insert id="alarmSendAnswer" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'AQ01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	<insert id="alarmSendSskReq" parameterType="HashMap">
+		INSERT INTO AL VALUES(AL_SEQ.NEXTVAL, #{al_msid},#{al_mrid},'SS01','n',SYSDATE)
+		<selectKey keyProperty="al_code" resultType="int" order="AFTER">
+    		SELECT AL_SEQ.CURRVAL FROM DUAL
+  		</selectKey>
+	</insert>
+	
+	
+	
 	
  	 	
  	

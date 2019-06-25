@@ -85,6 +85,12 @@ public interface KirimDao {
 
 	public int alarmSendQuestion(Map<String, String> m);
 
+	public String getQuestionId(String qa_num);
+
+	public int alarmSendAnswer(Map<String, String> m);
+
+	public int alarmSendSskReq(Map<String, String> m);
+
 
 
 	

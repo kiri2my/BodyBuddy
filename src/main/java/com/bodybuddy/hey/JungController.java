@@ -134,14 +134,13 @@ public class JungController {
 	
 	@RequestMapping(value = "/acceptrequest",produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String acceptrequest(HttpServletRequest request) {
+	public String acceptrequest(String c_id) {
 		Member mb = (Member) session.getAttribute("mb");
-		String cName =request.getParameter("cName");
-		System.out.println("cName : "+cName);
+		System.out.println("c_id : "+c_id);
 		
-		String html = js.acceptrequest(mb,cName);
+		String text = js.acceptrequest(mb,c_id);
 		
-		return html;
+		return text;
 	}
 	
 	@RequestMapping(value = "/adinsert", method = RequestMethod.POST)

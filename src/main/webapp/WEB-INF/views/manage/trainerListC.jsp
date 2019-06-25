@@ -92,7 +92,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: 50%; left: 50%; top: 20%;">
+		style="width: 30%; height: inherit; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
@@ -304,7 +304,7 @@
 			}
 		});
 	}
-	
+
 	function profileC(m_id) {
 		var m_id = m_id;
 		alert(m_id);
@@ -319,7 +319,7 @@
 			dataType : "html",
 			success : function(data) {
 				alert(data);
-				$('#modal_title').html(m_id+' 프로필');
+				$('#modal_title').html(m_id + ' 프로필');
 				$('#modalBody').html(data);
 				$('#modal').modal('toggle');
 			},

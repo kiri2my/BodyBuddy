@@ -9,7 +9,9 @@
 	</select>
 	
 	<select id="getTfindC" parameterType="member" resultType="member">
-		select c.c_bname, m.m_addr from m inner join c on m.m_id=c.c_id where c_bname=#{c_bname}
+		<![CDATA[
+		select c.c_bname, m.m_addr, m.m_id from m inner join c on m.m_id=c.c_id where c_bname like '%${c_bname}%'
+		]]>
 		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR ,YN_STATE FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID INNER JOIN YESORNO ON COMPANY.C_ID = YESORNO.YN_COMPANY WHERE COMPANY.C_BNAME= #{c_bname} -->
 		<!-- SELECT COMPANY.C_BNAME, MEMBER.M_ADDR FROM MEMBER INNER JOIN COMPANY ON MEMBER.M_ID = COMPANY.C_ID WHERE COMPANY.C_BNAME= #{c_bname}  -->
 	</select>
@@ -29,9 +31,7 @@
 	<update id="acceptrequestupdate" parameterType="member">
 		UPDATE YESORNO SET YN_STATE= '진행',YN_COMPANY=#{c_id} WHERE YN_TRAINER= #{m_id} 
 	</update>
-	<select id="findC_id" resultType="member">
-		select c_id from C WHERE c_bname=#{c_bname}
-	</select>
+	
 	<select id="comfirm" resultType="Integer">
 		select count (*) from yesorno where yn_trainer = #{m_id}
 	</select>
