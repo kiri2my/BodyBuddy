@@ -255,7 +255,7 @@ public class JungService {
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());//세션아이디
 		
-		int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
+		//int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
 		
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if(ad_category!=null && ad_category!="") {
