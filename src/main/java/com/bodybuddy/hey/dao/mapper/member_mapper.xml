@@ -121,7 +121,7 @@
 	<select id="advertiseModifyFrm" parameterType="String"
 		resultType="question">
 		SELECT * FROM OP
-		LEFR JOIN AD
+		LEFT JOIN AD
 		ON AD_CODE = OP_ADCODE
 		WHERE OP_ADCODE = #{ad_code}
 	</select>

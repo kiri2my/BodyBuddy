@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.YesOrNo;
 import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
@@ -221,7 +222,7 @@ public class MemberManagemant {
 
 	public Question qNaCheck(String qa_num) {
 		Question qa = mDao.qNaCheck(qa_num);
- 		return qa;
+		return qa;
 
 	}
 
@@ -246,12 +247,11 @@ public class MemberManagemant {
 		return mav;
 	}
 
-
 	public String deleteAd(String ad_code) {
 
 		Integer success1 = mDao.deleteAdphoto(ad_code);
 		Integer success = mDao.deleteAd(ad_code);
-		
+
 		Gson gson = new Gson();
 		String str = gson.toString();
 		return str;
@@ -261,17 +261,18 @@ public class MemberManagemant {
 		// int i = mDao.opcount(ad_code);
 		mav = new ModelAndView();
 		Member mb = (Member) session.getAttribute("mb");
+		String id = mb.getM_id();
 		System.out.println("메멘의 수정폼입니다");
 		ArrayList<Question> opList = mDao.advertiseModifyFrm(ad_code);
+		List<YesOrNo> yn = mDao.trinerlist(id);
 		System.out.println("dao입니다");
 		System.out.println("opList1" + opList.size());
-		String makeopHtml = opHtml(opList, opList.size());
+		String makeopHtml = opHtml(opList, opList.size(), yn);
 
 		Question list = new Question();
 		System.out.println("list" + list.getOp_code());
 		System.out.println(opList);
 
-		
 		mav.addObject("opHtml", makeopHtml);
 		mav.addObject("opList", opList);
 		mav.setViewName("manage/advertisemodifyfrm");
@@ -279,9 +280,9 @@ public class MemberManagemant {
 		return mav;
 	}
 
-	private String opHtml(ArrayList<Question> opList, int opSize) {
+	private String opHtml(ArrayList<Question> opList, int opSize, List<YesOrNo> yn) {
 		StringBuilder sb = new StringBuilder();
-		String str  = "";
+		String str = "";
 		String str2 = "";
 		String str3 = "";
 		String mon = "";
@@ -295,6 +296,12 @@ public class MemberManagemant {
 		String yoga = "";
 		String pt = "";
 		String pilates = "";
+		String home = "";
+		String tstr1 = "";
+		String tstr2 = "";
+		String cstr1 = "";
+		String cstr2 = "";
+		String cstr3 = "";
 		System.out.println(opList.get(0).getOp_adcode());
 		String[] op_period = opList.get(0).getOp_period().split("~");
 		String[] op_day = opList.get(0).getOp_day().split(" ");
@@ -304,17 +311,20 @@ public class MemberManagemant {
 		String ad_category = opList.get(0).getAd_category();
 		String ad_code = opList.get(0).getAd_code();
 		Member m = (Member) session.getAttribute("mb");
-		if (ad_category.equals("fitness")) {
+		if (ad_category.equals("일반")) {
 			fitness = "selected=\"selected\"";
 		}
-		if (ad_category.equals("yoga")) {
+		if (ad_category.equals("요가")) {
 			yoga = "selected=\"selected\"";
 		}
-		if (ad_category.equals("pt")) {
+		if (ad_category.equals("피티")) {
 			pt = "selected=\"selected\"";
 		}
-		if (ad_category.equals("pilates")) {
+		if (ad_category.equals("필라테스")) {
 			pilates = "selected=\"selected\"";
+		}
+		if (ad_category.equals("홈트레이닝")) {
+			home = "selected=\"selected\"";
 		}
 
 		str = ("<form id=\"frm\" action=\"adinsert\">\r\n" + "  <div class=\"container\">\r\n"
@@ -327,6 +337,7 @@ public class MemberManagemant {
 				+ "        <option class=\"yoga\" value=\"yoga\" " + yoga + ">요가</option>\r\n"
 				+ "        <option class=\"pt\" value=\"pt\" " + pt + ">개인PT</option>\r\n"
 				+ "        <option class=\"pilates\" value=\"pilates\" " + pilates + ">필라테스</option>\r\n"
+				+ "        <option class=\"home\" value=\"home\" " + home + ">홈트레이닝</option>\r\n"
 				+ "      </select>\r\n" + "      </td>\r\n" + "     </tr>\r\n" + "     <tr>\r\n"
 				+ "      <th>제목</th>\r\n" + "      <td style=\"vertical-align: middle\"><input type=\"text\" \r\n"
 				+ "       name=\"ad_title\" style=\"height: 50px;\" value=" + ad_title + "></td>\r\n" + "     </tr>\r\n"
@@ -340,7 +351,7 @@ public class MemberManagemant {
 				+ "           <th>시간</th>\r\n" + "           <th>요일</th>\r\n" + "           <th>횟수</th>\r\n"
 				+ "           <th>인원</th>\r\n" + "           <th>가격</th>\r\n" + "           <th>담당자</th>\r\n"
 				+ "           \r\n" + "          </tr>\r\n" + "          <tr>\r\n"
-						+ "<input type=\"hidden\" name=\"ad_code\"  value="+ad_code+">");
+				+ "<input type=\"hidden\" name=\"ad_code\"  value=" + ad_code + ">");
 		for (int i = 0; i < opSize; i++) {
 			op_period = opList.get(i).getOp_period().split("~");
 			op_day = opList.get(i).getOp_day().split(" ");
@@ -410,11 +421,26 @@ public class MemberManagemant {
 						+ "           <td><input type=\"text\" name=\"op_personnel\" placeholder=\"모집인원\" class=\"reset\" value="
 						+ opList.get(i).getOp_personnel() + ">명</td>\r\n"
 						+ "           <td><input type=\"text\" name=\"op_price\" placeholder=\"가격(원)\" class=\"reset\" value="
-						+ opList.get(i).getOp_price() + "></td>\r\n"
-						+ "           <td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id() + ">\r\n"  
-						+ m.getM_name() + "</option></select></td> </tr>\r\n");
+						+ opList.get(i).getOp_price() + "></td>\r\n");
+				if (m.getM_kind().equals("t")) {
+					tstr2 = ("<td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id()
+							+ ">\r\n" + m.getM_name() + "</option></select></td> </tr>\r\n");
+					tstr1 = null;
+					tstr1 += tstr2;
+
+				} else {
+					cstr1 = ("<select name=\"op_trainer\">\r\n" + "    <option value=\"\">트레이너 선택</option>\r\n");
+					for (int ss = 0; ss < yn.size(); ss++) {
+						cstr2 = ("<option value='" + yn.get(ss).getT_id() + "'>" + yn.get(ss).getM_name()
+								+ "</option>\r\n");
+						cstr3 = null;
+						cstr3 += cstr2;
+					}
+					cstr1 += cstr3;
+				}
+
 			}
-			str3 += str2;
+			str3 += str2 + tstr1 + cstr1;
 		}
 		System.out.println("최종입니다" + str2);
 		sb.append(str + str3);
@@ -426,145 +452,145 @@ public class MemberManagemant {
 
 		mav = new ModelAndView();
 		Question adadd = new Question();
-		
-		String[] op_trainer=null;
+
+		String[] op_trainer = null;
 		String ad_code = null;
-		String op_clock1=null;
-		String op_clock2=null;
-		String ad_category=null;
-		String ad_title=null;
-		String ad_content=null;
-		String[] op_contentValues=null;
-		String[] op_content_1=null;
-		String[] day=null;
-		String[] day1=null;
-		String op_period=null;
-		String[] op_period_n=null;
-		String op_period_1s=null;
-		String[] op_period_1=null;
-		String op_period_2s=null;
-		String[] op_period_2=null;
-		String op_times=null;
-		String[] op_times_1=null;
-		String[] op_clock_1=null;
-		String[] op_clock_2=null;
-		String op_price=null;
-		String[] op_price_1=null;
-		String op_personnel=null;
-		String[] op_personnel_1=null;
-		
-		
+		String op_clock1 = null;
+		String op_clock2 = null;
+		String ad_category = null;
+		String ad_title = null;
+		String ad_content = null;
+		String[] op_contentValues = null;
+		String[] op_content_1 = null;
+		String[] day = null;
+		String[] day1 = null;
+		String op_period = null;
+		String[] op_period_n = null;
+		String op_period_1s = null;
+		String[] op_period_1 = null;
+		String op_period_2s = null;
+		String[] op_period_2 = null;
+		String op_times = null;
+		String[] op_times_1 = null;
+		String[] op_clock_1 = null;
+		String[] op_clock_2 = null;
+		String op_price = null;
+		String[] op_price_1 = null;
+		String op_personnel = null;
+		String[] op_personnel_1 = null;
+
 		List<String> ad_nameTId = null;
-		String[] op_trainerValues=null;
-		String[] dayValues=null;
-		String[] op_periodValues=null;
-		String[] op_period_1sValues=null;
-		String[] op_period_2sValues=null;
-		String[] op_timesValues=null;
-		String[] op_clock1Values=null;
-		String[] op_clock2Values=null;
-		String[] op_priceValues=null;
-		String[] op_personnelValues=null;
-		
-		
-		
+		String[] op_trainerValues = null;
+		String[] dayValues = null;
+		String[] op_periodValues = null;
+		String[] op_period_1sValues = null;
+		String[] op_period_2sValues = null;
+		String[] op_timesValues = null;
+		String[] op_clock1Values = null;
+		String[] op_clock2Values = null;
+		String[] op_priceValues = null;
+		String[] op_personnelValues = null;
+
 		Member mb = (Member) session.getAttribute("mb");
-		adadd.setAd_name(mb.getM_id());//세션아이디
+		adadd.setAd_name(mb.getM_id());// 세션아이디
 		adadd.setAd_code(multi.getParameter("ad_code"));
 		ad_code = adadd.getAd_code();
-		System.out.println("ad_codead_codead_code"+ad_code);
-		//int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
-		
+		System.out.println("ad_codead_codead_code" + ad_code);
+		// int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
+
 		System.out.println();
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
-		if(ad_category!=null && ad_category!="") {
+		if (ad_category != null && ad_category != "") {
 			System.out.println("ad_category : " + ad_category);
-			if(ad_category.equals("normal")) adadd.setAd_category("일반");
-			if(ad_category.equals("pt")) adadd.setAd_category("피트니스");
-			if(ad_category.equals("homeTraining")) adadd.setAd_category("홈트레이닝");
-			if(ad_category.equals("pilates")) adadd.setAd_category("필라테스");
-			if(ad_category.equals("yoga")) adadd.setAd_category("요가");
+			if (ad_category.equals("normal"))
+				adadd.setAd_category("일반");
+			if (ad_category.equals("pt"))
+				adadd.setAd_category("피트니스");
+			if (ad_category.equals("homeTraining"))
+				adadd.setAd_category("홈트레이닝");
+			if (ad_category.equals("pilates"))
+				adadd.setAd_category("필라테스");
+			if (ad_category.equals("yoga"))
+				adadd.setAd_category("요가");
 		}
-		
+
 		ad_title = multi.getParameter("ad_title");// adadd.getAd_title();
-		if(ad_title!=null && ad_title!="") {
+		if (ad_title != null && ad_title != "") {
 			System.out.println("ad_title : " + ad_title);
 			adadd.setAd_title(ad_title);
 		}
-		
+
 		ad_content = multi.getParameter("ad_content");// adadd.getAd_content();
-		if(ad_content!=null && ad_content!="") {
+		if (ad_content != null && ad_content != "") {
 			System.out.println("ad_content : " + ad_content);
 			adadd.setAd_content(ad_content);
 		}
 
-		
 		op_trainerValues = multi.getParameterValues("op_trainer");
 		ad_nameTId = new ArrayList<>();
-		for(int i=0;i<op_trainerValues.length; i++) {
-			if(op_trainerValues[i]!="") {
+		for (int i = 0; i < op_trainerValues.length; i++) {
+			if (op_trainerValues[i] != "") {
 				String[] ad_nameT = op_trainerValues[i].split(",");
 				System.out.println("ad_nameT[0] : " + ad_nameT[0]);
 				System.out.println("ad_nameT[1] : " + ad_nameT[1]);
-				ad_nameTId.add(ad_nameT[1]);//ad_name3
-				String ad_nameTName = ad_nameT[0];//ad_name
-				System.out.println(i+"트레이너아이디 출력 " + ad_nameTId.get(i));//ad_name3
-				System.out.println(i+"트레이너이름  : " + ad_nameTName);//ad_name
+				ad_nameTId.add(ad_nameT[1]);// ad_name3
+				String ad_nameTName = ad_nameT[0];// ad_name
+				System.out.println(i + "트레이너아이디 출력 " + ad_nameTId.get(i));// ad_name3
+				System.out.println(i + "트레이너이름  : " + ad_nameTName);// ad_name
 			}
 		}
-		
-		op_contentValues= multi.getParameterValues("op_content");// adadd.getOp_content();
+
+		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
 		op_clock1Values = multi.getParameterValues("op_clock1");
 		op_clock2Values = multi.getParameterValues("op_clock2");
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
-		
+
 		// day
 		dayValues = multi.getParameterValues("day");
-		String b="";
-		for(int i=0;i<dayValues.length;i++) {
-			if(dayValues[i]!="") {
-				b+=dayValues[i];
+		String b = "";
+		for (int i = 0; i < dayValues.length; i++) {
+			if (dayValues[i] != "") {
+				b += dayValues[i];
 			}
 		}
-		System.out.println("b="+b);
-		day1 = b.split("@"); // @ 기준으로 나누기	
-		
-		//일반 일 수
-		if(mb.getM_kind().equals("c")) {
+		System.out.println("b=" + b);
+		day1 = b.split("@"); // @ 기준으로 나누기
+
+		// 일반 일 수
+		if (mb.getM_kind().equals("c")) {
 			op_periodValues = multi.getParameterValues("op_period");
-			if(op_periodValues.length!=0 && op_periodValues!=null) {
-				for(int i=0;i<op_periodValues.length; i++) {
+			if (op_periodValues.length != 0 && op_periodValues != null) {
+				for (int i = 0; i < op_periodValues.length; i++) {
 					System.out.println("op_period출력 : " + op_periodValues[i]);
 				}
 			}
 		}
-		
-		
+
 		op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
 		// op_period_1[0] = mm/dd/yyyy
-		if(op_period_1sValues.length!=0 && op_period_1sValues!=null) {
-			for(int i=0; i<op_period_1sValues.length;i++) {
-				System.out.println("op_period_1출력i "+op_period_1sValues[i]);
+		if (op_period_1sValues.length != 0 && op_period_1sValues != null) {
+			for (int i = 0; i < op_period_1sValues.length; i++) {
+				System.out.println("op_period_1출력i " + op_period_1sValues[i]);
 			}
-			
+
 		}
-		
+
 		op_period_2sValues = multi.getParameterValues("op_period2");// adadd.getOp_period1().split(",");
 		// op_period_1[0] = mm/dd/yyyy
-		if(op_period_2sValues.length!=0 && op_period_2sValues!=null) {
-			System.out.println("op_period_2출력 "+op_period_2sValues);
-			for(int i=0; i<op_period_2sValues.length;i++) {
-				System.out.println("op_period_2출력i "+op_period_2sValues[i]);
+		if (op_period_2sValues.length != 0 && op_period_2sValues != null) {
+			System.out.println("op_period_2출력 " + op_period_2sValues);
+			for (int i = 0; i < op_period_2sValues.length; i++) {
+				System.out.println("op_period_2출력i " + op_period_2sValues[i]);
 			}
 		}
-		
+
 		adadd.setAd_status("모집중");
 		Map<String, String> opMap = new HashMap<String, String>();
 		if (mDao.admodify(adadd)) {
 			System.out.println("광고입력성공");
-			
+
 			String root = multi.getSession().getServletContext().getRealPath("/");
 			System.out.println("root=" + root);
 			String path = root + "resources/upload/";
@@ -577,25 +603,25 @@ public class MemberManagemant {
 			List<MultipartFile> files = multi.getFiles("ap_image");
 			String oriFileName = null;
 			String sysFileName = null;
-			System.out.println("::::::"+files.size());
+			System.out.println("::::::" + files.size());
 			try {
-				for(int i=0; i<files.size();i++) {
+				for (int i = 0; i < files.size(); i++) {
 					oriFileName = files.get(i).getOriginalFilename();
 					String index = String.valueOf(i);
-					sysFileName = index+System.currentTimeMillis() + "."
-						+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
+					sysFileName = index + System.currentTimeMillis() + "."
+							+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
 					System.out.println("oriFileName=" + oriFileName);
 					System.out.println("sysFileName=" + sysFileName);
 					map.put("ap_adcode", ad_code);
 					map.put("ap_image", sysFileName);
 					System.out.println("ap_adcode=" + map.get("ap_adcode"));
 					System.out.println("ap_image=" + map.get("ap_image"));
-					
+
 					if (sysFileName != null) {
 						files.get(i).transferTo(new File(path + sysFileName));
 						mDao.deletepf(ad_code);
-						if(mDao.adpfmodify(map)) {
-							System.out.println(i+"번째 광고사진 업로드 및 등록 성공");
+						if (mDao.adpfmodify(map)) {
+							System.out.println(i + "번째 광고사진 업로드 및 등록 성공");
 						}
 					}
 				}
@@ -608,34 +634,34 @@ public class MemberManagemant {
 				opMap.put("op_adcode", ad_code);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-				
-				if(ad_nameTId.size()!=0)
-				opMap.put("op_trainer", ad_nameTId.get(i));
-				
-				if(op_periodValues[i]!="")
-				opMap.put("op_period", op_periodValues[i]);
-				
-				if(op_period_1sValues[i]!="" && op_period_2sValues[i]!="")
-				opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);//일반일경우 제외
-				
-				if(op_clock1Values[i]!="" && op_clock2Values[i]!="")
-				opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
 
-				if(op_timesValues[i]!="")
-				opMap.put("op_times", op_timesValues[i]);
-				
-				if(day1!=null && day1.length!=0 && day1[i]!="")
-				opMap.put("op_day", day1[i]);
-				
-				if(op_personnelValues[i]!="")
-				opMap.put("op_personnel", op_personnelValues[i]);
-				
+				if (ad_nameTId.size() != 0)
+					opMap.put("op_trainer", ad_nameTId.get(i));
+
+				if (op_periodValues[i] != "")
+					opMap.put("op_period", op_periodValues[i]);
+
+				if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "")
+					opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
+
+				if (op_clock1Values[i] != "" && op_clock2Values[i] != "")
+					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
+
+				if (op_timesValues[i] != "")
+					opMap.put("op_times", op_timesValues[i]);
+
+				if (day1 != null && day1.length != 0 && day1[i] != "")
+					opMap.put("op_day", day1[i]);
+
+				if (op_personnelValues[i] != "")
+					opMap.put("op_personnel", op_personnelValues[i]);
+
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
 				System.out.println(opMap.get("op_adcode"));
 				System.out.println(opMap.get("op_adcode"));
 				if (mDao.opmodify(opMap)) {
-					System.out.println(i+"옵션입력성공");
+					System.out.println(i + "옵션입력성공");
 				}
 			}
 		} else {
