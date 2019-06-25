@@ -55,12 +55,12 @@ body {
 
 
 <body>
-	<form id="frm" action="adinsert" method="post" enctype="multipart/form-data">
+	<form id="frm" action="admodify" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<table id="recent-purchases-listing" class="table">
 				${opHtml}
 			</table>
-			<button id="ins" class="btn btn-secondary" type="submit">등록</button>
+			<button id="ins" class="btn btn-secondary" type="submit">수정</button>
 			<button id="back" class="btn btn-secondary" type="button">돌아가기</button>
 
 		</div>

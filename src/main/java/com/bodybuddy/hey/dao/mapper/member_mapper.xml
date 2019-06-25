@@ -125,5 +125,27 @@
 		ON AD_CODE = OP_ADCODE
 		WHERE OP_ADCODE = #{ad_code}
 	</select>
+	<delete id="deleteAdphoto" parameterType="String">
+	DELETE FROM ADPHOTO WHERE AP_ADCODE = #{ad_code}
+	</delete>
+	
+	
+	<update id="admodify" parameterType="question">
+	UPDATE AD SER AD_TITLE = #{ad_title} ,AD_CONTENT=#{ad_content}, AD_CATEGORY =#{ad_category},AD_STATUS ='모집중',AD_DATE=sysdate
+	where ad_code = #{ad_cdoe}
+	</update>
+
+	<delete id="deletepf" parameterType="String">
+	delete from adphoto where ap_adcode=#{ad_code}
+	</delete>
+	<insert id="adpfmodify" parameterType="question">
+	INSERT INTO ADPHOTO VALUES (#{ap_adcode},#{ap_image})
+	</insert>
+	
+	<update id="opmodify" parameterType="question">
+	UPDATE OP SET OP_TRAINER=#{op_trainer} ,OP_PRICE=#{op_price},OP_PERIOD=#{op_period},OP_TIMES=#{op_times},
+	OP_DAY=#{op_day},OP_CONTENT=#{op_content},OP_CLOCK=#{op_clock},OP_PERSINNEL=#{op_oersinnel},OP_EXPIRE='1'
+ 	</update>
+	
 
 </mapper>

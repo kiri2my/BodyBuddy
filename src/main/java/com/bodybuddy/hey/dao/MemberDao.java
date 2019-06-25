@@ -108,9 +108,22 @@ public interface MemberDao {
 
 	public ArrayList<Question> advertiseModifyFrm(String ad_code);
 
+
+
 	
+	
+	
+	public boolean admodify(Question adadd);
+	
+	public boolean opmodify(Map<String, String> opMap);
 
+	public boolean adpfmodify(Map<String, String> map);
 
+	public boolean deletepf(String ad_code);
+
+	public Integer deleteAdphoto(String ad_code);
+
+	
 
 
 

@@ -922,7 +922,7 @@ public class KirimService {
 				
 				//상세정보 시작
 				
-				"                                        <div class=\"tab-pane fade\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">" + 
+				"                                        <div class=\"tab-pane fade active in show\" id=\"detailInfo\" role=\"tabpanel\" aria-labelledby=\"detailInfo-tab\">" + 
 				"                                            <div class=\"d-flex flex-wrap justify-content-xl-between\">" + 
 				"" + 
 				"                                                <div class=\"d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item\">" + 
