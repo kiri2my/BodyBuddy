@@ -264,7 +264,7 @@ public class YoonService {
 					+ "													<td>"
 					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
+					+ "</td>\r\n" 
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
 					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>출석체크확인</button>"
