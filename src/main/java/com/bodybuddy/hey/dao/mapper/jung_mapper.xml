@@ -46,8 +46,8 @@
 		UPDATE TRAINER SET T_CAREER=#{t_career} WHERE T_ID= #{m_id}
 	</update>
 	
-	<select id="trinerlist" resultType="member">
-		SELECT * FROM YESORNO where YN_COMPANY=	#{id}
+	<select id="trinerlist" resultType="yesorno" parameterType="String">
+		SELECT M_NAME,T_ID FROM M LEFT JOIN T ON M_ID = T_ID WHERE T_CID = #{id}
 
 	</select>
 	<select id="kindkind" resultType="member">

@@ -30,6 +30,9 @@
 	max-width: 100%;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 </head>
 <body>
 	<div class="container-scroller">
@@ -183,6 +186,7 @@
 	<script src="js/template.js"></script>
 	<!-- endinject -->
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script

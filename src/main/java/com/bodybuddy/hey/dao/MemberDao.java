@@ -56,7 +56,7 @@ public interface MemberDao {
 	public Question qaNum(String qa_num);
 
 
-	public List<YesOrNo> trinerlist(String id);
+	public ArrayList<YesOrNo> trinerlist(String id);
 
 	public Member kindkind(String id);
 

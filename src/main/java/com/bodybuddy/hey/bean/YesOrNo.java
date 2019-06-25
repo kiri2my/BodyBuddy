@@ -12,6 +12,9 @@ public class YesOrNo {
 	private String yn_company;
 	private String yn_state;
 	private String yn_date;
+
+	private String m_name;
+	private String t_id;
 	
 	
 }

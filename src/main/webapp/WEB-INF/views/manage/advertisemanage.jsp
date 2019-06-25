@@ -57,12 +57,12 @@
 											<c:set var="name" value="만료됨" />
 											<c:if test="${name ne advertise.ad_status}">
 												<tr id="${advertise.ad_code}" name="ad_code">
-													<td><a href="#">${advertise.ad_category}</a></td>
+													<td>${advertise.ad_category}</td>
 													<input type="hidden" class="mm"
 														value="${advertise.ad_code}" />
-													<td><a href="#">${advertise.ad_title}</a></td>
-													<td><a href="#">${advertise.ad_date}</a></td>
-													<td><a href="#">${advertise.ad_status}</a></td>
+													<td>${advertise.ad_title}</td>
+													<td>${advertise.ad_date}</td>
+													<td>${advertise.ad_status}</td>
 													<td>${advertise.op_trainer }</td>
 													<td><input class="eBtn" type="button" value="수정"><input
 														class="dBtn" type="button" value="삭제"></td>
@@ -81,7 +81,7 @@
 
 
 		<button class="btn btn-secondary" onclick="advertisewritefrm()"
-			type="button">신규 등록</button>
+			type="button" style="display: inline;" id="adWriteFrm">신규 등록</button>
 
 	</div>
 

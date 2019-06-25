@@ -65,12 +65,12 @@
 
 				<div class="collapse" id="bbbb">
 					<ul class="nav flex-column sub-menu">
-						<li class="nav-item"><a class="nav-link"
+						<li class="nav-item"><a class="nav-link" href="#"
 							onclick='advertiseManage()'>광고 관리</a></li>
-						<li class="nav-item"><a class="nav-link"
-							onclick='onclick="advertisewritefrm()'>광고 올리기</a></li>
-						<li class="nav-item"><a class="nav-link"
-							onclick='onclick="advertisewritefrm()'>광고 수정하기</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							onclick='advertiseWriteFrm()'>광고 올리기</a></li>
+						<!-- <li class="nav-item"><a class="nav-link" href="#"
+							onclick='advertiseModifyFrm()'>광고 수정하기</a></li> -->
 						<!-- <li class="nav-item"><a class="nav-link"
 							href="pages/ui-features/typography.html">모집광고 수정</a></li> -->
 					</ul>
