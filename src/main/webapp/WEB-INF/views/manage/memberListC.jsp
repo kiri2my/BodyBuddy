@@ -37,9 +37,8 @@
 		<div class="col-md-12 stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title">
-						<br>
-					</p>
+					<p class="card-title"></p>
+					<br>
 					<input type="text" class="span2" id="memsearch" placeholder="회원 검색">
 					<button type="button" onclick="memberSearch()"
 						style="position: absolute;" class="btn" id="membtn">검색</button>
@@ -74,7 +73,7 @@
 								</tbody>
 							</c:if>
 						</table>
-					</div>
+					</div> <!-- table end -->
 				</div>
 			</div>
 		</div>

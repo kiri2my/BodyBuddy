@@ -738,9 +738,6 @@ public class KirimService {
 				}
 				sb.append("')>" + 
 						"      <img src='resources/upload/"+apList.get(i).get("AP_IMAGE")+"' alt='advertisePhoto'>" + //width='400px'
-						"      <div class=\"carousel-caption\">" + 
-						i+"번째사진" + 
-						"      </div>" + 
 						"    </div>");
 			}
 	sb.append("  </div>" + 
@@ -843,12 +840,12 @@ public class KirimService {
 				"                                                </blockquote>" + 
 				"                                            </div>" + 
 				"                                        </div>"+
-				"                          				<div style=\"text-align: center\">");//버튼단DIV 시작
+				"                          				<div style='text-align: center'>");//버튼단DIV 시작
 		
 				//옵션 담당 트레이너 보기버튼 시작				
 				if(!dp.get("AD_CATEGORY").toString().equals("일반")) {
-					sb.append("                        	 	<button type=\"button\" class=\"btn btn-outline-secondary dropdown-toggle\" data-toggle=\"dropdown\">담당 트레이너 프로필 보기</button>" + 
-							  "                         		<div class=\"dropdown-menu\">");
+					sb.append("                        	 	<button type='button' class='btn btn-outline-secondary dropdown-toggle' data-toggle='dropdown'>담당 트레이너 프로필 보기</button>" + 
+							  "                         		<div class='dropdown-menu'>");
 					//프로그램 광고 작성자가 트레이너  //+소속업체가 없으면 개인트레이너 (혹은 업체)
 					if(dp.get("M_KIND").toString().equals("t") ) {//&& dp.get("T_CID")==null
 						sb.append("<a href='#' id='profilePage"+dp.get("AD_NAME")+"'class='dropdown-item profilePage' data-toggle=\"modal\" data-target=\"#myModal\">"+dp.get("M_NAME")+"</a>");
@@ -1018,8 +1015,8 @@ public class KirimService {
 				
 		sb.append("                                                                </tbody>"
 				+ "                                                            </table>"
-				+ "                                                        </div>"+
-"                                                    </li>"
+				+ "                                                        </div>"
+				+ "                                                    </li>"
 				+ "                                                </div>"
 				+ "                                            </div>"
 				+ "                                        </div>"+
