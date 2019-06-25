@@ -26,6 +26,7 @@ import com.bodybuddy.hey.bean.Counsel;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Review;
+import com.bodybuddy.hey.dao.MemberDao;
 import com.bodybuddy.hey.dao.YoonDao;
 import com.bodybuddy.hey.userClass.UploadFile;
 import com.google.gson.Gson;
@@ -34,7 +35,10 @@ import com.google.gson.Gson;
 public class YoonService {
 	@Autowired
 	private YoonDao yDao;
-
+	
+	@Autowired
+	private MemberDao mDao;
+	
 	ModelAndView mav;
 	@Autowired
 	HttpSession session;
@@ -264,7 +268,7 @@ public class YoonService {
 					+ "													<td>"
 					+ getprogramListN.get(i).get("AD_CATEGORY") + "</td>\r\n"
 					+ "													<td>" + getprogramListN.get(i).get("DA_STATUS")
-					+ "</td>\r\n" + "<td><button class='btn btn-dark btn-lg btn-block'>상담내역보기</button>"
+					+ "</td>\r\n" 
 							+ "<input type='hidden' id='op_code' name='testInput' value='"+getprogramListN.get(i).get("OP_CODE")+"'/>"
 							+"<input type='hidden' value='"+getprogramListN.get(i).get("PS_MID")+"'/></td>"
 					+ "		<td><button class='btn btn-dark' onclick='yyyyyy("+getprogramListN.get(i).get("PS_CODE")+")'>출석체크확인</button>"
@@ -697,7 +701,75 @@ public class YoonService {
 		return sb.toString();
 	}
 
+	public ModelAndView infomodify(MultipartHttpServletRequest multi) {
+		System.out.println("mm  infomodifyn 시작");
+		String view = null;
+		Member mb = new Member();
 
+		Member sessionMb = (Member) session.getAttribute("mb");
+		String m_id = sessionMb.getM_id();
+		String m_birth = sessionMb.getM_birth();
+		System.out.println("시작해보자");
+		System.out.println(m_birth);
+		System.out.println(m_birth);
+		String m_name = sessionMb.getM_name();
+		String m_pw = multi.getParameter("m_pw");
+		System.out.println(m_pw);
+		System.out.println(m_pw);
+		String m_phone = multi.getParameter("m_phone");
+		System.out.println(m_phone);
+		System.out.println(m_phone);
+		String m_addr = multi.getParameter("m_addr");
+		System.out.println(m_addr);
+		System.out.println(m_addr);
+		String m_exaddr = multi.getParameter("m_exaddr");
+		System.out.println(m_exaddr);
+		System.out.println(m_exaddr);
+		String pf_image = multi.getParameter("pf_image");
+		System.out.println(pf_image);
+		System.out.println(pf_image);
+
+		int i = mDao.imgOverlap(m_id);
+		if (i == 0) {
+			System.out.println("if 가 0이다 이말이야");
+			upload.fileUp(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			mDao.updateNorMb(mb);
+			Member mb1 = mDao.getModifyN(m_id);
+			Member mbPhoto = mDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+		} else if (i >= 1) {
+			System.out.println("if 가 1이다 이말이야");
+
+			upload.fileUp2(multi, m_id);
+			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+			mb.setM_id(m_id);
+			mb.setM_pw(pwdEncoder.encode(m_pw));
+			mb.setM_phone(m_phone);
+			mb.setM_addr(m_addr);
+			mb.setM_exaddr(m_exaddr);
+			mb.setM_birth(m_birth);
+			mb.setM_name(m_name);
+			mb.setPf_image(pf_image);
+			mDao.updateNorMb(mb);
+			Member mb1 = mDao.getModifyN(m_id);
+			Member mbPhoto = mDao.getPhotoModifyN(m_id);
+			mav.addObject("mb", mb1);
+			mav.addObject("mbPhoto", mbPhoto);
+		}
+		mav.setViewName("manage/trainer/trainer");
+
+		return mav;
+	}
 	
 	
 	

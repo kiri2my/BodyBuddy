@@ -73,7 +73,7 @@
 		WHERE PS_MID=#{m_id}
 	</select>
 	<select id="getModifyN" parameterType="String" resultType="Member">
-	SELECT * FROM M WHERE M_ID=#{m_id}
+	SELECT M_ID,M_PW,M_NAME,M_PHONE,TO_CHAR(M_BIRTH,'YYYY/MM/DD') as M_BIRTH,M_ADDR,M_EXADDR,M_KIND FROM M WHERE M_ID = #{m_id}
 	</select>
 	<select id="getPhotoModifyN" parameterType="String" resultType="Member">
 	SELECT * FROM PF WHERE PF_ID=#{m_id}

@@ -46,13 +46,17 @@ public class JungService {
 		mav = new ModelAndView();
 		String view = null;
 		m = new Member();
-		System.out.println("696969696969696969   " + m_id);
+		System.out.println("m_id " + m_id);
+		
+		mav.addObject("m", m);
+		
 		m = mDao.getProfileList(m_id);
+		
 
 		view = "manage/profileModifyT";
 		mav.setViewName(view);
 
-		mav.addObject("m", m);
+		
 
 		return mav;
 	}
@@ -252,7 +256,7 @@ public class JungService {
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());//세션아이디
 		
-		int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
+		//int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
 		
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if(ad_category!=null && ad_category!="") {
@@ -462,7 +466,7 @@ public class JungService {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/advertisemanage");
+		mav.setViewName("/manage/trainer/trainer");
 		return mav;
 	}
 
