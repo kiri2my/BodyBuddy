@@ -56,19 +56,6 @@ body {
 
 
 <body>
-	
-	<script type="text/javascript">
-    $(function () {
-        $("#datepicker").datepicker({
-            constrainInput: true,
-            showOn: 'button',
-            buttonText: 'Select...'
-        });
-    });
-</script>
-<input id="datepicker"  />
-
-
 	<form id="frm" action="adinsert" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<table id="recent-purchases-listing" class="table">
