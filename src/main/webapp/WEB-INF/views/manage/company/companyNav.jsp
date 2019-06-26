@@ -19,7 +19,6 @@
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
 
 <style>
-	
 </style>
 </head>
 
@@ -31,7 +30,7 @@
 			<li class="nav-item"><a class="nav-link" href="#"
 				onclick="normalMemList()"> <!-- onclick="location.href='/memberlist'" -->
 					<i class="mdi mdi-account-multiple menu-icon"></i> <span
-					class="menu-title" id="i" >회원 목록</span>
+					class="menu-title" id="i">회원 목록</span>
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link" href="#"
@@ -76,8 +75,8 @@
 					</ul>
 				</div></li>
 
-			<li class="nav-item"><a class="nav-link"
-				href="#" onclick="question()" > <i
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="question()"> <i
 					class="mdi mdi-comment-question-outline menu-icon"></i> <span
 					class="menu-title">문의관리</span>
 			</a></li>
@@ -87,22 +86,20 @@
 					class="mdi mdi-square-inc-cash menu-icon"></i> <span
 					class="menu-title">판매내역</span>
 			</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="#" onclick="salesPage()"> <i
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="salesPage()"> <i
 					class="mdi mdi-chart-areaspline menu-icon"></i> <span
 					class="menu-title">매출/실적 관리</span>
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link" href="#"
-				onclick="infoModify()">
-					<i class="mdi mdi-home-modern menu-icon"></i> <span
-					class="menu-title">업체 정보 수정</span>
+				onclick="infoModify()"> <i class="mdi mdi-home-modern menu-icon"></i>
+					<span class="menu-title">업체 정보 수정</span>
 			</a></li>
 
-			<li class="nav-item"><a class="nav-link"
-				href="pages/charts/chartjs.html"> <i
-					class="mdi mdi-walk menu-icon"></i> <span class="menu-title">회원
-						탈퇴하기</span>
+			<li class="nav-item"><a class="nav-link" href="#"
+				onclick="memberdelete()"> <i class="mdi mdi-walk menu-icon"></i>
+					<span class="menu-title">회원 탈퇴하기</span>
 			</a></li>
 
 		</ul>
@@ -135,6 +132,5 @@
 
 <script type="text/javascript">
 	
-
 </script>
 </html>
