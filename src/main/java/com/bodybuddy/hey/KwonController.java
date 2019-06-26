@@ -55,15 +55,11 @@ public class KwonController {
 		
 		mav = ks.mainList(mb);
 		
-		
-		
 		return mav;
 	}
 
 	@RequestMapping(value = "/question")
 	public String question() {
-		
-		
 		
 		return "manage/question/questionList";
 	}
@@ -286,4 +282,11 @@ public class KwonController {
 		return gson;
 	}
 
+	@RequestMapping(value = "/trainerdailyselect",produces = "application/text; charset=utf8")
+	public @ResponseBody String trainerDailySelect(HttpServletRequest request) {
+		
+		String gson = ks.getTrainerDailySelect(request);
+			
+		return gson;
+	}
 }

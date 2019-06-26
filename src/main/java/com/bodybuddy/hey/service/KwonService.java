@@ -272,6 +272,7 @@ public class KwonService {
 		m = new Member();
 		m.setDt_cid(request.getParameter("cid"));
 		m.setDt_tid(request.getParameter("tid"));
+		m.setYn_date(request.getParameter("ym"));
 
 		List<Member> tList = null;
 		System.out.println("getworkingAttitude mDao in");
@@ -902,6 +903,41 @@ public class KwonService {
 			str = gson.toJson(sList);
 		} catch (Exception e) {
 			System.out.println("getTrainerSalesSelect fail");
+			return "0";
+		}
+
+		return str;
+	}
+
+	public String getTrainerDailySelect(HttpServletRequest request) {
+		String tid = request.getParameter("tid");
+		String cid = request.getParameter("cid");
+		String ym = request.getParameter("ym");
+		System.out.println("tid ="+tid +"cid ="+cid+"ym ="+ym);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tid", tid);
+		map.put("cid", cid);
+		map.put("ym", ym);
+		
+		Gson gson = new Gson();
+		String str = null;
+
+		ArrayList<HashMap<String, String>> tList = new ArrayList<HashMap<String, String>>();
+
+		try {
+			tList = ksDao.getTrainerDailySelect(map);
+
+			System.out.println(tList);
+			System.out.println(tList.get(0));
+			System.out.println("getTrainerDailySelect success");
+			if(tList.size() == 0) {
+				return "0";
+			}
+			
+			str = gson.toJson(tList);
+		} catch (Exception e) {
+			System.out.println("getTrainerDailySelect fail");
 			return "0";
 		}
 
