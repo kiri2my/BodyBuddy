@@ -296,6 +296,7 @@ public class MemberManagemant {
 		String yoga = "";
 		String pt = "";
 		String pilates = "";
+		String normal = "";
 		String home = "";
 		String tstr1 = "";
 		String cstr1 = "";
@@ -314,7 +315,7 @@ public class MemberManagemant {
 		if (ad_category.equals("요가")) {
 			yoga = "selected=\"selected\"";
 		}
-		if (ad_category.equals("피티")) {
+		if (ad_category.equals("피트니스")) {
 			pt = "selected=\"selected\"";
 		}
 		if (ad_category.equals("필라테스")) {
@@ -330,11 +331,12 @@ public class MemberManagemant {
 				+ "      <td style=\"vertical-align: middle\">\r\n"
 				+ "      <select id=\"ex-select\" name=\"ad_category\" onchange=\"selectExercise()\" class=\"form-control\" style=\"width: 150px;\">\r\n"
 				+ "        <option class=\"nothing\" value=\"nothing\" >선택해주세요</option> \r\n"
-				+ "        <option class=\"fitness\" value=\"fitness\" " + fitness + ">피트니스</option>\r\n"
+				+ "        <option class=\"normal\" value=\"normal\" " + normal + ">일반</option>\r\n"
+				+ "        <option class=\"fitness\" value=\"pt\" " + fitness + ">피트니스-PT</option>\r\n"
 				+ "        <option class=\"yoga\" value=\"yoga\" " + yoga + ">요가</option>\r\n"
 				+ "        <option class=\"pt\" value=\"pt\" " + pt + ">개인PT</option>\r\n"
 				+ "        <option class=\"pilates\" value=\"pilates\" " + pilates + ">필라테스</option>\r\n"
-				+ "        <option class=\"home\" value=\"home\" " + home + ">홈트레이닝</option>\r\n"
+				+ "        <option class=\"home\" value=\"homeTraining\" " + home + ">홈트레이닝</option>\r\n"
 				+ "      </select>\r\n" + "      </td>\r\n" + "     </tr>\r\n" + "     <tr>\r\n"
 				+ "      <th>제목</th>\r\n" + "      <td style=\"vertical-align: middle\"><input type=\"text\" \r\n"
 				+ "       name=\"ad_title\" style=\"height: 50px;\" value=" + ad_title + "></td>\r\n" + "     </tr>\r\n"
@@ -385,54 +387,61 @@ public class MemberManagemant {
 				System.out.println("opList.get(" + i + ").getOp_personnel()" + opList.get(i).getOp_personnel());
 				System.out.println("opList.get(" + i + ").getOp_price()" + opList.get(i).getOp_price());
 
-				str2 = ("          <tr>\r\n"
-						+ "           <td><input type=\"text\" name=\"op_content\"	 style=\"width: 100px\" placeholder=\"옵션명\"  class=\"reset\" value="
-						+ opList.get(i).getOp_content() + "></td>\r\n" + "           <td >\r\n"
-						+ "            <label for=\"from\" >From</label><input type=\"text\"  id=\"from\" name=\"op_period1\" class=\"from\" value="
-						+ op_period[0] + ">\r\n"
-						+ "             <label for=\"to\">to</label><input type=\"text\" id=\"to\" name=\"op_period2\" class=\"to\" value="
-						+ op_period[1] + ">\r\n" + "           </td>\r\n"
-						+ "           <td><input type=\"text\" name=\"op_clock1\" style=\"width: 100px\" placeholder=\"시작시간\" class=\"reset\" value="
-						+ op_clock[0] + "> \r\n"
-						+ "           <input type=\"text\" name=\"op_clock2\" style=\"width: 100px\" placeholder=\"종료시간\" class=\"reset\" value="
-						+ op_clock[1] + "></td>\r\n"
-						+ "           <td><div class=\"checkbox\" style=\"width: 300px; font-size: 20px\" class=\"reset\">\r\n"
-						+ "        <label for=\"foo1\"> <input type=\"checkbox\" id=\"foo1\"\r\n"
-						+ "         name=\"day\" value=\"월 \" " + mon + ">월\r\n"
-						+ "        </label> <label for=\"foo2\"> <input type=\"checkbox\" id=\"foo2\"\r\n"
-						+ "         name=\"day\" value=\"화 \" " + tue + ">화\r\n"
-						+ "        </label> <label for=\"foo3\"> <input type=\"checkbox\" id=\"foo3\"\r\n"
-						+ "         name=\"day\" value=\"수 \" " + wed + ">수\r\n"
-						+ "        </label> <label for=\"foo4\"> <input type=\"checkbox\" id=\"foo4\"\r\n"
-						+ "         name=\"day\" value=\"목 \" " + thu + ">목\r\n"
-						+ "        </label> <label for=\"foo5\"> <input type=\"checkbox\" id=\"foo5\"\r\n"
-						+ "         name=\"day\" value=\"금 \" " + fri + ">금\r\n"
-						+ "        </label> <label for=\"foo6\"> <input type=\"checkbox\" id=\"foo6\"\r\n"
-						+ "         name=\"day\" value=\"토 \" " + sat + ">토\r\n"
-						+ "        </label> <label for=\"foo7\"> <input type=\"checkbox\" id=\"foo7\"\r\n"
-						+ "         name=\"day\" value=\"일 \" " + sun + ">일\r\n" + "        </label> \r\n"
-						+ "        <label for=\"foo7\"> <input type=\"hidden\" id=\"foo7\"\r\n"
-						+ "         name=\"day\" value=\"@\">\r\n" + "        </label>\r\n" + "       </div></td>\r\n"
-						+ "           <td><input type=\"text\" name=\"op_times\" style=\"width: 50px\" placeholder=\"횟수\" class=\"reset\" value="
-						+ opList.get(i).getOp_times() + "></td>\r\n"
-						+ "           <td><input type=\"text\" name=\"op_personnel\" placeholder=\"모집인원\" class=\"reset\" value="
-						+ opList.get(i).getOp_personnel() + ">명</td>\r\n"
-						+ "           <td><input type=\"text\" name=\"op_price\" placeholder=\"가격(원)\" class=\"reset\" value="
-						+ opList.get(i).getOp_price() + "></td>\r\n");
-				if (m.getM_kind().equals("t")) {
-					tstr1 = ("<td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id()
-							+ ">\r\n" + m.getM_name() + "</option>");
-					str2 += tstr1;
-
+				if (ad_category.equals("일반")) {
+					str2 = "";
 				} else {
-					cstr1 = ("<td><select name=\"op_trainer\"><option value=\"\">트레이너 선택</option>\r\n");
-					for (int ss = 0; ss < yn.size(); ss++) {
-						cstr1 += ("<option value='" + yn.get(ss).getT_id() + "'>" + yn.get(ss).getM_name()
-								+ "</option>\r\n");
-					}
-					str2 += cstr1;
-				}
+					str2 = ("          <tr>\r\n"
+							+ "           <td><input type=\"text\" name=\"op_content\"	 style=\"width: 100px\" placeholder=\"옵션명\"  class=\"reset\" value="
+							+ opList.get(i).getOp_content() + "></td>\r\n" + "           <td >\r\n"
+							+ "            <label for=\"dates\" class=\"normalOption\">일 수(Dates)</label><input type=\"text\"  id=\"from\" name=\"op_period\" class=\"from\" value="
+							+ ">\r\n"
+							+ "           <label for=\"from\" class=\"programOption\">From</label><input type=\"text\"  id=\"from\" name=\"op_period1\" class=\"from\" value="
+							+ op_period[0] + ">\r\n"
+							+ "             <label for=\"to\" class=\"programOption\">to</label><input type=\"text\" id=\"to\" name=\"op_period2\" class=\"to\" value="
+							+ op_period[1] + ">\r\n" + "           </td>\r\n"
+							+ "           <td><input type=\"text\" name=\"op_clock1\" style=\"width: 100px\" placeholder=\"시작시간\" class=\"reset\" value="
+							+ op_clock[0] + "> \r\n"
+							+ "           <input type=\"text\" name=\"op_clock2\" style=\"width: 100px\" placeholder=\"종료시간\" class=\"reset\" value="
+							+ op_clock[1] + "></td>\r\n"
+							+ "           <td><div class=\"checkbox\" style=\"width: 300px; font-size: 20px\" class=\"reset\">\r\n"
+							+ "        <label for=\"foo1\"> <input type=\"checkbox\" id=\"foo1\"\r\n"
+							+ "         name=\"day\" value=\"월 \" " + mon + ">월\r\n"
+							+ "        </label> <label for=\"foo2\"> <input type=\"checkbox\" id=\"foo2\"\r\n"
+							+ "         name=\"day\" value=\"화 \" " + tue + ">화\r\n"
+							+ "        </label> <label for=\"foo3\"> <input type=\"checkbox\" id=\"foo3\"\r\n"
+							+ "         name=\"day\" value=\"수 \" " + wed + ">수\r\n"
+							+ "        </label> <label for=\"foo4\"> <input type=\"checkbox\" id=\"foo4\"\r\n"
+							+ "         name=\"day\" value=\"목 \" " + thu + ">목\r\n"
+							+ "        </label> <label for=\"foo5\"> <input type=\"checkbox\" id=\"foo5\"\r\n"
+							+ "         name=\"day\" value=\"금 \" " + fri + ">금\r\n"
+							+ "        </label> <label for=\"foo6\"> <input type=\"checkbox\" id=\"foo6\"\r\n"
+							+ "         name=\"day\" value=\"토 \" " + sat + ">토\r\n"
+							+ "        </label> <label for=\"foo7\"> <input type=\"checkbox\" id=\"foo7\"\r\n"
+							+ "         name=\"day\" value=\"일 \" " + sun + ">일\r\n" + "        </label> \r\n"
+							+ "        <label for=\"foo7\"> <input type=\"hidden\" id=\"foo7\"\r\n"
+							+ "         name=\"day\" value=\"@\">\r\n" + "        </label>\r\n"
+							+ "       </div></td>\r\n"
+							+ "           <td><input type=\"text\" name=\"op_times\" style=\"width: 50px\" placeholder=\"횟수\" class=\"reset\" value="
+							+ opList.get(i).getOp_times() + "></td>\r\n"
+							+ "           <td><input type=\"text\" name=\"op_personnel\" placeholder=\"모집인원\" class=\"reset\" value="
+							+ opList.get(i).getOp_personnel() + ">명</td>\r\n"
+							+ "           <td><input type=\"text\" name=\"op_price\" placeholder=\"가격(원)\" class=\"reset\" value="
+							+ opList.get(i).getOp_price() + "></td>\r\n");
+					if (m.getM_kind().equals("t")) {
+						tstr1 = ("<td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id()
+								+ ">\r\n" + m.getM_name() + "</option>");
+						str2 += tstr1;
 
+					} else {
+						cstr1 = ("<td><select name=\"op_trainer\"><option value=\"\">트레이너 선택</option>\r\n");
+						for (int ss = 0; ss < yn.size(); ss++) {
+							cstr1 += ("<option value='" + yn.get(ss).getT_id() + "," + yn.get(ss).getM_name() + "'>"
+									+ yn.get(ss).getM_name() + "</option>\r\n");
+						}
+						str2 += cstr1;
+					}
+
+				}
 			}
 			str3 += str2;
 		}
@@ -447,31 +456,13 @@ public class MemberManagemant {
 		mav = new ModelAndView();
 		Question adadd = new Question();
 
-		String[] op_trainer = null;
 		String ad_code = null;
-		String op_clock1 = null;
-		String op_clock2 = null;
 		String ad_category = null;
 		String ad_title = null;
 		String ad_content = null;
+		String op_adcode = null;
 		String[] op_contentValues = null;
-		String[] op_content_1 = null;
-		String[] day = null;
 		String[] day1 = null;
-		String op_period = null;
-		String[] op_period_n = null;
-		String op_period_1s = null;
-		String[] op_period_1 = null;
-		String op_period_2s = null;
-		String[] op_period_2 = null;
-		String op_times = null;
-		String[] op_times_1 = null;
-		String[] op_clock_1 = null;
-		String[] op_clock_2 = null;
-		String op_price = null;
-		String[] op_price_1 = null;
-		String op_personnel = null;
-		String[] op_personnel_1 = null;
 
 		List<String> ad_nameTId = null;
 		String[] op_trainerValues = null;
@@ -487,12 +478,8 @@ public class MemberManagemant {
 
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
-		adadd.setAd_code(multi.getParameter("ad_code"));
-		ad_code = adadd.getAd_code();
-		System.out.println("ad_codead_codead_code" + ad_code);
-		// int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
+		
 
-		System.out.println();
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if (ad_category != null && ad_category != "") {
 			System.out.println("ad_category : " + ad_category);
@@ -520,27 +507,35 @@ public class MemberManagemant {
 			adadd.setAd_content(ad_content);
 		}
 
-		op_trainerValues = multi.getParameterValues("op_trainer");
-		ad_nameTId = new ArrayList<>();
-		for (int i = 0; i < op_trainerValues.length; i++) {
-			if (op_trainerValues[i] != "") {
-				String[] ad_nameT = op_trainerValues[i].split(",");
-				System.out.println("ad_nameT[0] : " + ad_nameT[0]);
-				System.out.println("ad_nameT[1] : " + ad_nameT[1]);
-				ad_nameTId.add(ad_nameT[1]);// ad_name3
-				String ad_nameTName = ad_nameT[0];// ad_name
-				System.out.println(i + "트레이너아이디 출력 " + ad_nameTId.get(i));// ad_name3
-				System.out.println(i + "트레이너이름  : " + ad_nameTName);// ad_name
-			}
-		}
-
+		
+		
+		
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
 		op_clock1Values = multi.getParameterValues("op_clock1");
 		op_clock2Values = multi.getParameterValues("op_clock2");
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
+		op_adcode = multi.getParameter("ad_code");
 
+		System.out.println("op_adcodeop_adcode = "+op_adcode);
+		op_trainerValues = multi.getParameterValues("op_trainer");
+		if(mb.getM_kind().equals("t")){
+			ad_nameTId = new ArrayList<>();
+			for(int i=0;i<op_trainerValues.length; i++) {
+				if(op_trainerValues[i]!="") {
+					String[] ad_nameT = op_trainerValues[i].split(",");
+					System.out.println("ad_nameT[0] : " + ad_nameT[0]);
+					System.out.println("ad_nameT[1] : " + ad_nameT[1]);
+					ad_nameTId.add(ad_nameT[1]);//ad_name3
+					String ad_nameTName = ad_nameT[0];//ad_name
+					System.out.println(i+"트레이너아이디 출력 " + ad_nameTId.get(i));//ad_name3
+					System.out.println(i+"트레이너이름  : " + ad_nameTName);//ad_name
+				}
+			}
+		}
+		
+		
 		// day
 		dayValues = multi.getParameterValues("day");
 		String b = "";
@@ -553,15 +548,15 @@ public class MemberManagemant {
 		day1 = b.split("@"); // @ 기준으로 나누기
 
 		// 일반 일 수
-		if (mb.getM_kind().equals("c")) {
-			op_periodValues = multi.getParameterValues("op_period");
-			if (op_periodValues.length != 0 && op_periodValues != null) {
-				for (int i = 0; i < op_periodValues.length; i++) {
-					System.out.println("op_period출력 : " + op_periodValues[i]);
-				}
+		op_periodValues = multi.getParameterValues("op_period");
+		if (op_periodValues.length != 0 && op_periodValues != null) {
+			for (int i = 0; i < op_periodValues.length; i++) {
+				System.out.println("op_period출력 : " + op_periodValues[i]);
 			}
 		}
 
+		// period
+		// 달력
 		op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
 		// op_period_1[0] = mm/dd/yyyy
 		if (op_period_1sValues.length != 0 && op_period_1sValues != null) {
@@ -581,9 +576,12 @@ public class MemberManagemant {
 		}
 
 		adadd.setAd_status("모집중");
+
 		Map<String, String> opMap = new HashMap<String, String>();
+		opMap.put("op_adcode", op_adcode);
 		if (mDao.admodify(adadd)) {
 			System.out.println("광고입력성공");
+			
 
 			String root = multi.getSession().getServletContext().getRealPath("/");
 			System.out.println("root=" + root);
@@ -606,14 +604,14 @@ public class MemberManagemant {
 							+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
 					System.out.println("oriFileName=" + oriFileName);
 					System.out.println("sysFileName=" + sysFileName);
-					map.put("ap_adcode", ad_code);
+					map.put("ap_adcode", op_adcode);
 					map.put("ap_image", sysFileName);
 					System.out.println("ap_adcode=" + map.get("ap_adcode"));
 					System.out.println("ap_image=" + map.get("ap_image"));
 
 					if (sysFileName != null) {
 						files.get(i).transferTo(new File(path + sysFileName));
-						mDao.deletepf(ad_code);
+						mDao.deletepf(m.getM_id());
 						if (mDao.adpfmodify(map)) {
 							System.out.println(i + "번째 광고사진 업로드 및 등록 성공");
 						}
@@ -622,37 +620,65 @@ public class MemberManagemant {
 			} catch (Exception e) {
 				System.out.println("AdPhoto Insert fail");
 			}
+
 			System.out.println("광고입력성공2");
 			System.out.println("xxx : " + adadd.getXxx());
 			for (int i = 0; i < op_contentValues.length; i++) {
-				opMap.put("op_adcode", ad_code);
+				opMap.put("op_adcode", op_adcode);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-
-				if (ad_nameTId.size() != 0)
-					opMap.put("op_trainer", ad_nameTId.get(i));
-
-				if (op_periodValues[i] != "")
-					opMap.put("op_period", op_periodValues[i]);
-
-				if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "")
-					opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
-
-				if (op_clock1Values[i] != "" && op_clock2Values[i] != "")
+				if(mb.getM_kind().equals("t")){
+					if(ad_nameTId.size()!=0)
+						opMap.put("op_trainer", ad_nameTId.get(i));
+						System.out.println("aaaa="+ad_nameTId.get(i));
+				}else if(mb.getM_kind().equals("c")) {
+					if (op_trainerValues[i] != "") {
+						opMap.put("op_trainer", op_trainerValues[i]);
+						System.out.println("pppppp=" + op_trainerValues[i]);
+					}
+				}
+				
+				
+				
+				if(ad_category.equals("normal")) {//일반일때
+						opMap.put("op_period", op_periodValues[i]);
+						System.out.println("bbbb=" + op_periodValues[i]);
+					
+						opMap.put("op_personnel", "-100" );
+						System.out.println("qqqq=" + op_personnelValues[i]);
+						
+						opMap.put("op_times", op_timesValues[i]);
+						opMap.put("op_day", day1[i]);
+					
+				}else {//일반 제외 다른 프로그램일때
+					if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "") {
+						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
+						System.out.println("cccc=" + op_period_1sValues[i] + op_period_2sValues[i]);
+					}
+					if (op_timesValues[i] != "") {
+						opMap.put("op_times", op_timesValues[i]);
+						System.out.println("eeee=" + op_timesValues[i]);
+					}
+					if (day1 != null && day1.length != 0 && day1[i] != "") {
+						opMap.put("op_day", day1[i]);
+					}
+					if (op_personnelValues[i] != "") {
+						opMap.put("op_personnel", op_personnelValues[i]);
+						System.out.println("qqqq=" + op_personnelValues[i]);
+					}
+				}
+				
+				
+				if (op_clock1Values[i] != "" && op_clock2Values[i] != "") {
 					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
-
-				if (op_timesValues[i] != "")
-					opMap.put("op_times", op_timesValues[i]);
-
-				if (day1 != null && day1.length != 0 && day1[i] != "")
-					opMap.put("op_day", day1[i]);
-
-				if (op_personnelValues[i] != "")
-					opMap.put("op_personnel", op_personnelValues[i]);
-
+					System.out.println("dddd=" + op_clock1Values[i] + op_clock2Values[i]);
+				}
+				
+				
+				
+				
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
-				System.out.println(opMap.get("op_adcode"));
 				System.out.println(opMap.get("op_adcode"));
 				if (mDao.opmodify(opMap)) {
 					System.out.println(i + "옵션입력성공");
@@ -661,8 +687,13 @@ public class MemberManagemant {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/advertisemanage");
+		if(mb.getM_kind().equals("t")){
+			mav.setViewName("forward:/trainer");
+		}else if(mb.getM_kind().equals("c")) {
+		 	mav.setViewName("forward:/company");
+		}
 		return mav;
 	}
 
+	
 }

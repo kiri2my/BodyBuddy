@@ -131,8 +131,8 @@
 	
 	
 	<update id="admodify" parameterType="question">
-	UPDATE AD SER AD_TITLE = #{ad_title} ,AD_CONTENT=#{ad_content}, AD_CATEGORY =#{ad_category},AD_STATUS ='모집중',AD_DATE=sysdate
-	where ad_code = #{ad_cdoe}
+	UPDATE AD SET AD_TITLE = #{ad_title} ,AD_CONTENT=#{ad_content}, AD_CATEGORY =#{ad_category},AD_STATUS ='모집중',AD_DATE=sysdate
+	where ad_code = #{op_adcode}
 	</update>
 
 	<delete id="deletepf" parameterType="String">

@@ -38,13 +38,16 @@ public class JungService {
 	@Autowired
 	private HttpSession session;
 	@Autowired
-	private YoonDao yDao;
+	YoonService ys;
 	@Autowired
-	private KwonDao ksDao;
+	YoonDao yDao;
 	@Autowired
-	private SalesDao sDao;
+	KwonService ks;
 	@Autowired
-	private YoonService ys;
+	KwonDao ksDao;
+	@Autowired
+	SalesDao sDao;
+	
 	Member m;
 	String view = null;
 	ModelAndView mav;
@@ -250,7 +253,7 @@ public class JungService {
 			if (ad_category.equals("normal"))
 				adadd.setAd_category("일반");
 			if (ad_category.equals("pt"))
-				adadd.setAd_category("PT");
+				adadd.setAd_category("피트니스");
 			if (ad_category.equals("homeTraining"))
 				adadd.setAd_category("홈트레이닝");
 			if (ad_category.equals("pilates"))
@@ -574,113 +577,108 @@ public class JungService {
 		return mav;
 	}
 
-	
-
-	
-
 	public ModelAndView mainListT(Member mb) {
-		mav = new ModelAndView();
-		String id = mb.getM_id();
+		  mav = new ModelAndView();
+		  String id = mb.getM_id();
 
-		ArrayList<Member> mList = new ArrayList<Member>();
-		ArrayList<Member> mList1 = new ArrayList<Member>();
-		try {
-			System.out.println("getMainMemberList mDao in");
-			mList1 = ksDao.getMainMemberList(id);
-			System.out.println("getMainMemberList mDao out" + mList1.size());
+		  ArrayList<Member> mList = new ArrayList<Member>();
+		  ArrayList<Member> mList1 = new ArrayList<Member>();
+		  try {
+		   System.out.println("getMainMemberList mDao in");
+		   mList1 = ksDao.getMainMemberList(id);
+		   System.out.println("getMainMemberList mDao out" + mList1.size());
 
-			if (0 != mList1.size()) {
-				System.out.println("getMainMemberList if in");
-				for (int i = 0; i < 5; i++) {
-					System.out.println("getMainMemberList for in");
-					mList.add(i, mList1.get(i));
-					System.out.println(mList.get(i).getM_id());
-				}
-				System.out.println("getMainMemberList for out");
+		   if (0 != mList1.size()) {
+		    System.out.println("getMainMemberList if in");
+		    for (int i = 0; i < 5; i++) {
+		     System.out.println("getMainMemberList for in");
+		     mList.add(i, mList1.get(i));
+		     System.out.println(mList.get(i).getM_id());
+		    }
+		    System.out.println("getMainMemberList for out");
 
-			}
-			System.out.println("member list select success");
-			mav.addObject("mList", mList);
-		} catch (Exception e) {
-			System.out.println("member list select error");
-		}
-		//asdf
-		ArrayList<Sales> sList = new ArrayList<Sales>();
-		ArrayList<Sales> sList1 = new ArrayList<Sales>();
-		try {
-			System.out.println("getSalesHistory mDao in");
-			sList1 = sDao.getMainSalesHistory(id);
+		   }
+		   System.out.println("member list select success");
+		   mav.addObject("mList", mList);
+		  } catch (Exception e) {
+		   System.out.println("member list select error");
+		  }
+		  //asdf
+		  ArrayList<Sales> sList = new ArrayList<Sales>();
+		  ArrayList<Sales> sList1 = new ArrayList<Sales>();
+		  try {
+		   System.out.println("getSalesHistory mDao in");
+		   sList1 = sDao.getMainSalesHistory(id);
 
-			if (0 != sList1.size()) {
-				for (int i = 0; i < 5; i++) {
-					sList.add(i, sList1.get(i));
-					// sList.set(i, sList1.get(i));
-					System.out.println(sList.get(i).getPs_code());
-				}
+		   if (0 != sList1.size()) {
+		    for (int i = 0; i < 5; i++) {
+		     sList.add(i, sList1.get(i));
+		     // sList.set(i, sList1.get(i));
+		     System.out.println(sList.get(i).getPs_code());
+		    }
 
-			}
-			System.out.println("getSalesHistory select success");
-			mav.addObject("sList", sList);
-		} catch (Exception e) {
-			System.out.println("getSalesHistory list select error");
-		}
+		   }
+		   System.out.println("getSalesHistory select success");
+		   mav.addObject("sList", sList);
+		  } catch (Exception e) {
+		   System.out.println("getSalesHistory list select error");
+		  }
 
-		int j = 5;
-		//asdf
-		ArrayList<Question> aList = new ArrayList<Question>();
-		ArrayList<Question> aList1 = new ArrayList<Question>();
-		try {
-			System.out.println("getMainAdvertise mDao in");
-			aList1 = ksDao.getMainAdvertise(id);
-			if (aList1.size() < 5) {
-				j = aList1.size();
-			}
-			if (0 != aList1.size()) {
-				for (int i = 0; i < j; i++) {
-					aList.add(i, aList1.get(i));
-					// sList.set(i, sList1.get(i));
-					System.out.println(aList.get(i).getAd_code());
-				}
+		  int j = 5;
+		  //asdf
+		  ArrayList<Question> aList = new ArrayList<Question>();
+		  ArrayList<Question> aList1 = new ArrayList<Question>();
+		  try {
+		   System.out.println("getMainAdvertise mDao in");
+		   aList1 = ksDao.getMainAdvertise(id);
+		   if (aList1.size() < 5) {
+		    j = aList1.size();
+		   }
+		   if (0 != aList1.size()) {
+		    for (int i = 0; i < j; i++) {
+		     aList.add(i, aList1.get(i));
+		     // sList.set(i, sList1.get(i));
+		     System.out.println(aList.get(i).getAd_code());
+		    }
 
-			}
-			////////////////////////////////
-				List<Map<String, String>> getSalesList = null;
-				List<Map<String, String>> getSalesAllList = null;
-				List<Map<String, String>> getSalescList = null;
-				List<Map<String, String>> getSalesAllc = null;
-				Member sessionMb = (Member) session.getAttribute("mb");
-				String m_id=sessionMb.getM_id();
-				//Member mb=yDao.getCbname(m_id);
-				//String cbname=mb.getC_bname();
-				getSalesList = yDao.getsales(m_id);
-				getSalesAllList = yDao.getsalesAll(m_id);
-			/*
-			 * getSalescList = yDao.getSalescList(m_id); getSalesAllc =
-			 * yDao.getSalesAllcList(m_id);
-			 */
-				//getSalescList = yDao.getsalesAlla(m_id);
-				String html = ys.makeHTMLsalesList(getSalesList);
-				String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
-			/*
-			 * String html3 = ys.makeHTMLsalescList(getSalescList); String html4 =
-			 * ys.makeHTMLsalesAllcList(getSalesAllc);
-			 */
-				mav.addObject("getSalesList", html);
-				mav.addObject("getSalesAllList", html2);
-			/*
-			 * mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
-			 * html4);
-			 */
-			/////////////////////////////////////////////////////////
-			
-			System.out.println("getMainAdvertise select success");
-			mav.addObject("aList", aList);
-		} catch (Exception e) {
-			System.out.println("getMainAdvertise list select error");
-		}
+		   }
+		   ////////////////////////////////
+		    List<Map<String, String>> getSalesList = null;
+		    List<Map<String, String>> getSalesAllList = null;
+		    List<Map<String, String>> getSalescList = null;
+		    List<Map<String, String>> getSalesAllc = null;
+		    Member sessionMb = (Member) session.getAttribute("mb");
+		    String m_id=sessionMb.getM_id();
+		    //Member mb=yDao.getCbname(m_id);
+		    //String cbname=mb.getC_bname();
+		    getSalesList = yDao.getsales(m_id);
+		    getSalesAllList = yDao.getsalesAll(m_id);
+		   /*
+		    * getSalescList = yDao.getSalescList(m_id); getSalesAllc =
+		    * yDao.getSalesAllcList(m_id);
+		    */
+		    //getSalescList = yDao.getsalesAlla(m_id);
+		    String html = ys.makeHTMLsalesList(getSalesList);
+		    String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
+		   /*
+		    * String html3 = ys.makeHTMLsalescList(getSalescList); String html4 =
+		    * ys.makeHTMLsalesAllcList(getSalesAllc);
+		    */
+		    mav.addObject("getSalesList", html);
+		    mav.addObject("getSalesAllList", html2);
+		   /*
+		    * mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
+		    * html4);
+		    */
+		   /////////////////////////////////////////////////////////
+		   
+		   System.out.println("getMainAdvertise select success");
+		   mav.addObject("aList", aList);
+		  } catch (Exception e) {
+		   System.out.println("getMainAdvertise list select error");
+		  }
 
-		mav.setViewName("manage/trainer/trainer");
-		return mav;
-	}
-
+		  mav.setViewName("manage/trainer/trainer");
+		  return mav;
+		 }
 }
