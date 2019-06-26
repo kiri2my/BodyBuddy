@@ -36,6 +36,7 @@ public class JungController {
 	@Autowired
 	HttpSession session;
 	
+	
 	ModelAndView mav;
 	
 	@RequestMapping(value = "/questionlist")
@@ -49,14 +50,19 @@ public class JungController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/trainer", method = RequestMethod.GET)
-	public String trainer(Locale locale, Model model) {
+	@RequestMapping(value = "/trainer")
+	public ModelAndView trainer(HttpServletRequest request) {
+		mav = new ModelAndView();
 		Member mb = (Member) session.getAttribute("mb");
+		session.setAttribute("mb", mb);
+		mav.addObject("session_id", mb.getM_id());
+		
 		System.out.println("mb.getM_id() = "+mb.getM_id());
 		System.out.println("mb.getM_kind() = "+mb.getM_kind());
 		System.out.println("mb.getM_name() = "+mb.getM_name());
-		System.out.println("good");
-		return "manage/trainer/trainer";
+		
+		mav = js.mainListT(mb);
+		return mav;
 	}
 	@RequestMapping(value = "/advertisemanage", method = RequestMethod.GET)
 	public ModelAndView memberList(Locale locale, Model model) {

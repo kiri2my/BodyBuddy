@@ -1,401 +1,403 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-<!-- plugins:js -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page-->
-<!-- inject:js -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-<!-- End custom js for this page-->
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY(지도없음,로그인함)</title>
-<!-- plugins:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<!-- End plugin css for this page -->
-<!-- inject:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
-<!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 
 <body>
+	<div id="bodybody" style="left: 0px; top: 15px; position: relative;">
+		<div
+			style="top: 0px; left: 0px; position: absolute; width: 550px; height: 300px;">
 
-	<div class="container-scroller">
-		<div class="container-fluid page-body-wrapper">
-			<div class="main-panel" style="width: 100%">
-				<div class="content-wrapper">
-					<div class="row">
-						<div class="col-md-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body dashboard-tabs p-0">
-									<ul class="nav nav-tabs px-4" role="tablist">
-										<li class="nav-item"><a class="nav-link active"
-											id="question-tab" data-toggle="tab" href="#question"
-											role="tab" aria-controls="question" aria-selected="true"
-											style="border-bottom-color: #71c016">받은 문의</a></li>
-										<li class="nav-item"><a class="nav-link"
-											id="memberList-tab" data-toggle="tab" href="#memberList"
-											role="tab" aria-controls="memberList" aria-selected="false"
-											style="border-bottom-color: #71c016">등록 회원</a></li>
-										<li class="nav-item"><a class="nav-link"
-											id="advertise-tab" data-toggle="tab" href="#advertise"
-											role="tab" aria-controls="advertise" aria-selected="false"
-											style="border-bottom-color: #71c016">등록중인 광고</a></li>
+			<h3 style="text-align: center;">최근 신규 가입</h3>
 
-									</ul>
-									<div class="tab-content py-0 px-0">
-										<div class="tab-pane fade show active" id="question"
-											role="tabpanel" aria-labelledby="question-tab">
-											<div class="d-flex flex-wrap justify-content-xl-between">
-												<div
-													class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-calendar-today icon-lg mr-3 text-primary"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">날짜</small>
-														<div class="dropdown">
-															<a
-																class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
-																href="#" role="button" id="dropdownMenuLinkA"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																<h5 class="mb-0 d-inline-block">Sysdate</h5>
-															</a>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuLinkA">
-																<a class="dropdown-item" href="#">어제...</a> <a
-																	class="dropdown-item" href="#">엊그제...</a> <a
-																	class="dropdown-item" href="#">date3...</a>
-															</div>
-														</div>
-													</div>
-												</div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>이름</th>
+						<th>아이디</th>
+						<th>가입날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="member" items="${mList }">
+						<tr>
+							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }</a></td>
+							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_id }</a></td>
+							<td>${member.ps_date }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 
-												<div
-													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-new-box mr-3 icon-lg text-danger"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">새 항목</small>
-														<h5 class="mr-2 mb-0">n개</h5>
-													</div>
-												</div>
-												<div class="table-responsive">
-													<table class="table table-hover">
-														<thead>
-															<tr>
-																<th>User</th>
-																<th>Product</th>
-																<th>Sale</th>
-																<th>Status</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>Jacob</td>
-																<td>Photoshop</td>
-																<td class="text-danger">28.76% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-danger">Pending</label></td>
-															</tr>
-															<tr>
-																<td>Messsy</td>
-																<td>Flash</td>
-																<td class="text-danger">21.06% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-warning">In
-																		progress</label></td>
-															</tr>
+		</div>
+		<div
+			style="left: 550px; position: absolute; width: 550px; height: 300px;">
 
-														</tbody>
-													</table>
-												</div>
 
-											</div>
-										</div>
-										<div class="tab-pane fade" id="memberList" role="tabpanel"
-											aria-labelledby="memberList-tab">
-											<div class="d-flex flex-wrap justify-content-xl-between">
-												<div
-													class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-calendar-today icon-lg mr-3 text-primary"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">날짜</small>
-														<div class="dropdown">
-															<a
-																class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
-																href="#" role="button" id="dropdownMenuLinkA"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																<h5 class="mb-0 d-inline-block">Sysdate</h5>
-															</a>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuLinkA">
-																<a class="dropdown-item" href="#">어제...</a> <a
-																	class="dropdown-item" href="#">엊그제...</a> <a
-																	class="dropdown-item" href="#">date3...</a>
-															</div>
-														</div>
-													</div>
-												</div>
+			<h3 style="text-align: center;">최근 판매 내역</h3>
 
-												<div
-													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-new-box mr-3 icon-lg text-danger"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">새 항목</small>
-														<h5 class="mr-2 mb-0">n개</h5>
-													</div>
-												</div>
-												<div class="table-responsive">
-													<table class="table table-hover">
-														<thead>
-															<tr>
-																<th>User</th>
-																<th>Product</th>
-																<th>Sale</th>
-																<th>Status</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>Jacob</td>
-																<td>Photoshop</td>
-																<td class="text-danger">28.76% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-danger">Pending</label></td>
-															</tr>
-															<tr>
-																<td>Messsy</td>
-																<td>Flash</td>
-																<td class="text-danger">21.06% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-warning">In
-																		progress</label></td>
-															</tr>
-															<tr>
-																<td>John</td>
-																<td>Premier</td>
-																<td class="text-danger">35.00% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-info">Fixed</label></td>
-															</tr>
-															<tr>
-																<td>Peter</td>
-																<td>After effects</td>
-																<td class="text-success">82.00% <i
-																	class="mdi mdi-arrow-up"></i></td>
-																<td><label class="badge badge-success">Completed</label></td>
-															</tr>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<!-- <th>판매번호</th> -->
+						<th>광고명</th>
+						<th>결제자</th>
+						<th>금액</th>
+						<th>판매일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="sales" items="${sList }">
+						<tr>
+							<%-- <td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td> --%>
+							<td style="text-align: center; font-size: 12px;"><a href="#"
+								onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
+							<td style="font-size: 12px;"><a href="#"
+								onclick="advertisedetail(${sales.m_id})">${sales.m_name }(${sales.m_id})</a></td>
+							<td style="text-align: right; font-size: 12px;">${sales.ps_price }</td>
+							<td style="font-size: 12px;">${sales.ps_date }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<div
+			style="left: 1100px; position: absolute; width: 550px; height: 300px;">
+			<h3 style="text-align: center;">등록중인 광고</h3>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>광고번호</th>
+						<th>광고명</th>
+						<th>등록일자</th>
+						<th>상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<c:forEach var="ad" items="${aList }">
+							<tr>
+								<td>${ad.ad_code }</td>
+								<td><a href="#" onclick="profileN('${ad.ad_title }')">${ad.ad_title }</a></td>
+								<td>${ad.ad_date}</td>
+								<td>${ad.ad_status}</td>
+							</tr>
+						</c:forEach>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-														</tbody>
-													</table>
-												</div>
+	<div class="card" style="top: 400px; width: 1665px; height: 800px;">
+		<div class="card-body">
+			<div class="chartjs-size-monitor"
+				style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+				<div class="chartjs-size-monitor-expand"
+					style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+					<div
+						style="position: absolute; width: 1000px; height: 1000px; left: 0; top: 0"></div>
+				</div>
+				<div class="chartjs-size-monitor-shrink"
+					style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+					<div
+						style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
+				</div>
+			</div>
+			<h2>매출</h2>
+			<%-- <canvas id="barChart" width="380" height="189"
+				class="chartjs-render-monitor"
+				style="display: block; height: 211px; width: 423px;"></canvas> --%>
+			<div class="tabbable">
+				<!-- 왼쪽과 오른쪽 탭에만 필요 -->
+				
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="thead-dark">
+									<tr>
+										<th>분류</th>
+										<th>옵션명</th>
+										<th>총실적수</th>
+										<th>단가</th>
+										<th>총 금액</th>
+									</tr>
+								</thead>
+								<tbody>${getSalescList}
+								</tbody>
+								<footer>
+									<tr>${getSalesAllcList}
+									</tr>
+								</footer>
 
-											</div>
-										</div>
-										<div class="tab-pane fade" id="advertise" role="tabpanel"
-											aria-labelledby="advertise-tab">
-											<div class="d-flex flex-wrap justify-content-xl-between">
-												<div
-													class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-calendar-today icon-lg mr-3 text-primary"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">날짜</small>
-														<div class="dropdown">
-															<a
-																class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
-																href="#" role="button" id="dropdownMenuLinkA"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																<h5 class="mb-0 d-inline-block">Sysdate</h5>
-															</a>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuLinkA">
-																<a class="dropdown-item" href="#">어제...</a> <a
-																	class="dropdown-item" href="#">엊그제...</a> <a
-																	class="dropdown-item" href="#">date3...</a>
-															</div>
-														</div>
-													</div>
-												</div>
+							</table>
+							<!-- table  -->
 
-												<div
-													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-													<i class="mdi mdi-new-box mr-3 icon-lg text-danger"></i>
-													<div class="d-flex flex-column justify-content-around">
-														<small class="mb-1 text-muted">새 항목</small>
-														<h5 class="mr-2 mb-0">n개</h5>
-													</div>
-												</div>
-												<div class="table-responsive">
-													<table class="table table-hover">
-														<thead>
-															<tr>
-																<th>User</th>
-																<th>Product</th>
-																<th>Sale</th>
-																<th>Status</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>Jacob</td>
-																<td>Photoshop</td>
-																<td class="text-danger">28.76% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-danger">Pending</label></td>
-															</tr>
-															<tr>
-																<td>Messsy</td>
-																<td>Flash</td>
-																<td class="text-danger">21.06% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-warning">In
-																		progress</label></td>
-															</tr>
-															<tr>
-																<td>John</td>
-																<td>Premier</td>
-																<td class="text-danger">35.00% <i
-																	class="mdi mdi-arrow-down"></i></td>
-																<td><label class="badge badge-info">Fixed</label></td>
-															</tr>
-															<tr>
-																<td>Peter</td>
-																<td>After effects</td>
-																<td class="text-success">82.00% <i
-																	class="mdi mdi-arrow-up"></i></td>
-																<td><label class="badge badge-success">Completed</label></td>
-															</tr>
-															<tr>
-																<td>Dave</td>
-																<td>53275535</td>
-																<td class="text-success">98.05% <i
-																	class="mdi mdi-arrow-up"></i></td>
-																<td><label class="badge badge-warning">In
-																		progress</label></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
+							<%-- <h2>실적시바알 사라져라</h2>
 
-											</div>
-										</div>
-									</div>
+							<div class="tab-pane" id="tab2">
+								<div class="table-responsive">
+									<table class="table">
+										<thead class="thead-dark">
+											<tr>
+												<th>트1레2이3너4명</th>
+												<th>프로그램명</th>
+												<th>실적수</th>
+												<th>단가</th>
+												<th>금액</th>
+											</tr>
+										</thead>
+
+										<tbody>${getSalesList}
+										</tbody>
+
+									</table>
 								</div>
-							</div>
-						</div>
+								<br>
 
+								<table class="table">
+									<thead class="thead-dark">
+										<tr>
+											<th>트레이너명</th>
+											<th>총실적수</th>
+											<th>총금액</th>
+										</tr>
+									</thead>
+									<tbody>${getSalesAllList}
+									</tbody>
 
-
-						<div class="row" style="height: 700px">
-							<div class="col-lg-12 grid-margin stretch-card">
-								<div class="card">
-									<div class="card-body">
-										<div class="chartjs-size-monitor"
-											style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-											<div class="chartjs-size-monitor-expand"
-												style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-												<div
-													style="position: absolute; width: 1000000px; height: 1000000px; left: 0; top: 0"></div>
-											</div>
-											<div class="chartjs-size-monitor-shrink"
-												style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-												<div
-													style="position: absolute; width: 200%; height: 200%; left: 0; top: 0"></div>
-											</div>
-										</div>
-										<h4 class="card-title">트레이너 현황판(매출/실적 간단히보기)</h4>
-										<canvas id="barChart" width="380" height="189"
-											class="chartjs-render-monitor"
-											style="display: block; height: 211px; width: 423px;"></canvas>
-									</div>
+								</table>
+								<div style="width: 1500px">
+									<canvas id="myChart"></canvas>
 								</div>
-							</div>
-
+							</div> --%>
 						</div>
-
-
 					</div>
 				</div>
-
 			</div>
-			<!-- main-panel ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
 	</div>
-	<!-- container-scroller -->
 
-
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+	<script type="text/javascript" src=" /resources/js/dashboard.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 <script type="text/javascript">
-	function advertisewritefrm() {
-		$.ajax({
-			type : "GET",
-			url : "advertisewritefrm",
-			dataType : "html",
-			error : function() {
-				alert('통신실패!!');
-			},
-			success : function(data) {
-				/* $('#main').hide(); */
-				$('#main').html(data);
-			}
-		});
-	}
-	function salesPage() {
-		$.ajax({
-			type : "post",
-			url : "sales",
-			dataType : "html",
-			success : function(data) {
-				$('#main').html(data);
-			},
-			error : function() {
-				alert('판매/실적 로드 실패');
-			}
+var omg = "";
+console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
+console.log("${getSalesAllcList}");
+console.log("${getSalescList}");
+console.log("${getSalesList}");
+console.log("${getSalesAllList}");
+$(document)
+		.ready(
+				function() {
+					
+					console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
+					console.log("${getSalesAllcList}");
+					console.log("${getSalescList}");
+					console.log("${getSalesList}");
+					console.log("${getSalesAllList}");
 
-		});
-		
-	}
+					var t_cid = '${mb.m_id}'; /* $("#testInput").val(); */
+					console.log(t_cid)
+
+					$
+							.ajax({
+								type : "post",
+								url : "chart",
+								data : {
+									t_cid : t_cid
+								},
+								dataType : "json",
+								success : function(result) {
+									console.log("result:", result);
+									var str = "";
+									var name = "";
+									var ctx = document.getElementById(
+											"myChart").getContext('2d');
+									var arr = {};
+									for (var i = 0; i < result.length; i++) {
+										str += String(result[i].PS_PRICE)
+												.split(9)
+												+ ",";
+										name += String(result[i].M_NAME)
+												.split(7)
+												+ ",";
+									}
+									var arr2 = (name.substring(0,
+											name.length - 1)).split(",");
+									var arr = (str.substring(0,
+											str.length - 1)).split(",");
+
+									var myChart = new Chart(
+											ctx,
+											{
+												type : 'bar',
+												data : {
+													labels : arr2,
+													datasets : [ {
+														label : '# of Votes',
+														data : arr,
+														backgroundColor : [
+																'rgba(255, 99, 132, 0.2)',
+																'rgba(54, 162, 235, 0.2)',
+																'rgba(255, 206, 86, 0.2)',
+																'rgba(75, 192, 192, 0.2)',
+																'rgba(153, 102, 255, 0.2)',
+																'rgba(255, 159, 64, 0.2)' ],
+														borderColor : [
+																'rgba(255,99,132,1)',
+																'rgba(54, 162, 235, 1)',
+																'rgba(255, 206, 86, 1)',
+																'rgba(75, 192, 192, 1)',
+																'rgba(153, 102, 255, 1)',
+																'rgba(255, 159, 64, 1)' ],
+														borderWidth : 1
+													} ]
+												},
+												options : {
+													maintainAspectRatio : true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+													scales : {
+														yAxes : [ {
+															ticks : {
+																beginAtZero : true
+															}
+														} ]
+													}
+												}
+											});
+
+								},
+								error : function(er) {
+									console.log(er);
+
+								}
+							});
+
+					//실적 end
+
+					//매출 start
+					var t_cid2 = '${mb.m_id}'; /* $("#testInput").val(); */
+					console.log("DDDDDDDDDDDD" + t_cid2)
+
+					$
+							.ajax({
+								type : "post",
+								url : "charttwo",
+								data : {
+									t_cid : t_cid2
+								},
+								dataType : "json",
+								success : function(result) {
+									console.log("result:", result);
+
+									var str = "";
+									var name = "";
+									var ctx = document.getElementById(
+											"myChart2").getContext('2d');
+									var arr = {};
+									for (var i = 0; i < result.length; i++) {
+										str += String(result[i].PS_PRICE)
+												.split(9)
+												+ ",";
+										name += String(
+												result[i].AD_CATEGORY)
+												.split(7)
+												+ ",";
+									}
+									console.log(name)
+									var arr2 = (name.substring(0,
+											name.length - 1)).split(",");
+									var arr = (str.substring(0,
+											str.length - 1)).split(",");
+
+									var myChart2 = new Chart(
+											ctx,
+											{
+												type : 'bar',
+												data : {
+													labels : arr2,
+													datasets : [ {
+														label : '# of Votes',
+														data : arr,
+														backgroundColor : [
+																'rgba(255, 99, 132, 0.2)',
+																'rgba(54, 162, 235, 0.2)',
+																'rgba(255, 206, 86, 0.2)',
+																'rgba(75, 192, 192, 0.2)',
+																'rgba(153, 102, 255, 0.2)',
+																'rgba(255, 159, 64, 0.2)' ],
+														borderColor : [
+																'rgba(255,99,132,1)',
+																'rgba(54, 162, 235, 1)',
+																'rgba(255, 206, 86, 1)',
+																'rgba(75, 192, 192, 1)',
+																'rgba(153, 102, 255, 1)',
+																'rgba(255, 159, 64, 1)' ],
+														borderWidth : 1
+													} ]
+												},
+												options : {
+													maintainAspectRatio : true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+													scales : {
+														yAxes : [ {
+															ticks : {
+																beginAtZero : true
+															}
+														} ]
+													}
+												}
+											});
+
+								},
+								error : function(er) {
+									console.log(er);
+
+								}
+							});
+
+				});// redey End
 </script>
 
 </html>
