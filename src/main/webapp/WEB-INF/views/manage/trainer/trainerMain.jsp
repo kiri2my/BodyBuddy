@@ -27,9 +27,9 @@
 		<div
 			style="top: 0px; left: 0px; position: absolute; width: 550px; height: 300px;">
 
-			<h3 style="text-align: center;">최근 신규 가입</h3>
+			<h3 style="text-align: center;margin-top:20px;">최근 신규 가입</h3>
 
-			<table class="table table-hover" style="table-layout: fixed;">
+			<table class="table table-hover" style="table-layout: fixed; border-right:1px solid #eaeaea; border-top:1px solid #eaeaea; height:335px">
 				<thead>
 					<tr>
 						<th>이름</th>
@@ -53,9 +53,9 @@
 			style="left: 550px; position: absolute; width: 550px; height: 300px; display: block;">
 
 
-			<h3 style="text-align: center;">최근 판매 내역</h3>
+			<h3 style="text-align: center;margin-top:20px;">최근 판매 내역</h3>
 
-			<table class="table table-hover" style="table-layout: fixed;">
+			<table class="table table-hover" style="table-layout: fixed;border-right:1px solid #eaeaea; border-top:1px solid #eaeaea; height:335px">
 				<thead>
 					<tr>
 						<!-- <th>판매번호</th> -->
@@ -82,8 +82,8 @@
 		</div>
 		<div
 			style="left: 1100px; position: absolute; width: 550px; height: 300px; display: block;">
-			<h3 style="text-align: center;">등록중인 광고</h3>
-			<table class="table table-hover"  style="table-layout: fixed;">
+			<h3 style="text-align: center;margin-top:20px;">등록중인 광고</h3>
+			<table class="table table-hover"  style="table-layout: fixed;border-right:1px solid #eaeaea; border-top:1px solid #eaeaea;">
 				<thead>
 					<tr>
 						<th>광고번호</th>
@@ -186,6 +186,38 @@
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 <script type="text/javascript">
+function advertisewritefrm() {
+	$.ajax({
+		type : "GET",
+		url : "advertisewritefrm",
+		dataType : "html",
+		error : function() {
+			alert('통신실패!!');
+		},
+		success : function(data) {
+			/* $('#main').hide(); */
+			$('#main').html(data);
+		}
+	});
+}
+function salesPage() {
+	$.ajax({
+		type : "post",
+		url : "sales",
+		dataType : "html",
+		success : function(data) {
+			$('#main').html(data);
+		},
+		error : function() {
+			alert('판매/실적 로드 실패');
+		}
+
+	});
+	
+}
+
+
+
 var omg = "";
 console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
 console.log("${getSalesAllcList}");
