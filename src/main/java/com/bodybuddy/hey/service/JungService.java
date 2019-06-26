@@ -487,7 +487,7 @@ public class JungService {
 			System.out.println("광고등록실패");
 		}
 		if(mb.getM_kind().equals("t")){
-			mav.setViewName("forward:/");
+			mav.setViewName("forward:/trainer");
 		}else if(mb.getM_kind().equals("c")) {
 		 	mav.setViewName("forward:/company");
 		}
@@ -654,23 +654,22 @@ public class JungService {
 				//String cbname=mb.getC_bname();
 				getSalesList = yDao.getsales(m_id);
 				getSalesAllList = yDao.getsalesAll(m_id);
-			/*
-			 * getSalescList = yDao.getSalescList(m_id); getSalesAllc =
-			 * yDao.getSalesAllcList(m_id);
-			 */
+			
+				getSalescList = yDao.getSalescList(m_id); getSalesAllc =yDao.getSalesAllcList(m_id);
+			 
 				//getSalescList = yDao.getsalesAlla(m_id);
 				String html = ys.makeHTMLsalesList(getSalesList);
 				String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
-			/*
-			 * String html3 = ys.makeHTMLsalescList(getSalescList); String html4 =
-			 * ys.makeHTMLsalesAllcList(getSalesAllc);
-			 */
+			
+			  String html3 = ys.makeHTMLsalescList(getSalescList); 
+			  String html4 =ys.makeHTMLsalesAllcList(getSalesAllc);
+			 
 				mav.addObject("getSalesList", html);
 				mav.addObject("getSalesAllList", html2);
-			/*
-			 * mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
-			 * html4);
-			 */
+			
+			  mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
+			  html4);
+			 
 			/////////////////////////////////////////////////////////
 			
 			System.out.println("getMainAdvertise select success");
