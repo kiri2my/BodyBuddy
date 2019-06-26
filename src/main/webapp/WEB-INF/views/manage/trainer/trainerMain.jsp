@@ -223,6 +223,38 @@
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 <script type="text/javascript">
+function advertisewritefrm() {
+	$.ajax({
+		type : "GET",
+		url : "advertisewritefrm",
+		dataType : "html",
+		error : function() {
+			alert('통신실패!!');
+		},
+		success : function(data) {
+			/* $('#main').hide(); */
+			$('#main').html(data);
+		}
+	});
+}
+function salesPage() {
+	$.ajax({
+		type : "post",
+		url : "sales",
+		dataType : "html",
+		success : function(data) {
+			$('#main').html(data);
+		},
+		error : function() {
+			alert('판매/실적 로드 실패');
+		}
+
+	});
+	
+}
+
+
+
 var omg = "";
 console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
 console.log("${getSalesAllcList}");
