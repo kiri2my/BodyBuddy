@@ -22,10 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.bean.YesOrNo;
 import com.bodybuddy.hey.dao.KirimDao;
+import com.bodybuddy.hey.dao.KwonDao;
 import com.bodybuddy.hey.dao.MemberDao;
-
+import com.bodybuddy.hey.dao.SalesDao;
+import com.bodybuddy.hey.dao.YoonDao;
 import com.google.gson.Gson;
 
 @Service
@@ -34,7 +37,14 @@ public class JungService {
 	private MemberDao mDao;
 	@Autowired
 	private HttpSession session;
-
+	@Autowired
+	private YoonDao yDao;
+	@Autowired
+	private KwonDao ksDao;
+	@Autowired
+	private SalesDao sDao;
+	@Autowired
+	private YoonService ys;
 	Member m;
 	String view = null;
 	ModelAndView mav;
@@ -191,22 +201,13 @@ public class JungService {
 		mav = new ModelAndView();
 		Question adadd = new Question();
 
-		String[] op_trainer = null;
-
-		String op_clock1 = null;
-		String op_clock2 = null;
 		String ad_category = null;
 		String ad_title = null;
 		String ad_content = null;
 		String[] op_contentValues = null;
-		String[] op_content_1 = null;
-		String[] day = null;
+
 		String[] day1 = null;
-		String op_period = null;
-		String[] op_period_n = null;
-		String op_period_1s = null;
-		String[] op_period_1 = null;
-		String op_period_2s = null;
+
 		String[] op_period_2 = null;
 		String op_times = null;
 		String[] op_times_1 = null;
@@ -240,7 +241,7 @@ public class JungService {
 		 */
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
-
+		
 		// int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
 
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
@@ -270,7 +271,9 @@ public class JungService {
 			adadd.setAd_content(ad_content);
 		}
 
-		op_trainerValues = multi.getParameterValues("op_trainer");
+		
+		
+		
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
 		op_clock1Values = multi.getParameterValues("op_clock1");
@@ -278,6 +281,24 @@ public class JungService {
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
 
+		
+		op_trainerValues = multi.getParameterValues("op_trainer");
+		if(mb.getM_kind().equals("t")){
+			ad_nameTId = new ArrayList<>();
+			for(int i=0;i<op_trainerValues.length; i++) {
+				if(op_trainerValues[i]!="") {
+					String[] ad_nameT = op_trainerValues[i].split(",");
+					System.out.println("ad_nameT[0] : " + ad_nameT[0]);
+					System.out.println("ad_nameT[1] : " + ad_nameT[1]);
+					ad_nameTId.add(ad_nameT[1]);//ad_name3
+					String ad_nameTName = ad_nameT[0];//ad_name
+					System.out.println(i+"트레이너아이디 출력 " + ad_nameTId.get(i));//ad_name3
+					System.out.println(i+"트레이너이름  : " + ad_nameTName);//ad_name
+				}
+			}
+		}
+		
+		
 		// day
 		dayValues = multi.getParameterValues("day");
 		String b = "";
@@ -290,54 +311,52 @@ public class JungService {
 		day1 = b.split("@"); // @ 기준으로 나누기
 
 		// 일반 일 수
-		if (ad_category.equals("normal")) {
-			op_periodValues = multi.getParameterValues("op_period");
-			if (op_periodValues.length != 0 && op_periodValues != null) {
-				for (int i = 0; i < op_periodValues.length; i++) {
-					System.out.println("op_period출력 : " + op_periodValues[i]);
-				}
+		op_periodValues = multi.getParameterValues("op_period");
+		if (op_periodValues.length != 0 && op_periodValues != null) {
+			for (int i = 0; i < op_periodValues.length; i++) {
+				System.out.println("op_period출력 : " + op_periodValues[i]);
 			}
-		} else {
-			// period
-			// 달력
-			op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
-			// op_period_1[0] = mm/dd/yyyy
-			if (op_period_1sValues.length != 0 && op_period_1sValues != null) {
-				for (int i = 0; i < op_period_1sValues.length; i++) {
-					System.out.println("op_period_1출력i " + op_period_1sValues[i]);
-				}
+		}
 
-				/*
-				 * if(op_period_1s!="" && op_period_1s.contains(",") || op_period_1s!=null &&
-				 * op_period_1s.contains(",")) { op_period_1 = op_period_1s.split(","); for (int
-				 * i = 0; i < op_period_1.length; i++) { op_period_1[i] =
-				 * op_period_1[i].replace("/", ""); String x = op_period_1[i].substring(4);
-				 * String y = op_period_1[i].substring(0, 4); op_period_1[i] = x + y; } }
-				 */
+		// period
+		// 달력
+		op_period_1sValues = multi.getParameterValues("op_period1");// adadd.getOp_period1().split(",");
+		// op_period_1[0] = mm/dd/yyyy
+		if (op_period_1sValues.length != 0 && op_period_1sValues != null) {
+			for (int i = 0; i < op_period_1sValues.length; i++) {
+				System.out.println("op_period_1출력i " + op_period_1sValues[i]);
 			}
-			// String op_period2 = adadd.getOp_period1().replace("/", ""); // 06072019
+
 			/*
-			 * String x2 = op_period2.substring(4); String y2 = op_period2.substring(0, 4);
-			 * String z2 = x2 + y2;
+			 * if(op_period_1s!="" && op_period_1s.contains(",") || op_period_1s!=null &&
+			 * op_period_1s.contains(",")) { op_period_1 = op_period_1s.split(","); for (int
+			 * i = 0; i < op_period_1.length; i++) { op_period_1[i] =
+			 * op_period_1[i].replace("/", ""); String x = op_period_1[i].substring(4);
+			 * String y = op_period_1[i].substring(0, 4); op_period_1[i] = x + y; } }
 			 */
+		}
+		// String op_period2 = adadd.getOp_period1().replace("/", ""); // 06072019
+		/*
+		 * String x2 = op_period2.substring(4); String y2 = op_period2.substring(0, 4);
+		 * String z2 = x2 + y2;
+		 */
 
-			op_period_2sValues = multi.getParameterValues("op_period2");// adadd.getOp_period1().split(",");
-			// op_period_1[0] = mm/dd/yyyy
-			if (op_period_2sValues.length != 0 && op_period_2sValues != null) {
-				System.out.println("op_period_2출력 " + op_period_2sValues);
-				for (int i = 0; i < op_period_2sValues.length; i++) {
-					System.out.println("op_period_2출력i " + op_period_2sValues[i]);
-				}
-				/*
-				 * if(op_period_2s!="" && op_period_2s.contains(",") || op_period_2s!=null &&
-				 * op_period_2s.contains(",")) { op_period_2 = op_period_2s.split(","); for (int
-				 * i = 0; i < op_period_2.length; i++) { op_period_2[i] =
-				 * op_period_2[i].replace("/", ""); String x = op_period_2[i].substring(4);
-				 * String y = op_period_2[i].substring(0, 4); op_period_2[i] = x + y; } }
-				 */
+		op_period_2sValues = multi.getParameterValues("op_period2");// adadd.getOp_period1().split(",");
+		// op_period_1[0] = mm/dd/yyyy
+		if (op_period_2sValues.length != 0 && op_period_2sValues != null) {
+			System.out.println("op_period_2출력 " + op_period_2sValues);
+			for (int i = 0; i < op_period_2sValues.length; i++) {
+				System.out.println("op_period_2출력i " + op_period_2sValues[i]);
 			}
+			/*
+			 * if(op_period_2s!="" && op_period_2s.contains(",") || op_period_2s!=null &&
+			 * op_period_2s.contains(",")) { op_period_2 = op_period_2s.split(","); for (int
+			 * i = 0; i < op_period_2.length; i++) { op_period_2[i] =
+			 * op_period_2[i].replace("/", ""); String x = op_period_2[i].substring(4);
+			 * String y = op_period_2[i].substring(0, 4); op_period_2[i] = x + y; } }
+			 */
+		}
 
-		} // 일반 제외 나머지 프로그램 기간
 		adadd.setAd_status("모집중");
 
 ////////////////////////////////////////////////사전 대작업 완료
@@ -407,32 +426,58 @@ public class JungService {
 				opMap.put("op_adcode", xxx);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-
-				if(op_trainerValues[i]!="")
-					opMap.put("op_trainer", op_trainerValues[i]);
-
-				if (ad_category.equals("normal")) {
-					if (op_periodValues[i] != "")
-						opMap.put("op_period", op_periodValues[i]);
-				} else {
-					if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "")
-						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
+				if(mb.getM_kind().equals("t")){
+					if(ad_nameTId.size()!=0)
+						opMap.put("op_trainer", ad_nameTId.get(i));
+						System.out.println("aaaa="+ad_nameTId.get(i));
+				}else if(mb.getM_kind().equals("c")) {
+					if (op_trainerValues[i] != "") {
+						opMap.put("op_trainer", op_trainerValues[i]);
+						System.out.println("pppppp=" + op_trainerValues[i]);
+					}
 				}
-				if (op_clock1Values[i] != "" && op_clock2Values[i] != "")
+				
+				
+				
+				if(ad_category.equals("normal")) {//일반일때
+						opMap.put("op_period", op_periodValues[i]);
+						System.out.println("bbbb=" + op_periodValues[i]);
+					
+						opMap.put("op_personnel", "-100" );
+						System.out.println("qqqq=" + op_personnelValues[i]);
+						
+						opMap.put("op_times", op_timesValues[i]);
+						opMap.put("op_day", day1[i]);
+					
+				}else {//일반 제외 다른 프로그램일때
+					if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "") {
+						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
+						System.out.println("cccc=" + op_period_1sValues[i] + op_period_2sValues[i]);
+					}
+					if (op_timesValues[i] != "") {
+						opMap.put("op_times", op_timesValues[i]);
+						System.out.println("eeee=" + op_timesValues[i]);
+					}
+					if (day1 != null && day1.length != 0 && day1[i] != "") {
+						opMap.put("op_day", day1[i]);
+					}
+					if (op_personnelValues[i] != "") {
+						opMap.put("op_personnel", op_personnelValues[i]);
+						System.out.println("qqqq=" + op_personnelValues[i]);
+					}
+				}
+				
+				
+				if (op_clock1Values[i] != "" && op_clock2Values[i] != "") {
 					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
-
-				if (op_timesValues[i] != "")
-					opMap.put("op_times", op_timesValues[i]);
-
-				if (day1 != null && day1.length != 0 && day1[i] != "")
-					opMap.put("op_day", day1[i]);
-
-				if (op_personnelValues[i] != "")
-					opMap.put("op_personnel", op_personnelValues[i]);
-
+					System.out.println("dddd=" + op_clock1Values[i] + op_clock2Values[i]);
+				}
+				
+				
+				
+				
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
-				System.out.println(opMap.get("op_adcode"));
 				System.out.println(opMap.get("op_adcode"));
 				if (mDao.opinsert(opMap)) {
 					System.out.println(i + "옵션입력성공");
@@ -441,7 +486,11 @@ public class JungService {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/manage/trainer/trainer");
+		if(mb.getM_kind().equals("t")){
+			mav.setViewName("forward:/trainer");
+		}else if(mb.getM_kind().equals("c")) {
+		 	mav.setViewName("forward:/company");
+		}
 		return mav;
 	}
 
@@ -522,6 +571,115 @@ public class JungService {
 			view = "manage/advertisemanage";
 			mav.setViewName(view);
 		}
+		return mav;
+	}
+
+	
+
+	
+
+	public ModelAndView mainListT(Member mb) {
+		mav = new ModelAndView();
+		String id = mb.getM_id();
+
+		ArrayList<Member> mList = new ArrayList<Member>();
+		ArrayList<Member> mList1 = new ArrayList<Member>();
+		try {
+			System.out.println("getMainMemberList mDao in");
+			mList1 = ksDao.getMainMemberList(id);
+			System.out.println("getMainMemberList mDao out" + mList1.size());
+
+			if (0 != mList1.size()) {
+				System.out.println("getMainMemberList if in");
+				for (int i = 0; i < 5; i++) {
+					System.out.println("getMainMemberList for in");
+					mList.add(i, mList1.get(i));
+					System.out.println(mList.get(i).getM_id());
+				}
+				System.out.println("getMainMemberList for out");
+
+			}
+			System.out.println("member list select success");
+			mav.addObject("mList", mList);
+		} catch (Exception e) {
+			System.out.println("member list select error");
+		}
+		//asdf
+		ArrayList<Sales> sList = new ArrayList<Sales>();
+		ArrayList<Sales> sList1 = new ArrayList<Sales>();
+		try {
+			System.out.println("getSalesHistory mDao in");
+			sList1 = sDao.getMainSalesHistory(id);
+
+			if (0 != sList1.size()) {
+				for (int i = 0; i < 5; i++) {
+					sList.add(i, sList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(sList.get(i).getPs_code());
+				}
+
+			}
+			System.out.println("getSalesHistory select success");
+			mav.addObject("sList", sList);
+		} catch (Exception e) {
+			System.out.println("getSalesHistory list select error");
+		}
+
+		int j = 5;
+		//asdf
+		ArrayList<Question> aList = new ArrayList<Question>();
+		ArrayList<Question> aList1 = new ArrayList<Question>();
+		try {
+			System.out.println("getMainAdvertise mDao in");
+			aList1 = ksDao.getMainAdvertise(id);
+			if (aList1.size() < 5) {
+				j = aList1.size();
+			}
+			if (0 != aList1.size()) {
+				for (int i = 0; i < j; i++) {
+					aList.add(i, aList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(aList.get(i).getAd_code());
+				}
+
+			}
+			////////////////////////////////
+				List<Map<String, String>> getSalesList = null;
+				List<Map<String, String>> getSalesAllList = null;
+				List<Map<String, String>> getSalescList = null;
+				List<Map<String, String>> getSalesAllc = null;
+				Member sessionMb = (Member) session.getAttribute("mb");
+				String m_id=sessionMb.getM_id();
+				//Member mb=yDao.getCbname(m_id);
+				//String cbname=mb.getC_bname();
+				getSalesList = yDao.getsales(m_id);
+				getSalesAllList = yDao.getsalesAll(m_id);
+			/*
+			 * getSalescList = yDao.getSalescList(m_id); getSalesAllc =
+			 * yDao.getSalesAllcList(m_id);
+			 */
+				//getSalescList = yDao.getsalesAlla(m_id);
+				String html = ys.makeHTMLsalesList(getSalesList);
+				String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
+			/*
+			 * String html3 = ys.makeHTMLsalescList(getSalescList); String html4 =
+			 * ys.makeHTMLsalesAllcList(getSalesAllc);
+			 */
+				mav.addObject("getSalesList", html);
+				mav.addObject("getSalesAllList", html2);
+			/*
+			 * mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
+			 * html4);
+			 */
+			/////////////////////////////////////////////////////////
+			
+			System.out.println("getMainAdvertise select success");
+			mav.addObject("aList", aList);
+		} catch (Exception e) {
+			System.out.println("getMainAdvertise list select error");
+		}
+
+		mav.setViewName("manage/trainer/trainer");
 		return mav;
 	}
 

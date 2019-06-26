@@ -270,8 +270,39 @@
   		</selectKey>
 	</insert>
 	
+	<select id="getCategory" parameterType="String" resultType="Integer">
+    SELECT COUNT(*)
+	FROM PS
+	JOIN AD on PS_ADCODE = AD_CODE
+	WHERE PS_CODE=#{ps_code} AND AD_CATEGORY='일반'
+ 	</select>
+ 	
+ 	<select id="selectOpPeriod" parameterType="String" resultType="Integer">
+    SELECT TO_NUMBER(#{ph2})
+	FROM PS
+	JOIN OP on PS_OPCODE = OP_CODE
+	WHERE PS_CODE= #{ps_code}
+ 	</select>
+ 	
+	<select id="getEndDay" resultType="Integer">
+	<![CDATA[
+    SELECT TO_NUMBER(TO_CHAR(PS_DATE+#{opperiod},'YYYYMMDD'))
+	FROM PS
+	JOIN OP on PS_OPCODE = OP_CODE
+	WHERE PS_CODE=#{ps_code}
+    	]]>
+ 	</select>
+
+ 	<insert id="norInsertDaliy" parameterType="HashMap">
+ 	<![CDATA[
+		INSERT INTO DAILY VALUES(DA_SEQ.NEXTVAL,#{ps_code},'이용중',#{str})
+		]]>
+	</insert>
 	
-	
+	<select id="getPscode" parameterType="String" resultType="Integer">
+    SELECT TO_NUMBER(TO_CHAR(PS_DATE,'YYYYMMDD')) FROM PS
+	WHERE PS_CODE= #{ps_code}
+ 	</select>
 	
 	
 	

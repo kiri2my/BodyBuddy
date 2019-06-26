@@ -298,10 +298,7 @@ public class MemberManagemant {
 		String pilates = "";
 		String home = "";
 		String tstr1 = "";
-		String tstr2 = "";
 		String cstr1 = "";
-		String cstr2 = "";
-		String cstr3 = "";
 		System.out.println(opList.get(0).getOp_adcode());
 		String[] op_period = opList.get(0).getOp_period().split("~");
 		String[] op_day = opList.get(0).getOp_day().split(" ");
@@ -423,27 +420,24 @@ public class MemberManagemant {
 						+ "           <td><input type=\"text\" name=\"op_price\" placeholder=\"가격(원)\" class=\"reset\" value="
 						+ opList.get(i).getOp_price() + "></td>\r\n");
 				if (m.getM_kind().equals("t")) {
-					tstr2 = ("<td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id()
-							+ ">\r\n" + m.getM_name() + "</option></select></td> </tr>\r\n");
-					tstr1 = null;
-					tstr1 += tstr2;
+					tstr1 = ("<td><select name=\"op_trainer\"><option value=" + m.getM_name() + "," + m.getM_id()
+							+ ">\r\n" + m.getM_name() + "</option>");
+					str2 += tstr1;
 
 				} else {
-					cstr1 = ("<select name=\"op_trainer\">\r\n" + "    <option value=\"\">트레이너 선택</option>\r\n");
+					cstr1 = ("<td><select name=\"op_trainer\"><option value=\"\">트레이너 선택</option>\r\n");
 					for (int ss = 0; ss < yn.size(); ss++) {
-						cstr2 = ("<option value='" + yn.get(ss).getT_id() + "'>" + yn.get(ss).getM_name()
+						cstr1 += ("<option value='" + yn.get(ss).getT_id() + "'>" + yn.get(ss).getM_name()
 								+ "</option>\r\n");
-						cstr3 = null;
-						cstr3 += cstr2;
 					}
-					cstr1 += cstr3;
+					str2 += cstr1;
 				}
 
 			}
-			str3 += str2 + tstr1 + cstr1;
+			str3 += str2;
 		}
 		System.out.println("최종입니다" + str2);
-		sb.append(str + str3);
+		sb.append(str + str3 + "</select></td> </tr>");
 
 		return sb.toString();
 	}

@@ -23,13 +23,13 @@
 </head>
 
 <body>
-	<div id="bodybody" style="left: 0px; top: 15px; position: relative;">
+	<div id="bodybody" style="left: 0px; top: 15px; position: relative; display: block;">
 		<div
 			style="top: 0px; left: 0px; position: absolute; width: 550px; height: 300px;">
 
 			<h3 style="text-align: center;">최근 신규 가입</h3>
 
-			<table class="table table-hover">
+			<table class="table table-hover" style="table-layout: fixed;">
 				<thead>
 					<tr>
 						<th>이름</th>
@@ -40,8 +40,8 @@
 				<tbody>
 					<c:forEach var="member" items="${mList }">
 						<tr>
-							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_name }</a></td>
-							<td><a href="#" onclick="profileN('${member.m_id }')">${member.m_id }</a></td>
+							<td><a href="#" onclick="profileN('${member.m_id }')"><nobr>${member.m_name }</nobr></a></td>
+							<td><a href="#" onclick="profileN('${member.m_id }')"><nobr>${member.m_id }</nobr></a></td>
 							<td>${member.ps_date }</td>
 						</tr>
 					</c:forEach>
@@ -50,18 +50,18 @@
 
 		</div>
 		<div
-			style="left: 550px; position: absolute; width: 550px; height: 300px;">
+			style="left: 550px; position: absolute; width: 550px; height: 300px; display: block;">
 
 
 			<h3 style="text-align: center;">최근 판매 내역</h3>
 
-			<table class="table table-hover">
+			<table class="table table-hover" style="table-layout: fixed;">
 				<thead>
 					<tr>
 						<!-- <th>판매번호</th> -->
 						<th>광고명</th>
 						<th>결제자</th>
-						<th>금액</th>
+						<th style="width: 20%;">금액</th>
 						<th>판매일자</th>
 					</tr>
 				</thead>
@@ -69,21 +69,21 @@
 					<c:forEach var="sales" items="${sList }">
 						<tr>
 							<%-- <td><a href="#" onclick="advertisedetail(${sales.ps_code })">${sales.ps_code }</a></td> --%>
-							<td style="text-align: center; font-size: 12px;"><a href="#"
-								onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></td>
-							<td style="font-size: 12px;"><a href="#"
-								onclick="advertisedetail(${sales.m_id})">${sales.m_name }(${sales.m_id})</a></td>
-							<td style="text-align: right; font-size: 12px;">${sales.ps_price }</td>
-							<td style="font-size: 12px;">${sales.ps_date }</td>
+							<td style="text-align: center; text-overflow:ellipsis; overflow:hidden;"><nobr><a href="#"
+								onclick="advertisedetail(${sales.ps_adcode})">${sales.ad_title}</a></nobr></td>
+							<td style=" text-overflow:ellipsis; overflow:hidden;"><nobr><a href="#"
+								onclick="advertisedetail(${sales.m_id})">${sales.m_name }(${sales.m_id})</a></nobr></td>
+							<td style="text-align: right; text-overflow:ellipsis; overflow:hidden;"><nobr>${sales.ps_price }</nobr></td>
+							<td style=" text-overflow:ellipsis; overflow:hidden;"><nobr>${sales.ps_date }</nobr></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<div
-			style="left: 1100px; position: absolute; width: 550px; height: 300px;">
+			style="left: 1100px; position: absolute; width: 550px; height: 300px; display: block;">
 			<h3 style="text-align: center;">등록중인 광고</h3>
-			<table class="table table-hover">
+			<table class="table table-hover"  style="table-layout: fixed;">
 				<thead>
 					<tr>
 						<th>광고번호</th>
@@ -96,10 +96,10 @@
 					<tr>
 						<c:forEach var="ad" items="${aList }">
 							<tr>
-								<td>${ad.ad_code }</td>
-								<td><a href="#" onclick="profileN('${ad.ad_title }')">${ad.ad_title }</a></td>
-								<td>${ad.ad_date}</td>
-								<td>${ad.ad_status}</td>
+								<td style="text-overflow:ellipsis; overflow:hidden;"><nobr>${ad.ad_code }</nobr></td>
+								<td style="text-overflow:ellipsis; overflow:hidden;"><nobr><a href="#" onclick="profileN('${ad.ad_title }')">${ad.ad_title }</a></nobr></td>
+								<td style="text-overflow:ellipsis; overflow:hidden;"><nobr>${ad.ad_date}</nobr></td>
+								<td style="text-overflow:ellipsis; overflow:hidden;"><nobr>${ad.ad_status}</nobr></td>
 							</tr>
 						</c:forEach>
 					</tr>

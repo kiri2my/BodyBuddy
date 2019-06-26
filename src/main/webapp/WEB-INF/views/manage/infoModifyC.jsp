@@ -398,8 +398,6 @@
 	}
 
 	function formData() {
-		alert("formData start");
-
 		//var $obj = $('#b_files').val();
 		var form = $('#infomodifyupdate')[0];
 		//console.log(1, $obj);
