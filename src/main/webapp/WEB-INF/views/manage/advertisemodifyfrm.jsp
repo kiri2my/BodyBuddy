@@ -97,37 +97,45 @@ body {
 </body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
 <script>
+
+var kind = "${mb.m_kind}";
+console.log(kind);
+if(kind=='t'){
+	$('.fitness').hide();	
+}
+
+$(document).ready(function(){
 ///////////////////////////////////////
+console.log($("#ad_content"));
+if (typeof CKEDITOR != 'undefined') { 
 CKEDITOR.replace("ad_content", {
-	height:500,
-	filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
-	
+height:500,
+filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
+
 });
+}
+
+
 
 CKEDITOR.on('dialogDefinition', function(ev){
-    var dialogName = ev.data.name;
-    var dialogDefinition = ev.data.definition;
-  
-    switch (dialogName) {
-        case 'image': //Image Properties dialog
-            //dialogDefinition.removeContents('info');
-            dialogDefinition.removeContents('Link');
-            dialogDefinition.removeContents('advanced');
-            break;
-    }
+var dialogName = ev.data.name;
+var dialogDefinition = ev.data.definition;
+
+switch (dialogName) {
+case 'image': //Image Properties dialog
+//dialogDefinition.removeContents('info');
+dialogDefinition.removeContents('Link');
+dialogDefinition.removeContents('advanced');
+break;
+}
 });
 //////////////////////////////////////
 
 $("#ex-select").change(function(){
-	console.log($("#ex-select").val());
-	if($("#ex-select").val()=="normal"){
-		$(".normalOption").show();
-		$(".programOption").hide();
-	}else{
-		$(".normalOption").hide();
-		$(".programOption").show();		
-	}
+
 });
+});////////////onload
+
 
 
 
@@ -157,6 +165,18 @@ $("#ex-select").change(function(){
 	
 	
 	function selectExercise() {
+		
+		
+		console.log($("#ex-select").val());
+		if($("#ex-select").val()=="normal"){
+			$(".normalOption").show();
+			$(".programOption").hide();
+		}else{
+			$(".normalOption").hide();
+			$(".programOption").show();		
+		}
+		
+		
 		var exSelect = document.getElementById("ex-select");
 
 		// select element에서 선택된 option의 value가 저장된다.
@@ -212,7 +232,7 @@ $("#ex-select").change(function(){
 		    }
 		  } */ 
 		  
-		
+
 		alert(selectText);
 	}
 	$(".pre_set").each(function() {
