@@ -22,10 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
 import com.bodybuddy.hey.bean.Question;
+import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.bean.YesOrNo;
 import com.bodybuddy.hey.dao.KirimDao;
+import com.bodybuddy.hey.dao.KwonDao;
 import com.bodybuddy.hey.dao.MemberDao;
-
+import com.bodybuddy.hey.dao.SalesDao;
+import com.bodybuddy.hey.dao.YoonDao;
 import com.google.gson.Gson;
 
 @Service
@@ -34,7 +37,14 @@ public class JungService {
 	private MemberDao mDao;
 	@Autowired
 	private HttpSession session;
-
+	@Autowired
+	private YoonDao yDao;
+	@Autowired
+	private KwonDao ksDao;
+	@Autowired
+	private SalesDao sDao;
+	@Autowired
+	private YoonService ys;
 	Member m;
 	String view = null;
 	ModelAndView mav;
@@ -198,15 +208,6 @@ public class JungService {
 
 		String[] day1 = null;
 
-		String[] op_period_2 = null;
-		String op_times = null;
-		String[] op_times_1 = null;
-		String[] op_clock_1 = null;
-		String[] op_clock_2 = null;
-		String op_price = null;
-		String[] op_price_1 = null;
-		String op_personnel = null;
-		String[] op_personnel_1 = null;
 
 		List<String> ad_nameTId = null;
 		String[] op_trainerValues = null;
@@ -220,27 +221,17 @@ public class JungService {
 		String[] op_priceValues = null;
 		String[] op_personnelValues = null;
 
-		/*
-		 * Map<String, String> fMap = new HashMap<String, String>();
-		 * 
-		 * String root = multi.getSession().getServletContext().getRealPath("/");
-		 * System.out.println("root=" + root); String path = root + "resources/upload/";
-		 * // 2.폴더 생성을 꼭 할것... File dir = new File(path); if (!dir.isDirectory()) { //
-		 * upload폴더 없다면 dir.mkdirs(); // upload폴더 생성 } List<MultipartFile> files =
-		 * multi.getFiles("ap_image");
-		 */
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
 		
 		// int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
-
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if (ad_category != null && ad_category != "") {
 			System.out.println("ad_category : " + ad_category);
 			if (ad_category.equals("normal"))
 				adadd.setAd_category("일반");
 			if (ad_category.equals("pt"))
-				adadd.setAd_category("피트니스");
+				adadd.setAd_category("PT");
 			if (ad_category.equals("homeTraining"))
 				adadd.setAd_category("홈트레이닝");
 			if (ad_category.equals("pilates"))
@@ -260,9 +251,6 @@ public class JungService {
 			System.out.println("ad_content : " + ad_content);
 			adadd.setAd_content(ad_content);
 		}
-
-		
-		
 		
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
@@ -271,7 +259,6 @@ public class JungService {
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
 
-		
 		op_trainerValues = multi.getParameterValues("op_trainer");
 		if(mb.getM_kind().equals("t")){
 			ad_nameTId = new ArrayList<>();
@@ -287,7 +274,6 @@ public class JungService {
 				}
 			}
 		}
-		
 		
 		// day
 		dayValues = multi.getParameterValues("day");
@@ -479,7 +465,7 @@ public class JungService {
 		if(mb.getM_kind().equals("t")){
 			mav.setViewName("forward:/trainer");
 		}else if(mb.getM_kind().equals("c")) {
-		 	mav.setViewName("forward:/company");
+		 	mav.setViewName("forward:/");
 		}
 		return mav;
 	}
@@ -561,6 +547,114 @@ public class JungService {
 			view = "manage/advertisemanage";
 			mav.setViewName(view);
 		}
+		return mav;
+	}
+
+	
+
+	
+
+	public ModelAndView mainListT(Member mb) {
+		mav = new ModelAndView();
+		String id = mb.getM_id();
+
+		ArrayList<Member> mList = new ArrayList<Member>();
+		ArrayList<Member> mList1 = new ArrayList<Member>();
+		try {
+			System.out.println("getMainMemberList mDao in");
+			mList1 = ksDao.getMainMemberList(id);
+			System.out.println("getMainMemberList mDao out" + mList1.size());
+
+			if (0 != mList1.size()) {
+				System.out.println("getMainMemberList if in");
+				for (int i = 0; i < 5; i++) {
+					System.out.println("getMainMemberList for in");
+					mList.add(i, mList1.get(i));
+					System.out.println(mList.get(i).getM_id());
+				}
+				System.out.println("getMainMemberList for out");
+
+			}
+			System.out.println("member list select success");
+			mav.addObject("mList", mList);
+		} catch (Exception e) {
+			System.out.println("member list select error");
+		}
+		//asdf
+		ArrayList<Sales> sList = new ArrayList<Sales>();
+		ArrayList<Sales> sList1 = new ArrayList<Sales>();
+		try {
+			System.out.println("getSalesHistory mDao in");
+			sList1 = sDao.getMainSalesHistory(id);
+
+			if (0 != sList1.size()) {
+				for (int i = 0; i < 5; i++) {
+					sList.add(i, sList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(sList.get(i).getPs_code());
+				}
+
+			}
+			System.out.println("getSalesHistory select success");
+			mav.addObject("sList", sList);
+		} catch (Exception e) {
+			System.out.println("getSalesHistory list select error");
+		}
+
+		int j = 5;
+		//asdf
+		ArrayList<Question> aList = new ArrayList<Question>();
+		ArrayList<Question> aList1 = new ArrayList<Question>();
+		try {
+			System.out.println("getMainAdvertise mDao in");
+			aList1 = ksDao.getMainAdvertise(id);
+			if (aList1.size() < 5) {
+				j = aList1.size();
+			}
+			if (0 != aList1.size()) {
+				for (int i = 0; i < j; i++) {
+					aList.add(i, aList1.get(i));
+					// sList.set(i, sList1.get(i));
+					System.out.println(aList.get(i).getAd_code());
+				}
+
+			}
+			////////////////////////////////
+				List<Map<String, String>> getSalesList = null;
+				List<Map<String, String>> getSalesAllList = null;
+				List<Map<String, String>> getSalescList = null;
+				List<Map<String, String>> getSalesAllc = null;
+				Member sessionMb = (Member) session.getAttribute("mb");
+				String m_id=sessionMb.getM_id();
+				//Member mb=yDao.getCbname(m_id);
+				//String cbname=mb.getC_bname();
+				getSalesList = yDao.getsales(m_id);
+				getSalesAllList = yDao.getsalesAll(m_id);
+			
+				getSalescList = yDao.getSalescList(m_id); getSalesAllc =yDao.getSalesAllcList(m_id);
+			 
+				//getSalescList = yDao.getsalesAlla(m_id);
+				String html = ys.makeHTMLsalesList(getSalesList);
+				String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
+			
+			  String html3 = ys.makeHTMLsalescList(getSalescList); 
+			  String html4 =ys.makeHTMLsalesAllcList(getSalesAllc);
+			 
+				mav.addObject("getSalesList", html);
+				mav.addObject("getSalesAllList", html2);
+			
+			  mav.addObject("getSalescList", html3); mav.addObject("getSalesAllcList",
+			  html4);
+			 
+			/////////////////////////////////////////////////////////
+			
+			System.out.println("getMainAdvertise select success");
+			mav.addObject("aList", aList);
+		} catch (Exception e) {
+			System.out.println("getMainAdvertise list select error");
+		}
+
+		mav.setViewName("manage/trainer/trainer");
 		return mav;
 	}
 

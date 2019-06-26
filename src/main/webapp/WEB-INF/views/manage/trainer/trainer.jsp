@@ -62,7 +62,6 @@
 <!-- endinject -->
 <link type="text/css" rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <style>
@@ -108,7 +107,7 @@
 	<!-- partial -->
 	<div id="wrap">
 		<div id="header">
-			<jsp:include page="../../header.jsp" />
+			<jsp:include page="../../header2.jsp" />
 		</div>
 
 		<div id="main">

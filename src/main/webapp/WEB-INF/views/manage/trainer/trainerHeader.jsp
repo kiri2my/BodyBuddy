@@ -96,29 +96,7 @@
 					</li>&nbsp;&nbsp;
 				</ul>
 				<ul class="navbar-nav navbar-nav-right">
-					<li class="nav-item dropdown mr-4"><a
-						class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
-						id="notificationDropdown" href="#" data-toggle="dropdown"> <i
-							class="mdi mdi-bell mx-0"></i> <span class="count"></span>
-					</a>
-						<div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-							aria-labelledby="notificationDropdown">
-							<p class="mb-0 font-weight-normal float-left dropdown-header">알림</p>
-							<a class="dropdown-item">
-								<div class="item-content">
-									<h6 class="font-weight-normal">김X솔 회원 박X솔 트레이너의 XXX프로그램
-										결제함</h6>
-									<p class="font-weight-light small-text mb-0 text-muted">방금
-										전</p>
-								</div>
-							</a> <a class="dropdown-item">
-								<div class="item-content">
-									<h6 class="font-weight-normal">차X헌 트레이너의 소속 승인요청 대기중</h6>
-									<p class="font-weight-light small-text mb-0 text-muted">2 일
-										전</p>
-								</div>
-							</a>
-						</div></li>
+					
 					<li class="nav-item nav-profile dropdown"><a
 						class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
 						id="profileDropdown"> <img src="images/faces/mydefault.jpg"

@@ -110,6 +110,21 @@
 	<!-- End custom js for this page-->
 </body>
 <script>
+
+function advertisewritefrm() {
+	$.ajax({
+		type : "GET",
+		url : "advertisewritefrm",
+		dataType : "html",
+		error : function() {
+			alert('통신실패!!');
+		},
+		success : function(data) {
+			/* $('#main').hide(); */
+			$('#main').html(data);
+		}
+	});
+}
 	$(".dBtn").each(function() {
 		$(this).click(function() {
 			var num = $(this).parents().eq(1).children().eq(1).val();

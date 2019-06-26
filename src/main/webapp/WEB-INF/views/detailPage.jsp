@@ -257,7 +257,6 @@ $(".qFrm").click(function(){
 					//웹소켓 문의알림 보내기
 					var jsonSendQnaAlarm = JSON.stringify({ad_code:ad_code,m_id:m_id});
 					$("#msg").val("QA01"+jsonSendQnaAlarm);
-					
 					console.log("WebSock4", sock);
 					console.log($("#msg").val());
 					sock.send($("#msg").val());
