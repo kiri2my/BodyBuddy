@@ -200,11 +200,14 @@ public class JungService {
 
 		mav = new ModelAndView();
 		Question adadd = new Question();
+
 		String ad_category = null;
 		String ad_title = null;
 		String ad_content = null;
 		String[] op_contentValues = null;
+
 		String[] day1 = null;
+
 
 		List<String> ad_nameTId = null;
 		String[] op_trainerValues = null;
@@ -462,7 +465,7 @@ public class JungService {
 		if(mb.getM_kind().equals("t")){
 			mav.setViewName("forward:/");
 		}else if(mb.getM_kind().equals("c")) {
-		 	mav.setViewName("forward:/company");
+		 	mav.setViewName("forward:/");
 		}
 		return mav;
 	}

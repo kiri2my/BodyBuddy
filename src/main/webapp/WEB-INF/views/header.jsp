@@ -164,11 +164,9 @@ connect();
 
 //연결할때
 function connect(){
-	
 	var connect = new SockJS("/alarm");
 	sock=connect;
 	$("#msg").val("CON1"+m_id);
-	
 }
 
 //서버로부터 메시지를 받았을 때
@@ -219,6 +217,7 @@ window.onload=function(){
 					dataType:'text',
 					success:function(suc){
 						console.log(suc);
+						ac.hide();
 					},
 					error:function(err){
 						console.log(err);
@@ -275,11 +274,11 @@ $(document).ready(function(){
 				+ "        <a href=";
 
 		if (kind == 'n') {
-			strKind += "infoprogramn?m_id=${mb.m_id} \n";
+			strKind += "infoprogramn?m_id=${mb.m_id}";
 		} else if (kind == 't') {
-			strKind += "trainer?m_id=${mb.m_id} \n";
+			strKind += "trainer?m_id=${mb.m_id}";
 		} else if (kind == 'c') {
-			strKind += "company?m_id=${mb.m_id}  \n";
+			strKind += "company?m_id=${mb.m_id}";
 		}
 		strKind += "' class='dropdown-item'>\n"
 				+ "            <i class='mdi mdi-settings text-primary'></i>\n"

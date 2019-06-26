@@ -194,15 +194,22 @@ else alert("주소별 검색어를 모두 입력하고 검색해주세요.");
 var jsonMainList = ${jsonMainList}
 
 var addrList = new Array();
+var titleList = new Array();
+var idList = new Array();
+var pfimageList = new Array();
 for(var i=0;i<jsonMainList.length; i++){
 	//var addrRecord = jsonMainList[i]["M_ADDR"]+" "+jsonMainList[i]["M_EXADDR"]
 	var addrRecord = jsonMainList[i]["M_ADDR"]
 	addrList[i] += addrRecord.replace("undefined","");
+	titleList[i] = jsonMainList[i]["AD_TITLE"];
+	idList[i] = jsonMainList[i]["AD_NAME"];
+	pfimageList[i] = jsonMainList[i]["PF_IMAGE"];
 }
 for(var i=0;i<addrList.length; i++){
 	addrList[i]=addrList[i].replace("undefined","");
 }
 console.log(addrList);
+
 //리스트에 따른 좌표 마커 미리 생성
 for(var i=0; i< addrList.length; i++){
 	geocoder.addressSearch(addrList[i], function(results, status) {
@@ -216,6 +223,26 @@ for(var i=0; i< addrList.length; i++){
 	    	});
 	    	// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
+			// 마커에 표시할 인포윈도우를 생성합니다 
+			for(var j=0;j<jsonMainList.length;j++){
+				var infowindow = new kakao.maps.InfoWindow({
+			        content: "<img src='/resources/upload/"+pfimageList[j]+"'><br>"+titleList[j]+"<br>"+idList[j]  // 인포윈도우에 표시할 내용
+			    });
+			}
+			// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+		    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+		    (function(marker, infowindow) {
+		        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+		        kakao.maps.event.addListener(marker, 'mouseover', function() {
+		            infowindow.open(map, marker);
+		        });
+
+		        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+		        kakao.maps.event.addListener(marker, 'mouseout', function() {
+		            infowindow.close();
+		        });
+		    })(marker, infowindow);			
+	    	
 			// 지도 중심을 변경한다.
     		map.setCenter(markerPosition);
 			

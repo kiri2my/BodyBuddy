@@ -8,18 +8,6 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css">
-<link type="text/css" rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 
 <body>
@@ -197,53 +185,17 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-	<script type="text/javascript" src=" /resources/js/dashboard.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 <script type="text/javascript">
 var omg = "";
-console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
-console.log("${getSalesAllcList}");
-console.log("${getSalescList}");
-console.log("${getSalesList}");
-console.log("${getSalesAllList}");
+
 $(document)
 		.ready(
 				function() {
-					
-					console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
-					console.log("${getSalesAllcList}");
-					console.log("${getSalescList}");
-					console.log("${getSalesList}");
-					console.log("${getSalesAllList}");
-
 					var t_cid = '${mb.m_id}'; /* $("#testInput").val(); */
 					console.log(t_cid)
 
-					$
-							.ajax({
+						$.ajax({
 								type : "post",
 								url : "chart",
 								data : {
@@ -254,8 +206,7 @@ $(document)
 									console.log("result:", result);
 									var str = "";
 									var name = "";
-									var ctx = document.getElementById(
-											"myChart").getContext('2d');
+									var ctx = document.getElementById("myChart").getContext('2d');
 									var arr = {};
 									for (var i = 0; i < result.length; i++) {
 										str += String(result[i].PS_PRICE)
@@ -321,8 +272,7 @@ $(document)
 					var t_cid2 = '${mb.m_id}'; /* $("#testInput").val(); */
 					console.log("DDDDDDDDDDDD" + t_cid2)
 
-					$
-							.ajax({
+						$.ajax({
 								type : "post",
 								url : "charttwo",
 								data : {
@@ -334,8 +284,7 @@ $(document)
 
 									var str = "";
 									var name = "";
-									var ctx = document.getElementById(
-											"myChart2").getContext('2d');
+									var ctx = document.getElementById("myChart2").getContext('2d');
 									var arr = {};
 									for (var i = 0; i < result.length; i++) {
 										str += String(result[i].PS_PRICE)

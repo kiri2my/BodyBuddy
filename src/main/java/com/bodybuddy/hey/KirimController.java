@@ -114,7 +114,7 @@ public class KirimController {
 	@ResponseBody
 	public String alarmConfirm(String al_code) {
 		System.out.println("url:/alarmconfirm");
-		//text = ks.alarmConfirm(al_code);
+		text = ks.alarmConfirm(al_code);
 		return text;
 	}
 	

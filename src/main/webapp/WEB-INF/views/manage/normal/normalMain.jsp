@@ -5,7 +5,6 @@
 <html>
 
 <head>
-<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <!-- plugins:js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
@@ -40,7 +39,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY(지도없음,로그인함)</title>
+<title>BODY BUDDY</title>
 <!-- plugins:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
@@ -101,7 +100,7 @@
 	<div id="wrap">
 		<div id="header">
 			<%-- <jsp:include page="headerNCT.jsp" /> --%>
-			<jsp:include page="../../header.jsp" />
+			<jsp:include page="../../header2.jsp" />
 		</div>
 		<div id="main">
 			<jsp:include page="../infoProgramN.jsp" />
