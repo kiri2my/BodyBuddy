@@ -144,26 +144,40 @@ public class KirimService {
 		
 		int i=kDao.selectOverlap(cs);
 		if (sessionMb != null && sessionMb.getM_kind().equals("n") && i==0) {  //
-			text = opExpirePersonnel(ph);
-			if(text!=null && text.equals("full")) {
-				return text;
+			if(opExpirePersonnel(ph)) {
+				return "full";
 			}
 			ph.setPs_mid(sessionMb.getM_id());
 			kDao.purchSingle(ph);
 			String da_opperiod=ph.getPs_opcode();
+			String ps_date=ph.getPs_date();
 			Payment ph1=kDao.selectPscode(cs);
 			String ph2=kDao.selectPeriod(da_opperiod);
+			
+			
 			Map<String,String> cs2 = new HashMap<>();
 			String ps_code=ph1.getPs_code();
 			cs2.put("da_period", ph2);
 			cs2.put("ps_code", ps_code);
-		 boolean insertDaily=kDao.insertDaliy(cs2);
-		 	if(insertDaily==true) {
-		 		
-		 		text = "success";
+			int ps_day=kDao.getPscode(ps_code); //시작날짜
+						
+			if(kDao.getCategory(ps_code)!=0) {//일반회원모집 체크 
+				int opperiod2=kDao.selectOpPeriod(ps_code,ph2);
+				int endDay = kDao.getEndDay(cs2.get("ps_code"),opperiod2);
+				String str = Integer.toString(ps_day) + "~" + Integer.toString(endDay);
+				cs2.put("str", str);
+				kDao.norInsertDaliy(cs2);
+				opExpirePersonnel(ph);//만료확인
+				text = "success";
+		 		return text;
+			 }else if(kDao.getCategory(ps_code)==0){		
+			 kDao.insertDaliy(cs2);
+			 opExpirePersonnel(ph);//만료확인
+			 text = "success";
 			 	return text;
-		 	}
-		}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
+			 
+			 }
+			}else if(sessionMb.getM_kind().equals("c") || sessionMb.getM_kind().equals("t")){
 				text ="notn";
 				return text;
 		}else if(i!=0) {
@@ -173,25 +187,21 @@ public class KirimService {
 		return text;
 	}
 	
-	private String opExpirePersonnel(Payment ph) {
-		String text=null;
+	private boolean opExpirePersonnel(Payment ph) {
 		Map<String,String> purByPer=null;
 		purByPer = kDao.personnelCalc(ph.getPs_opcode());
 		if(purByPer!=null) {
-			
 			int a = Integer.valueOf(String.valueOf(purByPer.get("PURCHCOUNT"))).intValue();
 			int b = Integer.valueOf(String.valueOf(purByPer.get("OP_PERSONNEL"))).intValue();
 			if(b!=-100) {
 				if(a >= b){
-					text="full";
+					int result = kDao.expireOption(ph.getPs_opcode());
 					adExpire();
+					return true;
 				}
 			}
-			
-			
 		}
-		return text;
-		
+		return false;
 	}
 
 	
@@ -351,14 +361,15 @@ public class KirimService {
 		
 		
 		//1셋에는 있고 0셋에는 없으면 만료시킴
-		Iterator<String> itr1 = ex1CodeSet.iterator();
-		Iterator<String> itr0 = ex0CodeSet.iterator();
-		List<String> delCode = new ArrayList<>();
 		System.out.println("ex0CodeSet======="+ex0CodeSet);
 		System.out.println("ex1CodeSet======="+ex1CodeSet);
+		List<String> delCode = new ArrayList<>();
+		
+		Iterator<String> itr0 = ex0CodeSet.iterator();
 		while(itr0.hasNext()) {
 			ad_code0 = itr0.next();
 			System.out.println("0코드======="+ad_code0);
+			Iterator<String> itr1 = ex1CodeSet.iterator();
 			while(itr1.hasNext()) {
 				ad_code1 = itr1.next();
 				System.out.println("1코드======="+ad_code1);
@@ -374,6 +385,7 @@ public class KirimService {
 		Iterator<String> comp = ex1CodeSet.iterator();
 		while(comp.hasNext()) {
 			ad_code = comp.next();
+			System.out.println("만료시킬 광고 코드 : "+ad_code);
 			result = kDao.expireAd(ad_code);
 			System.out.println("RESULT2"+result);
 			if(result!=0) {

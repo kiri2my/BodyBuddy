@@ -50,7 +50,7 @@ public class KirimController {
 	@Scheduled(cron="0 0/5 * * * * ")   
 	public void adExpirePeriod() {
 		System.out.println("스케쥴러 : adExpirePeriod ");
-		//ks.adExpirePeriod();
+		ks.adExpirePeriod();
 	}
 	
 	
