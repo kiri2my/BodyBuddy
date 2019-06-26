@@ -487,7 +487,7 @@ public class JungService {
 			System.out.println("광고등록실패");
 		}
 		if(mb.getM_kind().equals("t")){
-			mav.setViewName("forward:/trainer");
+			mav.setViewName("forward:/");
 		}else if(mb.getM_kind().equals("c")) {
 		 	mav.setViewName("forward:/company");
 		}
