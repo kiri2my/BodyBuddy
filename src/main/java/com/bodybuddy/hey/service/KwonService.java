@@ -23,6 +23,7 @@ import com.bodybuddy.hey.bean.Question;
 import com.bodybuddy.hey.bean.Sales;
 import com.bodybuddy.hey.dao.KwonDao;
 import com.bodybuddy.hey.dao.SalesDao;
+import com.bodybuddy.hey.dao.YoonDao;
 import com.google.gson.Gson;
 
 @Service
@@ -31,6 +32,10 @@ public class KwonService {
 	private KwonDao ksDao;
 	@Autowired
 	private SalesDao sDao;
+	@Autowired
+	private YoonDao yDao;
+	@Autowired
+	private YoonService ys;
 	@Autowired
 	private HttpSession session; // request는 권장하지 않음
 
@@ -802,6 +807,30 @@ public class KwonService {
 				}
 
 			}
+			////////////////////////////////
+				List<Map<String, String>> getSalesList = null;
+				List<Map<String, String>> getSalesAllList = null;
+				List<Map<String, String>> getSalescList = null;
+				List<Map<String, String>> getSalesAllc = null;
+				Member sessionMb = (Member) session.getAttribute("mb");
+				String m_id=sessionMb.getM_id();
+				//Member mb=yDao.getCbname(m_id);
+				//String cbname=mb.getC_bname();
+				getSalesList = yDao.getsales(m_id);
+				getSalesAllList = yDao.getsalesAll(m_id);
+				getSalescList = yDao.getSalescList(m_id);
+				getSalesAllc = yDao.getSalesAllcList(m_id);
+				//getSalescList = yDao.getsalesAlla(m_id);
+				String html = ys.makeHTMLsalesList(getSalesList);
+				String html2 = ys.makeHTMLsalesAllList(getSalesAllList);
+				String html3 = ys.makeHTMLsalescList(getSalescList);
+				String html4 = ys.makeHTMLsalesAllcList(getSalesAllc);
+				mav.addObject("getSalesList", html);
+				mav.addObject("getSalesAllList", html2);
+				mav.addObject("getSalescList", html3);
+				mav.addObject("getSalesAllcList", html4);
+			/////////////////////////////////////////////////////////
+			
 			System.out.println("getMainAdvertise select success");
 			mav.addObject("aList", aList);
 		} catch (Exception e) {

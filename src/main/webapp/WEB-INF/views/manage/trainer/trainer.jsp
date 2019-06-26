@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html style="height:900px">
 
 
 <head>
@@ -104,7 +104,7 @@
 </style>
 </head>
 
-<body>
+<body style="height:900px">
 	<!-- partial -->
 	<div id="wrap">
 		<div id="header">
