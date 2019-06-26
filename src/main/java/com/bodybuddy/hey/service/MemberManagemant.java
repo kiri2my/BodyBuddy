@@ -460,10 +460,10 @@ public class MemberManagemant {
 		String ad_category = null;
 		String ad_title = null;
 		String ad_content = null;
-		String op_adcode = null;
+		String xxx = null;
 		String[] op_contentValues = null;
 		String[] day1 = null;
-
+		Map<String, String> opMap = new HashMap<String, String>();
 		List<String> ad_nameTId = null;
 		String[] op_trainerValues = null;
 		String[] dayValues = null;
@@ -478,64 +478,72 @@ public class MemberManagemant {
 
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
+		opMap.put("ad_name", mb.getM_id());
 		
-
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if (ad_category != null && ad_category != "") {
 			System.out.println("ad_category : " + ad_category);
-			if (ad_category.equals("normal"))
+			if (ad_category.equals("normal")) {
 				adadd.setAd_category("일반");
-			if (ad_category.equals("pt"))
+				opMap.put("ad_category", "일반");
+			}
+			if (ad_category.equals("pt")) {
 				adadd.setAd_category("피트니스");
-			if (ad_category.equals("homeTraining"))
+				opMap.put("ad_category", "피트니스");
+			}
+			if (ad_category.equals("homeTraining")) {
 				adadd.setAd_category("홈트레이닝");
-			if (ad_category.equals("pilates"))
+				opMap.put("ad_category", "홈트레이닝");
+			}
+			if (ad_category.equals("pilates")) {
 				adadd.setAd_category("필라테스");
-			if (ad_category.equals("yoga"))
+				opMap.put("ad_category", "필라테스");
+			}
+			if (ad_category.equals("yoga")) {
 				adadd.setAd_category("요가");
+				opMap.put("ad_category", "요가");
+			}
 		}
 
 		ad_title = multi.getParameter("ad_title");// adadd.getAd_title();
 		if (ad_title != null && ad_title != "") {
 			System.out.println("ad_title : " + ad_title);
 			adadd.setAd_title(ad_title);
+			opMap.put("ad_title", ad_title);
 		}
 
 		ad_content = multi.getParameter("ad_content");// adadd.getAd_content();
 		if (ad_content != null && ad_content != "") {
 			System.out.println("ad_content : " + ad_content);
 			adadd.setAd_content(ad_content);
+			opMap.put("ad_content", ad_content);
 		}
 
-		
-		
-		
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
 		op_clock1Values = multi.getParameterValues("op_clock1");
 		op_clock2Values = multi.getParameterValues("op_clock2");
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
-		op_adcode = multi.getParameter("ad_code");
+		xxx = multi.getParameter("ad_code");
 
-		System.out.println("op_adcodeop_adcode = "+op_adcode);
+		System.out.println("op_adcodeop_adcode = " + xxx);
 		op_trainerValues = multi.getParameterValues("op_trainer");
-		if(mb.getM_kind().equals("t")){
+		if (mb.getM_kind().equals("t")) {
 			ad_nameTId = new ArrayList<>();
-			for(int i=0;i<op_trainerValues.length; i++) {
-				if(op_trainerValues[i]!="") {
+			for (int i = 0; i < op_trainerValues.length; i++) {
+				if (op_trainerValues[i] != "") {
 					String[] ad_nameT = op_trainerValues[i].split(",");
 					System.out.println("ad_nameT[0] : " + ad_nameT[0]);
 					System.out.println("ad_nameT[1] : " + ad_nameT[1]);
-					ad_nameTId.add(ad_nameT[1]);//ad_name3
-					String ad_nameTName = ad_nameT[0];//ad_name
-					System.out.println(i+"트레이너아이디 출력 " + ad_nameTId.get(i));//ad_name3
-					System.out.println(i+"트레이너이름  : " + ad_nameTName);//ad_name
+					ad_nameTId.add(ad_nameT[1]);// ad_name3
+					String ad_nameTName = ad_nameT[0];// ad_name
+					System.out.println(i + "트레이너아이디 출력 " + ad_nameTId.get(i));// ad_name3
+					System.out.println(i + "트레이너이름  : " + ad_nameTName);// ad_name
 				}
 			}
 		}
-		
-		
+
 		// day
 		dayValues = multi.getParameterValues("day");
 		String b = "";
@@ -576,12 +584,13 @@ public class MemberManagemant {
 		}
 
 		adadd.setAd_status("모집중");
+		opMap.put("ad_status", "모집중");
 
-		Map<String, String> opMap = new HashMap<String, String>();
-		opMap.put("op_adcode", op_adcode);
+		System.out.println("xxxxxxxxx  = " + xxx);
+		adadd.setXxx(xxx);
+		opMap.put("op_adcode", xxx);
 		if (mDao.admodify(adadd)) {
 			System.out.println("광고입력성공");
-			
 
 			String root = multi.getSession().getServletContext().getRealPath("/");
 			System.out.println("root=" + root);
@@ -604,7 +613,7 @@ public class MemberManagemant {
 							+ oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
 					System.out.println("oriFileName=" + oriFileName);
 					System.out.println("sysFileName=" + sysFileName);
-					map.put("ap_adcode", op_adcode);
+					map.put("ap_adcode", xxx);
 					map.put("ap_image", sysFileName);
 					System.out.println("ap_adcode=" + map.get("ap_adcode"));
 					System.out.println("ap_image=" + map.get("ap_image"));
@@ -623,34 +632,35 @@ public class MemberManagemant {
 
 			System.out.println("광고입력성공2");
 			System.out.println("xxx : " + adadd.getXxx());
+			System.out.println("xxx : " + adadd.getXxx());
+			System.out.println("xxop_contentValues.length : " + op_contentValues.length);
 			for (int i = 0; i < op_contentValues.length; i++) {
-				opMap.put("op_adcode", op_adcode);
+				opMap.put("op_adcode", xxx);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-				if(mb.getM_kind().equals("t")){
-					if(ad_nameTId.size()!=0)
+				if (mb.getM_kind().equals("t")) {
+					if (ad_nameTId.size() != 0)
 						opMap.put("op_trainer", ad_nameTId.get(i));
-						System.out.println("aaaa="+ad_nameTId.get(i));
-				}else if(mb.getM_kind().equals("c")) {
+					System.out.println("aaaa=" + ad_nameTId.get(i));
+				} else if (mb.getM_kind().equals("c")) {
 					if (op_trainerValues[i] != "") {
-						opMap.put("op_trainer", op_trainerValues[i]);
+						String []ad = op_trainerValues[i].split(",");
+						opMap.put("op_trainer", ad[0]);
 						System.out.println("pppppp=" + op_trainerValues[i]);
 					}
 				}
-				
-				
-				
-				if(ad_category.equals("normal")) {//일반일때
-						opMap.put("op_period", op_periodValues[i]);
-						System.out.println("bbbb=" + op_periodValues[i]);
-					
-						opMap.put("op_personnel", "-100" );
-						System.out.println("qqqq=" + op_personnelValues[i]);
-						
-						opMap.put("op_times", op_timesValues[i]);
-						opMap.put("op_day", day1[i]);
-					
-				}else {//일반 제외 다른 프로그램일때
+
+				if (ad_category.equals("normal")) {// 일반일때
+					opMap.put("op_period", op_periodValues[i]);
+					System.out.println("bbbb=" + op_periodValues[i]);
+
+					opMap.put("op_personnel", "-100");
+					System.out.println("qqqq=" + op_personnelValues[i]);
+
+					opMap.put("op_times", op_timesValues[i]);
+					opMap.put("op_day", day1[i]);
+
+				} else {// 일반 제외 다른 프로그램일때
 					if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "") {
 						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
 						System.out.println("cccc=" + op_period_1sValues[i] + op_period_2sValues[i]);
@@ -667,16 +677,12 @@ public class MemberManagemant {
 						System.out.println("qqqq=" + op_personnelValues[i]);
 					}
 				}
-				
-				
+
 				if (op_clock1Values[i] != "" && op_clock2Values[i] != "") {
 					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
 					System.out.println("dddd=" + op_clock1Values[i] + op_clock2Values[i]);
 				}
-				
-				
-				
-				
+
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
 				System.out.println(opMap.get("op_adcode"));
@@ -687,13 +693,12 @@ public class MemberManagemant {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		if(mb.getM_kind().equals("t")){
+		if (mb.getM_kind().equals("t")) {
 			mav.setViewName("forward:/trainer");
-		}else if(mb.getM_kind().equals("c")) {
-		 	mav.setViewName("forward:/company");
+		} else if (mb.getM_kind().equals("c")) {
+			mav.setViewName("forward:/company");
 		}
 		return mav;
 	}
 
-	
 }
