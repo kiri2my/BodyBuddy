@@ -1,4 +1,4 @@
-package com.bodybuddy.hey;
+﻿package com.bodybuddy.hey;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -51,8 +51,10 @@ public class JungController {
 	}
 	
 	@RequestMapping(value = "/trainer")
+
 	public ModelAndView trainer(HttpServletRequest request) {
 		mav = new ModelAndView();
+
 		Member mb = (Member) session.getAttribute("mb");
 		session.setAttribute("mb", mb);
 		mav.addObject("session_id", mb.getM_id());

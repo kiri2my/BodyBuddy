@@ -3,6 +3,8 @@ package com.bodybuddy.hey.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bodybuddy.hey.bean.Alarm;
 import com.bodybuddy.hey.bean.Member;
 import com.bodybuddy.hey.bean.OpCategory;
@@ -97,7 +99,15 @@ public interface KirimDao {
 
 	public int alarmSendSskCut(Map<String, String> m);
 
+	public Integer getCategory(String ps_code);
 
+	public int getEndDay(@Param("ps_code") String ps_code, @Param("opperiod")int opperiod2);
+
+	public int selectOpPeriod(@Param("ps_code")String ps_code, @Param("ph2")String ph2);
+
+	public boolean norInsertDaliy(Map<String, String> cs2);
+
+	public int getPscode(String ps_code);
 
 	
 

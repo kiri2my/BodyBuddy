@@ -426,7 +426,6 @@ public class JungService {
 				opMap.put("op_adcode", xxx);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-
 				if(mb.getM_kind().equals("t")){
 					if(ad_nameTId.size()!=0)
 						opMap.put("op_trainer", ad_nameTId.get(i));
@@ -437,34 +436,48 @@ public class JungService {
 						System.out.println("pppppp=" + op_trainerValues[i]);
 					}
 				}
-				if (op_periodValues[i] != "") {
-					opMap.put("op_period", op_periodValues[i]);
-					System.out.println("bbbb=" + op_periodValues[i]);
+				
+				
+				
+				if(ad_category.equals("normal")) {//일반일때
+						opMap.put("op_period", op_periodValues[i]);
+						System.out.println("bbbb=" + op_periodValues[i]);
+					
+						opMap.put("op_personnel", "-100" );
+						System.out.println("qqqq=" + op_personnelValues[i]);
+						
+						opMap.put("op_times", op_timesValues[i]);
+						opMap.put("op_day", day1[i]);
+					
+				}else {//일반 제외 다른 프로그램일때
+					if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "") {
+						opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
+						System.out.println("cccc=" + op_period_1sValues[i] + op_period_2sValues[i]);
+					}
+					if (op_timesValues[i] != "") {
+						opMap.put("op_times", op_timesValues[i]);
+						System.out.println("eeee=" + op_timesValues[i]);
+					}
+					if (day1 != null && day1.length != 0 && day1[i] != "") {
+						opMap.put("op_day", day1[i]);
+					}
+					if (op_personnelValues[i] != "") {
+						opMap.put("op_personnel", op_personnelValues[i]);
+						System.out.println("qqqq=" + op_personnelValues[i]);
+					}
 				}
-				if (op_period_1sValues[i] != "" && op_period_2sValues[i] != "") {
-					opMap.put("op_period", op_period_1sValues[i] + "~" + op_period_2sValues[i]);// 일반일경우 제외
-					System.out.println("cccc=" + op_period_1sValues[i] + op_period_2sValues[i]);
-				}
+				
+				
 				if (op_clock1Values[i] != "" && op_clock2Values[i] != "") {
 					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
 					System.out.println("dddd=" + op_clock1Values[i] + op_clock2Values[i]);
 				}
-				if (op_timesValues[i] != "") {
-					opMap.put("op_times", op_timesValues[i]);
-					System.out.println("eeee=" + op_timesValues[i]);
-				}
-				if (day1 != null && day1.length != 0 && day1[i] != "") {
-					opMap.put("op_day", day1[i]);
-				}
-					
-				if (op_personnelValues[i] != "") {
-					opMap.put("op_personnel", op_personnelValues[i]);
-					System.out.println("qqqq=" + op_personnelValues[i]);
-				}
+				
+				
+				
 				
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
-				System.out.println(opMap.get("op_adcode"));
 				System.out.println(opMap.get("op_adcode"));
 				if (mDao.opinsert(opMap)) {
 					System.out.println(i + "옵션입력성공");
@@ -473,7 +486,11 @@ public class JungService {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/manage/trainer/trainer");
+		if(mb.getM_kind().equals("t")){
+			mav.setViewName("forward:/trainer");
+		}else if(mb.getM_kind().equals("c")) {
+		 	mav.setViewName("forward:/company");
+		}
 		return mav;
 	}
 
