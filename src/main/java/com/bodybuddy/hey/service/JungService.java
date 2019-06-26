@@ -463,7 +463,11 @@ public class JungService {
 		} else {
 			System.out.println("광고등록실패");
 		}
-		mav.setViewName("/manage/trainer/trainer");
+		if(mb.getM_kind().equals("t")){
+			mav.setViewName("/trainer");
+		}else if(mb.getM_kind().equals("c")) {
+			mav.setViewName("/company");
+		}
 		return mav;
 	}
 
