@@ -240,7 +240,7 @@ public class JungService {
 			if (ad_category.equals("normal"))
 				adadd.setAd_category("일반");
 			if (ad_category.equals("pt"))
-				adadd.setAd_category("피트니스");
+				adadd.setAd_category("PT");
 			if (ad_category.equals("homeTraining"))
 				adadd.setAd_category("홈트레이닝");
 			if (ad_category.equals("pilates"))
