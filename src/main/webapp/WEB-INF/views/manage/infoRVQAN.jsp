@@ -120,7 +120,7 @@ to {
 <div id="wrap">
 		<div id="header">
 			<%-- <jsp:include page="headerNCT.jsp" /> --%>
-			<jsp:include page="../header.jsp" />
+			<jsp:include page="../header2.jsp" />
 		</div>
 		<div id="main">
 
@@ -141,7 +141,7 @@ to {
 								class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 
 								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
@@ -204,7 +204,7 @@ to {
 								</div>
 								
 								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-10">
 										<table id="recent-purchases-listing"
 											class="table dataTable no-footer" role="grid">
 											<thead>
