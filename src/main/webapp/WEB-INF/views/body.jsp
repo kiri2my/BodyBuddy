@@ -192,6 +192,7 @@ else alert("주소별 검색어를 모두 입력하고 검색해주세요.");
 
 //화면에 출력된 광고들의 주소리스트 뽑기
 var jsonMainList = ${jsonMainList}
+console.log(jsonMainList);
 
 var addrList = new Array();
 var titleList = new Array();
@@ -210,11 +211,14 @@ for(var i=0;i<addrList.length; i++){
 }
 console.log(addrList);
 
+var cp = "${pageContext.request.contextPath}";
 //리스트에 따른 좌표 마커 미리 생성
 for(var i=0; i< addrList.length; i++){
 	geocoder.addressSearch(addrList[i], function(results, status) {
 		if (status === daum.maps.services.Status.OK) {//검색결과가 있다면
 			var result = results[0]; //첫번째 결과의 값을 활용
+			
+			console.log(result);
 	   	 	// 마커가 표시될 위치입니다 
 	    	var markerPosition  = new daum.maps.LatLng(result.y, result.x); // 해당 주소에 대한 좌표를 받아서
 	    	// 마커를 생성합니다
@@ -223,31 +227,37 @@ for(var i=0; i< addrList.length; i++){
 	    	});
 	    	// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
-			// 마커에 표시할 인포윈도우를 생성합니다 
-			for(var j=0;j<jsonMainList.length;j++){
-				var infowindow = new kakao.maps.InfoWindow({
-			        content: "<img src='/resources/upload/"+pfimageList[j]+"'><br>"+titleList[j]+"<br>"+idList[j]  // 인포윈도우에 표시할 내용
-			    });
-			}
-			// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-		    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		    (function(marker, infowindow) {
-		        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-		        kakao.maps.event.addListener(marker, 'mouseover', function() {
-		            infowindow.open(map, marker);
-		        });
-
-		        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
-		        kakao.maps.event.addListener(marker, 'mouseout', function() {
-		            infowindow.close();
-		        });
-		    })(marker, infowindow);			
-	    	
 			// 지도 중심을 변경한다.
     		map.setCenter(markerPosition);
 			
+    		// 마커에 표시할 인포윈도우를 생성합니다 
+    		i--;
+    		console.log(i);
+    		var infowindow = new kakao.maps.InfoWindow({
+    			content: "<img alt='pfimageList[i]' src='"+cp+"/resources/upload/"+pfimageList[i]+"'><br><h4 class='text-success'>"+titleList[i]+"</h4><br>"+idList[i]  // 인포윈도우에 표시할 내용
+    		});
+    		// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+    	    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    	    (function(marker, infowindow) {
+    	        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+    	        kakao.maps.event.addListener(marker, 'mouseover', function() {
+    	            infowindow.open(map, marker);
+    	        });
+
+    	        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+    	        kakao.maps.event.addListener(marker, 'mouseout', function() {
+    	            infowindow.close();
+    	        });
+    	    })(marker, infowindow);	
+    		
+			
+			
+			
 		}//if END
 	});//geoCoder END
+	
+	
+	
 }//for END
 //지도를 보여준다.
 var showMap = ${showMap}

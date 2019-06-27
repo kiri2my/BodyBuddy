@@ -216,7 +216,7 @@ window.onload=function(){
 					dataType:'text',
 					success:function(suc){
 						console.log(suc);
-						ac.hide();
+						ac.remove();
 					},
 					error:function(err){
 						console.log(err);
