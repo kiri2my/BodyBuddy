@@ -147,7 +147,7 @@ public class YoonService {
 							
 							//주소 시작위치
 							//트레이너던 업체던 소속업체가 없는경우
-							if(mainList.get(i).get("T_CID")==null) {
+							if(mainList.get(i).get("T_CID")==null || mainList.get(i).get("T_CID").equals("소속업체없음")) {
 								sb.append("<p>"+mainList.get(i).get("M_ADDR")+"</p>");
 							}else {//소속업체 있는경우
 								sb.append("<p>"+mainList.get(i).get("T_CID_ADDR")+"</p>");
