@@ -234,7 +234,7 @@ for(var i=0; i< addrList.length; i++){
     		i--;
     		console.log(i);
     		var infowindow = new kakao.maps.InfoWindow({
-    			content: "<img alt='pfimageList[i]' src='"+cp+"/resources/upload/"+pfimageList[i]+"'><br><h4 class='text-success'>"+titleList[i]+"</h4><br>"+idList[i]  // 인포윈도우에 표시할 내용
+    			content: "<img alt='pfimageList[i]' src='"+cp+"/resources/upload/"+pfimageList[i]+"' width='100px'><br><h4 class='text-success'>"+titleList[i]+"</h4><br>"+idList[i]  // 인포윈도우에 표시할 내용
     		});
     		// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
     	    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
