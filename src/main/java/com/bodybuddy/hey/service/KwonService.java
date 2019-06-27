@@ -747,6 +747,7 @@ public class KwonService {
 	public ModelAndView mainList(Member mb) {
 		mav = new ModelAndView();
 		String id = mb.getM_id();
+		int j = 5;
 
 		ArrayList<Member> mList = new ArrayList<Member>();
 		ArrayList<Member> mList1 = new ArrayList<Member>();
@@ -754,36 +755,41 @@ public class KwonService {
 			System.out.println("getMainMemberList mDao in");
 			mList1 = ksDao.getMainMemberList(id);
 			System.out.println("getMainMemberList mDao out" + mList1.size());
-
+			if (mList1.size() < 5) {
+				j = mList1.size();
+			}
 			if (0 != mList1.size()) {
 				System.out.println("getMainMemberList if in");
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < j; i++) {
 					System.out.println("getMainMemberList for in");
 					mList.add(i, mList1.get(i));
 					System.out.println(mList.get(i).getM_id());
 				}
 				System.out.println("getMainMemberList for out");
-
+				j = 5;
 			}
 			System.out.println("member list select success");
 			mav.addObject("mList", mList);
 		} catch (Exception e) {
 			System.out.println("member list select error");
 		}
-
+		
+		
 		ArrayList<Sales> sList = new ArrayList<Sales>();
 		ArrayList<Sales> sList1 = new ArrayList<Sales>();
 		try {
 			System.out.println("getSalesHistory mDao in");
 			sList1 = sDao.getMainSalesHistory(id);
-
+			if (sList1.size() < 5) {
+				j = sList1.size();
+			}
 			if (0 != sList1.size()) {
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < j; i++) {
 					sList.add(i, sList1.get(i));
 					// sList.set(i, sList1.get(i));
 					System.out.println(sList.get(i).getPs_code());
 				}
-
+				j = 5;
 			}
 			System.out.println("getSalesHistory select success");
 			mav.addObject("sList", sList);
@@ -791,8 +797,7 @@ public class KwonService {
 			System.out.println("getSalesHistory list select error");
 		}
 
-		int j = 5;
-
+		
 		ArrayList<Question> aList = new ArrayList<Question>();
 		ArrayList<Question> aList1 = new ArrayList<Question>();
 		try {
