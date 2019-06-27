@@ -308,7 +308,7 @@ public class JungService {
 			}
 		}
 		System.out.println("b=" + b);
-		day1 = b.split("@"); // @ 기준으로 나누기
+		day1 = b.split(" "); // @ 기준으로 나누기
 
 		// 일반 일 수
 		op_periodValues = multi.getParameterValues("op_period");
