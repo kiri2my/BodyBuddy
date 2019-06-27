@@ -57,10 +57,10 @@ public class JungService {
 		m = new Member();
 		System.out.println("m_id " + m_id);
 
+		m = mDao.getProfileList(m_id);
 		mav.addObject("m", m);
 
-		m = mDao.getProfileList(m_id);
-
+		System.out.println("커리어:"+m.getT_career());
 		view = "manage/profileModifyT";
 		mav.setViewName(view);
 

@@ -49,11 +49,8 @@
 								<div class="form-group">
 									<div class="input-group">
 
-										<textarea rows="8" cols="8" name="t_career"
-											class="form-control form-control-lg border-left-0"
-											placeholder="쉼표(,)로 항목을 구분해주세요">
-											
-											${m.t_career}
+										<textarea rows="8" cols="8" name="t_career" id="t_career"
+											class="form-control form-control-lg border-left-0">${m.t_career}
 											</textarea>
 
 
@@ -239,8 +236,25 @@
 		});
 	}
 	function profileComplete() {
-		a = true;
-		alert("수정완료");
+		var t_career = $("#t_career").val();
+		console.log("t_career:"+t_career);
+	
+	$.ajax({
+		type : "GET",
+		url : "profileComplete",
+		data : {
+			t_career : t_career
+		},
+		dataType : "html",
+		error : function() {
+			alert('요청 실패');
+		},
+		success : function(data) {
+			$('#main').html(data);
+
+			alert('요청완료');
+		}
+	});
 	}
 	
 
