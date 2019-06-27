@@ -104,5 +104,7 @@ public interface KwonDao {
 
 	public ArrayList<HashMap<String, String>> getTrainerSalesSelect(Map<String, String> map);
 
+	public ArrayList<HashMap<String, String>> getTrainerDailySelect(Map<String, String> map);
+
 
 }

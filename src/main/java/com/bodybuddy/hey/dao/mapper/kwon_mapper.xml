@@ -118,10 +118,10 @@
 
 	<select id="getworkingAttitude" parameterType="member"
 		resultType="member">
-		select TO_CHAR(dt_date, 'YYYY"년"MM"월"DD"일"') as dt_date,
-		dt_status,dt_tid from dailycheckt where dt_cid = #{dt_cid} and dt_tid
-		=
-		#{dt_tid}
+		select
+		dt_tid,dt_cid,dt_status,to_char(dt_date,'YYYY"년"MM"월"DD"일"') as
+		dt_date from dailycheckt where dt_tid = #{dt_tid} and dt_cid = #{dt_cid} and
+		to_char(dt_date,'YYYYMM') = #{yn_date}
 	</select>
 
 	<select id="getProgramMember" resultType="member">
@@ -311,7 +311,7 @@
 		ad_title,op_code,op_price,op_trainer,ad_name
 		]]>
 	</select>
-	
+
 	<select id="getTrainerSalesSelect" resultType="HashMap"
 		parameterType="HashMap">
 		<![CDATA[
@@ -324,4 +324,11 @@
 		]]>
 	</select>
 
+	<select id="getTrainerDailySelect" parameterType="HashMap"
+		resultType="HashMap">
+		select
+		dt_tid,dt_cid,dt_status,to_char(dt_date,'YYYY"년"MM"월"DD"일"') as
+		dt_date from dailycheckt where dt_tid = #{tid} and dt_cid = #{cid} and
+		to_char(dt_date,'YYYYMM') = #{ym}
+	</select>
 </mapper>
