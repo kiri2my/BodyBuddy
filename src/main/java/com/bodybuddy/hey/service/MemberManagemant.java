@@ -127,6 +127,7 @@ public class MemberManagemant {
 			System.out.println("반복문 끝");
 			System.out.println("m_idm_idm_id" + m_id);
 			mav.addObject("m_id", m_id);
+			mav.addObject("forget", "id");
 		} // else
 
 		view = "loginJoinFrm/new";
@@ -144,7 +145,6 @@ public class MemberManagemant {
 
 	public ModelAndView forgetPw(Member mb) {
 		List<Member> tList = null;
-
 		tList = mDao.forgetPw(mb);
 		mav = new ModelAndView();
 		if (tList.size() == 0) {
@@ -159,6 +159,7 @@ public class MemberManagemant {
 			mb.setM_pw(pwdEncoder.encode(mb.getM_pw()));
 			System.out.println("                                  " + mb.getM_pw());
 			mDao.temporaryPw(mb);
+			mav.addObject("forget", "pw");
 		}
 
 		view = "loginJoinFrm/new";
