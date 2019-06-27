@@ -76,7 +76,7 @@
 			<div
 				class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
 				<a class="navbar-brand brand-logo"
-					href="${pageContext.request.contextPath}/" style="color: #71c016;"><img alt ="logo" src="resources/img/logo.jpg"></a> <a class="navbar-brand brand-logo-mini"
+					href="${pageContext.request.contextPath}/" style="color: #71c016;"><img alt ="logo" src="resources/img/logo.jpg" style="width:100%;height:100%"></a> <a class="navbar-brand brand-logo-mini"
 					href="${pageContext.request.contextPath}/" style="color: #71c016;">BODY BUDDY</a>
 				<button class="navbar-toggler navbar-toggler align-self-center"
 					type="button" data-toggle="minimize">
