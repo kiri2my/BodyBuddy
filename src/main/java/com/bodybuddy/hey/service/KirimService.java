@@ -723,7 +723,7 @@ public class KirimService {
 		sb.append("<div class=\"content-wrapper\">" + 
 				"<br><br><br><br><br><br><br><br><br>                    <div class=\"row\">" + 
 				
-				"                        <div class=\"col-md-4 grid-margin stretch-card\">" + 
+				"                        <div class=\"col-md-5 grid-margin stretch-card\">" + 
 				"                            <div class=\"card\">" + 
 				"                                <div class=\"card-body\">" + 
 				"                                    <div class=\"col-md-12\" style=\"overflow: hidden; height: 400px;\">" + 
@@ -774,7 +774,7 @@ public class KirimService {
 				"                            </div>" + 
 				"                        </div>" + 
 				"" + 
-				"                        <div class=\"col-md-5 grid-margin stretch-card\">" + 
+				"                        <div class=\"col-md-6 grid-margin stretch-card\">" + 
 				"                            <div class=\"card\">" + 
 				"                                <div class=\"card-body\">" + 
 				"" + 
@@ -912,7 +912,7 @@ public class KirimService {
 				"                        </div>" + 
 				"                    </div>" + 
 				"                    <div class=\"row\">" + 
-				"                        <div class=\"col-md-9 grid-margin stretch-card\">" + 
+				"                        <div class=\"col-md-11 grid-margin stretch-card\">" + 
 				"                            <div class=\"card\">" + 
 				"                                <div class=\"card-body dashboard-tabs p-0\">" + 
 				"									<ul class=\"nav nav-tabs px-4 nav-justified\" role=\"tablist\">" + 

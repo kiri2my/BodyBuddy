@@ -38,7 +38,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BODY BUDDY(지도없음,로그인함)</title>
+<title>BODY BUDDY</title>
 <!-- plugins:css -->
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
