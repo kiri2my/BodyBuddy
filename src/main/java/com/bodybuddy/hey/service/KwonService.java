@@ -166,10 +166,10 @@ public class KwonService {
 		mav = new ModelAndView();
 		String id = request.getParameter("id");
 
-		List<Member> mList = null;
+		//List<Member> mList = null;
 		System.out.println("getNormalMemberList mDao in");
-		String code = ksDao.getNormalMemberListCode(id);
-		mList1 = ksDao.getNormalMemberList(code);
+		//String code = ksDao.getNormalMemberListCode(id);
+		mList1 = ksDao.getNormalMemberList(id);
 		System.out.println("mList = " + mList1.get(0).get("M_ID"));
 		System.out.println("mList size = " + mList1.size());
 
@@ -272,6 +272,8 @@ public class KwonService {
 		m = new Member();
 		m.setDt_cid(request.getParameter("cid"));
 		m.setDt_tid(request.getParameter("tid"));
+		m.setYn_date(request.getParameter("ym"));
+		System.out.println("cid:"+request.getParameter("cid")+" tid:" + request.getParameter("tid") + " ym:" +request.getParameter("ym"));
 
 		List<Member> tList = null;
 		System.out.println("getworkingAttitude mDao in");
@@ -816,8 +818,13 @@ public class KwonService {
 				String m_id=sessionMb.getM_id();
 				//Member mb=yDao.getCbname(m_id);
 				//String cbname=mb.getC_bname();
-				getSalesList = yDao.getsales(m_id);
-				getSalesAllList = yDao.getsalesAll(m_id);
+				
+				String ad_code=yDao.getAd_code(m_id);
+				Map<String,String> cl = new HashMap<>();
+				cl.put("ad_code", ad_code);
+				cl.put("m_id", m_id);
+				getSalesList = yDao.getsales(cl);
+				getSalesAllList = yDao.getsalesAll(cl);
 				getSalescList = yDao.getSalescList(m_id);
 				getSalesAllc = yDao.getSalesAllcList(m_id);
 				//getSalescList = yDao.getsalesAlla(m_id);
@@ -902,6 +909,41 @@ public class KwonService {
 			str = gson.toJson(sList);
 		} catch (Exception e) {
 			System.out.println("getTrainerSalesSelect fail");
+			return "0";
+		}
+
+		return str;
+	}
+
+	public String getTrainerDailySelect(HttpServletRequest request) {
+		String tid = request.getParameter("tid");
+		String cid = request.getParameter("cid");
+		String ym = request.getParameter("ym");
+		System.out.println("tid ="+tid +"cid ="+cid+"ym ="+ym);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tid", tid);
+		map.put("cid", cid);
+		map.put("ym", ym);
+		
+		Gson gson = new Gson();
+		String str = null;
+
+		ArrayList<HashMap<String, String>> tList = new ArrayList<HashMap<String, String>>();
+
+		try {
+			tList = ksDao.getTrainerDailySelect(map);
+
+			System.out.println(tList);
+			System.out.println(tList.get(0));
+			System.out.println("getTrainerDailySelect success");
+			if(tList.size() == 0) {
+				return "0";
+			}
+			
+			str = gson.toJson(tList);
+		} catch (Exception e) {
+			System.out.println("getTrainerDailySelect fail");
 			return "0";
 		}
 

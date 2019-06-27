@@ -208,15 +208,6 @@ public class JungService {
 
 		String[] day1 = null;
 
-		String[] op_period_2 = null;
-		String op_times = null;
-		String[] op_times_1 = null;
-		String[] op_clock_1 = null;
-		String[] op_clock_2 = null;
-		String op_price = null;
-		String[] op_price_1 = null;
-		String op_personnel = null;
-		String[] op_personnel_1 = null;
 
 		List<String> ad_nameTId = null;
 		String[] op_trainerValues = null;
@@ -230,20 +221,10 @@ public class JungService {
 		String[] op_priceValues = null;
 		String[] op_personnelValues = null;
 
-		/*
-		 * Map<String, String> fMap = new HashMap<String, String>();
-		 * 
-		 * String root = multi.getSession().getServletContext().getRealPath("/");
-		 * System.out.println("root=" + root); String path = root + "resources/upload/";
-		 * // 2.폴더 생성을 꼭 할것... File dir = new File(path); if (!dir.isDirectory()) { //
-		 * upload폴더 없다면 dir.mkdirs(); // upload폴더 생성 } List<MultipartFile> files =
-		 * multi.getFiles("ap_image");
-		 */
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
 		
 		// int checkNum = Integer.valueOf(multi.getParameter("checkNum")).intValue();
-
 		ad_category = multi.getParameter("ad_category");// adadd.getAd_category();
 		if (ad_category != null && ad_category != "") {
 			System.out.println("ad_category : " + ad_category);
@@ -270,9 +251,6 @@ public class JungService {
 			System.out.println("ad_content : " + ad_content);
 			adadd.setAd_content(ad_content);
 		}
-
-		
-		
 		
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
@@ -281,7 +259,6 @@ public class JungService {
 		op_priceValues = multi.getParameterValues("op_price");
 		op_personnelValues = multi.getParameterValues("op_personnel");
 
-		
 		op_trainerValues = multi.getParameterValues("op_trainer");
 		if(mb.getM_kind().equals("t")){
 			ad_nameTId = new ArrayList<>();
@@ -297,7 +274,6 @@ public class JungService {
 				}
 			}
 		}
-		
 		
 		// day
 		dayValues = multi.getParameterValues("day");
@@ -489,7 +465,7 @@ public class JungService {
 		if(mb.getM_kind().equals("t")){
 			mav.setViewName("forward:/trainer");
 		}else if(mb.getM_kind().equals("c")) {
-		 	mav.setViewName("forward:/company");
+		 	mav.setViewName("forward:/");
 		}
 		return mav;
 	}
@@ -652,8 +628,12 @@ public class JungService {
 				String m_id=sessionMb.getM_id();
 				//Member mb=yDao.getCbname(m_id);
 				//String cbname=mb.getC_bname();
-				getSalesList = yDao.getsales(m_id);
-				getSalesAllList = yDao.getsalesAll(m_id);
+				String ad_code=yDao.getAd_code(m_id);
+				Map<String,String> cl = new HashMap<>();
+				cl.put("ad_code", ad_code);
+				cl.put("m_id", m_id);
+				getSalesList = yDao.getsales(cl);
+				getSalesAllList = yDao.getsalesAll(cl);
 			
 				getSalescList = yDao.getSalescList(m_id); getSalesAllc =yDao.getSalesAllcList(m_id);
 			 

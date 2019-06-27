@@ -60,14 +60,8 @@
 						</div>
 				</li> -->
 				<li class='nav-item dropdown mr-4'>
-				    <a class='nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown'
-							id='notificationDropdown' href='#' data-toggle='dropdown'>
-				        <i class='mdi mdi-bell mx-0'></i>
-				        <span class='count' style='width: 15px;height: 15px;top: 6px;' hidden></span>
-				    </a>
-				    <div class='dropdown-menu dropdown-menu-right navbar-dropdown' aria-labelledby='notificationDropdown'>
-				        <p class='mb-3 font-weight-normal float-left dropdown-header beforeAlarm'>알림</p>
-				    </div>
+				    
+				    
 				</li>
 
 				<li class="nav-item nav-profile dropdown"><a

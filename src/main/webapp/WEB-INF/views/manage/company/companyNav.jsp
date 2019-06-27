@@ -7,17 +7,6 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css">
-<link type="text/css" rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-
 <style>
 </style>
 </head>
@@ -104,33 +93,5 @@
 
 		</ul>
 	</nav>
-
-
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
 </body>
-
-<script type="text/javascript">
-	
-</script>
 </html>

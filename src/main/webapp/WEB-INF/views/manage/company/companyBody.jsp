@@ -8,18 +8,6 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css">
-<link type="text/css" rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/images/favicon.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 
 <body>
@@ -27,9 +15,9 @@
 		<div
 			style="top: 0px; left: 0px; position: absolute; width: 550px; height: 300px;">
 
-			<h3 style="text-align: center;">최근 신규 가입</h3>
+			<div><h3 style="text-align: center;margin-top:20px;">최근 신규 가입</h3></div>
 
-			<table class="table table-hover" style="table-layout: fixed;">
+			<table class="table table-hover" style="table-layout: fixed; border-right: 1px solid #EAEAEA; border-top:1px solid #EAEAEA; height: 335px;">
 				<thead>
 					<tr>
 						<th>이름</th>
@@ -53,9 +41,9 @@
 			style="left: 550px; position: absolute; width: 550px; height: 300px; display: block;">
 
 
-			<h3 style="text-align: center;">최근 판매 내역</h3>
+			<h3 style="text-align: center;margin-top:20px;">최근 판매 내역</h3>
 
-			<table class="table table-hover" style="table-layout: fixed;">
+			<table class="table table-hover" style="table-layout: fixed; height: 335px; border-right: 1px solid #EAEAEA; border-top:1px solid #EAEAEA;">
 				<thead>
 					<tr>
 						<!-- <th>판매번호</th> -->
@@ -82,8 +70,8 @@
 		</div>
 		<div
 			style="left: 1100px; position: absolute; width: 550px; height: 300px; display: block;">
-			<h3 style="text-align: center;">등록중인 광고</h3>
-			<table class="table table-hover"  style="table-layout: fixed;">
+			<h3 style="text-align: center;margin-top:20px;">등록중인 광고</h3>
+			<table class="table table-hover"  style="table-layout: fixed; border-top:1px solid #EAEAEA;">
 				<thead>
 					<tr>
 						<th>광고번호</th>
@@ -197,53 +185,17 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/base/vendor.bundle.base.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/off-canvas.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/hoverable-collapse.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/template.js"></script>
-	<script type="text/javascript" src=" /resources/js/dashboard.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/data-table.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap4.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 </body>
 <script type="text/javascript">
 var omg = "";
-console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
-console.log("${getSalesAllcList}");
-console.log("${getSalescList}");
-console.log("${getSalesList}");
-console.log("${getSalesAllList}");
+
 $(document)
 		.ready(
 				function() {
-					
-					console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","${aList }");
-					console.log("${getSalesAllcList}");
-					console.log("${getSalescList}");
-					console.log("${getSalesList}");
-					console.log("${getSalesAllList}");
-
 					var t_cid = '${mb.m_id}'; /* $("#testInput").val(); */
 					console.log(t_cid)
 
-					$
-							.ajax({
+						$.ajax({
 								type : "post",
 								url : "chart",
 								data : {
@@ -254,8 +206,7 @@ $(document)
 									console.log("result:", result);
 									var str = "";
 									var name = "";
-									var ctx = document.getElementById(
-											"myChart").getContext('2d');
+									var ctx = document.getElementById("myChart").getContext('2d');
 									var arr = {};
 									for (var i = 0; i < result.length; i++) {
 										str += String(result[i].PS_PRICE)
@@ -321,8 +272,7 @@ $(document)
 					var t_cid2 = '${mb.m_id}'; /* $("#testInput").val(); */
 					console.log("DDDDDDDDDDDD" + t_cid2)
 
-					$
-							.ajax({
+						$.ajax({
 								type : "post",
 								url : "charttwo",
 								data : {
@@ -334,8 +284,7 @@ $(document)
 
 									var str = "";
 									var name = "";
-									var ctx = document.getElementById(
-											"myChart2").getContext('2d');
+									var ctx = document.getElementById("myChart2").getContext('2d');
 									var arr = {};
 									for (var i = 0; i < result.length; i++) {
 										str += String(result[i].PS_PRICE)
