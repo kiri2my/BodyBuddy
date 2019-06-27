@@ -165,19 +165,15 @@
 									},
 									dataType : "json",
 									success : function(result) {
-										console.log("result:", result);
+										console.log("result2:", result);
 										var str = "";
 										var name = "";
 										var ctx = document.getElementById(
 												"myChart").getContext('2d');
 										var arr = {};
 										for (var i = 0; i < result.length; i++) {
-											str += String(result[i].PS_PRICE)
-													.split(9)
-													+ ",";
-											name += String(result[i].M_NAME)
-													.split(7)
-													+ ",";
+											str += result[i].PS_PRICE+ ",";
+											name += result[i].M_NAME+ ",";
 										}
 										var arr2 = (name.substring(0,
 												name.length - 1)).split(",");
@@ -250,7 +246,7 @@
 										var name = "";
 										var ctx = document.getElementById(
 												"myChart2").getContext('2d');
-										var arr = {};
+										var arr = "";
 										for (var i = 0; i < result.length; i++) {
 											str += String(result[i].PS_PRICE)
 													.split(9)

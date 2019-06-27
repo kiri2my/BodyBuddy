@@ -54,9 +54,9 @@ public interface YoonDao {
 	
 	Member getCbname(String m_id);
 
-	List<Map<String, String>> getsales(String m_id);
+	List<Map<String, String>> getsales(Map<String, String> cl);
 
-	List<Map<String, String>> getsalesAll(String m_id);
+	List<Map<String, String>> getsalesAll(Map<String, String> cl);
 
 	List<Map<String, String>> getchart(String t_cid);
 
@@ -69,6 +69,8 @@ public interface YoonDao {
 	List<Map<String, String>> getRvListN(String m_id);
 
 	List<Map<String, String>> getQuestListN(String m_id);
+
+	String getAd_code(String m_id);
 
 	
 }

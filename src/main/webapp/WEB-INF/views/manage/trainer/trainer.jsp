@@ -264,5 +264,22 @@
 
 		});
 	}
+	
+
+	function salesPage() {
+		$.ajax({
+			type : "post",
+			url : "sales",
+			dataType : "html",
+			success : function(data) {
+				$('#main').html(data);
+			},
+			error : function() {
+				alert('판매/실적 로드 실패');
+			}
+
+		});
+		
+	}
 </script>
 </html>
