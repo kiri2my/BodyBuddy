@@ -150,7 +150,7 @@
 	function delete_event(tid) {
 		if (confirm("트레이너 소속을 끊으시겠습니까?") == true) {
 			var tid = tid;
-			alert(tid);
+			//alert(tid);
 			$.ajax({
 				type : 'post',
 				url : 'trainerdiscon',
@@ -271,7 +271,7 @@
 		var state = state;
 		var tid = tid;
 		var ttid = "#" + tid;
-		alert(state + "," + tid);
+		//alert(state + "," + tid);
 		$.ajax({
 			type : 'post',
 			url : 'trainerjoin',
@@ -282,7 +282,7 @@
 			},
 			dateType : 'json',
 			success : function(data) {
-				alert(data);
+				//alert(data);
 				console.log(data);
 				/* var str = "";
 				str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>연락처</th><th style='width: 20%'>선택</th></tr></thead><tbody>";
@@ -330,7 +330,7 @@
 
 	function trainerDiscon(tid) {
 		var tid = tid;
-		alert(tid);
+		//alert(tid);
 		$.ajax({
 			type : 'post',
 			url : 'trainerdiscon',
@@ -340,7 +340,7 @@
 			},
 			dateType : 'json',
 			success : function(data) {
-				alert(data);
+				//alert(data);
 
 				$('#modal').modal('hide');
 				//////////////소속끊기 웹소켓 알림
@@ -373,7 +373,7 @@
 			},
 			dataType : "html",
 			success : function(data) {
-				alert(data);
+				//alert(data);
 				$('#modal_title').html(m_id + ' 프로필');
 				$('#modalBody').html(data);
 				$('#modal').modal('toggle');
