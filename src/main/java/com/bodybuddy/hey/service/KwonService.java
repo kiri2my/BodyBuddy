@@ -166,10 +166,10 @@ public class KwonService {
 		mav = new ModelAndView();
 		String id = request.getParameter("id");
 
-		List<Member> mList = null;
+		//List<Member> mList = null;
 		System.out.println("getNormalMemberList mDao in");
-		String code = ksDao.getNormalMemberListCode(id);
-		mList1 = ksDao.getNormalMemberList(code);
+		//String code = ksDao.getNormalMemberListCode(id);
+		mList1 = ksDao.getNormalMemberList(id);
 		System.out.println("mList = " + mList1.get(0).get("M_ID"));
 		System.out.println("mList size = " + mList1.size());
 
