@@ -62,7 +62,7 @@ body {
 			</table>
 			<button id="ins" class="btn btn-secondary" type="submit">수정</button>
 			<button id="back" class="btn btn-secondary" type="button">돌아가기</button>
-
+			<input type='hidden' id='content' value='${content}'/>
 		</div>
 	</form>
 
@@ -103,32 +103,41 @@ console.log(kind);
 if(kind=='t'){
 	$('.fitness').hide();	
 }
+var content = $("#content").val();
+console.log(content);
 
 $(document).ready(function(){
 ///////////////////////////////////////
-console.log($("#ad_content"));
-if (typeof CKEDITOR != 'undefined') { 
-CKEDITOR.replace("ad_content", {
-height:500,
-filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
+	console.log($("#ad_content"));
+	if (typeof CKEDITOR != 'undefined') { 
+		CKEDITOR.replace("ad_content", {
+			height:500,
+			filebrowserUploadUrl: '${pageContext.request.contextPath}/adinsertdetail'
 
-});
-}
+		});
+		console.log($("#content").val());	
+		CKEDITOR.instances.ad_content.setData(content);
+	}
+	
+	
 
 
+	CKEDITOR.on('dialogDefinition', function(ev){
+	var dialogName = ev.data.name;
+	var dialogDefinition = ev.data.definition;
 
-CKEDITOR.on('dialogDefinition', function(ev){
-var dialogName = ev.data.name;
-var dialogDefinition = ev.data.definition;
-
-switch (dialogName) {
-case 'image': //Image Properties dialog
-//dialogDefinition.removeContents('info');
-dialogDefinition.removeContents('Link');
-dialogDefinition.removeContents('advanced');
-break;
-}
-});
+	switch (dialogName) {
+	case 'image': //Image Properties dialog
+	//dialogDefinition.removeContents('info');
+	dialogDefinition.removeContents('Link');
+	dialogDefinition.removeContents('advanced');
+	break;
+	}
+	
+	});
+	
+	
+	
 //////////////////////////////////////
 
 $("#ex-select").change(function(){

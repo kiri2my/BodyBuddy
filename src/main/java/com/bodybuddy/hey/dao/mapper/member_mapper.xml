@@ -142,9 +142,10 @@
 	INSERT INTO ADPHOTO VALUES (#{ap_adcode},#{ap_image})
 	</insert>
 	
-	<update id="opmodify" parameterType="question">
+	<update id="opmodify" parameterType="HashMap">
 	UPDATE OP SET OP_TRAINER=#{op_trainer} ,OP_PRICE=#{op_price},OP_PERIOD=#{op_period},OP_TIMES=#{op_times},
-	OP_DAY=#{op_day},OP_CONTENT=#{op_content},OP_CLOCK=#{op_clock},OP_PERSONNEL=#{op_personnel},OP_EXPIRE='1'
+	OP_DAY=#{op_day},OP_CONTENT=#{op_content},OP_CLOCK=#{op_clock},OP_PERSONNEL=#{op_personnel},OP_EXPIRE='0'
+	WHERE OP_CODE=#{op_code}
  	</update>
 	
 

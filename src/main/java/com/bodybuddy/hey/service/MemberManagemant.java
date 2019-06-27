@@ -272,9 +272,11 @@ public class MemberManagemant {
 		Question list = new Question();
 		System.out.println("list" + list.getOp_code());
 		System.out.println(opList);
-
+		String content = opList.get(0).getAd_content();
+		
 		mav.addObject("opHtml", makeopHtml);
 		mav.addObject("opList", opList);
+		mav.addObject("content", content);
 		mav.setViewName("manage/advertisemodifyfrm");
 		System.out.println("메멘의 리턴입니다");
 		return mav;
@@ -303,8 +305,7 @@ public class MemberManagemant {
 		System.out.println(opList.get(0).getOp_adcode());
 		String[] op_period = opList.get(0).getOp_period().split("~");
 		String[] op_day = opList.get(0).getOp_day().split(" ");
-		String[] op_clock = opList.get(0).getOp_clock().split("~");
-		String ad_content = opList.get(0).getAd_content();
+		String[] op_clock = opList.get(0).getOp_clock().split("~");;
 		String ad_title = opList.get(0).getAd_title();
 		String ad_category = opList.get(0).getAd_category();
 		String ad_code = opList.get(0).getAd_code();
@@ -337,14 +338,26 @@ public class MemberManagemant {
 				+ "        <option class=\"pt\" value=\"pt\" " + pt + ">개인PT</option>\r\n"
 				+ "        <option class=\"pilates\" value=\"pilates\" " + pilates + ">필라테스</option>\r\n"
 				+ "        <option class=\"home\" value=\"homeTraining\" " + home + ">홈트레이닝</option>\r\n"
-				+ "      </select>\r\n" + "      </td>\r\n" + "     </tr>\r\n" + "     <tr>\r\n"
-				+ "      <th>제목</th>\r\n" + "      <td style=\"vertical-align: middle\"><input type=\"text\" \r\n"
-				+ "       name=\"ad_title\" style=\"height: 50px;\" value=" + ad_title + "></td>\r\n" + "     </tr>\r\n"
-				+ "     <tr>\r\n" + "      <th>내용</th>\r\n"
-				+ "      <td style=\"vertical-align: middle\"><input type=\"text\" class=\"reset\"\r\n"
-				+ "       name=\"ad_content\" style=\"height: 300px; width: 500px\" value=" + ad_content + "></td>\r\n"
-				+ "     </tr>\r\n" + "     \r\n" + "     \r\n" + "     \r\n" + "     <tr id=\"time\" >\r\n"
-				+ "      <th>옵션</th>\r\n" + "      <td style=\"vertcal ical-align: middle\">\r\n"
+				+ "      </select>\r\n" 
+				+ "      </td>\r\n" 
+				+ "     </tr>\r\n" 
+				+ "     <tr>\r\n"
+				+ "      <th>제목</th>\r\n" 
+				+ "      <td style=\"vertical-align: middle\"><input type=\"text\" \r\n"
+				+ "       name=\"ad_title\" style=\"height: 50px;\" value=" + ad_title + "></td>\r\n" 
+				+ "     </tr>\r\n"
+				+ "     <tr>\r\n" 
+				+ "      <th>내용</th>\r\n"
+				+ "      <td style=\"vertical-align: middle\">"
+				+ "		<textarea type=\"text\" class=\"reset\"\r\n"
+				+ "       name=\"ad_content\" id='ad_content'></textarea></td>\r\n"
+				+ "     </tr>\r\n" 
+				+ "     \r\n" 
+				+ "     \r\n" 
+				+ "     \r\n" 
+				+ "     <tr id=\"time\" >\r\n"
+				+ "      <th>옵션</th>\r\n" 
+				+ "      <td style=\"vertcal ical-align: middle\">\r\n"
 				+ "       <div class=\"radio\">\r\n" + "        <div id=\"pre_set\" class=\"pre_set\">" + "<table>\r\n"
 				+ "          <tr>\r\n" + "           <th>옵션명</th>\r\n" + "           <th>기간</th>\r\n"
 				+ "           <th>시간</th>\r\n" + "           <th>요일</th>\r\n" + "           <th>횟수</th>\r\n"
@@ -352,10 +365,9 @@ public class MemberManagemant {
 				+ "           \r\n" + "          </tr>\r\n" + "          <tr>\r\n"
 				+ "<input type=\"hidden\" name=\"ad_code\"  value=" + ad_code + ">");
 		for (int i = 0; i < opSize; i++) {
-			op_period = opList.get(i).getOp_period().split("~");
-			op_day = opList.get(i).getOp_day().split(" ");
-			op_clock = opList.get(i).getOp_clock().split("~");
-			for (int s = 0; s < opSize; s++) {
+			System.out.println(opSize);
+			System.out.println(op_day);
+			for (int s = 0; s < opSize- 1; s++) {
 				if (op_day[s].equals("월")) {
 					mon = "checked";
 				}
@@ -378,6 +390,7 @@ public class MemberManagemant {
 					sun = "checked";
 
 				}
+				System.out.println("op_clockop_clock = " + op_clock);
 				System.out.println(i + "asdadasdasdasdasd");
 				System.out.println("op_period[0]" + op_period[0]);
 				System.out.println("op_period[1]" + op_period[1]);
@@ -391,6 +404,7 @@ public class MemberManagemant {
 					str2 = "";
 				} else {
 					str2 = ("          <tr>\r\n"
+							+"<input type='hidden' name='op_code'  value='"+ opList.get(i).getOp_code()+"'/>"
 							+ "           <td><input type=\"text\" name=\"op_content\"	 style=\"width: 100px\" placeholder=\"옵션명\"  class=\"reset\" value="
 							+ opList.get(i).getOp_content() + "></td>\r\n" + "           <td >\r\n"
 							+ "            <label for=\"dates\" class=\"normalOption\">일 수(Dates)</label><input type=\"text\"  id=\"from\" name=\"op_period\" class=\"from\" value="
@@ -417,9 +431,7 @@ public class MemberManagemant {
 							+ "        </label> <label for=\"foo6\"> <input type=\"checkbox\" id=\"foo6\"\r\n"
 							+ "         name=\"day\" value=\"토 \" " + sat + ">토\r\n"
 							+ "        </label> <label for=\"foo7\"> <input type=\"checkbox\" id=\"foo7\"\r\n"
-							+ "         name=\"day\" value=\"일 \" " + sun + ">일\r\n" + "        </label> \r\n"
-							+ "        <label for=\"foo7\"> <input type=\"hidden\" id=\"foo7\"\r\n"
-							+ "         name=\"day\" value=\"@\">\r\n" + "        </label>\r\n"
+							+ "         name=\"day\" value=\"일 \" " + sun + ">일\r\n" 
 							+ "       </div></td>\r\n"
 							+ "           <td><input type=\"text\" name=\"op_times\" style=\"width: 50px\" placeholder=\"횟수\" class=\"reset\" value="
 							+ opList.get(i).getOp_times() + "></td>\r\n"
@@ -455,7 +467,7 @@ public class MemberManagemant {
 
 		mav = new ModelAndView();
 		Question adadd = new Question();
-
+		List<String> ad_nameTName = new ArrayList<>();
 		String ad_code = null;
 		String ad_category = null;
 		String ad_title = null;
@@ -475,6 +487,7 @@ public class MemberManagemant {
 		String[] op_clock2Values = null;
 		String[] op_priceValues = null;
 		String[] op_personnelValues = null;
+		String[] op_codeValues = null;
 
 		Member mb = (Member) session.getAttribute("mb");
 		adadd.setAd_name(mb.getM_id());// 세션아이디
@@ -519,6 +532,7 @@ public class MemberManagemant {
 			opMap.put("ad_content", ad_content);
 		}
 
+		op_codeValues = multi.getParameterValues("op_code");
 		op_contentValues = multi.getParameterValues("op_content");// adadd.getOp_content();
 		op_timesValues = multi.getParameterValues("op_times");
 		op_clock1Values = multi.getParameterValues("op_clock1");
@@ -536,10 +550,10 @@ public class MemberManagemant {
 					String[] ad_nameT = op_trainerValues[i].split(",");
 					System.out.println("ad_nameT[0] : " + ad_nameT[0]);
 					System.out.println("ad_nameT[1] : " + ad_nameT[1]);
-					ad_nameTId.add(ad_nameT[1]);// ad_name3
-					String ad_nameTName = ad_nameT[0];// ad_name
+					ad_nameTId.add(ad_nameT[1]);// ad_name3 
+					ad_nameTName.add(ad_nameT[0]);// ad_name
 					System.out.println(i + "트레이너아이디 출력 " + ad_nameTId.get(i));// ad_name3
-					System.out.println(i + "트레이너이름  : " + ad_nameTName);// ad_name
+					System.out.println(i + "트레이너이름  : " + ad_nameTName.get(i));// ad_name
 				}
 			}
 		}
@@ -553,7 +567,7 @@ public class MemberManagemant {
 			}
 		}
 		System.out.println("b=" + b);
-		day1 = b.split("@"); // @ 기준으로 나누기
+		day1 = b.split(" "); // @ 기준으로 나누기
 
 		// 일반 일 수
 		op_periodValues = multi.getParameterValues("op_period");
@@ -588,7 +602,9 @@ public class MemberManagemant {
 
 		System.out.println("xxxxxxxxx  = " + xxx);
 		adadd.setXxx(xxx);
+		adadd.setAd_code(xxx);
 		opMap.put("op_adcode", xxx);
+		opMap.put("ad_code", xxx);
 		if (mDao.admodify(adadd)) {
 			System.out.println("광고입력성공");
 
@@ -634,21 +650,18 @@ public class MemberManagemant {
 			System.out.println("xxx : " + adadd.getXxx());
 			System.out.println("xxx : " + adadd.getXxx());
 			System.out.println("xxop_contentValues.length : " + op_contentValues.length);
+			
+			
 			for (int i = 0; i < op_contentValues.length; i++) {
+				/////op_code 활용
+				System.out.println("op_code 활용:::::::::"+op_codeValues[i]);
+				opMap.put("op_code", op_codeValues[i]);
+				/////
+				System.err.println("opMap.get(\"op_code\")"+opMap.get("op_code"));
+				
 				opMap.put("op_adcode", xxx);
 				opMap.put("op_content", op_contentValues[i]);
 				opMap.put("op_price", op_priceValues[i]);
-				if (mb.getM_kind().equals("t")) {
-					if (ad_nameTId.size() != 0)
-						opMap.put("op_trainer", ad_nameTId.get(i));
-					System.out.println("aaaa=" + ad_nameTId.get(i));
-				} else if (mb.getM_kind().equals("c")) {
-					if (op_trainerValues[i] != "") {
-						String []ad = op_trainerValues[i].split(",");
-						opMap.put("op_trainer", ad[0]);
-						System.out.println("pppppp=" + op_trainerValues[i]);
-					}
-				}
 
 				if (ad_category.equals("normal")) {// 일반일때
 					opMap.put("op_period", op_periodValues[i]);
@@ -682,11 +695,38 @@ public class MemberManagemant {
 					opMap.put("op_clock", op_clock1Values[i] + "~" + op_clock2Values[i]);
 					System.out.println("dddd=" + op_clock1Values[i] + op_clock2Values[i]);
 				}
-
+				adadd.setAd_code(xxx);
+				
+				if (mb.getM_kind().equals("t")) {
+					if (ad_nameTId.size() != 0)
+						opMap.put("op_trainer", ad_nameTId.get(i));
+					System.out.println("aaaa=" + ad_nameTId.get(i));
+				} else if (mb.getM_kind().equals("c")) {
+					for (int s = 0; s < op_trainerValues.length; s++) {
+						if (op_trainerValues[s] != "") {
+							String[] ad_nameT = op_trainerValues[s].split(",");
+							System.out.println("ad_nameT[0] : " + ad_nameT[0]);
+							System.out.println("ad_nameT[1] : " + ad_nameT[1]);
+							System.err.println("s  =  "+s);
+							ad_nameTName.add(ad_nameT[0]);// ad_name
+							System.out.println(s + "트레이너이름  : " + ad_nameTName.get(s));// ad_name
+						}
+					}
+				}
+				if (op_trainerValues[i] != "") {
+					//String[] ad = op_trainerValues[i].split(",");
+					//opMap.put("op_trainer", ad[0]);
+					opMap.put("op_trainer",ad_nameTName.get(i));
+					System.out.println("pppppp=" + op_trainerValues[i]);
+				}
 				System.out.println(opMap.get("op_trainer"));
 				System.out.println(opMap.get("op_period"));
 				System.out.println(opMap.get("op_adcode"));
+				System.out.println("adadd.getXxx()adadd.getXxx() = "+adadd.getXxx());
+				System.out.println("adadd.getXxx()adadd.getXxx() = "+adadd.getAd_code());
 				if (mDao.opmodify(opMap)) {
+					System.out.println(opMap.get("op_trainer"));
+					System.out.println("mDao.opmodify(opMap)"+xxx);
 					System.out.println(i + "옵션입력성공");
 				}
 			}
@@ -694,9 +734,9 @@ public class MemberManagemant {
 			System.out.println("광고등록실패");
 		}
 		if (mb.getM_kind().equals("t")) {
-			mav.setViewName("forward:/trainer");
+			mav.setViewName("forward:/");
 		} else if (mb.getM_kind().equals("c")) {
-			mav.setViewName("forward:/company");
+			mav.setViewName("forward:/");
 		}
 		return mav;
 	}

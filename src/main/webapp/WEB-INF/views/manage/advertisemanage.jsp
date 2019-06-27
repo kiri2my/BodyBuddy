@@ -48,7 +48,6 @@
 											<th>광고명</th>
 											<th>등록일</th>
 											<th>상태</th>
-											<th>담당트레이너</th>
 											<th>관리</th>
 										</tr>
 									</thead>
@@ -63,7 +62,6 @@
 													<td>${advertise.ad_title}</td>
 													<td>${advertise.ad_date}</td>
 													<td>${advertise.ad_status}</td>
-													<td>${advertise.op_trainer }</td>
 													<td><input class="eBtn" type="button" value="수정"><input
 														class="dBtn" type="button" value="삭제"></td>
 												</tr>
