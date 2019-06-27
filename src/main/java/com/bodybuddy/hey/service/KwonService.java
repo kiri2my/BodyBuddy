@@ -273,6 +273,7 @@ public class KwonService {
 		m.setDt_cid(request.getParameter("cid"));
 		m.setDt_tid(request.getParameter("tid"));
 		m.setYn_date(request.getParameter("ym"));
+		System.out.println("cid:"+request.getParameter("cid")+" tid:" + request.getParameter("tid") + " ym:" +request.getParameter("ym"));
 
 		List<Member> tList = null;
 		System.out.println("getworkingAttitude mDao in");

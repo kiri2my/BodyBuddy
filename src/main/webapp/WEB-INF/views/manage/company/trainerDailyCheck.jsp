@@ -42,8 +42,8 @@
 						<br>
 					</p>
 					<input type="text" class="span2" id="memsearch" placeholder="회원 검색">
-					<button type="button" onclick="memberSearch()" style="position: absolute;" class="btn"
-						id="membtn">검색</button>
+					<button type="button" onclick="memberSearch()"
+						style="position: absolute;" class="btn" id="membtn">검색</button>
 					<div class="table-responsive">
 						<table id="recent-purchases-listing" class="table">
 
@@ -85,7 +85,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: inherit; left: 50%; top: 20%;">
+		style="width: 35%; height: inherit; left: 50%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
@@ -124,6 +124,18 @@
 </body>
 
 <script type="text/javascript">
+	var ym = '';
+
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	if (month < 10) {
+		month = "0" + month;
+	}
+
+	ym = year + month;
+	var cidd = '';
+	var tidd = '';
 
 	function dailyCheck(status, id, cid) {
 		var status = status;
@@ -147,21 +159,29 @@
 		});
 	}
 
-	function workingAttitude(id,cid) {
-		var tid = id;
-		var cid = cid
+	function workingAttitude(id, cid) {
+		tidd = id;
+		cidd = cid
 		$
 				.ajax({
 					type : "post",
 					url : "workingattitude",
 					data : {
-						tid : tid,
-						cid : cid
+						tid : tidd,
+						cid : cidd,
+						ym : ym
 					},
 					dataType : 'json',
 					success : function(data) {
 						console.log(data);
-						var str = "";
+						var str = "<h3>"
+							+ year
+							+ "년"
+							+ month
+							+ "월 근태</h3>"
+							+ "<br><select name='year' id='year1'> <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+							+ "<select name='month' id='month1'> <option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+							+ "<button class='btn btn-danger' onclick='workingAttiudeSelect()'>검색</button>";
 						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>근태</th></tr></thead><tbody>";
 						for (var i = 0; i < data.length; i++) {
 							str += "<tr><td>" + data[i].dt_date + "</td><td>"
@@ -170,6 +190,49 @@
 						str += "</tbody></table>";
 						$('#modalBody').html(str);
 						$('#modal').modal('toggle');
+						/* $('#modalBody').append(data); */
+					},
+					error : function(error) {
+						alert('근태 목록 로드 실패');
+						console.log(error);
+					}
+				});
+	}
+	
+	function workingAttiudeSelect() {
+		var month1 = $('#month1 option:selected').val();
+		var year1 = $('#year1 option:selected').val();
+		var ym1 = year1 + month1;
+		var tidd1 = tidd;
+		var cidd1 = cidd;
+		$
+				.ajax({
+					type : "post",
+					url : "workingattitude",
+					data : {
+						tid : tidd,
+						cid : cidd,
+						ym : ym1
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						var str = "<h3>"
+							+ year1
+							+ "년"
+							+ month1
+							+ "월 근태</h3>"
+							+ "<br><select name='year' id='year1'> <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+							+ "<select name='month' id='month1'> <option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+							+ "<button class='btn btn-danger' onclick='workingAttiudeSelect()'>검색</button>";
+						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>근태</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							str += "<tr><td>" + data[i].dt_date + "</td><td>"
+									+ data[i].dt_status + "</td></tr>";
+						}
+						str += "</tbody></table>";
+						$('#modalBody').html(str);
+						//$('#modal').modal('toggle');
 						/* $('#modalBody').append(data); */
 					},
 					error : function(error) {

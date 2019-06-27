@@ -93,7 +93,7 @@
 	</div>
 
 	<div class="modal" id="modal"
-		style="width: 30%; height: inherit; margin-left: 35%; top: 20%;">
+		style="width: 35%; height: inherit; margin-left: -15%; top: 20%;">
 		<div class="modal-header"
 			style="text-align: center; align-content: center;">
 			<button type="button" class="close" data-dismiss="modal"
@@ -514,8 +514,8 @@
 								+ "년"
 								+ month1
 								+ "월 근태</h3>"
-								+ "<br><select name='year' id='year'> <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
-								+ "<select name='year' id='month'> <option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
+								+ "<br><select name='year' id='year1'> <option value='2019' selected='selected'>2019</option><option value='2018'>2018</option><option value='2017'>2017</option></select>"
+								+ "<select name='month' id='month1'> <option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>"
 								+ "<button class='btn btn-danger' onclick='trainerDailySelect()'>검색</button>";
 						str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>날짜</th><th style='width: 10%'>근태</th></tr></thead><tbody>";
 						for (var i = 0; i < data.length; i++) {
