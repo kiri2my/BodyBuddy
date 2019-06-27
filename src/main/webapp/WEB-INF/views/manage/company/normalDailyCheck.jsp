@@ -51,7 +51,7 @@
 							<c:if test="${empty member }">
 									회원이 없습니다.
 								</c:if>
-							<c:if test="${!empty member }">
+						<%-- 	<c:if test="${!empty member }"> --%>
 								<thead>
 									<tr>
 										<th style="width: 15%">이름</th>
@@ -80,7 +80,7 @@
 										</tr>
 									</c:forEach>
 								</tbody>
-							</c:if>
+							<%-- </c:if> --%>
 						</table>
 					</div>
 				</div>
@@ -128,6 +128,7 @@
 </body>
 
 <script type="text/javascript">
+	
 	function normalCheck(id, code) {
 		var id = id;
 		var code = code;
@@ -247,5 +248,7 @@
 			return;
 		}
 	}
+	
+	
 </script>
 </html>

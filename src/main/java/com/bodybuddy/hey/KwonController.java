@@ -109,7 +109,7 @@ public class KwonController {
 
 	@RequestMapping(value = "/normaldailycheck")
 	public ModelAndView normalDailyCheck(HttpServletRequest request) {
-
+		
 		mav = ks.getNormalMemberList(request);
 
 		return mav;

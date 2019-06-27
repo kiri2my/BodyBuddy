@@ -71,7 +71,7 @@
 											<td>${program.op_period }</td>
 											<td>진행중</td>
 											<th><button class="btn btn-danger"
-													onclick="programMember(${program.op_adcode})">회원
+													onclick="programMember(${program.op_code})">회원
 													보기</button></th>
 										</tr>
 									</c:forEach>

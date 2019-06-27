@@ -14,7 +14,7 @@
 		/> javaType="String" jdbcType="NVARCHAR2" 명시 하지 않아도 자동 호환 </resultMap> -->
 
 	<select id="getMemberList" resultType="member">
-		select distinct rownum,
+		select distinct
 		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
 		m_birth
 		from
@@ -23,7 +23,7 @@
 		ps.ps_adcode=op.op_adcode left join ad on
 		ad.ad_code=op.op_adcode
 		where
-		ad.ad_name = #{id} order by rownum desc
+		ad.ad_name = #{id} group by m_id,m_name,m_phone,m_birth
 	</select>
 
 	<select id="getMainMemberList" resultType="member">
@@ -73,7 +73,7 @@
 		= op.op_code left join ad on op.op_adcode=ad.ad_code where op.op_trainer 
 		is null and ad.ad_name = #{id} </select> -->
 	<select id="getNormalMemberList" resultType="HashMap"> <!-- view_table = daily_normal -->
-		select m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth,
+		select distinct m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth,
 		to_char(ps_date,'YYYYMMDD') as
 		ps_date,to_char(ps_date+op_period,'YYYYMMDD') as
 		ps_date1,trunc(ps_date + op_period-sysdate) as op_period, da_status
@@ -128,7 +128,7 @@
 		select
 		ps_code,m_id,m_name,m_phone,to_char(m_birth,'YYYY.MM.DD') as m_birth
 		from ps left join m
-		on m_id=ps_mid where ps_adcode = #{code}
+		on m_id=ps_mid where ps_opcode = #{code}
 	</select>
 
 	<insert id="programCheckInsert" parameterType="String">
