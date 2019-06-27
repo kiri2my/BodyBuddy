@@ -682,7 +682,6 @@ public class YoonService {
 					
 					+ "													<td>" + Date+"</td>\r\n" 
 					+ "													<td>" + Date2+"</td>\r\n" 
-					+ "													<td></td>\r\n"
 					+ "												</tr>");
 		}
 		

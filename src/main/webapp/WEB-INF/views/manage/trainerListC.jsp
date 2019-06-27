@@ -102,6 +102,17 @@
 		</div>
 		<div class="modal-body" id="modalBody"></div>
 	</div>
+	
+	<div class="modal" id="modal1"
+		style="width: 40%; height: auto; margin-left: -20%; top: 10%;">
+		<div class="modal-header"
+			style="text-align: center; align-content: center;">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true"></button>
+			<h3 id="modal_title1"></h3>
+		</div>
+		<div class="modal-body" id="modalBody1" style="height: inherit;"></div>
+	</div>
 
 	<!-- plugins:js -->
 	<script
@@ -150,7 +161,7 @@
 	function delete_event(tid) {
 		if (confirm("트레이너 소속을 끊으시겠습니까?") == true) {
 			var tid = tid;
-			alert(tid);
+			//alert(tid);
 			$.ajax({
 				type : 'post',
 				url : 'trainerdiscon',
@@ -271,7 +282,7 @@
 		var state = state;
 		var tid = tid;
 		var ttid = "#" + tid;
-		alert(state + "," + tid);
+		//alert(state + "," + tid);
 		$.ajax({
 			type : 'post',
 			url : 'trainerjoin',
@@ -282,7 +293,7 @@
 			},
 			dateType : 'json',
 			success : function(data) {
-				alert(data);
+				//alert(data);
 				console.log(data);
 				/* var str = "";
 				str += "<table class='table table-striped table-hover'><thead><tr><th style='width: 10%'>이름</th><th style='width: 10%'>생년월일</th><th style='width: 10%'>연락처</th><th style='width: 20%'>선택</th></tr></thead><tbody>";
@@ -330,7 +341,7 @@
 
 	function trainerDiscon(tid) {
 		var tid = tid;
-		alert(tid);
+		//alert(tid);
 		$.ajax({
 			type : 'post',
 			url : 'trainerdiscon',
@@ -340,7 +351,7 @@
 			},
 			dateType : 'json',
 			success : function(data) {
-				alert(data);
+				//alert(data);
 
 				$('#modal').modal('hide');
 				//////////////소속끊기 웹소켓 알림
@@ -362,7 +373,7 @@
 
 	function profileC(m_id) {
 		var m_id = m_id;
-		alert(m_id);
+		//alert(m_id);
 		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
 
 		$.ajax({
@@ -373,10 +384,10 @@
 			},
 			dataType : "html",
 			success : function(data) {
-				alert(data);
-				$('#modal_title').html(m_id + ' 프로필');
-				$('#modalBody').html(data);
-				$('#modal').modal('toggle');
+				//alert(data);
+				$('#modal_title1').html(m_id + ' 프로필');
+				$('#modal1').html(data);
+				$('#modal1').modal('toggle');
 			},
 			error : function() {
 				alert('회원 프로필 로드 실패');
