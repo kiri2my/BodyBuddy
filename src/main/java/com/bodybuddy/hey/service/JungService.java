@@ -628,8 +628,12 @@ public class JungService {
 				String m_id=sessionMb.getM_id();
 				//Member mb=yDao.getCbname(m_id);
 				//String cbname=mb.getC_bname();
-				getSalesList = yDao.getsales(m_id);
-				getSalesAllList = yDao.getsalesAll(m_id);
+				String ad_code=yDao.getAd_code(m_id);
+				Map<String,String> cl = new HashMap<>();
+				cl.put("ad_code", ad_code);
+				cl.put("m_id", m_id);
+				getSalesList = yDao.getsales(cl);
+				getSalesAllList = yDao.getsalesAll(cl);
 			
 				getSalescList = yDao.getSalescList(m_id); getSalesAllc =yDao.getSalesAllcList(m_id);
 			 

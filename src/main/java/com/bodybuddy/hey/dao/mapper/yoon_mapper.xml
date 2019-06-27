@@ -140,7 +140,7 @@
     JOIN AD ON AD_NAME=C_ID
     JOIN OP ON OP_TRAINER= T_ID
     JOIN PS ON OP_CODE = PS_OPCODE
-    WHERE T_CID=#{m_id}
+    WHERE T_CID=#{m_id} AND AD_CODE=#{ad_code}
     GROUP BY T_CID,M_NAME,T_ID,OP_CONTENT,OP_PRICE
     ]]>
 	</select>
@@ -154,7 +154,7 @@
     JOIN AD ON AD_NAME=C_ID
     JOIN OP ON OP_TRAINER= T_ID
     JOIN PS ON OP_CODE = PS_OPCODE
-    WHERE T_CID=#{m_id}
+    WHERE T_CID=#{m_id} AND AD_CODE=#{ad_code}
     GROUP BY M_NAME
     ORDER BY PS_PRICE DESC
     	]]>
@@ -234,6 +234,13 @@
     JOIN AD ON QA_ADCODE=AD_CODE
     WHERE QA_WRITER =#{m_id}
     ORDER BY QA_ADATE DESC
+    ]]>
+	</select>
+	
+		<select id="getAd_code" parameterType="String" resultType="String">
+	<![CDATA[
+   SELECT AD_CODE FROM AD
+    WHERE AD_NAME=#{m_id} AND ROWNUM=1
     ]]>
 	</select>
 </mapper>
