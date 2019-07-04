@@ -557,17 +557,20 @@ public class JungService {
 	public ModelAndView mainListT(Member mb) {
 		mav = new ModelAndView();
 		String id = mb.getM_id();
-
+		
+		int b = 5;
 		ArrayList<Member> mList = new ArrayList<Member>();
 		ArrayList<Member> mList1 = new ArrayList<Member>();
 		try {
 			System.out.println("getMainMemberList mDao in");
 			mList1 = ksDao.getMainMemberList(id);
 			System.out.println("getMainMemberList mDao out" + mList1.size());
-
+			if (mList1.size() < 5) {
+				b = mList1.size();
+			}
 			if (0 != mList1.size()) {
 				System.out.println("getMainMemberList if in");
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < b; i++) {
 					System.out.println("getMainMemberList for in");
 					mList.add(i, mList1.get(i));
 					System.out.println(mList.get(i).getM_id());
@@ -580,15 +583,18 @@ public class JungService {
 		} catch (Exception e) {
 			System.out.println("member list select error");
 		}
-		//asdf
+		
+		int a = 5;
 		ArrayList<Sales> sList = new ArrayList<Sales>();
 		ArrayList<Sales> sList1 = new ArrayList<Sales>();
 		try {
 			System.out.println("getSalesHistory mDao in");
 			sList1 = sDao.getMainSalesHistory(id);
-
+			if (sList1.size() < 5) {
+				a = sList1.size();
+			}
 			if (0 != sList1.size()) {
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < a; i++) {
 					sList.add(i, sList1.get(i));
 					// sList.set(i, sList1.get(i));
 					System.out.println(sList.get(i).getPs_code());

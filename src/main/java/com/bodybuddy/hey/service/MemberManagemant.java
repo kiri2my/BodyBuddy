@@ -717,7 +717,7 @@ public class MemberManagemant {
 				if (op_trainerValues[i] != "") {
 					//String[] ad = op_trainerValues[i].split(",");
 					//opMap.put("op_trainer", ad[0]);
-					opMap.put("op_trainer",ad_nameTName.get(i));
+					opMap.put("op_trainer",ad_nameTId.get(i));
 					System.out.println("pppppp=" + op_trainerValues[i]);
 				}
 				System.out.println(opMap.get("op_trainer"));

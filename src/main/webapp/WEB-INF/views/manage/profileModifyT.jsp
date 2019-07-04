@@ -61,7 +61,7 @@
 									<div class="input-group">
 										<input type="text" name="c_bname"
 											class="form-control form-control-lg border-left-0"
-											id="sample6_address" placeholder="현재 소속업체 ID: ${m.t_cid}">
+											id="sample6_address" >
 										<button type="button" id = "aa"
 											class="btn btn-outline-secondary btn-md">업체 검색</button>
 									</div>

@@ -105,7 +105,7 @@ public class HanHomeController {
 	public String sendRndNum() {
 
 		System.out.println("메일 보내기");
-		String setfrom = "soonchul88@gmail.com"; // 보내는 아이디
+		String setfrom = "qhelqkel@gmail.com"; // 보내는 아이디
 		String title = "BodyBuddy 인증번호"; // 제목
 
 		String m_id = (String) session.getAttribute("m_id"); // 세션 가져오자 받는사람아이디

@@ -28,7 +28,6 @@
 
 	<select id="getMainMemberList" resultType="member">
 		select distinct
-		rownum,
 		m.m_id,m.m_name,m.m_phone,to_char(m_birth,'YYYY.MM.DD') as
 		m_birth,ps_date
 		from
@@ -37,7 +36,7 @@
 		ps.ps_adcode=op.op_adcode left join ad on
 		ad.ad_code=op.op_adcode
 		where
-		ad.ad_name = #{id}
+		ad.ad_name = #{id} order by ps_date asc
 	</select>
 
 	<select id="getMemberSearch" parameterType="member"

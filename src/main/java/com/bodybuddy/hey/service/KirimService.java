@@ -317,6 +317,7 @@ public class KirimService {
 		//현재 날짜 얻어오기
 		
 		LocalDate today = LocalDate.now();
+		System.out.println("asdfasfadfadfadfasdfadf::::::::::::"+today);
 		//혹은 today.toString();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		/*Calendar cal = Calendar.getInstance();
